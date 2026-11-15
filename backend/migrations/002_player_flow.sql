@@ -1,0 +1,39 @@
+CREATE TABLE qr_links (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  token VARCHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL UNIQUE,
+  event_id BIGINT UNSIGNED NOT NULL,
+  machine_id BIGINT UNSIGNED NOT NULL,
+  enabled BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  FOREIGN KEY (event_id, machine_id) REFERENCES machines(event_id, id)
+) ENGINE=InnoDB;
+
+CREATE TABLE entry_grants (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  token_hash BINARY(32) NOT NULL UNIQUE,
+  qr_link_id BIGINT UNSIGNED NOT NULL,
+  player_id BIGINT UNSIGNED NULL,
+  used_at DATETIME(3) NULL,
+  expires_at DATETIME(3) NOT NULL,
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  FOREIGN KEY (qr_link_id) REFERENCES qr_links(id),
+  FOREIGN KEY (player_id) REFERENCES players(id)
+) ENGINE=InnoDB;
+
+CREATE TABLE login_attempts (
+  key_hash BINARY(32) PRIMARY KEY,
+  attempts INT UNSIGNED NOT NULL,
+  window_start DATETIME(3) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE player_notifications (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  public_id CHAR(36) CHARACTER SET ascii COLLATE ascii_bin NOT NULL UNIQUE,
+  player_id BIGINT UNSIGNED NOT NULL,
+  session_id BIGINT UNSIGNED NOT NULL UNIQUE,
+  created_at DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  FOREIGN KEY (player_id) REFERENCES players(id),
+  FOREIGN KEY (session_id) REFERENCES game_sessions(id)
+) ENGINE=InnoDB;
+
+ALTER TABLE game_sessions ADD COLUMN result_source ENUM('device','simulator') NOT NULL DEFAULT 'device';

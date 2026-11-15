@@ -1,0 +1,21 @@
+{
+  "note": "Synthetic field-shape example only. Generate a rules-matching trace using backend/app/game.py; the placeholder hash is not a valid submission.",
+  "method": "POST",
+  "path": "/api/device/sessions/{sessionUuid}/result",
+  "authentication": "X-Device-Token (private server configuration; never put a real value here)",
+  "body": {
+    "terminalId": "00000000-0000-4000-8000-000000000001",
+    "rulesHash": "replace-with-current-heartbeat-rulesHash",
+    "outcome": "loss",
+    "durationMs": 60000,
+    "placements": []
+  },
+  "acknowledgement": { "ok": true, "score": 0 },
+  "placementFields": {
+    "candidate_x": "integer column, 0..7, must match deterministic movement",
+    "candidate_width": "integer width inherited from previous overlap",
+    "overlap_width": "integer intersection with prior support",
+    "locked_at_ms": "integer monotonic milliseconds from local game start"
+  },
+  "ruleStatus": "Classic v1 settings are proposed pending physical play-testing. Starting foundation x=2, width=3; each new row starts x=0 and moves one cell per step, bouncing at board edges. Row timestamps reset the movement phase."
+}

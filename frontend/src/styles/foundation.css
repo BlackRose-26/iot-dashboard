@@ -1,0 +1,33 @@
+/* Shared foundation. Every page and component uses these tokens. */
+:root {
+  --canvas: #ccd0d1;
+  --surface: #fff;
+  --surface-soft: #f4f5f5;
+  --tray: #e5e7e8;
+  --lime: #dfff00;
+  --blue: #96b6ff;
+  --blue-soft: #e9efff;
+  --sage: #dfe8ce;
+  --ink: #111313;
+  --muted: #686f72;
+  --border: #e9ebeb;
+  --danger: #a12f2f;
+  --radius-card: 40px;
+  --radius-tile: 30px;
+  --radius-control: 999px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --page-width: 1280px;
+  font-family: 'Inter Variable', 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: var(--ink);
+  background: var(--canvas);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}

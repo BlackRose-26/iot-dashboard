@@ -1,0 +1,570 @@
+/* Pass 2: reference fidelity, Font Awesome webfont alignment and readable labels. */
+.fa-symbol {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-style: normal;
+  line-height: 1;
+}
+@media (min-width: 1001px) {
+  .operator-avatar {
+    display: grid;
+    place-items: center;
+  }
+}
+/* Pass 3: readable secondary text on gray/blue surfaces and stronger focus targets. */
+.scope-bar,
+.overview-heading p,
+.page-heading > div > p,
+.preview-control,
+.app-footer,
+.public-footer,
+.info-note,
+.leaderboard-heading p,
+.game-facts > span {
+  color: #485358;
+}
+.rank,
+.queue-number,
+.level-label strong > span {
+  color: #647075;
+}
+th {
+  color: #59676c;
+}
+.podium-rank,
+.podium-card > .subtle {
+  color: #526145;
+}
+.privacy-note p {
+  color: #5a6652;
+}
+.registration-footnote {
+  color: #637176;
+}
+.cabinet-card-top .eyebrow {
+  color: #53614d;
+}
+.next-card > p:not(.field-help),
+.next-card .field-help {
+  color: #2d4264;
+}
+.row-open,
+.pagination button {
+  min-width: 40px;
+  min-height: 40px;
+}
+.modal-close,
+.input-wrap > button {
+  min-width: 38px;
+  min-height: 38px;
+}
+.empty-state h1 {
+  font-size: 25px;
+  font-weight: 550;
+  letter-spacing: -0.8px;
+}
+/* Pass 4: phone layouts keep the form clear and contain wide history tables. */
+.sessions-card {
+  overflow: hidden;
+}
+.table-scroll {
+  max-width: calc(100% + 38px);
+  position: relative;
+}
+@media (max-width: 767px) {
+  .public-header {
+    gap: 12px;
+  }
+  .public-header > div {
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .public-dashboard-link {
+    font-size: 0;
+    gap: 0;
+    min-width: 32px;
+    min-height: 40px;
+    justify-content: center;
+  }
+  .public-dashboard-link .fa-symbol {
+    font-size: 17px !important;
+  }
+  .registration-story > .stack-artwork {
+    display: none;
+  }
+  .registration-story h1 {
+    font-size: 39px;
+    line-height: 1.12;
+  }
+  .mobile-menu {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .table-tools {
+    flex-wrap: wrap;
+  }
+  .table-tools .search-field {
+    flex-basis: 100%;
+  }
+  .table-tools .select-button {
+    margin-left: auto;
+  }
+}
+.brand-mark > .fa-symbol {
+  background: transparent !important;
+  border-radius: 0;
+  gap: 0;
+  margin: 0 !important;
+  color: var(--ink);
+}
+.brand-mark {
+  align-items: center;
+  justify-content: center;
+}
+.welcome-dots {
+  transform: none;
+  letter-spacing: 0;
+  font-size: 20px;
+}
+.cabinet-logo {
+  margin-top: 10px;
+  color: #17281d;
+}
+.qr-wrap > canvas {
+  max-width: 100%;
+  height: auto !important;
+}
+.card-heading p {
+  font-size: 13px;
+}
+.card h2 {
+  font-size: 20px;
+}
+.metric-row > div > span {
+  font-size: 11px;
+}
+.overview-bottom {
+  font-size: 10px;
+}
+.overview-bottom > span:last-child {
+  font-size: 9px;
+}
+.preview-control {
+  font-size: 10px;
+}
+.preview-control .select-button {
+  font-size: 10px;
+  min-height: 33px;
+}
+.operation-tile > span:last-child,
+.tray-footer > div > span {
+  font-size: 11px;
+}
+.tray-footer strong {
+  font-size: 13px;
+}
+.black-pill {
+  font-size: 11px;
+}
+.live-player span:not(.player-icon),
+.level-label > span {
+  font-size: 10px;
+}
+.round-badges {
+  font-size: 11px;
+}
+.scope-bar {
+  font-size: 12px;
+}
+.scope-date {
+  font-size: 11px;
+}
+.badge {
+  font-size: 11px;
+}
+.badge.sample {
+  font-size: 11px;
+}
+.primary-nav a {
+  font-size: 13px;
+}
+.register-link {
+  font-size: 13px;
+}
+.player-info > strong {
+  font-size: 14px;
+}
+.player-info > span {
+  font-size: 11px;
+}
+.player-score > span {
+  font-size: 11px;
+}
+.player-score small {
+  font-size: 11px;
+}
+.queue-wait {
+  font-size: 11px;
+}
+.metric-label {
+  font-size: 12px;
+}
+.metric > span {
+  font-size: 11px;
+}
+.metric > strong {
+  font-size: 36px;
+}
+.chart-card .card-heading p {
+  font-size: 12px;
+}
+.chart-footnote {
+  font-size: 10px;
+}
+.chart-legend {
+  font-size: 10px;
+}
+.info-note {
+  font-size: 11px;
+}
+.search-field > input {
+  font-size: 12px;
+}
+.card-bottom-link {
+  font-size: 12px;
+}
+.form-group > label {
+  font-size: 13px;
+}
+.form-group > label > span {
+  font-size: 11px;
+}
+.input-wrap > input {
+  font-size: 13px;
+}
+.form-group .field-help {
+  font-size: 11px;
+}
+.privacy-note strong {
+  font-size: 12px;
+}
+.privacy-note p {
+  font-size: 11px;
+}
+.checkbox-field {
+  font-size: 11px;
+}
+.registration-footnote {
+  font-size: 10px;
+}
+.registration-footnote > a {
+  font-size: 11px;
+}
+.demo-form-note {
+  font-size: 11px;
+}
+.registration-intro {
+  font-size: 13px;
+}
+.step-label {
+  font-size: 10px;
+}
+.registration-topline .badge {
+  font-size: 10px;
+}
+.registration-card {
+  padding: 34px 36px;
+}
+.registration-card h2 {
+  font-size: 33px;
+}
+.registration-topline {
+  margin-bottom: 28px;
+}
+.game-facts > span {
+  font-size: 10px;
+}
+.game-facts strong {
+  font-size: 12px;
+}
+.empty-state h1 {
+  font-size: 25px;
+  font-weight: 550;
+  letter-spacing: -0.8px;
+}
+.device-facts > div {
+  font-size: 12px;
+}
+.connection-overview p {
+  font-size: 12px;
+}
+.readiness-grid strong {
+  font-size: 11px;
+}
+.readiness-grid .badge {
+  font-size: 10px;
+}
+.device-controls .button {
+  font-size: 11px;
+}
+.insight-status {
+  font-size: 10px;
+}
+.question-pills button {
+  font-size: 11px;
+}
+.insight-placeholder {
+  font-size: 12px;
+}
+.insight-answer > small {
+  font-size: 10px;
+}
+.leaderboard-table-heading p {
+  font-size: 12px;
+}
+.full-leaderboard .player-info > span {
+  font-size: 11px;
+}
+.podium-card > .subtle,
+.podium-card > p {
+  font-size: 11px;
+}
+.public-header .badge {
+  font-size: 10px;
+}
+.public-footer {
+  font-size: 11px;
+}
+.ticket-details > div > span {
+  font-size: 10px;
+}
+.ticket-details strong {
+  font-size: 11px;
+}
+.player-ticket .info-note {
+  font-size: 10px;
+}
+@media (max-width: 1100px) {
+  .scope-bar {
+    font-size: 10px;
+  }
+  .scope-date {
+    font-size: 10px;
+  }
+  .badge.sample {
+    font-size: 9px;
+  }
+  .primary-nav a {
+    font-size: 11px;
+  }
+  .card h2 {
+    font-size: 18px;
+  }
+  .card-heading p {
+    font-size: 11px;
+  }
+  .metric-row > div > span {
+    font-size: 9px;
+  }
+  .operation-tile > span:last-child,
+  .tray-footer > div > span {
+    font-size: 9px;
+  }
+  .tray-footer strong {
+    font-size: 11px;
+  }
+  .black-pill {
+    font-size: 9px;
+  }
+  .chart-footnote {
+    font-size: 9px;
+  }
+  .player-info > span {
+    font-size: 10px;
+  }
+  .metric > span {
+    font-size: 10px;
+  }
+  .metric-label {
+    font-size: 11px;
+  }
+  .metric > strong {
+    font-size: 32px;
+  }
+  .registration-card {
+    padding: 28px;
+  }
+  .registration-card h2 {
+    font-size: 28px;
+  }
+  .registration-topline .badge {
+    font-size: 8px;
+  }
+  .step-label {
+    font-size: 8px;
+  }
+  .form-group > label > span {
+    font-size: 9px;
+  }
+  .demo-form-note {
+    font-size: 10px;
+  }
+  .game-facts > span {
+    font-size: 8px;
+  }
+  .game-facts strong {
+    font-size: 10px;
+  }
+  .readiness-grid .badge {
+    font-size: 9px;
+  }
+  .readiness-grid strong {
+    font-size: 10px;
+  }
+}
+@media (max-width: 767px) {
+  .scope-bar {
+    font-size: 10px;
+  }
+  .badge.sample {
+    font-size: 8px;
+  }
+  .primary-nav a {
+    font-size: 14px;
+  }
+  .register-link {
+    font-size: 12px;
+  }
+  .card h2 {
+    font-size: 20px;
+  }
+  .card-heading p {
+    font-size: 12px;
+  }
+  .metric-row > div > span {
+    font-size: 10px;
+  }
+  .metric-row strong {
+    font-size: 14px;
+  }
+  .operation-tile > span:last-child {
+    font-size: 10px;
+  }
+  .tray-footer > div > span {
+    font-size: 8px;
+  }
+  .tray-footer strong {
+    font-size: 11px;
+  }
+  .black-pill {
+    font-size: 10px;
+  }
+  .chart-footnote {
+    font-size: 10px;
+  }
+  .chart-legend {
+    font-size: 9px;
+  }
+  .player-info > strong {
+    font-size: 14px;
+  }
+  .player-info > span {
+    font-size: 10px;
+  }
+  .player-score > span {
+    font-size: 10px;
+  }
+  .queue-wait {
+    font-size: 10px;
+  }
+  .metric-label {
+    font-size: 11px;
+  }
+  .metric > span {
+    font-size: 10px;
+  }
+  .info-note {
+    font-size: 10px;
+  }
+  .registration-card {
+    padding: 28px 25px;
+  }
+  .registration-card h2 {
+    font-size: 31px;
+  }
+  .registration-topline .badge {
+    font-size: 9px;
+  }
+  .step-label {
+    font-size: 9px;
+  }
+  .form-group > label {
+    font-size: 13px;
+  }
+  .form-group > label > span {
+    font-size: 10px;
+  }
+  .input-wrap > input {
+    font-size: 13px;
+  }
+  .form-group .field-help {
+    font-size: 11px;
+  }
+  .checkbox-field {
+    font-size: 12px;
+  }
+  .privacy-note strong {
+    font-size: 12px;
+  }
+  .privacy-note p {
+    font-size: 11px;
+  }
+  .registration-footnote {
+    font-size: 10px;
+  }
+  .registration-intro {
+    font-size: 13px;
+  }
+  .game-facts > span {
+    font-size: 9px;
+  }
+  .game-facts strong {
+    font-size: 11px;
+  }
+  .public-header .badge {
+    font-size: 8px;
+  }
+  .public-footer {
+    font-size: 10px;
+  }
+  .podium-card > .subtle,
+  .podium-card > p {
+    font-size: 8px;
+  }
+  .ticket-details strong {
+    font-size: 10px;
+  }
+  .ticket-details > div > span {
+    font-size: 10px;
+  }
+  .player-ticket .info-note {
+    font-size: 10px;
+  }
+  .connection-overview p {
+    font-size: 11px;
+  }
+  .readiness-grid .badge {
+    font-size: 9px;
+  }
+  .queue-full-row .player-info > span {
+    font-size: 9px;
+  }
+  .queue-full-row .text-button {
+    font-size: 10px;
+  }
+  .modal .field-help {
+    font-size: 11px;
+  }
+}

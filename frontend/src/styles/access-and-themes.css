@@ -1,0 +1,387 @@
+/* Administrator palette is scoped to its routes; the player palette stays playful. */
+html[data-admin-theme] {
+  --canvas: #f1f2f4;
+  --surface: #fff;
+  --surface-soft: #f5f6f7;
+  --tray: #e8eaed;
+  --lime: #e1e5ea;
+  --blue: #cbd2dc;
+  --blue-soft: #edf0f4;
+  --sage: #e3e6e8;
+  --ink: #20252d;
+  --muted: #606975;
+  --border: #dce0e5;
+  --danger: #993e3e;
+  --chart-primary: #73859a;
+  --chart-secondary: #b5bdc6;
+  --radius-card: 24px;
+  --radius-tile: 20px;
+  color-scheme: light;
+}
+html[data-admin-theme='dark'] {
+  --canvas: #12151a;
+  --surface: #1c2027;
+  --surface-soft: #252a33;
+  --tray: #20252d;
+  --lime: #343d49;
+  --blue: #38475a;
+  --blue-soft: #2a3341;
+  --sage: #343d45;
+  --ink: #e8ebef;
+  --muted: #a9b1bc;
+  --border: #353c47;
+  --danger: #f1a2a2;
+  --chart-primary: #a8b7ca;
+  --chart-secondary: #657282;
+  color-scheme: dark;
+}
+html[data-admin-theme] body {
+  background: var(--canvas);
+  color: var(--ink);
+}
+html[data-admin-theme] .primary-nav {
+  background: var(--tray);
+}
+html[data-admin-theme] .metric,
+html[data-admin-theme] .metric.accent,
+html[data-admin-theme] .select-button,
+html[data-admin-theme] .search-field,
+html[data-admin-theme] .round-link,
+html[data-admin-theme] .round-detail-metrics .metric,
+html[data-admin-theme] .insight-intro > .badge,
+html[data-admin-theme] .level-track i {
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+html[data-admin-theme] .metric-label,
+html[data-admin-theme] .metric > span,
+html[data-admin-theme] .select-button span {
+  color: var(--muted);
+}
+html[data-admin-theme] .metric strong {
+  color: var(--ink);
+}
+html[data-admin-theme] .next-status > span,
+html[data-admin-theme] .player-info > span,
+html[data-admin-theme] .queue-wait {
+  color: var(--muted);
+}
+html[data-admin-theme] .circle-link {
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+html[data-admin-theme] .next-status,
+html[data-admin-theme] th {
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+html[data-admin-theme] .dropdown,
+html[data-admin-theme] .dropdown-item[data-highlighted],
+html[data-admin-theme] .insight-intro,
+html[data-admin-theme] .insight-placeholder,
+html[data-admin-theme] .insight-answer,
+html[data-admin-theme] .insight-spark,
+html[data-admin-theme] .question-pills button,
+html[data-admin-theme] .primary-nav a:hover:not(.active) {
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+html[data-admin-theme] .insight-intro p,
+html[data-admin-theme] .insight-status,
+html[data-admin-theme] .next-card > p:not(.field-help),
+html[data-admin-theme] .next-card .field-help,
+html[data-admin-theme] th,
+html[data-admin-theme] .rank,
+html[data-admin-theme] .level-label strong > span {
+  color: var(--muted);
+}
+html[data-admin-theme] .card,
+html[data-admin-theme] .operation-tile.white,
+html[data-admin-theme] .tray-footer,
+html[data-admin-theme] .modal,
+html[data-admin-theme] .modal-content,
+html[data-admin-theme] .dropdown-content,
+html[data-admin-theme] .chart-tooltip,
+html[data-admin-theme] .primary-nav.open {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--border);
+}
+html[data-admin-theme] .card {
+  box-shadow: 0 1px 2px #00000006;
+  border: 1px solid var(--border);
+}
+html[data-admin-theme] .welcome-pill,
+html[data-admin-theme] .operation-tile.blue,
+html[data-admin-theme] .metric-row,
+html[data-admin-theme] .operator-avatar,
+html[data-admin-theme] .queue-number,
+html[data-admin-theme] .next-avatar,
+html[data-admin-theme] .badge,
+html[data-admin-theme] .metric-icon,
+html[data-admin-theme] .insight-card,
+html[data-admin-theme] .insight-icon,
+html[data-admin-theme] .podium-card {
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+html[data-admin-theme] .welcome-pill {
+  border: 1px solid var(--border);
+}
+html[data-admin-theme] .welcome-symbol,
+html[data-admin-theme] .tile-icon,
+html[data-admin-theme] .tile-icon.lime,
+html[data-admin-theme] .heading-icon,
+html[data-admin-theme] .metric-row-icon,
+html[data-admin-theme] .round-link,
+html[data-admin-theme] .tray-plus,
+html[data-admin-theme] .live-player .player-icon,
+html[data-admin-theme] .icon-button,
+html[data-admin-theme] .avatar,
+html[data-admin-theme] .next-card,
+html[data-admin-theme] .brand-mark {
+  background: var(--surface-soft);
+  color: var(--ink);
+  border-color: var(--border);
+}
+html[data-admin-theme] .button.light,
+html[data-admin-theme] .search-input,
+html[data-admin-theme] .search-wrap,
+html[data-admin-theme] .text-input,
+html[data-admin-theme] .menu-trigger,
+html[data-admin-theme] .filter-chip,
+html[data-admin-theme] .query-input,
+html[data-admin-theme] .primary-nav a.active {
+  background: var(--surface-soft);
+  color: var(--ink);
+  border-color: var(--border);
+}
+html[data-admin-theme] input::placeholder {
+  color: var(--muted);
+}
+html[data-admin-theme] .button.dark,
+html[data-admin-theme] .button.lime,
+html[data-admin-theme] .black-pill {
+  background: var(--ink);
+  color: var(--surface);
+}
+html[data-admin-theme] .button:hover,
+html[data-admin-theme] .icon-button:hover {
+  filter: brightness(0.94);
+}
+html[data-admin-theme] .primary-nav a,
+html[data-admin-theme] .subtle,
+html[data-admin-theme] .scope-bar,
+html[data-admin-theme] .field-help,
+html[data-admin-theme] .card-heading p,
+html[data-admin-theme] .metric-row span,
+html[data-admin-theme] .overview-heading p,
+html[data-admin-theme] .app-footer,
+html[data-admin-theme] .page-heading p,
+html[data-admin-theme] .eyebrow,
+html[data-admin-theme] .welcome-pill span,
+html[data-admin-theme] .info-note {
+  color: var(--muted);
+}
+html[data-admin-theme] .scope-dot,
+html[data-admin-theme] .tiny-dot,
+html[data-admin-theme] .status-dot {
+  background: var(--muted);
+}
+html[data-admin-theme] .brand-period {
+  color: var(--ink);
+}
+html[data-admin-theme] .operations-tray {
+  background: var(--tray);
+  border: 1px solid var(--border);
+}
+html[data-admin-theme] .scope-bar,
+html[data-admin-theme] .app-footer,
+html[data-admin-theme] .queue-full-row,
+html[data-admin-theme] .device-facts > div,
+html[data-admin-theme] .table-row,
+html[data-admin-theme] .card-bottom-link {
+  border-color: var(--border);
+}
+html[data-admin-theme] .gauge line {
+  stroke: var(--border);
+}
+html[data-admin-theme] .gauge text,
+html[data-admin-theme] .recharts-cartesian-axis-tick text {
+  fill: var(--muted);
+}
+html[data-admin-theme] .recharts-cartesian-grid line {
+  stroke: var(--border);
+}
+html[data-admin-theme] .recharts-area path {
+  stroke: var(--chart-primary);
+}
+html[data-admin-theme] .recharts-bar-rectangle path {
+  fill: var(--chart-primary);
+}
+html[data-admin-theme] .recharts-pie-sector:nth-child(1) path {
+  fill: var(--chart-primary);
+}
+html[data-admin-theme] .recharts-pie-sector:nth-child(2) path {
+  fill: var(--chart-secondary);
+}
+html[data-admin-theme] .recharts-pie-sector:nth-child(3) path {
+  fill: var(--surface-soft);
+}
+html[data-admin-theme] .matrix {
+  background: var(--surface-soft);
+}
+html[data-admin-theme] .matrix span {
+  background: var(--border);
+}
+html[data-admin-theme] .toast {
+  background: var(--ink);
+  color: var(--surface);
+}
+.page-loading {
+  min-height: 80vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.connection-banner {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 12px 24px;
+  background: var(--ink);
+  color: var(--surface);
+  text-align: center;
+  font-size: 14px;
+}
+.admin-login {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.admin-login > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 5%;
+}
+.admin-login > main {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 32px 20px 72px;
+}
+.admin-login > footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 24px;
+}
+.login-card {
+  width: min(100%, 430px);
+  padding: 38px;
+}
+.login-lock {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-soft);
+  border-radius: 15px;
+  margin-bottom: 26px;
+}
+.login-card h1 {
+  font-size: 32px;
+  margin: 12px 0 8px;
+  letter-spacing: -1px;
+}
+.login-card > p {
+  color: var(--muted);
+  font-size: 14px;
+}
+.login-card form {
+  margin: 32px 0 22px;
+}
+.login-card form .field-label {
+  display: block;
+  margin: 20px 0 9px;
+}
+.login-card form .button {
+  margin-top: 28px;
+}
+.simulator-card {
+  margin-top: 24px;
+  padding: 28px;
+}
+.simulator-card h2 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+.simulator-card p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 650px;
+}
+.simulator-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+.simulator-actions .button {
+  font-size: 12px;
+  min-height: 42px;
+  padding: 10px 16px;
+}
+.result-notification {
+  display: flex;
+  align-items: start;
+  gap: 14px;
+  background: var(--blue-soft);
+  padding: 20px;
+  border-radius: 20px;
+  margin: 18px 0;
+}
+.result-notification > i {
+  font-size: 22px;
+}
+.result-notification strong {
+  font-size: 14px;
+}
+.result-notification p {
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 6px 0 0;
+}
+.ticket-story h1 {
+  white-space: pre-line;
+}
+.player-ticket .badge {
+  margin-bottom: 8px;
+}
+.qr-wrap canvas {
+  width: 240px;
+  max-width: 100%;
+  height: auto !important;
+}
+@media (max-width: 700px) {
+  .admin-login > header {
+    padding: 24px;
+  }
+  .login-card {
+    padding: 28px;
+  }
+  html[data-admin-theme] .header-actions {
+    gap: 6px;
+  }
+  html[data-admin-theme] .app-header {
+    flex-wrap: wrap;
+  }
+  html[data-admin-theme] .operator-avatar {
+    display: none;
+  }
+  .simulator-actions .button {
+    flex: 1 1 44%;
+  }
+}

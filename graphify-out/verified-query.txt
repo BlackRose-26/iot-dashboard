@@ -1,0 +1,9 @@
+﻿Graph: graphify-out/graph.json (84 nodes) | Traversal: BFS depth=1 | Start (given): ['Atomic validated result commit'] | 4 nodes found
+
+NODE Atomic validated result commit [src=docs/schema.md loc=L76 community=Proposed modular monolith architecture / Proposed FastAPI backend]
+NODE Candidate MySQL data model [src=docs/schema.md loc=L1 community=Candidate MySQL data model / Required private student ID and QR registration]
+NODE Proposed transactional notification outbox [src=docs/tech-stack.md loc=L138 community=Proposed modular monolith architecture / Proposed FastAPI backend]
+NODE Durable terminal evidence and replay validation [src=docs/tech-stack.md loc=L121 community=Proposed modular monolith architecture / Proposed FastAPI backend]
+EDGE Atomic validated result commit --shares_data_with [EXTRACTED]--> Proposed transactional notification outbox at=docs/schema.md:L76
+EDGE Durable terminal evidence and replay validation --conceptually_related_to [EXTRACTED]--> Atomic validated result commit at=docs/schema.md:L76
+EDGE Candidate MySQL data model --references [EXTRACTED]--> Atomic validated result commit at=docs/schema.md:L76
