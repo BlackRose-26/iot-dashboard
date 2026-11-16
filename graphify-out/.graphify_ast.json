@@ -1360,11 +1360,19 @@
       "_origin": "ast"
     },
     {
+      "id": "frontend_package_scripts_dev_frontend",
+      "label": "dev:frontend",
+      "file_type": "code",
+      "source_file": "frontend/package.json",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
       "id": "frontend_package_scripts_build",
       "label": "build",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L8",
+      "source_location": "L9",
       "_origin": "ast"
     },
     {
@@ -1372,7 +1380,7 @@
       "label": "preview",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L9",
+      "source_location": "L10",
       "_origin": "ast"
     },
     {
@@ -1380,7 +1388,7 @@
       "label": "test",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L10",
+      "source_location": "L11",
       "_origin": "ast"
     },
     {
@@ -1388,7 +1396,7 @@
       "label": "test:browser",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L11",
+      "source_location": "L12",
       "_origin": "ast"
     },
     {
@@ -1396,7 +1404,7 @@
       "label": "format",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L12",
+      "source_location": "L13",
       "_origin": "ast"
     },
     {
@@ -1404,7 +1412,7 @@
       "label": "dependencies",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L14",
+      "source_location": "L15",
       "_origin": "ast"
     },
     {
@@ -1412,7 +1420,7 @@
       "label": "@fontsource-variable/inter@5.3.0",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast"
     },
     {
@@ -1420,7 +1428,7 @@
       "label": "@fontsource-variable/inter",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast"
     },
     {
@@ -1428,7 +1436,7 @@
       "label": "@fortawesome/fontawesome-free@7.3.1",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L16",
+      "source_location": "L17",
       "_origin": "ast"
     },
     {
@@ -1436,7 +1444,7 @@
       "label": "@fortawesome/fontawesome-free",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L16",
+      "source_location": "L17",
       "_origin": "ast"
     },
     {
@@ -1444,7 +1452,7 @@
       "label": "@radix-ui/react-dialog@1.3.1",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L17",
+      "source_location": "L18",
       "_origin": "ast"
     },
     {
@@ -1452,7 +1460,7 @@
       "label": "@radix-ui/react-dialog",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L17",
+      "source_location": "L18",
       "_origin": "ast"
     },
     {
@@ -1460,7 +1468,7 @@
       "label": "@radix-ui/react-dropdown-menu@2.2.1",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "_origin": "ast"
     },
     {
@@ -1468,7 +1476,7 @@
       "label": "@radix-ui/react-dropdown-menu",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "_origin": "ast"
     },
     {
@@ -1476,7 +1484,7 @@
       "label": "@radix-ui/react-tooltip@1.4.1",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast"
     },
     {
@@ -1484,7 +1492,7 @@
       "label": "@radix-ui/react-tooltip",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast"
     },
     {
@@ -1492,7 +1500,7 @@
       "label": "html5-qrcode@2.3.8",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L20",
+      "source_location": "L21",
       "_origin": "ast"
     },
     {
@@ -1500,7 +1508,7 @@
       "label": "html5-qrcode",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L20",
+      "source_location": "L21",
       "_origin": "ast"
     },
     {
@@ -1508,7 +1516,7 @@
       "label": "qrcode.react@4.2.0",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L21",
+      "source_location": "L22",
       "_origin": "ast"
     },
     {
@@ -1516,7 +1524,7 @@
       "label": "qrcode.react",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L21",
+      "source_location": "L22",
       "_origin": "ast"
     },
     {
@@ -1524,7 +1532,7 @@
       "label": "react@19.3.1",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "_origin": "ast"
     },
     {
@@ -1532,7 +1540,7 @@
       "label": "react",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "_origin": "ast"
     },
     {
@@ -1540,7 +1548,7 @@
       "label": "react-dom@19.3.1",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L23",
+      "source_location": "L24",
       "_origin": "ast"
     },
     {
@@ -1548,7 +1556,7 @@
       "label": "react-dom",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L23",
+      "source_location": "L24",
       "_origin": "ast"
     },
     {
@@ -1556,7 +1564,7 @@
       "label": "react-router-dom@7.18.5",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L24",
+      "source_location": "L25",
       "_origin": "ast"
     },
     {
@@ -1564,7 +1572,7 @@
       "label": "react-router-dom",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L24",
+      "source_location": "L25",
       "_origin": "ast"
     },
     {
@@ -1572,7 +1580,7 @@
       "label": "recharts@3.10.1",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L25",
+      "source_location": "L26",
       "_origin": "ast"
     },
     {
@@ -1580,7 +1588,7 @@
       "label": "recharts",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L25",
+      "source_location": "L26",
       "_origin": "ast"
     },
     {
@@ -1588,7 +1596,7 @@
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast"
     },
     {
@@ -1596,7 +1604,7 @@
       "label": "@axe-core/playwright@4.14.0",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast"
     },
     {
@@ -1604,7 +1612,7 @@
       "label": "@axe-core/playwright",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast"
     },
     {
@@ -1612,7 +1620,7 @@
       "label": "@playwright/test@1.65.1",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast"
     },
     {
@@ -1620,7 +1628,7 @@
       "label": "@playwright/test",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast"
     },
     {
@@ -1628,7 +1636,7 @@
       "label": "@testing-library/jest-dom@7.0.1",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast"
     },
     {
@@ -1636,7 +1644,7 @@
       "label": "@testing-library/jest-dom",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast"
     },
     {
@@ -1644,7 +1652,7 @@
       "label": "@testing-library/react@16.3.3",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast"
     },
     {
@@ -1652,7 +1660,7 @@
       "label": "@testing-library/react",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast"
     },
     {
@@ -1660,7 +1668,7 @@
       "label": "@testing-library/user-event@14.6.10",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast"
     },
     {
@@ -1668,7 +1676,7 @@
       "label": "@testing-library/user-event",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast"
     },
     {
@@ -1676,7 +1684,7 @@
       "label": "@vitejs/plugin-react@6.3.0",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "_origin": "ast"
     },
     {
@@ -1684,7 +1692,7 @@
       "label": "@vitejs/plugin-react",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "_origin": "ast"
     },
     {
@@ -1692,7 +1700,7 @@
       "label": "jsdom@31.0.1",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "_origin": "ast"
     },
     {
@@ -1700,7 +1708,7 @@
       "label": "jsdom",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "_origin": "ast"
     },
     {
@@ -1708,7 +1716,7 @@
       "label": "prettier@3.10.1",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "_origin": "ast"
     },
     {
@@ -1716,7 +1724,7 @@
       "label": "prettier",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "_origin": "ast"
     },
     {
@@ -1724,7 +1732,7 @@
       "label": "vite@8.3.8",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "_origin": "ast"
     },
     {
@@ -1732,7 +1740,7 @@
       "label": "vite",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "_origin": "ast"
     },
     {
@@ -1740,7 +1748,7 @@
       "label": "vitest@5.1.0",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "_origin": "ast"
     },
     {
@@ -1748,7 +1756,7 @@
       "label": "vitest",
       "file_type": "concept",
       "source_file": "frontend/package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "_origin": "ast"
     },
     {
@@ -1756,7 +1764,7 @@
       "label": "engines",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L39",
+      "source_location": "L40",
       "_origin": "ast"
     },
     {
@@ -1764,7 +1772,7 @@
       "label": "node",
       "file_type": "code",
       "source_file": "frontend/package.json",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast"
     },
     {
@@ -1939,7 +1947,7 @@
       "label": "chooseQuestion()",
       "file_type": "code",
       "source_file": "frontend/src/components/AdminAssistant.jsx",
-      "source_location": "L78",
+      "source_location": "L76",
       "_callable": true,
       "_origin": "ast"
     },
@@ -3376,6 +3384,187 @@
       "file_type": "code",
       "source_file": "frontend/vite.config.js",
       "source_location": "L25",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "package",
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_name",
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_version",
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_private",
+      "label": "private",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_type",
+      "label": "type",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_dev",
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_dev_backend",
+      "label": "dev:backend",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_dev_frontend",
+      "label": "dev:frontend",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_engines",
+      "label": "engines",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_engines_node",
+      "label": "node",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "_origin": "ast"
+    },
+    {
+      "id": "scripts_dev",
+      "label": "dev.mjs",
+      "file_type": "code",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "scripts_dev_root",
+      "label": "root",
+      "file_type": "code",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
+      "id": "scripts_dev_backend",
+      "label": "backend",
+      "file_type": "code",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L9",
+      "_origin": "ast"
+    },
+    {
+      "id": "scripts_dev_frontend",
+      "label": "frontend",
+      "file_type": "code",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L10",
+      "_origin": "ast"
+    },
+    {
+      "id": "scripts_dev_backendonly",
+      "label": "backendOnly",
+      "file_type": "code",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L12",
+      "_origin": "ast"
+    },
+    {
+      "id": "scripts_dev_owned",
+      "label": "owned",
+      "file_type": "code",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L13",
+      "_origin": "ast"
+    },
+    {
+      "id": "scripts_dev_portinuse",
+      "label": "portInUse()",
+      "file_type": "code",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L17",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "scripts_dev_health",
+      "label": "health()",
+      "file_type": "code",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L30",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "scripts_dev_start",
+      "label": "start()",
+      "file_type": "code",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L48",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "scripts_dev_stop",
+      "label": "stop()",
+      "file_type": "code",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L74",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "scripts_dev_main",
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L116",
       "_callable": true,
       "_origin": "ast"
     },
@@ -7085,7 +7274,7 @@
     },
     {
       "source": "frontend_package_scripts",
-      "target": "frontend_package_scripts_build",
+      "target": "frontend_package_scripts_dev_frontend",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
@@ -7095,7 +7284,7 @@
     },
     {
       "source": "frontend_package_scripts",
-      "target": "frontend_package_scripts_preview",
+      "target": "frontend_package_scripts_build",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
@@ -7105,7 +7294,7 @@
     },
     {
       "source": "frontend_package_scripts",
-      "target": "frontend_package_scripts_test",
+      "target": "frontend_package_scripts_preview",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
@@ -7115,7 +7304,7 @@
     },
     {
       "source": "frontend_package_scripts",
-      "target": "frontend_package_scripts_test_browser",
+      "target": "frontend_package_scripts_test",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
@@ -7125,11 +7314,21 @@
     },
     {
       "source": "frontend_package_scripts",
-      "target": "frontend_package_scripts_format",
+      "target": "frontend_package_scripts_test_browser",
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
       "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "frontend_package_scripts",
+      "target": "frontend_package_scripts_format",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/package.json",
+      "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7139,7 +7338,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7149,7 +7348,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7159,7 +7358,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7170,7 +7369,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7180,7 +7379,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L16",
+      "source_location": "L17",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7190,7 +7389,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L16",
+      "source_location": "L17",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7201,7 +7400,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L16",
+      "source_location": "L17",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7211,7 +7410,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7221,7 +7420,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7232,7 +7431,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7242,7 +7441,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7252,7 +7451,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7263,7 +7462,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7273,7 +7472,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7283,7 +7482,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7294,7 +7493,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7304,7 +7503,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7314,7 +7513,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7325,7 +7524,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7335,7 +7534,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L21",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7345,7 +7544,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L21",
+      "source_location": "L22",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7356,7 +7555,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L21",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7366,7 +7565,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7376,7 +7575,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7387,7 +7586,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7397,7 +7596,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7407,7 +7606,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7418,7 +7617,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L23",
+      "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7428,7 +7627,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L24",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7438,7 +7637,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L24",
+      "source_location": "L25",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7449,7 +7648,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L24",
+      "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7459,7 +7658,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L25",
+      "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7469,7 +7668,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L25",
+      "source_location": "L26",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7480,7 +7679,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L25",
+      "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7490,7 +7689,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L27",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7500,7 +7699,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7510,7 +7709,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7521,7 +7720,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7531,7 +7730,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7541,7 +7740,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7552,7 +7751,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7562,7 +7761,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7572,7 +7771,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7583,7 +7782,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7593,7 +7792,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7603,7 +7802,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7614,7 +7813,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7624,7 +7823,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7634,7 +7833,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7645,7 +7844,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7655,7 +7854,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7665,7 +7864,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7676,7 +7875,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7686,7 +7885,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7696,7 +7895,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7707,7 +7906,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7717,7 +7916,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7727,7 +7926,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7738,7 +7937,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7748,7 +7947,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7758,7 +7957,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7769,7 +7968,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7779,7 +7978,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7789,7 +7988,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast"
@@ -7800,7 +7999,7 @@
       "relation": "declares",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7810,7 +8009,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L39",
+      "source_location": "L40",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -7820,7 +8019,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/package.json",
-      "source_location": "L40",
+      "source_location": "L41",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -8256,7 +8455,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/components/AdminAssistant.jsx",
-      "source_location": "L78",
+      "source_location": "L76",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -8267,7 +8466,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/components/AdminAssistant.jsx",
-      "source_location": "L90",
+      "source_location": "L88",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -8278,7 +8477,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "frontend/src/components/AdminAssistant.jsx",
-      "source_location": "L172",
+      "source_location": "L176",
       "weight": 1.0,
       "_origin": "ast"
     },
@@ -13764,6 +13963,327 @@
       "_origin": "ast"
     },
     {
+      "source": "package",
+      "target": "package_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_version",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_private",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_scripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_dev",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_dev_backend",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_dev_frontend",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_engines",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_engines",
+      "target": "package_engines_node",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "ref_node_child_process",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "ref_node_fs",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "ref_node_net",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "ref_node_path",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "ref_node_url",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "ref_node_timers",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "scripts_dev_root",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "scripts_dev_backend",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "scripts_dev_frontend",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "scripts_dev_backendonly",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "scripts_dev_owned",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "scripts_dev_portinuse",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "scripts_dev_health",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "scripts_dev_start",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "scripts_dev_stop",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L74",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "scripts_dev_main",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L116",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev_start",
+      "target": "scripts_dev_stop",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev",
+      "target": "scripts_dev_stop",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L113",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev_main",
+      "target": "scripts_dev_portinuse",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L117",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev_main",
+      "target": "scripts_dev_health",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L142",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "scripts_dev_main",
+      "target": "scripts_dev_start",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/dev.mjs",
+      "source_location": "L175",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
       "source": "scripts_export_registration_qr",
       "target": "argparse",
       "relation": "imports",
@@ -18614,6 +19134,8 @@
     "D:\\iot-dashboard\\frontend\\src\\state\\qr-entry.test.js",
     "D:\\iot-dashboard\\frontend\\src\\test-setup.js",
     "D:\\iot-dashboard\\frontend\\vite.config.js",
+    "D:\\iot-dashboard\\package.json",
+    "D:\\iot-dashboard\\scripts\\dev.mjs",
     "D:\\iot-dashboard\\scripts\\export-registration-qr.py",
     "D:\\iot-dashboard\\scripts\\graphify.ps1",
     "D:\\iot-dashboard\\scripts\\start-project.ps1"

@@ -6,23 +6,47 @@ After this first setup, close and reopen the terminal application (including VS 
 
 ## Start development
 
-Start **MySQL** in XAMPP. Open two PowerShell terminals.
-
-Frontend:
+Start **MySQL** in XAMPP after each computer restart. Then use one PowerShell terminal:
 
 ```powershell
-cd D:\iot-dashboard\frontend
+cd D:\iot-dashboard
 npm run dev
 ```
 
-Backend:
+`npm run dev` also works from `D:\iot-dashboard\frontend`. The combined Node launcher starts FastAPI on port 8000, waits for a successful API/database readiness response, then starts Vite on port 5173. It checks for missing dependencies/configuration and occupied ports, and reuses a healthy current backend. It does not provision/reset the database, start XAMPP or modify credentials. Keep the terminal open; Ctrl+C stops only the server processes this invocation started, including the Uvicorn reloader. A reused backend remains owned by its original terminal.
+
+Open [admin login](http://localhost:5173/admin/login). The standalone `.cmd` entry points use the same launcher or your installed Node; they no longer depend on a versioned Codex runtime path or leave newly launched servers hidden in the background.
+
+### Separate terminals (optional)
+
+Backend, from the project root:
+
+```powershell
+cd D:\iot-dashboard
+npm run dev:backend
+```
+
+Frontend only, in another terminal:
+
+```powershell
+cd D:\iot-dashboard
+npm run dev:frontend
+```
+
+The frontend folder also supports `npm run dev:frontend`. For a direct Python command without Node orchestration:
 
 ```powershell
 cd D:\iot-dashboard\backend
 .\.venv\Scripts\python.exe -m uvicorn app.main:app --reload --port 8000 --no-access-log
 ```
 
-Open [admin login](http://localhost:5173/admin/login). Press **Ctrl+C** in each terminal to stop its server. The backend command directly uses the project's Python environment, so PowerShell activation is unnecessary. Neither command starts the XAMPP database or changes database credentials.
+PowerShell activation is unnecessary because the command uses the project's Python executable directly. Do not start a second combined launcher while Vite already occupies port 5173.
+
+## Connection problems after a reboot
+
+`ECONNREFUSED 127.0.0.1:8000` means no API was accepting connections at that address when Vite tried to proxy the request. Previously `frontend/npm run dev` started Vite alone; shutting down Windows stopped the separately launched backend. Start XAMPP MySQL and use the combined command above. A 30-second backend readiness timeout now prevents Vite from starting against an unavailable API/database.
+
+`GET /api/admin/session` returning 401 is expected before sign-in or after session expiry. The later 200 responses in the supplied logs show successful requests at those times; they do not prove the backend remained running afterward. Use the same browser hostname for login and dashboard. If port 8000 is occupied by a backend started before the new health identity field was added, stop that backend once with Ctrl+C and restart it. Do not regenerate secrets or delete the database to repair a missing process.
 
 ## Reinstall dependencies when needed
 
@@ -35,4 +59,6 @@ python -m venv .venv
 
 On a new computer, install [Node.js LTS](https://nodejs.org/en/download) and [Python](https://www.python.org/downloads/windows/) first, then follow [backend database setup](../backend/README.md). Keep backend `.env`, the virtual environment, database contents and credentials private and outside source control/Graphify.
 
-The current Node installation is independent of Codex's bundled runtime and is on the user's PATH. PowerShell uses npm's Windows `.cmd` entry point through the local `Programs\NodeCommands` directory; its script execution policy was not changed. The old project launchers remain optional, but normal npm and Python commands above are the primary workflow.
+The current Node installation is independent of Codex's bundled runtime and is on the user's PATH. PowerShell uses npm's Windows `.cmd` entry point through the local `Programs\NodeCommands` directory; its script execution policy was not changed. The root package requires no additional npm dependencies; frontend dependencies remain pinned in `frontend/package-lock.json`.
+
+The startup changes were reviewed from source only. No tests, builds, live API/database requests or browser checks were run, following the user's instruction to test the application themselves.

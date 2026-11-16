@@ -1,5 +1,6 @@
+D:\iot-dashboard\AGENTS.md
+D:\iot-dashboard\README.md
+D:\iot-dashboard\backend\README.md
 D:\iot-dashboard\docs\README.md
-D:\iot-dashboard\docs\admin-assistant.md
-D:\iot-dashboard\docs\ai-system-rules.md
-D:\iot-dashboard\docs\dashboard-design.md
-D:\iot-dashboard\docs\implementation-plan.md
+D:\iot-dashboard\docs\local-setup.md
+D:\iot-dashboard\frontend\README.md

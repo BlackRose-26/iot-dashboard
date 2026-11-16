@@ -53,12 +53,15 @@
       "D:\\iot-dashboard\\frontend\\src\\state\\qr-entry.test.js",
       "D:\\iot-dashboard\\frontend\\src\\test-setup.js",
       "D:\\iot-dashboard\\frontend\\vite.config.js",
+      "D:\\iot-dashboard\\package.json",
+      "D:\\iot-dashboard\\scripts\\dev.mjs",
       "D:\\iot-dashboard\\scripts\\export-registration-qr.py",
       "D:\\iot-dashboard\\scripts\\graphify.ps1",
       "D:\\iot-dashboard\\scripts\\start-project.ps1"
     ],
     "document": [
       "D:\\iot-dashboard\\AGENTS.md",
+      "D:\\iot-dashboard\\README.md",
       "D:\\iot-dashboard\\backend\\README.md",
       "D:\\iot-dashboard\\backend\\requirements.txt",
       "D:\\iot-dashboard\\docs\\README.md",
@@ -83,10 +86,10 @@
     "image": [],
     "video": []
   },
-  "total_files": 75,
-  "total_words": 41517,
+  "total_files": 78,
+  "total_words": 43575,
   "needs_graph": false,
-  "warning": "Corpus is ~41,517 words - fits in a single context window. You may not need a graph.",
+  "warning": "Corpus is ~43,575 words - fits in a single context window. You may not need a graph.",
   "unclassified_warning": null,
   "skipped_sensitive": [],
   "unclassified": [
@@ -123,6 +126,7 @@
     "D:\\iot-dashboard\\scripts\\relocate-project-map.py"
   ],
   "pruned_noise_dirs": [
+    "D:\\iot-dashboard\\.git\\",
     "D:\\iot-dashboard\\backend\\.pytest_cache\\",
     "D:\\iot-dashboard\\backend\\.venv\\",
     "D:\\iot-dashboard\\backend\\__pycache__\\",

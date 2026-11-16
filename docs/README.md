@@ -1,6 +1,8 @@
+> **Read this file before project work.** This is the canonical internal guide and specification index. The [root README](../README.md) provides the public project introduction, implementation status and installation instructions; it does not replace this guide.
+
 Player entry now uses the [camera and image scanner API](qr-scanner.md).
 
-For daily development use [npm and Python startup commands](local-setup.md). Node/npm and a normal backend virtual environment are now installed.
+For daily development use the [combined npm startup and troubleshooting guide](local-setup.md). Start MySQL in XAMPP, then run `npm run dev` from the project root or `frontend`; the launcher starts the API before Vite. Node/npm and a normal backend virtual environment are already installed locally.
 
 > Current implementation: QR entry, persistent private queue/tickets, admin login and neutral admin light/dark themes now exist. See [player flow and access update](player-flow-and-access.md) for the current behavior, API, migrations and limits. Earlier preview-only statements below are historical.
 

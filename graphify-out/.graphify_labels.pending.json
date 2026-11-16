@@ -1,8 +1,13 @@
 {
-  "8": "vite.config.js",
-  "18": "Implemented FastAPI XAMPP development backend",
-  "26": "Documentation index and authority",
-  "31": "Sourcio-adapted dashboard specification",
-  "32": "flows.spec.js",
-  "33": "MySQL-compatible schema baseline with current migration override"
+  "1": "Local React and backend setup",
+  "3": "Current QR player flow and administrator access",
+  "8": "devDependencies",
+  "19": "Documentation index and authority",
+  "23": "Architecture baseline with current implementation override",
+  "27": "Dependency-ordered implementation baseline and current overrides",
+  "32": "Implemented FastAPI XAMPP development backend",
+  "33": "Sourcio-adapted dashboard specification",
+  "34": "Connected React JavaScript frontend and access journey",
+  "35": "MySQL-compatible schema baseline with current migration override",
+  "36": "engines"
 }

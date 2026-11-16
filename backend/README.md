@@ -4,6 +4,8 @@ FastAPI, SQLAlchemy Core and the local XAMPP MariaDB service. This first impleme
 
 ## Local startup
 
+Daily shortcut: start XAMPP MySQL and run `npm run dev` from the project root or frontend folder. The shared launcher waits for API/database readiness before starting Vite. `npm run dev:backend` from the project root starts only the API. No database setup is repeated on normal startup. See [reboot troubleshooting](../docs/local-setup.md).
+
 The project now uses a normal Python 3.13 environment at `D:\iot-dashboard\backend\.venv`. See [local setup and daily commands](../docs/local-setup.md). The earlier `.tools/backend-venv` remains a compatibility fallback.
 
 1. Start MySQL in XAMPP (the installed server is MariaDB 10.11.16).

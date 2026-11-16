@@ -1,5 +1,7 @@
 # Stack Moko Baby frontend
 
+Daily startup: start XAMPP MySQL, then `npm run dev` here or at the project root. This command now launches **both** FastAPI and Vite, waiting for backend/database readiness first. Use `npm run dev:frontend` only when intentionally running the API separately. See [current startup instructions](../docs/local-setup.md). This update supersedes older frontend-only `dev` descriptions below.
+
 React JavaScript/JSX and Vite, connected to FastAPI and XAMPP MariaDB. Start with [backend setup](../backend/README.md), then run `D:\iot-dashboard\scripts\start-dashboard.cmd` and open [admin login](http://127.0.0.1:5173/admin/login). The generated credentials are in the private local file `backend/.admin-credentials.txt`.
 
 Node.js 24 and npm are installed for the local user account. Restart your terminal app once after setup so it picks up the installed commands. Normal development commands:

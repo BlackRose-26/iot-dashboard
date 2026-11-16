@@ -144,7 +144,7 @@ def create_app(settings=None):
     @app.get('/api/health')
     def health():
         with engine.connect() as c: one(c,'SELECT 1 AS ok')
-        return {'status':'ok','database':'XAMPP MariaDB'}
+        return {'status':'ok','application':'stack-moko-baby','database':'XAMPP MariaDB'}
 
     @app.post('/api/admin/login')
     def login(body:Login, request:Request,response:Response):
