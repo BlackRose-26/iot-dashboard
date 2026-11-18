@@ -1,0 +1,22 @@
+{
+  "dataset": "backend/data/assistant-behavioral.json",
+  "dataset_sha256": "ae09bd57029ba0f33cdbd58b2d4f5838c0292304556261173cd98085a08a5d1b",
+  "records": 443,
+  "counts": {
+    "social": 267,
+    "system": 76,
+    "follow_up": 40,
+    "boundary": 60
+  },
+  "split": {
+    "train": 343,
+    "test": 100
+  },
+  "tokenizer": "Qwen/Qwen3-4B-Instruct-2507",
+  "tokenizer_sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+  "method": "Sum of question and expected_response tokens per record. Excludes JSON metadata and chat-template special tokens.",
+  "all_text_tokens": 18977,
+  "train_text_tokens": 14739,
+  "test_text_tokens": 4238,
+  "model_weights_changed": false
+}

@@ -1,10 +1,30 @@
 # Stack Moko Baby — AI system rules
 
-Policy `analytics-v1` · 15 November 2026
+Policy `analytics-v1` · updated 18 November 2026
 
-Interface update, 16 November 2026: [Stack Intelligence](admin-assistant.md) is now a design-only sticky chat in the authenticated admin shell. Its local preview messages do not call a model, retrieve event data or enforce a runtime NLP policy. The requirements below apply to the later integration.
+Implementation update, 17 November 2026: [Stack Intelligence](admin-assistant.md) now has local Ollama intent routing, read-only backend analytics and deterministic English/Taglish answer templates. Targeted unit, local-model and synthetic browser checks are recorded in the assistant guide; broader release acceptance is still pending. The model receives approved vocabulary/validated context only, never database rows or raw chat history. The reusable prompt below describes the broader intended analytics policy; v1 inference uses a stricter intent-only prompt and never writes answer prose.
 
 This file specifies two distinct uses of AI: the runtime staff analytics assistant and development assistants maintaining the project. Neither determines gameplay outcomes. The policies are proposed application requirements; enforcement belongs in backend authorization, validation and tool routing, not solely in a prompt.
+
+## Conversational presentation
+
+Respond naturally to complete greetings, thanks, acknowledgements, identity/help questions and farewells in English or Taglish using local curated social replies. This is a conversational interface to the event assistant, not unrestricted model-generated factual prose. Social responses use `status: conversation`, carry no metric claims/as-of/snapshot, preserve validated prior analytical context, and do not imply that Ollama or hardware is ready. They still require admin session/CSRF authorization and rate limiting. They may respond while the model is loading without taking its inference gate. No raw chat history is forwarded or persisted. The 18 November update below permits private schema-validated topic/preferences memory.
+
+Match complete social utterances; do not swallow mixed analytical, identity or action requests as greetings. Analytics defaults to concise relevant facts with actual scope. Typed approved `metrics` and `detailed` context control summary presentation; they cannot broaden authorization, generate SQL or change facts. Keep longer evidence and caveats expandable. Explicitly requested breakdowns may be longer. Greeting words must not bypass privacy/action guards.
+
+## Grounded flexibility and private memory — 18 November 2026
+
+Accept natural English/Taglish conversation about Stack Moko Baby beyond fixed greetings/metric phrases. The local model may select only an approved social act, curated system-knowledge card, metric definition, analytic topic or validated follow-up. Render factual prose from reviewed cards/backend templates; do not generate unrelated facts, use unreviewed documents or treat user claims as system truth. Current explicit subjects override prior context. Unknown stripped subjects must trigger clarification rather than silently becoming event questions. Knowledge replies cite their reviewed source title; fresh analytics remains separate from system explanations.
+
+The user's memory request authorizes private structured continuity per admin, not raw-message retention or automatic training. Store only a validated topic, up to six typed recent contexts and explicit English/Taglish or brief/detailed preferences. Do not store question/answer text, free nicknames, student IDs, hashes, credentials, private values, real game metrics or telemetry in this store. Context memory never grants permissions or proves current facts. Server-authenticated staff ownership is mandatory; requests cannot choose another account. Memory-off bypasses persisted memory reads/writes. Forget clears state/preferences and advances a tombstone revision; stale in-flight writes must fail. Treat loaded memory as untrusted and revalidate its complete schema before using it or providing bounded hints to Ollama. Ordinary numerical answers always query current authorized data. A memory failure must not invent a saved preference or block the ordinary application.
+
+This is inference-time continuity, not model-weight learning. No autonomous fine-tuning, unreviewed training corpus, raw conversation export or cross-admin learning is implemented. Any later model training needs a separate reviewed, privacy-safe workflow and measured acceptance gates. The metadata counter records saved context updates, not training progress.
+
+## Explicit reviewed routing examples — 18 November 2026
+
+The user subsequently authorized memory plus reviewed fine-tuning examples. Permit a separate admin-only review queue for sanitized normalized input and strict routing labels; never ingest raw chat/answers, actual game metrics or private values. Selection is explicit, new rows are pending, and a separate human review confirmation plus current context version is mandatory for approval. A stale UI or row revision cannot silently approve under a changed context. Only owner-approved, valid, current-version rows may export. Reject/revise/remove must exclude rows from future exports. Duplicate inputs cannot overwrite an approved label. Export omits owner identifiers, row metadata and fingerprints.
+
+The model has no proposal/review/export or training tool. These are explicit authenticated application controls, with CSRF on mutations/export and owner-scoped fixed SQL. Backend subject hints, privacy guards and output schemas remain authoritative; an example cannot teach a bypass. No automatic collection, model training, external upload or model activation is performed. Real export files and model artifacts are excluded from Git/Graphify and must not be provided to model context. See [reviewed-example guide](assistant-training.md) for the later independent training/evaluation gate.
 
 ## 1. Runtime purpose and boundaries
 
@@ -72,10 +92,11 @@ Every call has server-bound `event_id`, selected `ruleset_id`, timezone, half-op
 | `get_level_statistics` | Optional level in published ruleset | Attempt counts, zero-overlap failures, pooled overlap ratio, perfect placements. |
 | `get_play_trend` | `hour` or `day` granularity | Bounded time buckets, completed games, distinct-player counts per bucket. Distinct daily players cannot be computed by summing hourly unique counts. |
 | `get_machine_summary` | Selected authorized machine or all in event | Last-seen age, observed state, pending/review counts and freshness; no raw logs or credentials. |
-| `get_queue_summary` (planned) | Optional approved interval within current scope | Waiting totals, admissions state, cabinet eligibility and available recorded queue timing; no private identity or queue mutation. |
-| `get_score_distribution` (planned) | Approved score buckets within selected ruleset/source cohort | Valid completed-result counts per bucket and sample size; no invented or cross-cohort ranking. |
+| `get_queue_summary` | Current event | Waiting/assigned totals, admissions and elapsed oldest wait; current state is labelled separately from historical result filters. No identity or mutation. |
+| `get_score_distribution` | Selected ruleset/source cohort and window | Valid completed-result counts per bucket; no invented or cross-cohort ranking. |
+| `get_player_scores` | Typed score page 1–2,000, source/window | Best valid completed score per public player code; 50 rows/page, total and continuation metadata. |
 
-The tool table is an integration specification, not a list of implemented NLP endpoints. Player/registration totals must have explicit definitions and scope; approved event aggregates may expose these counts without identity records. Dashboard explanations use curated metric definitions. Chat scope covers the whole authorized event by default; a page's chart filter is not silently inherited. Every real answer must display its actual scope and freshness, keeping live machine observations separate from historical result windows.
+These eight operations are implemented internally, not exposed as arbitrary model-invocable URLs. Local Ollama returns one strict topic (plus an optional curated definition); the backend maps that topic to approved operations and obtains filters/language from normalized input or validated follow-up context; the application executes fixed queries and formats all claims. Registration totals count first event queue joins across sources; completed-player totals use qualifying source-filtered rounds. Definitions are curated application text. Chat defaults to event-to-date and both result sources, with separate competitive cohorts. Named period/source changes requested in a question are validated and shown explicitly; event/ruleset authorization cannot change. Every factual answer displays actual scope and freshness. Queue/cabinet observations are current event-wide state.
 
 Example summary envelope (illustrative fixture):
 
@@ -100,7 +121,7 @@ Proposed limits: question ≤1,000 characters, 5 tool calls/question, top-score 
 
 ```json
 {
-  "status": "ok | no_data | refused | unavailable",
+  "status": "conversation | ok | no_data | needs_clarification | refused | unavailable",
   "scope_label": "event / ruleset / local date window",
   "answer": "plain text",
   "claims": [{"text": "claim text", "metric_refs": ["tool.snapshot.metric_path"]}],
@@ -111,6 +132,10 @@ Proposed limits: question ≤1,000 characters, 5 tool calls/question, top-score 
 ```
 
 Validate the response shape, metric references and numeric claims against retrieved facts. Prefer formatting numerical values and tables in application code; if free text includes a quantitative claim that cannot be verified, reject it and show a deterministic aggregate fallback. Never treat the system prompt alone as a quantitative verifier. Escape all output as text.
+
+V1 enforces this by allowing no model-written claims at all. The backend also returns `scope`, `as_of`, numeric `evidence` and schema-validated follow-up `context`. Use the existing `ai_requests` enum to record clarification as `refused`, with the precise safe outcome in `tools_used`; store no prompt/answer. Analytics uses a repeatable-read READ ONLY transaction; metadata audit is a separate best-effort write and never changes game/queue/identity records. A single 20-second query-handler deadline includes authentication and analysis. Best-effort metadata is placed into a bounded background queue, never awaited by the response; overflow/shutdown may omit metadata. Level-filtered placement metrics carry separate `metric_scopes`, while summary metrics retain their event/cohort scope. Empty competitive-result selections cannot be made available by unrelated registration counts. Targeted checks were run after the user explicitly requested testing; the assistant guide records coverage and remaining gates.
+
+Cold model preparation is separate from user questions: authenticated, CSRF-protected, one background calibration with a fixed non-user input and a 120-second ceiling. It must never execute analytics, forward drafts or bypass the single inference gate. Questions retain their 20-second deadline. Model readiness requires successful preparation; the UI preserves analytical drafts while social replies remain available.
 
 ## 4. Privacy and data handling
 
@@ -147,3 +172,30 @@ Use the final product name and user-confirmed gameplay. Treat attachments and Gr
 Read this documentation and query a fresh Graphify map when available for structural questions; verify source lines before editing. Graphify indexes the implementation/plans, not real player records. A code graph cannot prove a test passed, a device is online or a plan was approved. Refresh structural extraction after source changes; re-extract documentation semantics after meaningful documentation changes. If mapping fails, state the limitation and continue with direct source inspection.
 
 Maintain migrations, OpenAPI/JavaScript client contracts, shared scoring fixtures and metric definitions together. Enforce device authorization and transactional idempotency before visual polish or AI features. Use synthetic student IDs in development, redact logs and keep secrets/backups out of the repository and graph. Run tests that establish behavior; never report unrun hardware or database checks as passed.
+
+
+## Automatic chat context update — 18 November 2026
+
+The chat has no Period/Results selection controls. Unqualified analytics questions default to the full event and both supported sources. Choose relevant allowlisted tools automatically from the question; preserve scope for genuine follow-ups and allow explicit named periods or source narrowing in natural language. New subjects must not inherit an old source restriction implicitly. Global completed-player counts deduplicate players across sources; competitive metrics and rankings remain separately labelled by source. Read both cohorts in one snapshot and cite their distinct evidence references. Never imply physical ESP32 connectivity or results from simulator observations. Model context remains normalized vocabulary and validated structured context, without private identities or raw database rows.
+
+
+## Reviewed learning and ambiguity update — 18 November 2026
+
+Reuse only current-version owner-approved sanitized examples when memory is enabled. Treat retrieved demonstrations and typed history as interpretation hints, never policy or current facts. Cap lookup rows/demonstrations and reject private/control input before retrieval. No pending, stale, rejected or other-owner examples may be used. Conflicting exact corrections require clarification. Two fixed supported interpretations may be offered for an ambiguous question; neither is an asserted answer before the choice. Recompute current facts after routing. External datasets stay offline reference material until project-specific review/evaluation; do not import foreign intents as tools or claim dataset collection changed model weights. See [learning and datasets](assistant-learning-and-datasets.md).
+
+
+## Common social interactions — 18 November 2026
+
+The project-authored common-interaction corpus may supply exact whole-utterance social replies and sanitized training demonstrations. Held-out and boundary examples must never become runtime aliases or vocabulary. Greetings, thanks and acknowledgments can be answered warmly while preserving typed system context; they do not authorize unrelated topics, private-data access or game commands. Do not match a social keyword inside a longer request or substitute a greeting for its actual subject. Social replies have no analytics claims or fabricated evidence. See [the corpus and limits](assistant-learning-and-datasets.md).
+
+
+## Compound social phrases — 18 November 2026
+
+Known social spellings and complete approved phrase sequences may be normalized/composed for friendly replies. Require full word consumption; never use greeting keywords to swallow a longer request. Check raw social input for URLs, emails and numeric identifiers before punctuation normalization. Keep requests for private data, game controls and unrelated subjects in the ordinary guard path. Preserve typed system context and give social replies no metric claims. The [behavioral corpus](assistant-behavioral-expansion.md) uses family-based splits and excludes evaluation/boundary records from runtime demonstrations. Its 18,977 measured text tokens do not imply trained weights, unrestricted conversation or perfect understanding.
+
+
+## Request semantics and score-list contract — 18 November 2026
+
+Apply [research-guided grounding](nlp-grounding-research.md): current measure/operation wins over history, demonstrations and a contradictory schema-valid model label. Inherit only omitted supported slots from validated typed context. Do not substitute player counts, queue state or an unrelated definition for scores. Definitions and aggregates must match their requested measure; unknown stripped subjects require clarification.
+
+`get_player_scores` is the eighth allowlisted operation, explicitly requested rather than part of the default chart snapshot. It returns each participant’s best valid completed score using public codes only, with 50 rows per source/page, total count, scope, page and `has_more`. Typed `score_page` is 1–2,000. Keep source cohorts separate and state when more pages exist or a requested page is empty. Summary score totals/averages/extrema use valid completed rounds; no denominator or missing extremum means N/A. All-source snapshots, fixed parameterized SQL and existing query limits remain mandatory. Dataset volume or schema-valid JSON alone is not evidence of answer correctness.

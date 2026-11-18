@@ -4,7 +4,7 @@
 
 ## Current administrator chat addition — 16 November 2026
 
-The admin shell now includes a bottom-fixed **Stack Intelligence** chat dock across all authenticated dashboard pages. It expands into a nonmodal, scrollable chat panel with suggested event/IoT/player/queue/score/trend questions, a multiline composer and clear/minimize controls. It follows the neutral administrator light/dark themes and uses Font Awesome webfonts. Player pages and login do not show it. Replies are explicitly preview placeholders; NLP and live data analysis are future work. See [chat design and future integration](admin-assistant.md) for interaction, privacy and analytical scope. Existing analytics filters do not automatically become chat filters; future responses must show their own scope.
+The admin shell includes a bottom-fixed **Stack Intelligence** chat dock across authenticated dashboard pages. It retains neutral light/dark themes, Font Awesome webfonts, suggested questions, keyboard access and clear/minimize controls. As of 17 November, the preview is connected to local Ollama intent routing and backend factual templates, with period/source selectors, connection status, loading/cancel/retry, clarification and evidence/caveats. Player/login pages never show it. Analytics charts use the same backend calculations with their own explicit filters; chat does not silently inherit page filters. See [current implementation and pending manual validation](admin-assistant.md). Local model setup status is recorded in the linked guide; all application checks remain pending.
 
 15 November 2026 · Derived from the user's attached `original-c72d25d043746bd0b96c1b8a43f7c635.webp` and linked Sourcio shot.
 
@@ -90,3 +90,13 @@ No strong gradients, heavy shadows, glass effects or saturated rainbow charts. U
 Capture screenshots at 1600×1200, 1440×900, 1024×768 and 390×844. Compare desktop composition side by side with the supplied reference: silhouette, two-column ratio, oversized corners, pill rows, lime banner, blue action and gauge. Check with realistic long nicknames, 0 games, full queue, stale device and AI unavailable. Acceptance requires visual review plus actual button/state behavior; numerical token similarity alone is insufficient.
 
 The first frontend implementation now follows this contract with standard Font Awesome font icons and clearly labeled sample data. See ui-iteration-log.md for five review passes across eight pages. The screenshot review does not imply pixel-perfect source-file access or a connected backend.
+
+
+### Stack Intelligence automatic context — 18 November 2026
+
+Remove the chat Period and Results dropdowns. Show a compact, noninteractive note that all available system information is considered and dates/sources can be requested in the message. Keep Check connection, conversation controls, memory and reviewed-example controls. Evidence must distinguish simulator and physical-device statistics. The independent Analytics page keeps its chart controls.
+
+
+### Assistant controls in Settings — 18 November 2026
+
+The administrator navigation now includes **Settings**. Move assistant event/model status, automatic-scope note, connection check, memory toggle/counter/forget action and training management out of the floating chat. Keep the chat header, transcript, composer, necessary loading/errors and expandable evidence. Settings shares state with the chat for the current signed-in session and offers review of the last eligible sanitized answer. Use the existing neutral theme tokens and keep Settings behind administrator authentication. See [implementation and research](nlp-grounding-research.md).

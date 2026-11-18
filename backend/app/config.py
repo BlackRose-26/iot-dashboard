@@ -20,6 +20,9 @@ class Settings:
     simulator_enabled: bool = True
     development: bool = True
     allowed_origins: tuple[str, ...] = ()
+    ai_enabled: bool = True
+    ollama_url: str = 'http://127.0.0.1:11434'
+    ollama_model: str = 'qwen3:4b-instruct'
 
     @classmethod
     def load(cls):
@@ -43,4 +46,7 @@ class Settings:
             simulator_enabled=os.getenv('STACK_SIMULATOR_ENABLED', 'true').lower() == 'true',
             development=os.getenv('STACK_ENV', 'development') == 'development',
             allowed_origins=tuple(value.strip() for value in os.getenv('STACK_ALLOWED_ORIGINS', '').split(',') if value.strip()),
+            ai_enabled=os.getenv('STACK_AI_ENABLED', 'true').lower() == 'true',
+            ollama_url=os.getenv('STACK_OLLAMA_URL', 'http://127.0.0.1:11434'),
+            ollama_model=os.getenv('STACK_OLLAMA_MODEL', 'qwen3:4b-instruct'),
         )

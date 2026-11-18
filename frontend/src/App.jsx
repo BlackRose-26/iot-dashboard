@@ -6,6 +6,7 @@ import Analytics from './pages/Analytics'
 import Queue from './pages/Queue'
 import Sessions from './pages/Sessions'
 import Machines from './pages/Machines'
+import Settings from './pages/Settings'
 import Registration from './pages/Registration'
 import Leaderboard from './pages/Leaderboard'
 import Ticket from './pages/Ticket'
@@ -63,6 +64,7 @@ export default function App() {
           <Route path="queue" element={<Queue />} />
           <Route path="sessions" element={<Sessions />} />
           <Route path="machines" element={<Machines />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
         <Route path="/join/:token" element={<Entry />} />
         <Route path="/register" element={<Registration />} />

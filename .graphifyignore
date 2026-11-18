@@ -34,3 +34,17 @@ backend/.venv/
 frontend/package-lock.json
 
 frontend/public/stack-moko-baby-registration-qr.png
+
+# Private training exports and model artifacts are never project graph inputs.
+*.jsonl
+training-data/
+training-artifacts/
+*.safetensors
+*.gguf
+*.pt
+*.pth
+pytorch_model.bin
+adapter_model.bin
+
+# Routing corpora are read by the application, not semantic graph extraction.
+backend/data/

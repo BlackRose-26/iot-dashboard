@@ -1,0 +1,639 @@
+{
+  "version": "stack-routing-1",
+  "provenance": "Original synthetic Stack Moko Baby routing examples; no real conversations or records.",
+  "examples": [
+    {
+      "id": "overview-1",
+      "family": "overview-1",
+      "split": "train",
+      "question": "Give me an overview of the whole event.",
+      "target": {
+        "topic": "overview"
+      }
+    },
+    {
+      "id": "overview-2",
+      "family": "overview-2",
+      "split": "train",
+      "question": "Kumusta ang carnival?",
+      "target": {
+        "topic": "overview"
+      }
+    },
+    {
+      "id": "overview-3",
+      "family": "overview-3",
+      "split": "test",
+      "question": "Summarize event activity.",
+      "target": {
+        "topic": "overview"
+      }
+    },
+    {
+      "id": "players-1",
+      "family": "players-1",
+      "split": "train",
+      "question": "How many players registered?",
+      "target": {
+        "topic": "players"
+      }
+    },
+    {
+      "id": "players-2",
+      "family": "players-2",
+      "split": "train",
+      "question": "Ilan ang nakatapos na players?",
+      "target": {
+        "topic": "players"
+      }
+    },
+    {
+      "id": "players-3",
+      "family": "players-3",
+      "split": "train",
+      "question": "What is the overall win rate?",
+      "target": {
+        "topic": "players"
+      }
+    },
+    {
+      "id": "players-4",
+      "family": "players-4",
+      "split": "train",
+      "question": "Show average round duration.",
+      "target": {
+        "topic": "players"
+      }
+    },
+    {
+      "id": "players-5",
+      "family": "players-5",
+      "split": "train",
+      "question": "How many game rounds ended in a timeout?",
+      "target": {
+        "topic": "players"
+      }
+    },
+    {
+      "id": "players-6",
+      "family": "players-6",
+      "split": "test",
+      "question": "Show overall overlap accuracy.",
+      "target": {
+        "topic": "players"
+      }
+    },
+    {
+      "id": "queue-1",
+      "family": "queue-1",
+      "split": "train",
+      "question": "How many players are waiting?",
+      "target": {
+        "topic": "queue"
+      }
+    },
+    {
+      "id": "queue-2",
+      "family": "queue-2",
+      "split": "train",
+      "question": "Ilan ang nakapila ngayon?",
+      "target": {
+        "topic": "queue"
+      }
+    },
+    {
+      "id": "queue-3",
+      "family": "queue-3",
+      "split": "test",
+      "question": "Why is the queue stuck?",
+      "target": {
+        "topic": "queue"
+      }
+    },
+    {
+      "id": "machine-1",
+      "family": "machine-1",
+      "split": "train",
+      "question": "Is the ESP32 connected?",
+      "target": {
+        "topic": "machine"
+      }
+    },
+    {
+      "id": "machine-2",
+      "family": "machine-2",
+      "split": "train",
+      "question": "What is the cabinet readiness status?",
+      "target": {
+        "topic": "machine"
+      }
+    },
+    {
+      "id": "machine-3",
+      "family": "machine-3",
+      "split": "test",
+      "question": "Show the recorded cabinet Wi-Fi signal.",
+      "target": {
+        "topic": "machine"
+      }
+    },
+    {
+      "id": "scores-1",
+      "family": "scores-1",
+      "split": "train",
+      "question": "Show the score distribution.",
+      "target": {
+        "topic": "scores"
+      }
+    },
+    {
+      "id": "scores-2",
+      "family": "scores-2",
+      "split": "train",
+      "question": "Paano distributed ang scores?",
+      "target": {
+        "topic": "scores"
+      }
+    },
+    {
+      "id": "scores-3",
+      "family": "scores-3",
+      "split": "test",
+      "question": "What is the average score?",
+      "target": {
+        "topic": "scores"
+      }
+    },
+    {
+      "id": "levels-1",
+      "family": "levels-1",
+      "split": "train",
+      "question": "Which levels are most difficult?",
+      "target": {
+        "topic": "levels"
+      }
+    },
+    {
+      "id": "levels-2",
+      "family": "levels-2",
+      "split": "train",
+      "question": "Show overlap accuracy by level.",
+      "target": {
+        "topic": "levels"
+      }
+    },
+    {
+      "id": "levels-3",
+      "family": "levels-3",
+      "split": "test",
+      "question": "Ilan ang failures sa antas 3?",
+      "target": {
+        "topic": "levels"
+      }
+    },
+    {
+      "id": "trend-1",
+      "family": "trend-1",
+      "split": "train",
+      "question": "When was the busiest hour?",
+      "target": {
+        "topic": "trend"
+      }
+    },
+    {
+      "id": "trend-2",
+      "family": "trend-2",
+      "split": "train",
+      "question": "Show daily game activity.",
+      "target": {
+        "topic": "trend"
+      }
+    },
+    {
+      "id": "trend-3",
+      "family": "trend-3",
+      "split": "test",
+      "question": "Kailan ang pinakamaraming laro sa event?",
+      "target": {
+        "topic": "trend"
+      }
+    },
+    {
+      "id": "top-1",
+      "family": "top-1",
+      "split": "train",
+      "question": "Who has the highest score?",
+      "target": {
+        "topic": "top"
+      }
+    },
+    {
+      "id": "top-2",
+      "family": "top-2",
+      "split": "train",
+      "question": "Show the top 5 players.",
+      "target": {
+        "topic": "top"
+      }
+    },
+    {
+      "id": "top-3",
+      "family": "top-3",
+      "split": "test",
+      "question": "Sino ang nangunguna sa leaderboard?",
+      "target": {
+        "topic": "top"
+      }
+    },
+    {
+      "id": "knowledge-gameplay-1",
+      "family": "knowledge-gameplay-1",
+      "split": "train",
+      "question": "How does the LED matrix game work?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "gameplay"
+      }
+    },
+    {
+      "id": "knowledge-gameplay-2",
+      "family": "knowledge-gameplay-2",
+      "split": "train",
+      "question": "Explain the physical button.",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "gameplay"
+      }
+    },
+    {
+      "id": "knowledge-gameplay-3",
+      "family": "knowledge-gameplay-3",
+      "split": "test",
+      "question": "Paano maglaro ng stacker?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "gameplay"
+      }
+    },
+    {
+      "id": "knowledge-registration-1",
+      "family": "knowledge-registration-1",
+      "split": "train",
+      "question": "How do players join using the QR camera?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "registration"
+      }
+    },
+    {
+      "id": "knowledge-registration-2",
+      "family": "knowledge-registration-2",
+      "split": "train",
+      "question": "Can a player upload the QR image?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "registration"
+      }
+    },
+    {
+      "id": "knowledge-registration-3",
+      "family": "knowledge-registration-3",
+      "split": "test",
+      "question": "Explain registration entry.",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "registration"
+      }
+    },
+    {
+      "id": "knowledge-queue_flow-1",
+      "family": "knowledge-queue_flow-1",
+      "split": "train",
+      "question": "Explain how the waiting line works.",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "queue_flow"
+      }
+    },
+    {
+      "id": "knowledge-queue_flow-2",
+      "family": "knowledge-queue_flow-2",
+      "split": "train",
+      "question": "Does joining the queue start the game?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "queue_flow"
+      }
+    },
+    {
+      "id": "knowledge-queue_flow-3",
+      "family": "knowledge-queue_flow-3",
+      "split": "test",
+      "question": "Who calls the next player?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "queue_flow"
+      }
+    },
+    {
+      "id": "knowledge-architecture-1",
+      "family": "knowledge-architecture-1",
+      "split": "train",
+      "question": "Why does this project use XAMPP?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "architecture"
+      }
+    },
+    {
+      "id": "knowledge-architecture-2",
+      "family": "knowledge-architecture-2",
+      "split": "train",
+      "question": "Describe the React and FastAPI architecture.",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "architecture"
+      }
+    },
+    {
+      "id": "knowledge-architecture-3",
+      "family": "knowledge-architecture-3",
+      "split": "test",
+      "question": "Explain the local Ollama backend.",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "architecture"
+      }
+    },
+    {
+      "id": "knowledge-dashboard-1",
+      "family": "knowledge-dashboard-1",
+      "split": "train",
+      "question": "What charts are on the dashboard?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "dashboard"
+      }
+    },
+    {
+      "id": "knowledge-dashboard-2",
+      "family": "knowledge-dashboard-2",
+      "split": "train",
+      "question": "Which dashboard screens can the admin access?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "dashboard"
+      }
+    },
+    {
+      "id": "knowledge-dashboard-3",
+      "family": "knowledge-dashboard-3",
+      "split": "test",
+      "question": "Can players access the dashboard?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "dashboard"
+      }
+    },
+    {
+      "id": "knowledge-privacy-1",
+      "family": "knowledge-privacy-1",
+      "split": "train",
+      "question": "Why is the student ID private?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "privacy"
+      }
+    },
+    {
+      "id": "knowledge-privacy-2",
+      "family": "knowledge-privacy-2",
+      "split": "train",
+      "question": "How are student IDs encrypted?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "privacy"
+      }
+    },
+    {
+      "id": "knowledge-privacy-3",
+      "family": "knowledge-privacy-3",
+      "split": "test",
+      "question": "Explain privacy protection.",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "privacy"
+      }
+    },
+    {
+      "id": "knowledge-offline-1",
+      "family": "knowledge-offline-1",
+      "split": "train",
+      "question": "Can the system work without internet?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "offline"
+      }
+    },
+    {
+      "id": "knowledge-offline-2",
+      "family": "knowledge-offline-2",
+      "split": "train",
+      "question": "What happens when Ollama is unavailable?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "offline"
+      }
+    },
+    {
+      "id": "knowledge-offline-3",
+      "family": "knowledge-offline-3",
+      "split": "test",
+      "question": "Does simulator readiness prove the ESP32 is connected?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "offline"
+      }
+    },
+    {
+      "id": "knowledge-results-1",
+      "family": "knowledge-results-1",
+      "split": "train",
+      "question": "How are game results validated?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "results"
+      }
+    },
+    {
+      "id": "knowledge-results-2",
+      "family": "knowledge-results-2",
+      "split": "train",
+      "question": "Explain the game leaderboard rules.",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "results"
+      }
+    },
+    {
+      "id": "knowledge-results-3",
+      "family": "knowledge-results-3",
+      "split": "test",
+      "question": "Do simulator and device results stay separate?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "results"
+      }
+    },
+    {
+      "id": "knowledge-assistant-1",
+      "family": "knowledge-assistant-1",
+      "split": "train",
+      "question": "What can Stack Intelligence help with?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "assistant"
+      }
+    },
+    {
+      "id": "knowledge-assistant-2",
+      "family": "knowledge-assistant-2",
+      "split": "train",
+      "question": "What system topics can we discuss?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "assistant"
+      }
+    },
+    {
+      "id": "knowledge-assistant-3",
+      "family": "knowledge-assistant-3",
+      "split": "test",
+      "question": "Describe your assistant capabilities.",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "assistant"
+      }
+    },
+    {
+      "id": "knowledge-memory-1",
+      "family": "knowledge-memory-1",
+      "split": "train",
+      "question": "How does conversation memory work?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "memory"
+      }
+    },
+    {
+      "id": "knowledge-memory-2",
+      "family": "knowledge-memory-2",
+      "split": "train",
+      "question": "Does chat memory retrain model weights?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "memory"
+      }
+    },
+    {
+      "id": "knowledge-memory-3",
+      "family": "knowledge-memory-3",
+      "split": "test",
+      "question": "What do you learn from history?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "memory"
+      }
+    },
+    {
+      "id": "knowledge-training-1",
+      "family": "knowledge-training-1",
+      "split": "train",
+      "question": "How do I review training examples?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "training"
+      }
+    },
+    {
+      "id": "knowledge-training-2",
+      "family": "knowledge-training-2",
+      "split": "train",
+      "question": "What is the approved dataset for?",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "training"
+      }
+    },
+    {
+      "id": "knowledge-training-3",
+      "family": "knowledge-training-3",
+      "split": "test",
+      "question": "Explain system fine-tuning preparation.",
+      "target": {
+        "topic": "knowledge",
+        "knowledge": "training"
+      }
+    },
+    {
+      "id": "definition-accuracy-1",
+      "family": "definition-accuracy-1",
+      "split": "train",
+      "question": "Explain accuracy.",
+      "target": {
+        "topic": "definition",
+        "definition": "accuracy"
+      }
+    },
+    {
+      "id": "definition-accuracy-2",
+      "family": "definition-accuracy-2",
+      "split": "train",
+      "question": "Define overlap accuracy.",
+      "target": {
+        "topic": "definition",
+        "definition": "accuracy"
+      }
+    },
+    {
+      "id": "definition-accuracy-3",
+      "family": "definition-accuracy-3",
+      "split": "test",
+      "question": "What does overlap accuracy mean?",
+      "target": {
+        "topic": "definition",
+        "definition": "accuracy"
+      }
+    },
+    {
+      "id": "definition-win_rate-1",
+      "family": "definition-win_rate-1",
+      "split": "train",
+      "question": "Explain win rate.",
+      "target": {
+        "topic": "definition",
+        "definition": "win_rate"
+      }
+    },
+    {
+      "id": "definition-win_rate-2",
+      "family": "definition-win_rate-2",
+      "split": "train",
+      "question": "How is win rate calculated?",
+      "target": {
+        "topic": "definition",
+        "definition": "win_rate"
+      }
+    },
+    {
+      "id": "definition-win_rate-3",
+      "family": "definition-win_rate-3",
+      "split": "test",
+      "question": "What does game win rate mean?",
+      "target": {
+        "topic": "definition",
+        "definition": "win_rate"
+      }
+    }
+  ]
+}

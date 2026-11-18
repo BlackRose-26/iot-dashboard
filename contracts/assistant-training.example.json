@@ -1,0 +1,16 @@
+{
+  "input": {
+    "safe_tokens": [
+      "hello"
+    ],
+    "language_hint": "en",
+    "previous": null,
+    "prior_contexts": []
+  },
+  "target": {
+    "topic": "social",
+    "definition": null,
+    "knowledge": null,
+    "social": "greeting"
+  }
+}

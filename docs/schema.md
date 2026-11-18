@@ -2,14 +2,14 @@
 
 # Stack Moko Baby — MySQL data model
 
-15 November 2026 · Candidate DDL: [schema.sql](schema.sql). Target: **XAMPP MySQL service — installed MariaDB 10.11.16**, InnoDB, utf8mb4 with `utf8mb4_unicode_ci`. See verification.md for isolated schema checks; the existing XAMPP databases are not modified by this documentation task. Alembic migrations become authoritative during implementation; keep this reference synchronized with them.
+15 November 2026 · Candidate DDL: [schema.sql](schema.sql). Target: **XAMPP MySQL service — installed MariaDB 10.11.16**, InnoDB, utf8mb4 with `utf8mb4_unicode_ci`. See verification.md for earlier isolated schema checks. The additive assistant-memory migration was applied locally on 18 November; existing player/game records were not read or changed by that migration. Versioned SQL files in `backend/migrations` are authoritative for the current local implementation; keep this reference synchronized with them. The older Alembic recommendation is superseded for this implementation.
 
 ## 1. Conventions
 
 - Internal keys: `BIGINT UNSIGNED`; external IDs: application-generated UUID strings with ASCII binary collation. `public_code` is random and unrelated to student ID. Codes are public labels, never authentication credentials.
 - Time: `DATETIME(3)` in UTC, every application connection sets `time_zone='+00:00'`. Convert user-facing ranges from Asia/Manila using timezone-aware application code. Use half-open `[start,end)` ranges; never filter using an assumed host timezone.
 - All foreign keys default to restrictive deletion. Anonymization retains aggregate game evidence; identity cleanup is explicit and transactional.
-- JSON is reserved for immutable rules, bounded device envelopes, safe audit/notification metadata and configuration. Core ranking and identity fields are typed columns.
+- JSON is reserved for immutable rules, bounded device envelopes, safe audit/notification metadata, validated private assistant context/preferences and configuration. Core ranking and identity fields are typed columns.
 - Hash fields are raw 32-byte values. Hash canonical validated payloads using a specified stable JSON serialization, not raw HTTP bytes.
 - MySQL constraints enforce basic integrity; cross-row rules, legal state transitions, immutable rulesets, event authorization and scoring replay remain service responsibilities.
 
@@ -30,6 +30,8 @@ erDiagram
   events ||--o{ outbox_events : publishes
   events ||--o{ ai_requests : scopes
   staff_users ||--o{ audit_logs : performs
+  staff_users ||--o| ai_admin_memory : owns_private_context
+  staff_users ||--o{ ai_training_examples : reviews_routing_examples
 ```
 
 `auth_sessions` binds one private browser session to exactly one player or staff user. `request_receipts` supplies operation-level idempotency without retaining raw registration input.
@@ -39,6 +41,8 @@ erDiagram
 | `events` | Window, timezone, admission status, settings, monotonically increasing revision. |
 | `players` | Public UUID/code, nickname, privacy notice acknowledgment; no student ID. |
 | `student_identities` | One private identity per player; institution-scoped keyed lookup, encrypted ID, nonce/tag/key versions and purge date. |
+| `ai_training_examples` | Private explicit normalized-input/label proposals, review status/revision, context version and timestamps; no raw chat or factual answers. |
+| `ai_admin_memory` | One row per staff account; strict typed context/preferences JSON, optimistic revision and update time. No raw conversation or game metrics. |
 | `staff_users` | Argon2id hash, operator/admin role and enabled flag. |
 | `auth_sessions` | Hashed opaque token and CSRF token, exactly one principal, expiry/revocation. |
 | `rulesets` | Unique version code, canonical config/hash, author; insert-only after publication. |
@@ -159,3 +163,22 @@ Apply DDL to an isolated MariaDB instance matching the installed XAMPP version; 
 ## 8. XAMPP compatibility
 
 The XAMPP **MySQL** button controls MariaDB in the inspected installation. The schema uses `utf8mb4_unicode_ci`, rather than an Oracle-MySQL-specific 0900 collation. MariaDB supports the stored generated columns, CHECK constraints and window functions used here; validate locking and migrations on the actual installed version. MariaDB represents JSON differently from Oracle MySQL, so do not assume binary-JSON storage behavior. [Generated columns](https://mariadb.com/docs/server/reference/sql-statements/data-definition/create/generated-columns), [ROW_NUMBER](https://mariadb.com/docs/server/reference/sql-functions/special-functions/window-functions/row_number).
+
+
+## Private assistant memory — 18 November 2026
+
+[Migration 003](../backend/migrations/003_assistant_memory.sql) adds `ai_admin_memory`: `staff_user_id BIGINT UNSIGNED` primary/foreign key to staff, `state_json JSON`, `revision BIGINT UNSIGNED`, and UTC `updated_at DATETIME(3)`. JSON is validated by the application’s `SavedMemory` schema before use/write: optional current `Context`, at most six recent contexts, nullable `en`/`taglish` and brief/detailed preferences, and a bounded saved-update counter. Context holds allowlisted operation/card names and source/period/level/top selectors, not actual metric values. No message text, private identity, model answer, raw history or training rows exist.
+
+Every read/write is scoped to the authenticated staff account and uses fixed time-limited statements. Writes compare the loaded revision; Forget clears JSON and increments a retained tombstone revision so older in-flight requests cannot reinsert forgotten context. Memory-off bypasses persisted reads/writes. A fresh question must requery authorized analytics; old context is not a factual snapshot. The additive migration was applied locally; persistence, isolation and stale-write behavior were checked against disposable MariaDB databases. Retention beyond user-controlled Forget remains release work.
+
+
+## Reviewed routing examples — 18 November 2026
+
+[Migration 004](../backend/migrations/004_assistant_training.sql) adds `ai_training_examples`: internal ID, random public UUID, authenticated owner FK, sanitized-input deduplication hash, strict input/target JSON, pending/approved/rejected status, optimistic revision, public context/policy version and created/reviewed times. `(staff_user_id,input_hash)` is unique; owner/status/context/id is indexed. The hash is not an identity lookup and is omitted from dataset records. Rows never store the original question, response prose, player records or game metric values.
+
+Quota checks lock the owner account before proposal; review locks the selected owner row and checks revision. Approval also requires confirmation and the current context token. Revisions can invalidate approval; old-context rows require renewed review. Export only reads approved valid current-context owner rows. Rejection excludes; removal deletes from future exports without altering memory or game tables. Queue size is capped at 1,000 per admin with 25-row pages. See [data contract and synthetic validation](assistant-training.md). The additive migration was applied locally; 14 focused workflow cases passed against isolated synthetic fixtures.
+
+
+### Typed score pagination — 18 November 2026
+
+The existing `ai_admin_memory.state_json` validated context now supports `score_page` (integer 1–2,000), expanded curated score definitions and up to 13 named summary metrics. These are bounded interpretation parameters, not stored game results or personal values. Defaults validate older context JSON without a migration. Current schema/prompt fingerprints invalidate old reviewed approvals until re-review. The score-list analytics query uses existing players/game-session tables and public codes, with per-source snapshot paging; no identity table or new DDL is involved. See [research and contract](nlp-grounding-research.md).

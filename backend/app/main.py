@@ -1,4 +1,7 @@
 from datetime import timedelta
+from contextlib import asynccontextmanager
+import asyncio
+from time import monotonic
 import hashlib
 import hmac
 import json
@@ -12,9 +15,13 @@ from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
+from starlette.concurrency import run_in_threadpool
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 from .config import Settings
+from .assistant import Assistant, Question, basic_response, REQUEST_SECONDS
+from .analytics import collect, Period, Source
+from .assistant_training import TrainingStore, Proposal, Review
 from .origins import origin_allowed
 from .database import make_engine, one, all_rows, execute
 from .game import RULES, RULES_HASH, canonical, replay, simulated_result
@@ -24,7 +31,13 @@ from .security import passwords, DUMMY_HASH, now, digest, csrf_for, verify_csrf,
 def create_app(settings=None):
     settings = settings or Settings.load()
     engine = make_engine(settings.database_url)
-    app = FastAPI(title='Stack Moko Baby', docs_url=None, redoc_url=None, openapi_url=None)
+    assistant = Assistant(settings, engine)
+    training = TrainingStore(engine)
+    @asynccontextmanager
+    async def lifespan(_app):
+        try: yield
+        finally: await assistant.close()
+    app = FastAPI(title='Stack Moko Baby', docs_url=None, redoc_url=None, openapi_url=None,lifespan=lifespan)
     app.state.engine = engine
     app.state.settings = settings
 
@@ -191,6 +204,93 @@ def create_app(settings=None):
               'admissionsOpen':event['status']=='open','machineState':machine_state(m,g),'machine':{'lastSeen':m['last_seen_at'].isoformat()+'Z' if m['last_seen_at'] else None,'health':json.loads(m['health'] or '{}'),'firmware':m['firmware_version']},
               'currentPlayer':{'nickname':g['nickname'],'code':g['public_code'],'sessionId':g['public_id'],'source':g['result_source']} if g else None,
               'rounds':rounds(c),'qrPath':'/join/'+qr['token'] if qr else None,'simulatorEnabled':settings.simulator_enabled}
+
+    def assistant_staff(request,write=False):
+        with engine.connect() as c:
+            return subject(c,request,'admin',write=write)['staff_user_id']
+
+    @app.get('/api/admin/assistant/status')
+    async def assistant_status(request:Request):
+        await run_in_threadpool(assistant_staff,request)
+        return await assistant.status()
+
+    @app.get('/api/admin/analytics')
+    def analytics(request:Request,period:Period='event_to_date',source:Source='simulator'):
+        with engine.connect() as c: subject(c,request,'admin')
+        return collect(engine,period,source,simulator_enabled=settings.simulator_enabled)
+
+    @app.post('/api/admin/assistant/prepare')
+    async def assistant_prepare(request:Request):
+        await asyncio.to_thread(assistant_staff,request,True)
+        return await assistant.prepare()
+
+    @app.get('/api/admin/assistant/memory')
+    async def assistant_memory(request:Request):
+        staff_id=await asyncio.to_thread(assistant_staff,request)
+        return await assistant.memory_view(staff_id)
+
+    @app.delete('/api/admin/assistant/memory')
+    async def assistant_forget_memory(request:Request):
+        staff_id=await asyncio.to_thread(assistant_staff,request,True)
+        return await assistant.forget_memory(staff_id)
+
+    @app.get('/api/admin/assistant/training/options')
+    def assistant_training_options(request:Request):
+        assistant_staff(request)
+        return training.options()
+
+    @app.get('/api/admin/assistant/training')
+    def assistant_training_list(request:Request,before:int|None=None):
+        staff_id=assistant_staff(request)
+        return training.list(staff_id,before)
+
+    @app.post('/api/admin/assistant/training')
+    def assistant_training_propose(body:Proposal,request:Request):
+        staff_id=assistant_staff(request,True)
+        return training.propose(staff_id,body)
+
+    @app.patch('/api/admin/assistant/training/{example_id}')
+    def assistant_training_review(example_id:uuid.UUID,body:Review,request:Request):
+        staff_id=assistant_staff(request,True)
+        return training.review(staff_id,str(example_id),body)
+
+    @app.delete('/api/admin/assistant/training/{example_id}')
+    def assistant_training_remove(example_id:uuid.UUID,request:Request):
+        staff_id=assistant_staff(request,True)
+        return training.remove(staff_id,str(example_id))
+
+    @app.post('/api/admin/assistant/training/export')
+    def assistant_training_export(request:Request):
+        staff_id=assistant_staff(request,True)
+        return training.export(staff_id)
+
+    @app.post('/api/admin/assistant/query')
+    async def assistant_query(body:Question,request:Request):
+        async def within_deadline():
+            staff_id=None
+            started=monotonic()
+            try:
+                async with asyncio.timeout(REQUEST_SECONDS):
+                    staff_id=await asyncio.to_thread(assistant_staff,request,True)
+                    return await assistant.ask(body,staff_id,started=started)
+            except asyncio.TimeoutError:
+                if staff_id is None:
+                    raise HTTPException(503,'Sign-in verification took too long. Please retry shortly.')
+                result=basic_response(body,'unavailable','The assistant request reached its time limit. Please retry shortly. Ordinary dashboard functions remain available.','timeout')
+                assistant.enqueue_audit(staff_id,result,'timeout',{},int((monotonic()-started)*1000))
+                return result
+        async def disconnected():
+            while not await request.is_disconnected(): await asyncio.sleep(0.25)
+        answer=asyncio.create_task(within_deadline())
+        disconnect=asyncio.create_task(disconnected())
+        try:
+            done,_=await asyncio.wait([answer,disconnect],return_when=asyncio.FIRST_COMPLETED)
+            if answer in done: return await answer
+            return Response(status_code=499)
+        finally:
+            for task in (answer,disconnect):
+                if not task.done(): task.cancel()
+            await asyncio.gather(answer,disconnect,return_exceptions=True)
 
     @app.post('/api/player/entry')
     def entry(body:Entry,request:Request,response:Response):

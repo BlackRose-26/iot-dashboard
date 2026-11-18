@@ -2,6 +2,10 @@
 
 # Stack Moko Baby — tech stack and architecture
 
+## Local NLP implementation update — 17 November 2026
+
+The admin chat now calls FastAPI for local Ollama intent interpretation using `qwen3:4b-instruct`. Existing pinned HTTPX/Pydantic dependencies handle bounded loopback HTTP and strict schemas; no cloud SDK, vector database or extra NLP dependency is required. Approved vocabulary and typed context reach the model; database rows/raw history never do. A shared MariaDB repeatable-read READ ONLY service powers both deterministic Analytics charts and chat templates. Fixed queries have per-statement limits; existing `ai_requests` stores safe metadata in a separate transaction. Migration 003 adds private structured `ai_admin_memory`; analytics itself adds no table. Status, analytics, preparation, private-memory and query routes are admin-authorized; preparation/query POSTs and memory DELETE require CSRF. A 120-second background calibration handles cold loading, while normal questions retain their 20-second deadline. Ollama returns a strict topic; the backend maps it to approved analytics and selects bilingual factual templates. Ollama availability does not affect ordinary startup/health. See [implementation, contracts, setup and targeted validation](admin-assistant.md). The current Python environment is 3.13; older baseline recommendations below are historical where superseded.
+
 Version 0.1 · 15 November 2026. Recommendations below are engineering decisions for the documented baseline; installed application dependencies must be pinned during scaffolding.
 
 ## 1. Selected stack
@@ -156,3 +160,13 @@ REST snapshots return a revision and generation time. On connect/reconnect, resu
 Structured logs use request/session/command IDs, latency and safe error codes. Redact student IDs, cookies, authorization, encryption keys and AI prompt text. Monitor queue wait, valid results, replay conflicts, pending uploads, stale machines, outbox lag, DB health and AI availability. A dashboard outage cannot interrupt the local active round. AI failure leaves charts and rule-based aggregates available.
 
 Back up before event opening and daily during the event, verify restoration separately, and retain migration/version/firmware hashes with each release. A local PC is a single point of failure; UPS, spare cables/button and printed recovery instructions are appropriate for the showcase. Scale to MQTT/shared pub-sub/cloud only after a demonstrated operational need.
+
+
+## Grounded conversation memory — 18 November 2026
+
+Local inference now routes natural system questions to reviewed public knowledge cards as well as analytic topics and social acts. The backend composes all factual prose; no arbitrary document loading or model-written system facts are allowed. `ai_admin_memory` stores only server-owned, schema-validated topic/filter context and preferences per staff account; recent hints are capped at six. Explicit new subjects override memory, and current metrics always use fresh read-only analytics. Memory persistence is a separate bounded write path, protected by optimistic revisions and empty tombstones on Forget. Raw text, player records and metric values do not enter memory/model context. This is contextual adaptation, not fine-tuning. See the assistant guide for endpoints, migration and actual test evidence.
+
+
+## Reviewed routing dataset preparation — 18 November 2026
+
+A separate `TrainingStore` uses migration 004, owner-scoped fixed SQL and strict normalized-input/routing-target schemas. Chat returns only a volatile candidate; collection requires explicit UI selection and cannot be invoked by the model. Pending/review/approval is distinct from private memory and numerical analytics. Approval requires the latest row revision, explicit review confirmation and the current prompt/normalizer/schema/knowledge/vocabulary version. Export includes only approved current-version samples as role/content JSONL, with no raw transcript, answer or game records. The existing Radix modal and Font Awesome webfonts provide the review UI. No training framework, weight update, cloud service or new Ollama model was added. See [workflow, API and validation](assistant-training.md).

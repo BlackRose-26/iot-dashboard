@@ -6,6 +6,7 @@ import { Logo, IconButton, Modal, Badge } from './ui'
 import { useApp } from '../state/AppContext'
 import { ThemeSwitch } from '../pages/AdminLogin'
 import AdminAssistant from './AdminAssistant'
+import { AssistantProvider } from '../state/AssistantContext'
 
 const tabs = [
   ['overview', 'Overview'],
@@ -13,6 +14,7 @@ const tabs = [
   ['queue', 'Queue'],
   ['sessions', 'Sessions'],
   ['machines', 'Machine'],
+  ['settings', 'Settings'],
 ]
 export function RegistrationQR() {
   const { qrPath } = useApp()
@@ -103,70 +105,72 @@ export default function Shell() {
     return () => clearTimeout(t)
   }, [toast, setToast])
   return (
-    <div className="app-shell">
-      <a className="skip-link" href="#main-content">
-        Skip to content
-      </a>
-      <header className="app-header">
-        <Logo />
-        <nav
-          className={mobileNav ? 'primary-nav open' : 'primary-nav'}
-          aria-label="Main navigation"
-        >
-          {tabs.map(([path, label]) => (
-            <NavLink to={`/admin/${path}`} key={path}>
-              {label}
-            </NavLink>
-          ))}
-        </nav>
-        <div className="header-actions">
-          <ThemeSwitch />
-          <span className="operator-avatar" aria-label={`Signed in as ${admin.username}`}>
-            AD
-          </span>
-          <IconButton label="Sign out" onClick={() => logout().catch((e) => setToast(e.message))}>
-            <i className="fa-solid fa-right-from-bracket" aria-hidden="true" />
-          </IconButton>
-          <IconButton
-            label={mobileNav ? 'Close navigation' : 'Open navigation'}
-            className="mobile-menu"
-            onClick={() => setMobileNav(!mobileNav)}
+    <AssistantProvider>
+      <div className="app-shell">
+        <a className="skip-link" href="#main-content">
+          Skip to content
+        </a>
+        <header className="app-header">
+          <Logo />
+          <nav
+            className={mobileNav ? 'primary-nav open' : 'primary-nav'}
+            aria-label="Main navigation"
           >
-            {mobileNav ? <X size={21} /> : <MenuIcon size={21} />}
-          </IconButton>
+            {tabs.map(([path, label]) => (
+              <NavLink to={`/admin/${path}`} key={path}>
+                {label}
+              </NavLink>
+            ))}
+          </nav>
+          <div className="header-actions">
+            <ThemeSwitch />
+            <span className="operator-avatar" aria-label={`Signed in as ${admin.username}`}>
+              AD
+            </span>
+            <IconButton label="Sign out" onClick={() => logout().catch((e) => setToast(e.message))}>
+              <i className="fa-solid fa-right-from-bracket" aria-hidden="true" />
+            </IconButton>
+            <IconButton
+              label={mobileNav ? 'Close navigation' : 'Open navigation'}
+              className="mobile-menu"
+              onClick={() => setMobileNav(!mobileNav)}
+            >
+              {mobileNav ? <X size={21} /> : <MenuIcon size={21} />}
+            </IconButton>
+          </div>
+        </header>
+        <div className="scope-bar">
+          <span>
+            <span className="scope-dot" />
+            ACS Carnival
+            <ChevronRight size={13} />
+            <span>Classic v1</span>
+          </span>
+          <Badge tone="soft">
+            {machine.health?.source === 'simulator'
+              ? 'Simulator active · no ESP32'
+              : 'Database connected · hardware status below'}
+          </Badge>
         </div>
-      </header>
-      <div className="scope-bar">
-        <span>
-          <span className="scope-dot" />
-          ACS Carnival
-          <ChevronRight size={13} />
-          <span>Classic v1</span>
-        </span>
-        <Badge tone="soft">
-          {machine.health?.source === 'simulator'
-            ? 'Simulator active · no ESP32'
-            : 'Database connected · hardware status below'}
-        </Badge>
+        <main id="main-content" className="main-content">
+          <Outlet />
+        </main>
+        <footer className="app-footer">
+          <Logo compact />
+          <span>Stack Moko Baby · Event operations</span>
+          <span>Private administrator workspace</span>
+        </footer>
+        <AdminAssistant />
+        {toast && (
+          <div className="toast" role="status">
+            <Check size={19} />
+            <span>{toast}</span>
+            <button aria-label="Dismiss notification" onClick={() => setToast('')}>
+              <X size={17} />
+            </button>
+          </div>
+        )}
       </div>
-      <main id="main-content" className="main-content">
-        <Outlet />
-      </main>
-      <footer className="app-footer">
-        <Logo compact />
-        <span>Stack Moko Baby · Event operations</span>
-        <span>Private administrator workspace</span>
-      </footer>
-      <AdminAssistant />
-      {toast && (
-        <div className="toast" role="status">
-          <Check size={19} />
-          <span>{toast}</span>
-          <button aria-label="Dismiss notification" onClick={() => setToast('')}>
-            <X size={17} />
-          </button>
-        </div>
-      )}
-    </div>
+    </AssistantProvider>
   )
 }

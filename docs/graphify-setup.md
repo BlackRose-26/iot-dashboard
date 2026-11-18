@@ -6,7 +6,7 @@ Package selected and verified: **`graphifyy==0.9.109`**, with `watch` and `sql` 
 
 ```text
 D:\iot-dashboard\
-  .tools/graphify-venv/             # Isolated Python environment; do not commit
+  .tools/graphify-py313/             # Isolated Python environment; do not commit
   .codex/skills/graphify/           # Installed project skill and references
   .codex/hooks.json                # Installer's Codex hook registration
   AGENTS.md                        # Graph-first instructions and project guardrails
@@ -44,12 +44,12 @@ The watcher refreshes code on file changes and signals document changes for sema
 Use an installed Python 3.10–3.14 interpreter, then:
 
 ```powershell
-python -m venv .tools\graphify-venv
-.\.tools\graphify-venv\Scripts\python.exe -m pip install 'graphifyy[watch,sql]==0.9.109'
-.\.tools\graphify-venv\Scripts\graphify.exe install --project --platform codex
+python -m venv .tools\graphify-py313
+.\.tools\graphify-py313\Scripts\python.exe -m pip install 'graphifyy[watch,sql]==0.9.109'
+.\.tools\graphify-py313\Scripts\graphify.exe install --project --platform codex
 ```
 
-The setup in this chat uses the desktop app's bundled Python 3.12 because the system `python` alias was not functional. Virtual environments are machine-specific; recreate after moving the folder or removal of the underlying interpreter. Keep the version pinned until an intentional upgrade is verified. Scripts use the explicit environment path, so global PATH changes are unnecessary.
+On 18 November 2026 the launcher was restored using the installed user Python 3.13.17 and a new isolated `.tools/graphify-py313` environment, retaining Graphify 0.9.109. The former environment depended on a bundled Python 3.12 runtime removed by a desktop update; it is no longer used by the project launcher. Virtual environments are machine-specific; recreate after moving the folder or removal of the underlying interpreter. Keep the version pinned until an intentional upgrade is verified. Scripts use the explicit environment path, so global PATH changes are unnecessary.
 
 The project skill loads in Codex when the project is opened/refreshed. No hosted Graphify account, OAuth connection or hosted MCP integration is configured by this local setup. A hosted account cannot directly read this local folder. Local code parsing needs no model API; the host assistant can supply document semantic extraction. An external extraction provider is optional and separate from the game's AI feature.
 

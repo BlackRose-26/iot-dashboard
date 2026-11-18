@@ -46,7 +46,7 @@ function ChartTip({ active, payload, label }) {
     </div>
   )
 }
-export function ActivityChart({ data, rounds = [], large = false }) {
+export function ActivityChart({ data, rounds = [], large = false, granularity = 'hour' }) {
   data =
     data ||
     Array.from({ length: 24 }, (_, hour) => ({
@@ -60,9 +60,9 @@ export function ActivityChart({ data, rounds = [], large = false }) {
     <Card className={`chart-card ${large ? 'span-2' : ''}`}>
       <CardHeader
         title="A good day to stack"
-        subtitle="Completed games throughout the day"
+        subtitle="Completed games in the selected window"
         icon={TrendingUp}
-        action={<Badge>Hourly</Badge>}
+        action={<Badge>{granularity === 'day' ? 'Daily' : 'Hourly'}</Badge>}
       />
       <div className="chart-summary">
         <strong>
@@ -79,7 +79,7 @@ export function ActivityChart({ data, rounds = [], large = false }) {
       <div
         className="chart-frame"
         role="img"
-        aria-label={`${games} completed games by hour. ${data.map((d) => `${d.label}: ${d.games} games and ${d.wins} wins`).join('; ')}`}
+        aria-label={`${games} completed games by ${granularity}. ${data.map((d) => `${d.label}: ${d.games} games and ${d.wins} wins`).join('; ')}`}
       >
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 15, right: 10, bottom: 5, left: -27 }}>
@@ -114,12 +114,12 @@ export function ActivityChart({ data, rounds = [], large = false }) {
           </AreaChart>
         </ResponsiveContainer>
       </div>
-      <p className="chart-footnote">15 Nov 2026 · Asia/Manila · valid completed rounds only</p>
+      <p className="chart-footnote">Asia/Manila · valid completed rounds only</p>
     </Card>
   )
 }
-export function LevelChart({ rounds, large = false }) {
-  const data = levelStatistics(rounds)
+export function LevelChart({ rounds = [], large = false, data: suppliedData }) {
+  const data = suppliedData || levelStatistics(rounds)
   const hardest = [...data].filter((d) => d.attempts >= 20).sort((a, b) => b.rate - a.rate)[0]
   return (
     <Card className={`chart-card ${large ? 'span-2' : ''}`}>
@@ -138,7 +138,7 @@ export function LevelChart({ rounds, large = false }) {
       <div
         className="chart-frame"
         role="img"
-        aria-label={`Failure rate by level. ${data.map((d) => `Level ${d.level}: ${d.rate}% from ${d.attempts} attempts`).join('; ')}`}
+        aria-label={`Failure rate by level. ${data.map((d) => `Level ${d.level}: ${d.rate == null ? 'N/A' : `${d.rate}%`} from ${d.attempts} attempts`).join('; ')}`}
       >
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data} margin={{ top: 15, right: 5, bottom: 5, left: 0 }}>
@@ -160,8 +160,8 @@ export function LevelChart({ rounds, large = false }) {
     </Card>
   )
 }
-export function OutcomesChart({ rounds }) {
-  const stats = summarize(rounds)
+export function OutcomesChart({ rounds = [], stats: suppliedStats }) {
+  const stats = suppliedStats || summarize(rounds)
   const data = [
     { name: 'Wins', value: stats.wins, fill: '#b8cf77' },
     { name: 'No overlap', value: stats.losses - stats.timeouts, fill: '#96b6ff' },
@@ -218,8 +218,8 @@ export function OutcomesChart({ rounds }) {
     </Card>
   )
 }
-export function ScoreChart({ rounds }) {
-  const data = scoreBuckets(rounds)
+export function ScoreChart({ rounds = [], data: suppliedData }) {
+  const data = suppliedData || scoreBuckets(rounds)
   return (
     <Card className="chart-card">
       <CardHeader title="The score spread" subtitle="Completed rounds by points" icon={Clock3} />

@@ -8,11 +8,11 @@ For daily development use the [combined npm startup and troubleshooting guide](l
 
 # Stack Moko Baby — project documentation
 
-Prepared: 15 November 2026 (Asia/Manila). Status: implementation baseline, with proposed parameters explicitly identified. The React JavaScript frontend now uses FastAPI and XAMPP MariaDB for admin authentication, QR entry, private registration and a persistent queue. Physical ESP32 firmware and AI provider integration remain future work.
+Updated: 18 November 2026 (Asia/Manila). Status: implementation baseline with proposed parameters identified. React JavaScript uses FastAPI and XAMPP MariaDB for admin authentication, QR entry, private registration and persistent queueing. Local Ollama NLP routing and verified analytics have targeted unit, local-model and synthetic browser validation. Physical ESP32 firmware and integration remain future work.
 
 Read the current [player flow and access implementation](player-flow-and-access.md) first. It supersedes older preview-only and public-access assumptions.
 
-The administrator workspace also includes a [Stack Intelligence chat design](admin-assistant.md): a sticky bottom panel for future NLP questions about the event, IoT, dashboard, players, queue and scores. Only local preview interaction is implemented; live analysis and model integration remain pending.
+The administrator workspace includes [Stack Intelligence](admin-assistant.md): a sticky system-grounded conversation with local greetings, private per-admin context/preferences memory, and concise Ollama-routed English/Taglish questions about the event, IoT observations, players, queue and scores. Read-only analytics and backend factual templates are implemented. Chat context is automatic: unqualified questions check the full event and both result sources without dropdown selectors, with competitive metrics labelled separately. Local Ollama setup status and instructions are recorded in that document. The [reviewed training-example workflow](assistant-training.md) prepares private approved routing datasets for a later training stage. [Learning and clarification](assistant-learning-and-datasets.md) now reuses current approved examples and offers two interpretations for supported ambiguous questions; it does not train or replace the current model. The [behavioral expansion](assistant-behavioral-expansion.md) fixes compound/concatenated greetings and adds 443 synthetic examples with 18,977 measured text tokens. The [NLP grounding research and settings update](nlp-grounding-research.md) supersedes earlier generic score routing and chat-embedded controls. The assistant guide records the checks actually run and the remaining release/hardware acceptance work.
 
 ## Read in this order
 

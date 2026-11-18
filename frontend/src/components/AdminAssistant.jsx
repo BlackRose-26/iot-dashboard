@@ -1,4 +1,94 @@
 import { useEffect, useRef, useState } from 'react'
+import { useApp } from '../state/AppContext'
+import { api } from '../state/api'
+import { useAssistant } from '../state/AssistantContext'
+
+const answerLabels = {
+  ok: 'From your event data',
+  conversation: 'Let’s chat',
+  no_data: 'No matching data',
+  refused: 'Request declined',
+  needs_clarification: 'Clarification needed',
+  unavailable: 'Temporarily unavailable',
+}
+
+function Evidence({ response }) {
+  const rows = []
+  const sources = [response, ...(response.cohorts || [])]
+  for (const source of sources) {
+    const prefix =
+      source === response
+        ? ''
+        : `${source.scope.source === 'device' ? 'Physical device' : 'Simulator'} · `
+    const start = rows.length
+    for (const [group, values] of Object.entries(source.evidence || {})) {
+      if (group === 'player_scores')
+        values.rows?.forEach((row) =>
+          rows.push([row.public_code, `${row.score} points · level ${row.highest_level}`]),
+        )
+      if (group === 'trend')
+        values.buckets
+          ?.filter((row) => row.games)
+          .sort((a, b) => b.games - a.games)
+          .slice(0, 5)
+          .forEach((row) =>
+            rows.push([row.label, `${row.games} games · ${row.players} distinct players`]),
+          )
+      if (typeof values === 'object' && values && !Array.isArray(values)) {
+        for (const [key, value] of Object.entries(values)) {
+          if (value === null || ['string', 'number', 'boolean'].includes(typeof value))
+            rows.push([
+              `${group} · ${key.replaceAll('_', ' ')}`,
+              value === null ? 'N/A' : String(value),
+            ])
+        }
+      }
+      if (Array.isArray(values))
+        values.forEach((row, index) => {
+          if (group === 'scores') rows.push([`${row.label} points`, `${row.rounds} rounds`])
+          if (group === 'top')
+            rows.push([
+              `Rank ${index + 1} · ${row.public_code}`,
+              `${row.score} points · level ${row.highest_level}`,
+            ])
+          if (
+            group === 'levels' &&
+            row.attempts &&
+            (source.context?.level == null || source.context.level === row.level)
+          )
+            rows.push([
+              `Level ${row.level}`,
+              `${row.failures}/${row.attempts} misses · ${row.rate}% failure · ${row.accuracy == null ? 'N/A' : `${row.accuracy}%`} overlap accuracy`,
+            ])
+        })
+    }
+    for (let i = start; i < rows.length; i++) rows[i][0] = prefix + rows[i][0]
+  }
+  return (
+    <details className="assistant-evidence">
+      <summary>Details & sources</summary>
+      <p>{response.scope_label}</p>
+      <p>
+        As of {new Date(response.as_of).toLocaleString('en-PH', { timeZone: 'Asia/Manila' })} ·
+        Asia/Manila
+      </p>
+      <dl>
+        {rows.map(([label, value]) => (
+          <div key={label}>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+      {response.claims?.map((claim, index) => (
+        <small key={index}>{claim.metric_refs.join(' · ')}</small>
+      ))}
+      {response.caveats?.map((caveat) => (
+        <p key={caveat}>{caveat}</p>
+      ))}
+    </details>
+  )
+}
 
 const suggestions = [
   {
@@ -30,6 +120,20 @@ function Symbol({ name }) {
 }
 
 export default function AdminAssistant() {
+  const { admin, refresh } = useApp()
+  const {
+    useMemory,
+    memoryBusy,
+    setMemory,
+    loadMemory,
+    forgetRevision,
+    service,
+    setService,
+    checkConnection,
+    pending,
+    setPending,
+    setCandidate,
+  } = useAssistant()
   const [open, setOpen] = useState(false)
   const [draft, setDraft] = useState('')
   const [messages, setMessages] = useState([])
@@ -38,14 +142,58 @@ export default function AdminAssistant() {
   const transcript = useRef(null)
   const nextId = useRef(0)
   const returnFocus = useRef(false)
+  const [context, setContext] = useState(null)
+  const [lastRequest, setLastRequest] = useState(null)
+  const activeRequest = useRef(null)
+  const restoreMemory = useRef(true)
+  const memoryMode = useRef(useMemory)
+  useEffect(() => {
+    if (memoryMode.current === useMemory) return
+    memoryMode.current = useMemory
+    cancel()
+    restoreMemory.current = false
+    setContext(null)
+    setLastRequest(null)
+  }, [useMemory])
 
   useEffect(() => {
-    if (open) input.current?.focus({ preventScroll: true })
-    else if (returnFocus.current) {
+    if (!open || !useMemory) return
+    let active = true
+    loadMemory().then((state) => {
+      if (active && restoreMemory.current && state?.context) setContext(state.context)
+      if (active) restoreMemory.current = false
+    })
+    return () => {
+      active = false
+    }
+  }, [open, useMemory, loadMemory])
+  useEffect(() => {
+    if (open) void checkConnection()
+  }, [open, checkConnection])
+  useEffect(() => {
+    if (!forgetRevision) return
+    cancel()
+    setContext(null)
+    setMessages([])
+    setLastRequest(null)
+    setDraft('')
+    restoreMemory.current = false
+  }, [forgetRevision])
+
+  useEffect(
+    () => () => {
+      activeRequest.current?.abort()
+    },
+    [],
+  )
+
+  useEffect(() => {
+    if (open && !pending) input.current?.focus({ preventScroll: true })
+    else if (!open && returnFocus.current) {
       launcher.current?.focus()
       returnFocus.current = false
     }
-  }, [open])
+  }, [open, pending])
 
   useEffect(() => {
     if (open && transcript.current) {
@@ -58,18 +206,75 @@ export default function AdminAssistant() {
     setOpen(false)
   }
 
+  async function send(request, retry = false) {
+    if (activeRequest.current) return
+    const controller = new AbortController()
+    activeRequest.current = controller
+    setLastRequest(request)
+    setPending(true)
+    const userMessage = { id: ++nextId.current, role: 'user', text: request.question }
+    if (!retry) setMessages((previous) => [...previous.slice(-18), userMessage])
+    try {
+      const response = await api('/admin/assistant/query', {
+        method: 'POST',
+        body: request,
+        csrf: admin?.csrf,
+        signal: controller.signal,
+      })
+      if (activeRequest.current !== controller) return
+      const answer = { id: ++nextId.current, role: 'assistant', text: response.answer, response }
+      setMessages((previous) => [...previous.slice(-19), answer])
+      if (response.memory) setMemory(response.memory)
+      setCandidate(response.review_candidate || null)
+      if (response.status === 'conversation') {
+        if (response.reason === 'system_context' || response.reason === 'preference') {
+          setContext(response.context)
+        }
+        setLastRequest(null)
+        setDraft('')
+      } else if (['ok', 'no_data'].includes(response.status)) {
+        setContext(response.context)
+        setService((state) => ({ ...state, available: true, reason: 'ready' }))
+        setLastRequest(null)
+        setDraft('')
+      } else if (response.reason === 'warming') {
+        setService((state) => ({ ...state, available: false, reason: 'warming' }))
+        void checkConnection()
+      } else if (['refused', 'needs_clarification'].includes(response.status)) {
+        setLastRequest(null)
+      }
+    } catch (error) {
+      if (activeRequest.current !== controller) return
+      if (error.name !== 'AbortError') {
+        const failure = {
+          id: ++nextId.current,
+          role: 'assistant',
+          text: error.message,
+          failed: true,
+        }
+        setMessages((previous) => [...previous.slice(-19), failure])
+        if (error.status === 401) void refresh()
+      }
+    } finally {
+      if (activeRequest.current === controller) {
+        activeRequest.current = null
+        setPending(false)
+      }
+    }
+  }
+
+  function cancel() {
+    activeRequest.current?.abort()
+    activeRequest.current = null
+    setPending(false)
+  }
+
   function submit(event) {
     event.preventDefault()
     const question = draft.trim()
-    if (!question) return
-    const userMessage = { id: ++nextId.current, role: 'user', text: question }
-    const previewReply = {
-      id: ++nextId.current,
-      role: 'assistant',
-      text: 'Live analysis is not connected in this design preview. Once connected, I’ll help you explore your event, cabinet health, player activity, queues and results using the available records.',
-    }
-    setMessages((previous) => [...previous.slice(-18), userMessage, previewReply])
-    setDraft('')
+    if (!question || pending || memoryBusy) return
+    restoreMemory.current = false
+    void send({ question, previous: context, use_memory: useMemory })
     input.current?.focus()
   }
 
@@ -102,9 +307,7 @@ export default function AdminAssistant() {
           <Symbol name="comment-dots" />
         </span>
         <span className="assistant-launcher-copy">
-          <strong>
-            Stack Intelligence <span className="assistant-preview">Preview</span>
-          </strong>
+          <strong>Stack Intelligence</strong>
           <span>Ask about your event, IoT, players and scores</span>
         </span>
         <span className="assistant-launcher-action">
@@ -123,19 +326,21 @@ export default function AdminAssistant() {
             <Symbol name="comment-dots" />
           </span>
           <div className="assistant-heading">
-            <h2 id="assistant-title">
-              Stack Intelligence <span className="assistant-preview">Preview</span>
-            </h2>
+            <h2 id="assistant-title">Stack Intelligence</h2>
             <p>Your event, in conversation.</p>
           </div>
           <button
             type="button"
             className="assistant-tool"
-            aria-label="Clear preview conversation"
+            aria-label="Clear conversation"
             title="New conversation"
             onClick={() => {
+              cancel()
+              restoreMemory.current = false
               setMessages([])
               setDraft('')
+              setContext(null)
+              setLastRequest(null)
               input.current?.focus()
             }}
           >
@@ -152,12 +357,12 @@ export default function AdminAssistant() {
           </button>
         </header>
 
-        <div className="assistant-scope">
-          <span>
-            <Symbol name="layer-group" /> ACS Carnival
-          </span>
-          <span>Design preview · Live analysis not connected</span>
-        </div>
+        {service.reason === 'warming' && (
+          <p className="assistant-loading-note" role="status">
+            Loading event analysis; first use can take up to two minutes. You can still say hello or
+            ask what I can help with while it loads.
+          </p>
+        )}
 
         <div
           className="assistant-transcript"
@@ -168,9 +373,9 @@ export default function AdminAssistant() {
         >
           {!messages.length && (
             <div className="assistant-welcome">
-              <span className="eyebrow">THE BIG PICTURE. THE SMALL DETAILS.</span>
-              <h3>What would you like to understand?</h3>
-              <p>From the cabinet to the leaderboard, bring your questions here.</p>
+              <span className="eyebrow">LET’S TALK ABOUT YOUR EVENT</span>
+              <h3>Hi! How can I help?</h3>
+              <p>Say hello, ask a quick question, or choose something below to get started.</p>
               <div className="assistant-suggestions" aria-label="Suggested questions">
                 {suggestions.map(({ icon, label, question }) => (
                   <button key={label} type="button" onClick={() => chooseQuestion(question)}>
@@ -188,19 +393,58 @@ export default function AdminAssistant() {
           <div
             className="assistant-messages"
             role="log"
-            aria-label="Preview conversation"
+            aria-label="Conversation"
             aria-live="polite"
             aria-relevant="additions"
           >
             {messages.map((message) => (
               <div key={message.id} className={`assistant-message is-${message.role}`}>
                 <span className="assistant-message-author">
-                  {message.role === 'user' ? 'You' : 'Stack Intelligence · Preview'}
+                  {message.role === 'user'
+                    ? 'You'
+                    : `Stack Intelligence · ${answerLabels[message.response?.status] || 'Connection problem'}`}
                 </span>
                 <p>{message.text}</p>
+                {message.response?.interpretations?.length === 2 && (
+                  <div
+                    className="assistant-interpretations"
+                    aria-label="Choose the intended meaning"
+                  >
+                    {message.response.interpretations.map((option) => (
+                      <button
+                        type="button"
+                        key={option.question}
+                        disabled={pending || memoryBusy}
+                        onClick={() =>
+                          void send({
+                            question: option.question,
+                            previous: context,
+                            use_memory: useMemory,
+                          })
+                        }
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+                {message.response?.as_of && (
+                  <small className="assistant-caveat">{message.response.scope_label}</small>
+                )}
+                {message.response?.as_of && <Evidence response={message.response} />}
+                {message.response?.knowledge_sources?.map((source) => (
+                  <small className="assistant-caveat" key={source.document}>
+                    System guide · {source.title}
+                  </small>
+                ))}
               </div>
             ))}
           </div>
+          {pending && (
+            <p className="assistant-pending" role="status">
+              Thinking…
+            </p>
+          )}
         </div>
 
         <form className="assistant-composer" onSubmit={submit}>
@@ -212,6 +456,7 @@ export default function AdminAssistant() {
               id="assistant-question"
               ref={input}
               value={draft}
+              disabled={pending}
               onChange={(event) => setDraft(event.target.value)}
               onKeyDown={(event) => {
                 if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
@@ -221,23 +466,41 @@ export default function AdminAssistant() {
               }}
               rows={2}
               maxLength={1000}
-              placeholder="Ask about your event…"
+              placeholder="Say hello, or ask about your event…"
               aria-describedby="assistant-composer-help"
             />
             <button
               className="assistant-send"
               type="submit"
-              disabled={!draft.trim()}
-              aria-label="Send preview message"
-              title="Send preview message"
+              disabled={!draft.trim() || pending}
+              aria-label="Send question"
+              title="Send question"
             >
               <Symbol name="arrow-up" />
             </button>
           </div>
           <div className="assistant-composer-meta" id="assistant-composer-help">
-            <span>Preview only. Keep student IDs and credentials out of chat.</span>
+            <span>
+              Read-only · English / Taglish · Keep student IDs and credentials out of chat.
+            </span>
             <span>{draft.length}/1,000</span>
           </div>
+          {pending ? (
+            <button type="button" className="text-button" onClick={cancel}>
+              Cancel request · keep draft
+            </button>
+          ) : (
+            lastRequest && (
+              <button
+                type="button"
+                className="text-button"
+                disabled={!service.available}
+                onClick={() => void send(lastRequest, true)}
+              >
+                Retry last question
+              </button>
+            )
+          )}
         </form>
       </section>
     </aside>

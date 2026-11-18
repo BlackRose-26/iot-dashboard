@@ -1,6 +1,6 @@
 # Stack Moko Baby backend
 
-FastAPI, SQLAlchemy Core and the local XAMPP MariaDB service. This first implementation supports one event (`acs-day`), one cabinet (`cabinet-01`) and the proposed Classic v1 ruleset. It does not implement ESP32 firmware or AI analytics.
+FastAPI, SQLAlchemy Core and the local XAMPP MariaDB service. This implementation supports one event (`acs-day`), one cabinet (`cabinet-01`) and the proposed Classic v1 ruleset. Local Ollama NLP and read-only analytics have targeted synthetic validation; ESP32 firmware remains deferred. See [AI setup and manual review](../docs/admin-assistant.md).
 
 ## Local startup
 
@@ -44,3 +44,9 @@ backend\.venv\Scripts\python.exe backend\run_browser_tests.py
 ```
 
 For pytest, run from `backend` instead if the project root does not provide the package import path. Browser checks create dedicated API/Vite servers on 8001/5174 and a disposable MariaDB database; application data is not used. The test account and IDs are synthetic. Screenshots are written to `docs/ui-review` and excluded from Git and Graphify.
+
+
+Private assistant memory uses migration `003_assistant_memory.sql`. Existing installations can apply pending migrations with `.\.venv\Scripts\python.exe .\setup_local.py` from `backend` while XAMPP MySQL is running; existing records/credentials are preserved. The current development database has this migration applied. Memory contains only typed topics/preferences, never raw messages or game metrics. GET/DELETE `/api/admin/assistant/memory` are scoped to the signed-in admin; DELETE requires CSRF. See the assistant guide for persistence, forgetting and validation limits.
+
+
+Reviewed routing examples use additive migration `004_assistant_training.sql` (applied on this PC). The private training API supports explicit pending proposals, current-context review/approval, rejection/removal and approved-only JSONL export. It never stores raw chat/answers or game metric values and does not train/activate a model. See [review/export guide](../docs/assistant-training.md).

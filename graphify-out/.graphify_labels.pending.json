@@ -1,13 +1,12 @@
 {
-  "1": "Local React and backend setup",
-  "3": "Current QR player flow and administrator access",
-  "8": "devDependencies",
-  "19": "Documentation index and authority",
-  "23": "Architecture baseline with current implementation override",
-  "27": "Dependency-ordered implementation baseline and current overrides",
-  "32": "Implemented FastAPI XAMPP development backend",
-  "33": "Sourcio-adapted dashboard specification",
-  "34": "Connected React JavaScript frontend and access journey",
-  "35": "MySQL-compatible schema baseline with current migration override",
-  "36": "engines"
+  "14": "test_assistant_training.py",
+  "20": "test_api_answers_scores_not_a_wrong_model_or_saved_subject",
+  "23": "AdminAssistant.jsx",
+  "25": "dev.mjs",
+  "26": "demo.js",
+  "27": "assistant.py",
+  "29": "main.jsx",
+  "31": "test_assistant_interactions.py",
+  "35": "frontend/package.json",
+  "57": "Canonical documentation index and authority"
 }

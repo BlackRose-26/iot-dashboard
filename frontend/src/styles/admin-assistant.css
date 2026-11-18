@@ -1,4 +1,219 @@
 /* The assistant shares the administrator theme; it is never mounted on player pages. */
+.assistant-training-review {
+  display: grid;
+  gap: 14px;
+  max-height: 65vh;
+  overflow-y: auto;
+  padding: 6px 2px;
+  color: var(--ink);
+  font-size: 12px;
+}
+.assistant-training-review > label {
+  display: grid;
+  gap: 6px;
+}
+.assistant-training-review select {
+  max-width: 100%;
+  min-width: 0;
+  padding: 9px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--surface-soft);
+  font: inherit;
+}
+.assistant-training-preview {
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-soft);
+  overflow-wrap: anywhere;
+}
+.assistant-training-preview p {
+  line-height: 1.6;
+  margin: 8px 0;
+}
+.assistant-training-preview small {
+  color: var(--muted);
+}
+.assistant-training-preview summary {
+  cursor: pointer;
+  margin-top: 10px;
+}
+.assistant-training-preview pre {
+  white-space: pre-wrap;
+  font-size: 10px;
+}
+.assistant-training-review > .assistant-training-attestation {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+  line-height: 1.5;
+}
+.assistant-training-review input {
+  accent-color: var(--ink);
+}
+.assistant-training-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+.assistant-review-example {
+  font-size: 10px;
+  margin-top: 10px;
+}
+.assistant-memory-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  padding: 8px 24px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 10px;
+}
+.assistant-memory-controls label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+}
+.assistant-memory-controls input {
+  accent-color: var(--ink);
+}
+.assistant-memory-controls button {
+  margin-left: auto;
+  font-size: 10px;
+}
+.assistant-memory-controls small {
+  font-size: 10px;
+}
+.assistant-loading-note {
+  padding: 10px 24px;
+  background: var(--surface-soft);
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.assistant-context {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 24px;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.assistant-context span {
+  flex: 1 1 220px;
+}
+.assistant-context button {
+  margin-left: auto;
+  font-size: 10px;
+  min-height: 36px;
+}
+.assistant-evidence {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+.assistant-interpretations {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+.assistant-interpretations button {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+.assistant-interpretations button:focus-visible {
+  outline: 2px solid var(--chart-primary);
+  outline-offset: 2px;
+}
+.assistant-interpretations button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.assistant-evidence summary {
+  cursor: pointer;
+  color: var(--ink);
+  padding: 8px 0;
+}
+.assistant-evidence > p {
+  background: transparent;
+  border: 0;
+  padding: 4px 0;
+  font-size: 10px;
+}
+.assistant-evidence dl {
+  margin: 8px 0;
+}
+.assistant-evidence dl > div {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+}
+.assistant-evidence dt {
+  text-transform: capitalize;
+}
+.assistant-evidence dd {
+  margin: 0;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.assistant-evidence small {
+  display: block;
+  margin: 6px 0;
+  font-size: 9px;
+}
+.assistant-caveat {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+  margin-top: 8px;
+}
+.assistant-pending {
+  font-size: 12px;
+  color: var(--muted);
+  padding: 16px 0;
+}
+.assistant-composer > .text-button {
+  margin-top: 10px;
+  font-size: 11px;
+}
+.analytics-scope {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  line-height: 1.7;
+}
+.analytics-assistant-note {
+  padding: 28px;
+  margin: 24px 0;
+}
+.analytics-assistant-note h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.analytics-assistant-note p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
 .app-shell {
   padding-bottom: calc(112px + env(safe-area-inset-bottom, 0px));
 }
