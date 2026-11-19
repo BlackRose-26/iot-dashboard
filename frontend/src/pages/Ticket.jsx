@@ -6,11 +6,13 @@ import { PublicHeader } from './Leaderboard'
 import { Card, Badge, Button, Modal, InfoNote } from '../components/ui'
 import { StackArtwork } from './Registration'
 import { ScanGate } from './Entry'
+import UpdateStatus from '../components/UpdateStatus'
 
 const titles = {
   waiting: 'You’re on the list.',
   called: 'It’s your turn.',
   playing: 'Make it count.',
+  review: 'The operator is checking your round.',
   completed: 'That’s your stack.',
   cancelled: 'Your place was released.',
   expired: 'Your ticket has expired.',
@@ -19,6 +21,7 @@ const waitingMessages = {
   paused: 'The operator has paused the queue. Your place is saved; wait for it to reopen.',
   offline:
     'The cabinet is not ready yet. Your place is saved. Ask the operator to check the cabinet connection.',
+  review: 'The operator is reviewing the cabinet. Your place is saved; please wait for the review to finish.',
   busy: 'The cabinet is handling another round. The operator will call the next player when it is ready.',
   awaiting_operator:
     'The cabinet is ready. Wait for the operator to call the next player; registration does not start a round.',
@@ -112,7 +115,9 @@ export default function Ticket() {
                     ? 'Win or lose, every stack counts. Your score is saved.'
                     : waiting
                       ? 'Keep this page open. Your place updates automatically.'
-                      : 'Check with the operator, or scan the cabinet QR code to join again.'}
+                      : ticket.status === 'review'
+                        ? 'Your round is held for review. Keep this ticket open and ask the operator for help.'
+                        : 'Check with the operator, or scan the cabinet QR code to join again.'}
             </p>
             <StackArtwork />
           </div>
@@ -128,6 +133,7 @@ export default function Ticket() {
             <span className="eyebrow">YOUR PLAYER CODE</span>
             <h2>{ticket.code}</h2>
             <p className="ticket-nickname">Hey, {ticket.nickname}.</p>
+            <UpdateStatus />
             <div className="ticket-divider" />
             <div className="ticket-position" role="status" aria-live="polite" aria-atomic="true">
               <span>
@@ -141,7 +147,9 @@ export default function Ticket() {
                       ? 'Round in progress'
                       : waiting
                         ? 'Your place in line'
-                        : 'Ticket closed'}
+                        : ticket.status === 'review'
+                          ? 'Waiting for the operator'
+                          : 'Ticket closed'}
               </span>
               <strong>
                 {completed ? (
@@ -165,7 +173,9 @@ export default function Ticket() {
                       ? 'The cabinet is reserved for you.'
                       : playing
                         ? 'Timing stays on the cabinet.'
-                        : 'Scan the QR for another turn.'}
+                        : ticket.status === 'review'
+                          ? 'Your reservation is held. Please speak with the operator.'
+                          : 'Scan the QR for another turn.'}
               </p>
             </div>
             {waiting && (

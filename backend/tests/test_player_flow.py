@@ -58,6 +58,14 @@ def post(admin,path,body=None,key=None):
     return admin.post(path,json=body,headers={'Idempotency-Key':key or str(uuid.uuid4())})
 
 
+def accept_command(device):
+    command=device.get('/api/device/commands').json()['commands'][0]
+    response=device.post(f"/api/device/commands/{command['id']}/ack",json={
+        'sessionId':command['sessionId'],'expectedRevision':command['expectedRevision'],'status':'accepted'})
+    assert response.status_code==200,response.text
+    return command
+
+
 def test_access_control_csrf_and_privacy(environment):
     app,admin,token,engine,settings=environment
     guest=TestClient(app)
@@ -135,6 +143,7 @@ def test_device_result_replay_and_cohort_separation(environment):
     assert TestClient(app).post('/api/device/heartbeat',json={'state':'ready','firmware':'test'}).status_code==401
     assert device.post('/api/device/heartbeat',json={'state':'ready','firmware':'test','rssi':-55}).status_code==200
     session=post(admin,'/api/admin/queue/call-next').json()['sessionId']
+    accept_command(device)
     assert device.post(f'/api/device/sessions/{session}/start').status_code==200
     payload=simulated_result('loss')
     with engine.begin() as c:
@@ -145,8 +154,10 @@ def test_device_result_replay_and_cohort_separation(environment):
     assert device.post(f'/api/device/sessions/{session}/result',json=bad).status_code==422
     result=device.post(f'/api/device/sessions/{session}/result',json=payload)
     assert result.status_code==200,result.text
+    completed_revision=p.get('/api/player/context').json()['revision']
     assert device.post(f'/api/device/sessions/{session}/result',json=payload).json()==result.json()
     assert device.post(f'/api/device/sessions/{session}/result',json=dict(payload,terminalId=str(uuid.uuid4()))).status_code==409
+    assert p.get('/api/player/context').json()['revision']==completed_revision
     assert p.get('/api/player/leaderboard').json()['source']=='device'
 
 

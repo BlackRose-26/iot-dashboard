@@ -2,9 +2,23 @@
 
 # Stack Moko Baby — step-by-step build plan
 
-15 November 2026 · Dependency-ordered implementation baseline
+19 November 2026 · Current implementation and remaining acceptance gates
 
-This task delivers planning documents and Graphify setup. The initial frontend pages in step 6 are now implemented as a local sample-data preview; backend, identity security, hardware and live integration steps remain future work. Effort estimates are rough engineering estimates for a small student team, excluding procurement, unfamiliar-tool learning and institution approvals; use exit gates rather than dates as proof of completion.
+The application now has a React JavaScript frontend, FastAPI backend, XAMPP/MariaDB migrations, private QR registration/tickets, transactional FIFO assignment, score replay, admin views and local Ollama analytics. Browser live synchronization is implemented below. Earlier milestone notes describe their dates, not the current whole application. Numeric rules remain proposals until play-tested. Estimates are rough; acceptance evidence determines completion.
+
+| Step | Current state | Remaining gate |
+|---|---|---|
+| 0, 2 | Proposed rules and deterministic backend replay/simulator exist | ESP32/panel, wiring, local firmware engine, latency/playability |
+| 1 | Repeatable npm startup, database setup and Graphify installed | Release packaging and final operational checks |
+| 3 | Staff sessions, encrypted identity and private player access implemented | Distinct operator/admin permissions, staffed recovery, retention/rotation and trusted phone HTTPS |
+| 4 | FIFO locking, durable reservations, polling/ACK receipts, emulator and review-hold diagnostics implemented | Trusted boot/terminal reconciliation, no-show evidence and guarded resolution UI |
+| 5 | Backend trace replay and atomic result/notification/outbox commit implemented | Firmware journal, reboot/power-cut tests and physical integration |
+| 6 | Reference-based admin/player pages, settings and real analytics implemented | Hardware telemetry, reconciliation forms and final release accessibility review |
+| 7 | Authorized live hints, snapshots, reconnect and polling implemented | Actual process-kill recovery, 50-browser/LAN measurements and phone WSS |
+| 8 | Local conversational Ollama routing, verified tools, private memory and reviewed examples implemented | Full release-policy evaluation; actual fine-tuning remains deferred |
+| 9 onward | Release/operations work remains | Follow the exit gates below; no hardware completion is claimed |
+
+Next independent work: trusted boot/session/terminal reconciliation with emulator recovery tests, then guarded operator resolution of review holds. Command polling/ACKs and conservative review holds are implemented. See the [verified remaining-work audit](remaining-work.md); identity/retention and release-failure testing can also proceed without hardware. Physical ESP32 work still waits for available hardware.
 
 ## 0. Resolve physical and operational constraints — 0.5–1 day
 
@@ -49,11 +63,13 @@ Confirm student-ID format, identity recovery owner, retention settings, event ru
 
 ## 4. Implement queue and transactional session assignment — 1–2 days
 
+**Command milestone, 19 November 2026:** [device delivery and review holds](device-command-delivery.md) now provides read-only polling, durable accepted/rejected receipts, idempotent retries, receipt-required start, a file-journal emulator and admin/private-player review states. Full suite: 213 backend and 36 frontend checks; build, synthetic Brave and targeted axe checks passed. Lost-ACK replay after API/emulator recreation is checked; actual process termination, physical firmware/NVS and release of uncertain rounds remain pending. No migration or database reset is required.
+
 1. Build queue join/cancel/position endpoints and FIFO query. Duplicate submissions reuse a live ticket.
 2. Provision machine credentials out of band; store hashes. Build fresh-heartbeat eligibility and maintenance/admission states.
 3. Implement event → machine → queue → session lock order, one active-session unique constraint, reservation command creation and operation receipts.
-4. Add device command polling/acknowledgment, expected revision and idempotent delivery. Persist commands before exposing them.
-5. Implement no-show expiry only after device-confirmed non-start; uncertain state enters review and retains the lock.
+4. Implemented: device command polling/acknowledgment, expected revision, canonical receipt hashes and idempotent delivery. Commands commit before delivery; the emulator persists before ACK. Actual firmware persistence remains unverified.
+5. Partially implemented: rejected/expired reservations and explicit staff review retain the cabinet and ticket. Device-confirmed non-start resolution and the guarded release flow remain pending; no timer silently frees a physical-device round.
 
 **Exit:** AC-02/AC-06/AC-10 concurrency and race fixtures pass; repeated command delivery produces one reserved round.
 
@@ -70,7 +86,7 @@ Confirm student-ID format, identity recovery owner, retention settings, event ru
 ## 6. Implement reference-matched web views — 2–3 days
 
 1. Build CSS tokens and reusable rounded card, pill row, circle control, blue tile, gauge and state badge from [dashboard-design.md](dashboard-design.md).
-2. Implement mobile QR registration, private ticket and result, then public event/ruleset leaderboard. Use synthetic identity fixtures.
+2. Implement mobile QR registration, private ticket/result and post-completion player leaderboard. The leaderboard is not public. Use synthetic identity fixtures.
 3. Build overview in the reference's two-column silhouette with lime banner, left list and right live gauge/operations tray. Build Queue, Sessions and Machines details using the same design language.
 4. Add pending/accepted/applied command status, review lock reasons, safe abort/invalidation forms and clear stale/empty/error states.
 5. Implement deterministic aggregate endpoints with timezone/ruleset filters and documented denominators. Avoid charts for nonexistent sensor data.
@@ -80,10 +96,12 @@ Confirm student-ID format, identity recovery owner, retention settings, event ru
 
 ## 7. Add durable live updates — 0.5–1 day
 
-1. Implement outbox dispatcher and authorized public/player/staff channels. Emit only safe post-commit notifications with event revisions.
-2. Client subscribes and refreshes snapshots, deduplicates IDs and refetches on gaps/reconnect. Include fallback polling and last-updated indicators.
-3. Restart API between result commit and dispatch; verify refresh eventually arrives. Disconnect/reconnect browser mid-round; no stale action or duplicate ranking.
-4. Load-test proposed 50 browsers and capture API/live-update latency; tune only after measurement. Keep one API worker until shared notification routing is implemented.
+**Implemented, 19 November 2026:** [durable browser updates](live-updates.md) records the protocol, recovery guarantees, actual checks and limits. Full checks: 197 backend tests, 33 frontend tests, Vite production build and synthetic Brave flows passed. The later [quality audit](quality-audit.md) adds an actual process kill/restart, 50 loopback browser clients and synthetic restore. Hardware and event-LAN gates remain open.
+
+1. Implemented: transactional global event revisions, bounded outbox dispatcher and separate authenticated staff/player endpoints. There is no unauthenticated stream; frames contain only type/revision.
+2. Implemented: subscribe then fetch coherent snapshots, deduplicate revisions, refetch on gaps/reconnect, coalesce in-flight refreshes, reject older views, poll at 2 seconds on fallback/15 seconds live, and display last-updated indicators. Analytics and completed-player leaderboards refresh on revisions.
+3. Local release exercise completed: force-terminate the actual test API after result commit with outbox dispatch deferred, restart it, recover the browser result, then replay the identical terminal payload. One completed round and one notification remain. Hardware power failure/reconciliation is a separate open gate.
+4. Local exercise completed with 50 independent browser sessions and 250 context requests at concurrency 20. See measured latencies in the audit. Run the event-LAN/phone load test separately; loopback is not that acceptance gate. Keep one API worker until shared notification routing is implemented.
 
 **Exit:** AC-07/AC-09 meet measured LAN targets; restarting API cannot erase a committed result or durable command.
 
@@ -125,3 +143,7 @@ Confirm student-ID format, identity recovery owner, retention settings, event ru
 Steps 1 and the pure engine in 2 can progress independently of enclosure fabrication. Identity/schema precede queue and device integration; verified results precede rankings and AI. UI components can be built with labeled fixtures while APIs mature. Adaptive difficulty is deferred until the fixed ruleset, reliability and fairness are demonstrated; any later adaptive mode gets a separate leaderboard cohort.
 
 Estimated total: roughly 11–20 focused working days for a small team, subject to hardware availability and experience. This is a planning range, not a delivery commitment.
+
+## Quality audit — 19 November 2026
+
+The [cross-system audit](quality-audit.md) fixes confirmed request/authentication, QR, game-duration, cabinet-state, chart, async-state and NLP-scope defects. It records executed checks and remaining limitations. Current authorisation ends at this audit; do not automatically start reconciliation or the other new roadmap features. Proposed numeric game settings remain subject to physical play-testing.

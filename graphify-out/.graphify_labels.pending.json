@@ -1,12 +1,9 @@
 {
-  "14": "test_assistant_training.py",
-  "20": "test_api_answers_scores_not_a_wrong_model_or_saved_subject",
-  "23": "AdminAssistant.jsx",
-  "25": "dev.mjs",
-  "26": "demo.js",
-  "27": "assistant.py",
-  "29": "main.jsx",
-  "31": "test_assistant_interactions.py",
-  "35": "frontend/package.json",
-  "57": "Canonical documentation index and authority"
+  "7": "analytics.py",
+  "14": "test_device_commands.py",
+  "32": "Current QR player flow and administrator access",
+  "35": "Context",
+  "38": "Canonical documentation index and authority",
+  "41": "test_assistant_generalization.py",
+  "43": "routing"
 }

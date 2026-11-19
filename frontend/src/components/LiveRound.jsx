@@ -19,6 +19,7 @@ export const stateLabels = {
   ready: 'Ready',
   offline: 'Offline',
   pending: 'Result pending',
+  review: 'Review required',
   reserved: 'Player called',
 }
 export function Matrix({ large = false, level = 7 }) {
@@ -85,7 +86,7 @@ export function Gauge({ state = 'offline' }) {
           <span className="gauge-state-icon">
             {state === 'offline' ? (
               <WifiOff size={34} />
-            ) : state === 'pending' ? (
+            ) : ['pending', 'review'].includes(state) ? (
               <LoaderCircle size={34} />
             ) : (
               <CheckCircle2 size={34} />
@@ -99,9 +100,11 @@ export function Gauge({ state = 'offline' }) {
                 ? 'Ready for the next stack'
                 : state === 'reserved'
                   ? 'Press the cabinet button'
-                  : state === 'pending'
-                    ? 'Waiting for score acknowledgment'
-                    : 'Waiting for a fresh heartbeat'}
+                  : state === 'review'
+                    ? 'The operator is checking this round'
+                    : state === 'pending'
+                      ? 'Waiting for score acknowledgment'
+                      : 'Waiting for a fresh heartbeat'}
           </span>
         </>
       </div>
@@ -116,13 +119,15 @@ export default function LiveRound() {
     ? 'Admissions paused'
     : machineState === 'offline'
       ? 'Machine offline'
-      : machineState === 'pending'
-        ? 'Result pending'
-        : !isReady
-          ? 'Round in progress'
-          : !queue.length
-            ? 'Queue empty'
-            : ''
+      : machineState === 'review'
+        ? 'Operator review required'
+        : machineState === 'pending'
+          ? 'Result pending'
+          : !isReady
+            ? 'Round in progress'
+            : !queue.length
+              ? 'Queue empty'
+              : ''
   return (
     <>
       <Card className="live-card">

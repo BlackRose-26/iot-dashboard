@@ -47,6 +47,7 @@ function ChartTip({ active, payload, label }) {
   )
 }
 export function ActivityChart({ data, rounds = [], large = false, granularity = 'hour' }) {
+  const fromSavedRounds = data == null
   data =
     data ||
     Array.from({ length: 24 }, (_, hour) => ({
@@ -60,7 +61,11 @@ export function ActivityChart({ data, rounds = [], large = false, granularity = 
     <Card className={`chart-card ${large ? 'span-2' : ''}`}>
       <CardHeader
         title="A good day to stack"
-        subtitle="Completed games in the selected window"
+        subtitle={
+          fromSavedRounds
+            ? 'By event-local hour across saved rounds'
+            : 'Completed games in the selected window'
+        }
         icon={TrendingUp}
         action={<Badge>{granularity === 'day' ? 'Daily' : 'Hourly'}</Badge>}
       />
@@ -132,7 +137,7 @@ export function LevelChart({ rounds = [], large = false, data: suppliedData }) {
       <div className="chart-summary">
         <strong>
           {hardest ? `Level ${hardest.level}` : 'Not enough data'}
-          <span>{hardest ? ' is the toughest' : ''}</span>
+          <span>{hardest ? ' is the toughest' : ' · 20+ attempts per level to compare'}</span>
         </strong>
       </div>
       <div
@@ -209,7 +214,9 @@ export function OutcomesChart({ rounds = [], stats: suppliedStats }) {
               </span>
               <strong>
                 {d.value}
-                <small>{stats.games ? Math.round((d.value / stats.games) * 100) : 0}%</small>
+                <small>
+                  {stats.games ? `${Math.round((d.value / stats.games) * 100)}%` : 'N/A'}
+                </small>
               </strong>
             </div>
           ))}

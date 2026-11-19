@@ -73,7 +73,7 @@ export default function App() {
           <Route path="/ticket" element={<Ticket />} />
         </Route>
         <Route element={<PlayerOnly completed />}>
-          <Route path="/leaderboard/:eventCode" element={<Leaderboard />} />
+          <Route path="/leaderboard/acs-day" element={<Leaderboard />} />
         </Route>
         <Route
           path="*"

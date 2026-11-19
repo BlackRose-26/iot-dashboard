@@ -21,7 +21,7 @@ Admin → Registration QR → scan on a separate browser/phone → register → 
 
 The admin Machine page contains a **development simulator**: set it ready, call the next player on Queue, start the test round, then choose win or loss. Simulator results are stored with their source and use a separate player leaderboard from device results. Set `STACK_SIMULATOR_ENABLED=false` for real events. An ESP32 must implement the documented authenticated heartbeat/start/result contract before physical rounds work.
 
-On-page status and result alerts work while the ticket is open. Browser notifications are optional, requested by a button, require browser support/permission and usually HTTPS. Closed-tab push, SMS and email notifications are not implemented. Background browser polling may be throttled; returning to the page refreshes its state. Tickets and notifications are fetched every two seconds; no WebSocket server is claimed.
+On-page status and result alerts work while the ticket is open. Browser notifications are optional, requested by a button, require browser support/permission and usually HTTPS. Closed-tab push, SMS and email notifications are not implemented. Background tabs may be throttled; returning refreshes state. Authenticated staff/player WebSockets now emit revision-only invalidations from a durable outbox. Snapshots use repeatable-read consistency; fallback polling is two seconds (15 seconds while live). Run one API worker; no public stream exists. See [protocol, validation and pending release gates](../docs/live-updates.md).
 
 For phones, set `STACK_PUBLIC_URL` and optional frontend `VITE_PUBLIC_BASE_URL` to a reachable event address and restart services. The QR dialog also lets an operator select that public base address. Both phone and computer must reach the same service; `127.0.0.1` points to each device itself. Use a trusted HTTPS reverse proxy and `STACK_COOKIE_SECURE=true` before collecting real IDs over the network. Local HTTP is for development with dummy identities. Firewall and router configuration are not automatically changed.
 
@@ -50,3 +50,26 @@ Private assistant memory uses migration `003_assistant_memory.sql`. Existing ins
 
 
 Reviewed routing examples use additive migration `004_assistant_training.sql` (applied on this PC). The private training API supports explicit pending proposals, current-context review/approval, rejection/removal and approved-only JSONL export. It never stores raw chat/answers or game metric values and does not train/activate a model. See [review/export guide](../docs/assistant-training.md).
+
+
+## Device command contract — 19 November 2026
+
+`GET /api/device/commands` and `POST /api/device/commands/{commandUuid}/ack` now provide authenticated, repeatable delivery and durable canonical receipt deduplication. A physical-device start requires its accepted non-expired reservation receipt. Legacy device clients that skipped this step must update; simulator controls remain separate. Rejection/expiry and explicit staff review retain the assignment; guarded reconciliation/release remains future work. The Machine page shows safe command metadata and review holds. See [full contract, emulator and actual checks](../docs/device-command-delivery.md), [remaining-work audit](../docs/remaining-work.md) and [synthetic contract](../contracts/device-command.example.json).
+
+
+## Quality checks — disposable data only
+
+From the project root, after installing dependencies and starting XAMPP MySQL:
+
+```powershell
+cd backend
+.\.venv\Scripts\python.exe -m pytest tests -q
+.\.venv\Scripts\python.exe run_browser_tests.py
+.\.venv\Scripts\python.exe check_assistant_quality.py
+npm --prefix ../frontend run build
+.\.venv\Scripts\python.exe check_quality.py
+```
+
+The browser and runtime exercises need free dedicated ports 8001/5174, an installed Edge/Brave browser and Node (optional overrides: `STACK_TEST_NODE`, `STACK_TEST_BROWSER_PATH`). They create/drop only generated `stack_moko_test_<10 hex>` databases and do not touch the configured event database. `check_quality.py` uses the XAMPP dump/restore binaries at their standard `C:/xampp/mysql/bin` location and removes its uniquely named synthetic dump. `check_assistant_quality.py` uses the configured local Ollama model and exits unsuccessfully if a regression case fails; it does not train a model. Do not run both server-owning exercises concurrently. See [audit results and limits](../docs/quality-audit.md).
+
+Health now verifies schema/migration/configuration readiness. Pending migrations use the normal setup command without resetting existing records. New public hostnames must be explicitly configured in `STACK_PUBLIC_URL`/`STACK_ALLOWED_ORIGINS`; a reflected Host header is not trusted. JSON bodies are limited to 64 KiB and malformed Unicode/unknown fields are rejected safely.

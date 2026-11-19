@@ -1,0 +1,49 @@
+{
+  "note": "Synthetic field shapes. These commands come from a committed operator reservation; do not fabricate IDs, hashes or rules.",
+  "authentication": "X-Device-Token header, provisioned privately for the cabinet",
+  "poll": {
+    "method": "GET",
+    "path": "/api/device/commands",
+    "response": {
+      "commands": [
+        {
+          "id": "00000000-0000-4000-8000-000000000001",
+          "type": "reserve",
+          "sessionId": "00000000-0000-4000-8000-000000000002",
+          "expectedRevision": 1,
+          "expiresAt": "2026-11-19T00:03:00Z",
+          "rules": "Actual response contains the immutable rules object",
+          "rulesHash": "Actual response contains its SHA-256 hash"
+        }
+      ],
+      "reviewRequired": false,
+      "activeSessionId": "00000000-0000-4000-8000-000000000002"
+    }
+  },
+  "receipt": {
+    "method": "POST",
+    "path": "/api/device/commands/{commandUuid}/ack",
+    "body": {
+      "sessionId": "00000000-0000-4000-8000-000000000002",
+      "expectedRevision": 1,
+      "status": "accepted"
+    },
+    "response": {
+      "ok": true,
+      "commandId": "00000000-0000-4000-8000-000000000001",
+      "status": "accepted"
+    }
+  },
+  "rejection": {
+    "status": "rejected",
+    "rejectionCode": "storage_failed",
+    "otherAllowedCodes": ["not_ready", "busy", "rules_mismatch"]
+  },
+  "requiredOrder": [
+    "Persist the received command locally",
+    "Send and retry the identical receipt",
+    "Physical readiness button then start request",
+    "Persist and upload terminal evidence"
+  ],
+  "limits": "No boot/journal reconciliation or automatic release is implemented. Unknown state stays held for review. Polling is read-only. Simulator commands are never delivered to this endpoint."
+}

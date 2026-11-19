@@ -1,5 +1,6 @@
 -- Stack Moko Baby candidate schema: XAMPP MariaDB 10.11 / MySQL-compatible InnoDB.
--- Apply only to an empty development database; migrate with Alembic thereafter.
+-- Design baseline only, not the current installation script. Use backend/setup_local.py
+-- and the ordered backend/migrations SQL files for the implemented schema.
 -- This file does not provision users or contain real player data.
 CREATE DATABASE IF NOT EXISTS stack_moko_baby
   CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

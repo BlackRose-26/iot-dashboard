@@ -2,6 +2,7 @@
   "note": "Synthetic field-shape example only. Generate a rules-matching trace using backend/app/game.py; the placeholder hash is not a valid submission.",
   "method": "POST",
   "path": "/api/device/sessions/{sessionUuid}/result",
+  "prerequisite": "Persist and acknowledge the reservation via /api/device/commands/{commandUuid}/ack before submitting the valid session start. See device-command.example.json.",
   "authentication": "X-Device-Token (private server configuration; never put a real value here)",
   "body": {
     "terminalId": "00000000-0000-4000-8000-000000000001",

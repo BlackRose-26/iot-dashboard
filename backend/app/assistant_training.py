@@ -7,7 +7,7 @@ import uuid
 from fastapi import HTTPException
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator, model_validator
 
-from .assistant import Context, Definition, NORMALIZATION_VERSION, POLICY, PROMPT, RoutingPlan, TAGLISH_HINTS, VOCABULARY, normalize
+from .assistant import Context, Definition, DEFINITIONS, NORMALIZATION_VERSION, POLICY, PROMPT, RoutingPlan, TAGLISH_HINTS, VOCABULARY, normalize
 from .assistant_knowledge import KNOWLEDGE, Knowledge, Social
 from .analytics import Period, ChatSource
 from .database import all_rows, execute, one
@@ -88,7 +88,7 @@ def canonical(value):
 
 def context_version():
     from .assistant_learning import corpus_digest
-    public = {'policy':POLICY,'normalizer':NORMALIZATION_VERSION,'prompt':PROMPT,'knowledge':KNOWLEDGE,'vocabulary':sorted(VOCABULARY),
+    public = {'policy':POLICY,'normalizer':NORMALIZATION_VERSION,'prompt':PROMPT,'knowledge':KNOWLEDGE,'definitions':DEFINITIONS,'vocabulary':sorted(VOCABULARY),
               'routing_corpus':corpus_digest(),
               'input_schema':TrainingInput.model_json_schema(),'target_schema':RoutingPlan.model_json_schema()}
     return hashlib.sha256(canonical(public).encode()).hexdigest()

@@ -25,8 +25,16 @@ Rules:
 
 ## Frontend implementation conventions
 
+- Use locally bundled Open Sans Variable for application text through the shared foundation; retain Font Awesome webfonts for symbols.
+
 - Implement the app in D:\iot-dashboard\frontend using React JavaScript/JSX. All UI symbols use locally hosted Font Awesome Free webfonts through src/components/icons.jsx; do not introduce SVG icon libraries or SVG icon assets. Chart graphics may use Recharts.
 - Reuse src/styles/foundation.css and components/ui.jsx for consistency. Preserve the supplied Sourcio composition. See docs/ui-research.md and docs/ui-iteration-log.md for design research and review evidence.
 - FastAPI and XAMPP queue/auth integration now exist. Physical ESP32 firmware is not connected. Label simulator data explicitly; never present it as physical device data. Admin UI uses neutral light/dark themes; player UI retains the reference palette. Student IDs must not be persisted in frontend storage or public ticket data. Read docs/player-flow-and-access.md.
 
 - Player scanning uses the html5-qrcode API for camera and file input; do not replace it with a custom decoder. Read docs/qr-scanner.md for the decoded-content entry contract and limits.
+
+## Auto-continue and pause
+
+- While implementation is active, automatically continue the next ready tasks within the user's authorized scope in docs/implementation-plan.md and docs/remaining-work.md. Complete implementation, relevant verification and documentation without requiring a routine "continue" prompt between milestones. Work on independent tasks when hardware is unavailable.
+- An explicit pause overrides auto-continue. Do not resume roadmap implementation until the user explicitly resumes it. Complete separately requested, limited changes during a pause without treating them as a roadmap restart.
+- Current status, 19 November 2026: new roadmap features remain paused. The user has authorized a comprehensive quality audit, research, regression checks and fixes to the current implementation before other roadmap work. Track evidence in docs/quality-audit.md in the canonical checkout; trusted device reconciliation remains unstarted.

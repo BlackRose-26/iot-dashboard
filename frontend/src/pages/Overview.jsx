@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Gamepad2,
@@ -20,6 +21,7 @@ import {
   IconButton,
   FormatNumber,
   Avatar,
+  Menu,
 } from '../components/ui'
 import { ActivityChart, LevelChart } from '../components/charts'
 import LiveRound from '../components/LiveRound'
@@ -30,6 +32,7 @@ import { rankPlayers } from '../data/demo'
 
 export default function Overview() {
   const { stats, rounds, queue, admissionsOpen } = useApp()
+  const [rankingSource, setRankingSource] = useState('simulator')
   const metrics = [
     {
       label: 'Games played',
@@ -131,13 +134,32 @@ export default function Overview() {
         <Card>
           <CardHeader
             title="The high stack"
-            subtitle="Today’s best round per player"
+            subtitle="Best saved round per player · selected source"
             icon={Trophy}
-            action={<RoundLink to="/admin/sessions" label="View full leaderboard" />}
+            action={
+              <Menu
+                label="Leaderboard result source"
+                value={rankingSource === 'simulator' ? 'Simulator' : 'Device'}
+                options={[
+                  { value: 'simulator', label: 'Simulator' },
+                  { value: 'device', label: 'Device' },
+                ]}
+                onChange={setRankingSource}
+              />
+            }
           />
-          <PlayerList compact players={rankPlayers(rounds).slice(0, 4)} />
+          <PlayerList
+            compact
+            players={rankPlayers(rounds.filter((round) => round.source === rankingSource)).slice(
+              0,
+              4,
+            )}
+          />
+          {!rounds.some((round) => round.source === rankingSource) && (
+            <p className="subtle">No saved results for this source.</p>
+          )}
           <Link className="card-bottom-link" to="/admin/sessions">
-            Meet the whole leaderboard
+            View saved round history
             <ArrowRight size={17} />
           </Link>
         </Card>

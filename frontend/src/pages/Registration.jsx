@@ -88,7 +88,7 @@ export default function Registration() {
       </div>
     )
   if (!player.canRegister && !ticket) return <ScanGate />
-  const activeTicket = ticket && ['waiting', 'called', 'playing'].includes(ticket.status)
+  const activeTicket = ticket && ['waiting', 'called', 'playing', 'review'].includes(ticket.status)
   if (!player.canRegister && !activeTicket)
     return (
       <ScanGate message="Scan the cabinet QR code again when you are ready for another round." />

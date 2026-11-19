@@ -2600,7 +2600,7 @@ td:first-child {
 }
 .ticket-story > p {
   font-size: 12px;
-  color: #5d6b71;
+  color: #46545b;
   line-height: 1.8;
   max-width: 350px;
 }
@@ -2629,7 +2629,7 @@ td:first-child {
   background: var(--lime);
 }
 .player-ticket > .eyebrow {
-  color: #748087;
+  color: #59676e;
   font-size: 9px;
   letter-spacing: 2px;
 }
@@ -2667,7 +2667,7 @@ td:first-child {
 }
 .ticket-position > span {
   font-size: 11px;
-  color: #717e83;
+  color: #59676e;
 }
 .ticket-position > strong {
   display: block;
@@ -2694,7 +2694,7 @@ td:first-child {
 }
 .ticket-details > div > span {
   display: block;
-  color: #77838a;
+  color: #59676e;
   font-size: 8px;
   margin-bottom: 6px;
 }

@@ -26,7 +26,7 @@ import { useApp } from '../state/AppContext'
 export function downloadResults(data) {
   const clean = (value) =>
     `"${String(value)
-      .replace(/^[=+@-]/, "'$&")
+      .replace(/^(?=\s*[=+@-]|[\t\r\n])/, "'")
       .replaceAll('"', '""')}"`
   const rows = [
     [
@@ -66,20 +66,19 @@ export default function Sessions() {
   const { rounds } = useApp()
   const [search, setSearch] = useState('')
   const [outcome, setOutcome] = useState('all')
-  const [page, setPage] = useState(0)
+  const [requestedPage, setPage] = useState(0)
   const [selected, setSelected] = useState(null)
   const labels = { all: 'All outcomes', win: 'Wins', loss: 'Losses', timeout: 'Timeouts' }
-  const filtered = [...rounds]
-    .reverse()
-    .filter(
-      (r) =>
-        `${r.nickname} ${r.code} ${r.id}`.toLowerCase().includes(search.toLowerCase()) &&
-        (outcome === 'all' ||
-          (outcome === 'win' && r.won) ||
-          (outcome === 'loss' && !r.won) ||
-          (outcome === 'timeout' && r.reason === 'Time expired')),
-    )
+  const filtered = rounds.filter(
+    (r) =>
+      `${r.nickname} ${r.code} ${r.id}`.toLowerCase().includes(search.toLowerCase()) &&
+      (outcome === 'all' ||
+        (outcome === 'win' && r.won) ||
+        (outcome === 'loss' && !r.won) ||
+        (outcome === 'timeout' && r.reason === 'Time expired')),
+  )
   const pages = Math.max(1, Math.ceil(filtered.length / 10))
+  const page = Math.min(requestedPage, pages - 1)
   return (
     <>
       <PageHeading
@@ -94,7 +93,7 @@ export default function Sessions() {
       <Card className="sessions-card">
         <CardHeader
           title="Round history"
-          subtitle="Classic v1 · 15 Nov 2026 · Asia/Manila"
+          subtitle="Classic v1 · Saved rounds · Asia/Manila"
           icon={History}
           action={<Badge>{filtered.length} rounds</Badge>}
         />
@@ -197,7 +196,7 @@ export default function Sessions() {
               <div>
                 <button
                   disabled={page === 0}
-                  onClick={() => setPage((p) => p - 1)}
+                  onClick={() => setPage(Math.max(0, page - 1))}
                   aria-label="Previous page"
                 >
                   <ChevronLeft size={19} />
@@ -207,7 +206,7 @@ export default function Sessions() {
                 </span>
                 <button
                   disabled={page + 1 >= pages}
-                  onClick={() => setPage((p) => p + 1)}
+                  onClick={() => setPage(page + 1)}
                   aria-label="Next page"
                 >
                   <ChevronRight size={19} />

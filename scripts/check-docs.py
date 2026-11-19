@@ -29,7 +29,7 @@ for path in docs.glob('*.md'):
         if not (path.parent / target.split('#')[0]).exists():
             errors.append(f'Broken local link: {path.name} -> {target}')
 sql = (docs / 'schema.sql').read_text(encoding='utf-8')
-tables = re.findall(r'CREATE TABLE\s+(\w+)', sql, re.I)
+tables = re.findall(r'CREATE TABLE\s+(?:IF NOT EXISTS\s+)?(\w+)', sql, re.I)
 for reference in re.findall(r'REFERENCES\s+(\w+)', sql, re.I):
     if reference not in tables:
         errors.append(f'Unknown referenced table: {reference}')

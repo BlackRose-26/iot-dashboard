@@ -12,7 +12,7 @@ Version 0.1 · 15 November 2026. Recommendations below are engineering decisions
 
 | Layer | Baseline | Purpose and tradeoff |
 |---|---|---|
-| Web | React, JavaScript (JSX), Vite; CSS variables/CSS modules; React Router; TanStack Query planned for backend integration | Use Vite’s `react` JavaScript template, `.jsx` components and `.js` modules; JSDoc is optional. Mobile registration, public leaderboard and staff dashboard. A client-rendered app is sufficient for an event; no SSR needed. |
+| Web | React, JavaScript (JSX), Vite; CSS variables/CSS modules; React Router; TanStack Query planned for backend integration | Use Vite’s `react` JavaScript template, `.jsx` components and `.js` modules; JSDoc is optional. Mobile registration, post-completion player leaderboard and staff dashboard. A client-rendered app is sufficient for an event; no SSR needed. |
 | UI | Shared CSS design tokens, Radix primitives, standard Font Awesome webfont icons, Recharts for trends/distributions; data gauge | The initial UI uses locally hosted fonts and standard font icons, with no SVG icon renderer. Preserve Sourcio proportions through shared components. Install exact compatible releases and lock them. |
 | Server | Python 3.12, FastAPI, Pydantic v2, Uvicorn | Typed HTTP contracts, authorization and browser WebSockets. [FastAPI documents WebSocket dependencies and disconnect handling](https://fastapi.tiangolo.com/advanced/websockets/). |
 | Persistence | XAMPP MySQL service (installed MariaDB 10.11.16), InnoDB, utf8mb4; SQLAlchemy 2.x and Alembic | Transactional assignment, replay-safe results and versioned migrations. Use a tested SQLAlchemy 2.0/2.1 combination, pinned at implementation. |
@@ -90,7 +90,7 @@ Use `utf8mb4_unicode_ci` in the schema for MariaDB compatibility. The `mysql+pym
 
 ## 5. HTTP contracts
 
-Prefix `/api/v1`. UUID strings are external identifiers; numeric IDs are internal. All writes require an `Idempotency-Key` except explicitly idempotent PUT/DELETE operations. Persist the operation's key and canonical request hash in the corresponding row/receipt; do not rely on an expiring in-memory cache. Scope keys to authenticated actor and operation. Duplicate same request returns the prior result; different payload under the same key returns `409`.
+Current implemented routes use `/api`; see [player flow](player-flow-and-access.md) and [device command delivery](device-command-delivery.md). The table below is the broader proposed route catalog, not a claim that every route is implemented. A versioned `/api/v1` prefix remains a proposal. UUID strings are external identifiers; numeric IDs are internal. For the proposed versioned catalog, writes should require an `Idempotency-Key` except explicitly idempotent PUT/DELETE operations. Current device command receipts instead deduplicate their canonical validated body under the durable command UUID; current call-next uses its existing request-key receipt. Persist the operation's key and canonical request hash in the corresponding row/receipt; do not rely on an expiring in-memory cache. Scope keys to authenticated actor and operation. Duplicate same request returns the prior result; different payload under the same key returns `409`.
 
 | Method and path | Actor | Contract |
 |---|---|---|
@@ -138,6 +138,8 @@ This is a shape example, not a valid complete loss trace. Backend reconstructs e
 
 ## 6. Reservation, acknowledgment and replay
 
+Implemented portion, 19 November 2026: command polling and durable accepted/rejected receipts, accepted-receipt start gating, command diagnostics and conservative review holds. The remaining boot/terminal/reordered-event reconciliation described below is still proposed. See [exact contract and verified boundaries](device-command-delivery.md).
+
 1. Transaction locks machine row, checks enabled/idle/freshness and absence of an active session; locks oldest waiting queue row. Create session with frozen ruleset and queue assignment plus command/outbox records. Commit before delivery. [InnoDB locking reads](https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html) support this serialization.
 2. Device persists session ID, rules hash and command ID before acknowledging. Same command is acknowledged again without starting another round.
 3. Device writes a durable start marker before countdown; retry its state event until accepted. Server may receive final result before start acknowledgment and must reconstruct allowed transitions using the terminal evidence rather than discarding an otherwise valid result.
@@ -151,9 +153,9 @@ NVS is suitable for small durable key/value state; size a versioned, checksummed
 
 ## 7. Browser synchronization
 
-Channels are separately authorized: public leaderboard only, private player ticket only, staff overview. Authenticate private sockets through secure cookies and enforce Origin validation; do not put tokens in URLs. A notification contains `event_id`, `type`, `entity_public_id`, `revision`, `occurred_at`; it contains no student ID. Types: `queue.changed`, `session.changed`, `leaderboard.changed`, `machine.changed`.
+Implemented 19 November 2026: `WS /api/live/admin` and `/api/live/player` authenticate separate staff/player cookies and validate Origin. There is no public channel. Frames contain only `type` (`ready`, `invalidate`, `heartbeat`) and global event `revision`; no entity identifiers, scores or identity data are broadcast. Authorization is rechecked on every frame and 15-second keepalives. Unsupported client messages close the channel. See [durable browser updates](live-updates.md).
 
-REST snapshots return a revision and generation time. On connect/reconnect, resubscribe then fetch the current snapshot, apply only newer revisions and refetch on gaps. Notifications are at least once; deduplicate by ID. Outbox rows committed with state changes let a dispatcher retry after crashes; marking published is not proof every browser saw it. Always fetch a snapshot after reconnect; polling fallback every 5 seconds is acceptable for public ranking when sockets fail.
+REST snapshots include coherent `revision`/`generatedAt` from short repeatable-read transactions. Mutations increment `events.revision` and insert outbox rows atomically. A lifespan dispatcher polls committed pending rows every 250 ms and coalesces safe hints into bounded subscriber queues. Subscribe before refetching, deduplicate by revision, reject older snapshots and refetch gaps/reconnects. Published means queued, not browser-acknowledged. Poll every 2 seconds while unavailable and 15 seconds while live; focus/actions refresh immediately. Keep one API worker until shared routing exists. The unlocked player leaderboard remains authorized.
 
 ## 8. Observability and boundaries
 
@@ -170,3 +172,12 @@ Local inference now routes natural system questions to reviewed public knowledge
 ## Reviewed routing dataset preparation — 18 November 2026
 
 A separate `TrainingStore` uses migration 004, owner-scoped fixed SQL and strict normalized-input/routing-target schemas. Chat returns only a volatile candidate; collection requires explicit UI selection and cannot be invoked by the model. Pending/review/approval is distinct from private memory and numerical analytics. Approval requires the latest row revision, explicit review confirmation and the current prompt/normalizer/schema/knowledge/vocabulary version. Export includes only approved current-version samples as role/content JSONL, with no raw transcript, answer or game records. The existing Radix modal and Font Awesome webfonts provide the review UI. No training framework, weight update, cloud service or new Ollama model was added. See [workflow, API and validation](assistant-training.md).
+
+
+## Quality hardening — 19 November 2026
+
+The [audit](quality-audit.md) adds a pure ASGI 64 KiB request-body limit (including chunked input), strict typed/UTF-8 API inputs, configured-origin checks, revoked player-cookie rotation and stronger database readiness. PyMySQL connect/read/write timeouts are five seconds; browser requests combine cancellation with a 15-second deadline, or 25 seconds for assistant queries. A timeout does not prove a mutation failed; clients must refresh before retrying.
+
+Dashboard and AI cabinet state now share one definition including disabled/maintenance cabinets, stale device observations, disabled simulator source and review-held assignments. Terminal replay rejects duration inflation. Rankings explicitly select a source; unattempted ratios stay N/A. QR files use a locally bundled `qr-scanner` fallback after html5-qrcode rejects a readable image; both libraries are pinned, and no uploaded image leaves the browser. Vite development and preview respect the same `STACK_API_TARGET`.
+
+The audit includes actual process restart, 50 loopback browser clients and synthetic XAMPP restoration. These are local software checks, not event-LAN, physical ESP32 or production deployment acceptance.

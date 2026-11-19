@@ -2,6 +2,14 @@ import { describe, it, expect } from 'vitest'
 import { validateRegistration, summarize, rankPlayers, levelStatistics, rounds } from './demo'
 
 describe('registration validation', () => {
+  it('rejects nickname characters the registration API cannot accept', () => {
+    expect(
+      validateRegistration({ nickname: '<Player>', studentId: 'DUMMY-1', acknowledged: true }),
+    ).toHaveProperty('nickname')
+    expect(
+      validateRegistration({ nickname: 'José_1', studentId: 'DUMMY-1', acknowledged: true }),
+    ).toEqual({})
+  })
   it('accepts IDs with leading zeros without numeric conversion', () => {
     expect(
       validateRegistration({ nickname: 'Player', studentId: '001234', acknowledged: true }),
@@ -20,6 +28,9 @@ describe('registration validation', () => {
   })
 })
 describe('dashboard metric definitions', () => {
+  it('reports unattempted level ratios as unknown', () => {
+    expect(levelStatistics([]).every((level) => level.rate === null)).toBe(true)
+  })
   it('returns unknown ratios for an empty window', () => {
     expect(summarize([])).toMatchObject({
       games: 0,

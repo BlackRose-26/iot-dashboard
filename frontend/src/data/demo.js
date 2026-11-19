@@ -111,7 +111,7 @@ export function levelStatistics(data) {
       level: String(i + 1),
       attempts: attempts.length,
       failures,
-      rate: attempts.length ? Math.round((failures / attempts.length) * 1000) / 10 : 0,
+      rate: attempts.length ? Math.round((failures / attempts.length) * 1000) / 10 : null,
     }
   })
 }
@@ -126,6 +126,8 @@ export function validateRegistration({ nickname, studentId, acknowledged }) {
   const errors = {}
   if ([...nickname.trim()].length < 2 || [...nickname.trim()].length > 24)
     errors.nickname = 'Use a nickname between 2 and 24 characters.'
+  else if (!/^[\p{L}\p{N}_ .-]+$/u.test(nickname.trim()))
+    errors.nickname = 'Use letters, numbers, spaces, periods, hyphens or underscores.'
   if (!/^[A-Za-z0-9-]{4,32}$/.test(studentId.trim()))
     errors.studentId = 'Use 4–32 letters, numbers or hyphens. Keep any leading zeros.'
   if (!acknowledged) errors.acknowledged = 'Please acknowledge the privacy notice to continue.'

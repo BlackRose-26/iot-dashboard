@@ -1,6 +1,7 @@
 import hashlib
 import hmac
 import secrets
+import re
 from datetime import datetime, timezone
 
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
@@ -26,7 +27,7 @@ def csrf_for(settings, raw_session):
 def verify_csrf(request: Request, raw_session: str):
     expected = csrf_for(request.app.state.settings, raw_session)
     supplied = request.headers.get('x-csrf-token', '')
-    if not supplied or not hmac.compare_digest(expected, supplied):
+    if not re.fullmatch(r'[0-9a-f]{64}', supplied) or not hmac.compare_digest(expected, supplied):
         raise HTTPException(403, 'Please refresh the page and try again.')
 
 

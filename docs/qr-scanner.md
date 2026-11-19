@@ -41,6 +41,15 @@ The strict frontend origin equality check was removed because a valid QR printed
 
 ## Request-origin compatibility correction — 16 November 2026
 
-The backend now shares one origin policy between browser-write protection and QR entry. It recognizes localhost, 127.0.0.1 and IPv6 loopback as explicitly permitted aliases at the same scheme and port. It accepts the configured public website, any explicit comma-separated `STACK_ALLOWED_ORIGINS`, and the current request host. Development mode additionally permits the normal local frontend ports 5173 and 4173. The Vite development/preview proxy explicitly preserves the browser-facing Host header so LAN addresses remain usable. Browser Origin headers are not rewritten, unrelated origins are still rejected, and authenticated writes still require their CSRF token. A production reverse proxy must preserve the public host or use an explicitly configured frontend origin.
+The backend now shares one origin policy between browser-write protection and QR entry. It recognizes localhost, 127.0.0.1 and IPv6 loopback as explicitly permitted aliases at the same scheme and port. It accepts the configured public website, any explicit comma-separated `STACK_ALLOWED_ORIGINS`, and no request-supplied Host values. Development mode additionally permits the normal local frontend ports 5173 and 4173. The Vite development/preview proxy explicitly preserves the browser-facing Host header so LAN addresses remain usable. Browser Origin headers are not rewritten, unrelated origins are still rejected, and authenticated writes still require their CSRF token. Configure the public LAN/HTTPS website as STACK_PUBLIC_URL or STACK_ALLOWED_ORIGINS; preserving Host headers does not authorize an origin.
 
 Restart the backend and frontend after this configuration change. No tests, browser requests or build checks were run for this correction, following the user's instruction to test it themselves.
+
+
+## Quality audit correction — 19 November 2026
+
+The current file workflow first uses html5-qrcode and falls back to the locally bundled `qr-scanner` image API when the first decoder rejects an image. This fixes a reproduced valid-code failure; neither API guarantees every damaged image. Camera scanning still uses html5-qrcode. The fallback worker is included in the production build. No image is sent to a server.
+
+The origin policy now trusts only configured origins and explicit development loopback aliases. Request Host headers are not authorization. Set `STACK_PUBLIC_URL` or comma-separated `STACK_ALLOWED_ORIGINS` for the reachable event website and restart the backend. The QR dialog explains this requirement. Printed-host normalization still reuses only the registered token on the current website; an unrelated or inactive token grants nothing.
+
+Eight current Edge tests cover private access/player results, all admin screens in both themes, 12 QR-image patterns across hostnames at 320/480/600 px, blank/unsupported images, synthetic camera detection, permission denial and late permission cancellation. These checks supersede the earlier source-only correction notes. Actual phone cameras, HTTPS certificates and event Wi-Fi remain unverified. See [audit evidence](quality-audit.md).

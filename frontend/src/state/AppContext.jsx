@@ -1,14 +1,22 @@
 import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react'
 import { summarize } from '../data/demo'
 import { api } from './api'
+import { useLiveUpdates } from './useLiveUpdates'
 
 const AppContext = createContext(null)
+function newest(previous, data) {
+  if ((previous.revision ?? -1) > data.revision) return previous
+  if (previous.revision === data.revision && previous.generatedAt > data.generatedAt)
+    return previous
+  return data
+}
 const EMPTY = {
   queue: [],
   rounds: [],
   machineState: 'offline',
   admissionsOpen: false,
   currentPlayer: null,
+  deviceCommands: [],
   machine: {},
   qrPath: null,
 }
@@ -29,57 +37,86 @@ export function AppProvider({ children }) {
   })
   const notify = useCallback((message) => setToast(message), [])
   const checking = useRef(false)
+  const pending = useRef(false)
+  const authEpoch = useRef(0)
+  const acceptPlayer = useCallback((data) => {
+    setPlayer((previous) => newest(previous, data))
+  }, [])
+  const acceptSnapshot = useCallback((data) => {
+    setSnapshot((previous) => newest(previous, data))
+  }, [])
   const refreshPlayer = useCallback(async () => {
     const data = await api('/player/context')
-    setPlayer(data)
+    acceptPlayer(data)
     return data
-  }, [])
+  }, [acceptPlayer])
   const refresh = useCallback(async () => {
-    if (checking.current) return
-    checking.current = true
+    pending.current = true
+    if (checking.current) return checking.current
+    const work = async () => {
+      do {
+        pending.current = false
+        const epoch = authEpoch.current
+        try {
+          const data = await api('/player/context')
+          acceptPlayer(data)
+          try {
+            const auth = await api('/admin/session')
+            const latest = await api('/admin/snapshot')
+            if (epoch === authEpoch.current) {
+              setAdmin(auth)
+              acceptSnapshot(latest)
+            }
+          } catch (error) {
+            if (error.status !== 401) throw error
+            if (epoch === authEpoch.current) {
+              setAdmin(null)
+              setSnapshot(EMPTY)
+            }
+          }
+          setConnectionError('')
+        } catch (error) {
+          setConnectionError(error.message)
+        } finally {
+          setReady(true)
+        }
+      } while (pending.current)
+    }
+    checking.current = work()
     try {
-      const data = await api('/player/context')
-      setPlayer(data)
-      try {
-        const auth = await api('/admin/session')
-        setAdmin(auth)
-        setSnapshot(await api('/admin/snapshot'))
-      } catch (error) {
-        if (error.status !== 401) throw error
-        setAdmin(null)
-        setSnapshot(EMPTY)
-      }
-      setConnectionError('')
-    } catch (error) {
-      setConnectionError(error.message)
+      await checking.current
     } finally {
-      setReady(true)
       checking.current = false
     }
-  }, [])
+  }, [acceptPlayer, acceptSnapshot])
+  const liveStatus = useLiveUpdates(admin ? 'admin' : player.ticket ? 'player' : null, refresh)
   useEffect(() => {
     refresh()
-    const timer = setInterval(refresh, 2000)
+    const timer = setInterval(refresh, liveStatus === 'live' ? 15000 : 2000)
     const focus = () => refresh()
     window.addEventListener('focus', focus)
     return () => {
       clearInterval(timer)
       window.removeEventListener('focus', focus)
     }
-  }, [refresh])
+  }, [refresh, liveStatus])
   useEffect(() => {
     try {
       localStorage.setItem('smb-admin-theme', theme)
     } catch {}
   }, [theme])
   async function login(username, password) {
+    authEpoch.current++
     const auth = await api('/admin/login', { method: 'POST', body: { username, password } })
+    authEpoch.current++
     setAdmin(auth)
-    setSnapshot(await api('/admin/snapshot'))
+    acceptSnapshot(await api('/admin/snapshot'))
     setConnectionError('')
   }
   async function logout() {
+    authEpoch.current++
     await api('/admin/logout', { method: 'POST', csrf: admin?.csrf })
+    authEpoch.current++
     setAdmin(null)
     setSnapshot(EMPTY)
   }
@@ -88,7 +125,7 @@ export function AppProvider({ children }) {
     setBusy(true)
     try {
       await api(path, { method: 'POST', body, csrf: admin?.csrf, key: crypto.randomUUID() })
-      setSnapshot(await api('/admin/snapshot'))
+      await refresh()
       if (message) notify(message)
     } catch (error) {
       notify(error.message)
@@ -131,6 +168,9 @@ export function AppProvider({ children }) {
         setTheme,
         busy,
         connectionError,
+        liveStatus,
+        revision: admin ? snapshot.revision : player.revision,
+        lastUpdated: admin ? snapshot.generatedAt : player.generatedAt,
         toast,
         setToast,
         notify,

@@ -14,10 +14,14 @@ An IoT carnival LED-matrix stacking game with a private player queue and an admi
 - **Player flow:** camera or image QR scanning through html5-qrcode, required private student ID, registration, persistent personal ticket, FIFO position, turn/result updates and post-game leaderboard.
 - **Administration:** session-based login, neutral light/dark dashboard, cards and charts, queue/admissions controls, saved sessions/results, cabinet status and registration QR download.
 - **Backend:** FastAPI, transactional MariaDB persistence, migrations, CSRF protection, encrypted student IDs and server-side score replay.
+- **Live updates:** authenticated staff/player notifications, durable post-commit outbox, revisioned snapshots, reconnect recovery and polling fallback; no public stream. See [behavior and limits](docs/live-updates.md).
+- **Device command boundary:** authenticated polling and durable receipts, receipt-required start, a command emulator and review-hold diagnostics. Physical firmware and guarded reconciliation remain pending.
 - **Development simulator:** explicit admin controls for readiness, start and win/loss results; simulator scores are labelled and separated from device rankings.
 - **Stack Intelligence:** local Ollama system conversation, private per-admin topic/preferences memory, read-only analytics and factual English/Taglish answers with scope/evidence. Memory improves continuity; selected sanitized routing examples can be reviewed and exported for later fine-tuning. Model weights are not automatically retrained. Local loading, English/Taglish routing and synthetic browser flows have been checked; broader release acceptance remains pending. See [AI setup and review checklist](docs/admin-assistant.md).
 
 Physical ESP32 firmware and end-to-end hardware integration remain pending. Closed-tab push, automated retention/recovery and production deployment hardening are also pending. This repository is a local development implementation; proposed numeric game settings still need play-testing.
+
+The [19 November quality audit](docs/quality-audit.md) records security/correctness fixes, current automated/browser checks, local restart/load/restore evidence and the remaining release limits. New roadmap features are paused.
 
 ## Technology
 
@@ -97,7 +101,7 @@ graphify-out/  Generated project knowledge graph
 - [Daily setup and connection troubleshooting](docs/local-setup.md)
 - [Player flow and access](docs/player-flow-and-access.md)
 - [Architecture](docs/tech-stack.md) and [database schema](docs/schema.md)
-- [Dashboard design](docs/dashboard-design.md) and [chat preview](docs/admin-assistant.md)
+- [Dashboard design](docs/dashboard-design.md) and [Stack Intelligence](docs/admin-assistant.md)
 - [AI system rules](docs/ai-system-rules.md) and [implementation plan](docs/implementation-plan.md)
 
 Follow `AGENTS.md`, keep private identities/configuration out of commits and refresh Graphify after changes. Test commands and their isolated data requirements are documented in the frontend/backend READMEs. No CI, deployment or hardware verification is implied by the badges above.

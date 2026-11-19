@@ -48,3 +48,6 @@ adapter_model.bin
 
 # Routing corpora are read by the application, not semantic graph extraction.
 backend/data/
+
+# User progress reports and their documentary images are not graph inputs.
+docs/progress-reports/

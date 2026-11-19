@@ -7,6 +7,7 @@ import { useApp } from '../state/AppContext'
 import { ThemeSwitch } from '../pages/AdminLogin'
 import AdminAssistant from './AdminAssistant'
 import { AssistantProvider } from '../state/AssistantContext'
+import UpdateStatus from './UpdateStatus'
 
 const tabs = [
   ['overview', 'Overview'],
@@ -75,7 +76,8 @@ export function RegistrationQR() {
       <p className="field-help">
         Use the address players can reach on carnival Wi-Fi. A localhost QR works only on this
         computer. Use HTTPS for real registrations. Players choose Use camera or Upload QR image on
-        the scan page.
+        the scan page. Configure this address as STACK_PUBLIC_URL or STACK_ALLOWED_ORIGINS in the
+        backend before sharing a new hostname.
       </p>
       {url && (
         <div className="modal-actions">
@@ -158,7 +160,7 @@ export default function Shell() {
         <footer className="app-footer">
           <Logo compact />
           <span>Stack Moko Baby · Event operations</span>
-          <span>Private administrator workspace</span>
+          <UpdateStatus />
         </footer>
         <AdminAssistant />
         {toast && (

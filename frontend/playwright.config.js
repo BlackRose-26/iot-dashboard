@@ -5,7 +5,9 @@ export default defineConfig({
   workers: 1,
   use: {
     baseURL: process.env.STACK_TEST_URL || 'http://127.0.0.1:5174',
-    channel: 'msedge',
+    ...(process.env.STACK_TEST_BROWSER_PATH
+      ? { launchOptions: { executablePath: process.env.STACK_TEST_BROWSER_PATH } }
+      : { channel: process.env.STACK_TEST_BROWSER || 'msedge' }),
     headless: true,
     viewport: { width: 1440, height: 1000 },
     reducedMotion: 'reduce',

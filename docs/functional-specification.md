@@ -4,6 +4,8 @@
 
 Version 0.1 · 15 November 2026 · Implementation baseline
 
+Current browser synchronization uses authenticated revision-only hints and authoritative private/staff snapshots, with polling and reconnect recovery. See [implemented contract and limits](live-updates.md). Physical firmware and recovery acceptance remain pending.
+
 ## 1. Product and scope
 
 Stack Moko Baby is a carnival cabinet with an ESP32, LED matrix, arcade button and sound/light feedback. A player scans a QR code, registers privately, joins the queue, then times button presses to align moving rows. The device runs the round locally; the server assigns turns, validates results and updates a web dashboard. Authorized staff can ask a read-only AI assistant about recorded game statistics.
@@ -20,7 +22,7 @@ The final project name, LED/button gameplay, private required student ID, React 
 | FR-04 | Start | Only a server-authorized session can start a ranked round; the physical button confirms readiness. |
 | FR-05 | Game | ESP32 moves rows, resolves button placement, countdown, timeout, sound and LEDs without waiting for network responses. |
 | FR-06 | Results | Device retains final placement evidence until server acknowledgment; server recomputes score and deduplicates retries. |
-| FR-07 | Leaderboard | Public page updates after committed results, includes nickname/code, best score and rank; no student IDs or private history. |
+| FR-07 | Leaderboard | Only players whose latest round is completed can access it; updates after committed results and shows nickname/code, best score and rank for their source cohort, without private identity/history. |
 | FR-08 | Dashboard | Staff see machine freshness, queue, current round, session history, event metrics and read-only analytics. |
 | FR-09 | Recovery | A running round survives Wi-Fi loss; uncertain assignments are reconciled before another ranked round. |
 | FR-10 | Administration | Staff can skip absent players, abort with a reason, pause admissions and flag results; changes are authorized and audited. |
@@ -33,8 +35,8 @@ Deferred: adaptive difficulty, rewards/payments, mobile remote gameplay, compute
 
 | Actor | Access |
 |---|---|
-| Visitor | Registration, aggregate public leaderboard, public machine availability. |
-| Player with private browser session | Own queue ticket, cancellation and own result; a public code alone grants no private access. |
+| Visitor | QR camera/upload entry; registration requires a valid detected-code entry grant. No dashboard or leaderboard access. |
+| Player with private browser session | Own queue ticket, cancellation and result; leaderboard after the latest round completes. A public code grants no private access. |
 | Operator | Dashboard, queue operations, start/abort requests, diagnostics and result review flags. Cannot reveal student IDs or edit rules. |
 | Admin | Operator abilities plus staff/device provisioning, future rulesets, event settings, audited invalidation, private identity access and retention. |
 | Device | Only its own command polling, acknowledgments, heartbeat and session events/results. |
@@ -138,3 +140,8 @@ Targets are proposed acceptance thresholds, not measured performance claims.
 ## 7. Decisions still needed before hardware/event release
 
 Confirm actual ESP32 and panel model/scan driver, power supply/current budget, pin map, student-ID format and operator identity recovery process. Play-test proposed rules and absence timeout. Confirm event LAN, stable hostname/certificate trust, AI provider/budget and identity retention owner. Baseline retention proposal is 30 days after event close for identity linkage and 90 days for redacted diagnostics; make these explicit settings and validate with the institution before collecting real IDs.
+
+
+## Current quality hardening — 19 November 2026
+
+The [audit](quality-audit.md) adds strict typed/UTF-8 input handling and a 64 KiB JSON body limit, configured-origin authorization, player-session rotation/revocation, prevention of signed-in identity switching, consistent cabinet readiness/review presentation, bounded requests and current readiness checks. A terminal win or zero-overlap loss must report duration equal to its final placement timestamp; a timeout retains the documented round limit. Numeric gameplay settings remain proposed until physical play-testing.

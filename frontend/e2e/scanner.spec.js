@@ -2,6 +2,68 @@ import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
 import fs from 'node:fs/promises'
 
+test('registered QR image patterns decode across hostnames and image sizes', async ({
+  browser,
+}) => {
+  test.setTimeout(120000)
+  const operator = await browser.newContext()
+  const admin = await operator.newPage()
+  await admin.goto('/admin/login')
+  await admin.getByLabel('Username', { exact: true }).fill('admin')
+  await admin.getByLabel('Password', { exact: true }).fill(process.env.STACK_TEST_PASSWORD)
+  await admin.getByRole('button', { name: 'Sign in', exact: true }).click()
+  await admin.getByRole('button', { name: 'Registration QR' }).click()
+  for (let index = 0; index < 12; index++) {
+    const host =
+      index % 3 === 0
+        ? `http://192.168.100.${index + 1}:5173`
+        : index % 3 === 1
+          ? `https://event-${index}.example`
+          : `https://event-${index}-${'carnival'.repeat(1 + (index % 5))}.example`
+    await admin.getByLabel('Event website address').fill(host)
+    await expect(admin.getByRole('link', { name: 'Test player entry' })).toHaveAttribute(
+      'href',
+      new RegExp('^' + host.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '/join/'),
+    )
+    await admin
+      .getByRole('dialog')
+      .locator('canvas')
+      .evaluate(
+        () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))),
+      )
+    const buffer = Buffer.from(
+      await admin
+        .getByRole('dialog')
+        .locator('canvas')
+        .evaluate(
+          (source, size) => {
+            const canvas = document.createElement('canvas')
+            canvas.width = canvas.height = size
+            const context = canvas.getContext('2d')
+            context.imageSmoothingEnabled = false
+            context.drawImage(source, 0, 0, size, size)
+            return canvas.toDataURL('image/png').split(',')[1]
+          },
+          [320, 480, 600][index % 3],
+        ),
+      'base64',
+    )
+    const player = await browser.newContext()
+    try {
+      const page = await player.newPage()
+      await page.goto('/scan')
+      await page
+        .getByLabel('QR code image', { exact: true })
+        .setInputFiles({ name: 'pattern.png', mimeType: 'image/png', buffer })
+      await expect(page).toHaveURL(/\/register$/)
+      expect((await (await page.request.get('/api/player/context')).json()).canRegister).toBe(true)
+    } finally {
+      await player.close()
+    }
+  }
+  await operator.close()
+})
+
 async function qrFixtures(browser) {
   const context = await browser.newContext()
   const page = await context.newPage()

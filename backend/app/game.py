@@ -54,6 +54,8 @@ def replay(placements, duration_ms, outcome):
     expected_outcome = 'win' if successful == 12 else 'loss'
     if outcome != expected_outcome or (not missed and successful < 12 and duration_ms != 60000):
         raise ValueError('The outcome does not match the placement evidence.')
+    if (missed or successful == RULES['levels']) and duration_ms != last_time:
+        raise ValueError('Terminal duration must match the final placement time.')
     return {'score': 100 * successful + 25 * perfect, 'level': successful, 'perfect': perfect,
             'retained': retained, 'attempted': attempted, 'placements': proof,
             'reason': 'target_reached' if outcome == 'win' else 'zero_overlap' if missed else 'timeout'}

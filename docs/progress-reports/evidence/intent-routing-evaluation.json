@@ -1,0 +1,204 @@
+{
+  "component": "Ollama intent router before backend semantic overrides",
+  "model": "qwen3:4b-instruct",
+  "measured_at": "2026-11-19T15:58:21.544446+00:00",
+  "dataset": "backend/data/assistant-routing.json",
+  "dataset_sha256": "4b485f7b0a0a907b613195ebc24aff198cdf5436acff262f2447d2d2c6179145",
+  "split": "existing test rows",
+  "n": 21,
+  "correct": 12,
+  "metric": "exact topic and relevant subtype accuracy",
+  "retrieval": "project train rows only; no exact normalized test duplicates; private examples disabled",
+  "limits": "Small synthetic developer-reviewed set, not blind real-user accuracy or end-to-end factual accuracy.",
+  "cases": [
+    {
+      "id": "overview-3",
+      "category": "Event and queue queries",
+      "expected": "overview",
+      "predicted": "overview",
+      "correct": true,
+      "seconds": 0.186,
+      "error": null
+    },
+    {
+      "id": "players-6",
+      "category": "Event and queue queries",
+      "expected": "players",
+      "predicted": "definition:accuracy",
+      "correct": false,
+      "seconds": 0.234,
+      "error": null
+    },
+    {
+      "id": "queue-3",
+      "category": "Event and queue queries",
+      "expected": "queue",
+      "predicted": "definition:accuracy",
+      "correct": false,
+      "seconds": 0.241,
+      "error": null
+    },
+    {
+      "id": "machine-3",
+      "category": "Event and queue queries",
+      "expected": "machine",
+      "predicted": "machine",
+      "correct": true,
+      "seconds": 0.429,
+      "error": null
+    },
+    {
+      "id": "scores-3",
+      "category": "Event and queue queries",
+      "expected": "scores",
+      "predicted": "definition:average_score",
+      "correct": false,
+      "seconds": 0.256,
+      "error": null
+    },
+    {
+      "id": "levels-3",
+      "category": "Event and queue queries",
+      "expected": "levels",
+      "predicted": "levels",
+      "correct": true,
+      "seconds": 0.179,
+      "error": null
+    },
+    {
+      "id": "trend-3",
+      "category": "Event and queue queries",
+      "expected": "trend",
+      "predicted": "players",
+      "correct": false,
+      "seconds": 0.172,
+      "error": null
+    },
+    {
+      "id": "top-3",
+      "category": "Event and queue queries",
+      "expected": "top",
+      "predicted": "scores",
+      "correct": false,
+      "seconds": 0.26,
+      "error": null
+    },
+    {
+      "id": "knowledge-gameplay-3",
+      "category": "System explanations",
+      "expected": "knowledge:gameplay",
+      "predicted": "knowledge:gameplay",
+      "correct": true,
+      "seconds": 0.224,
+      "error": null
+    },
+    {
+      "id": "knowledge-registration-3",
+      "category": "System explanations",
+      "expected": "knowledge:registration",
+      "predicted": "knowledge:registration",
+      "correct": true,
+      "seconds": 0.292,
+      "error": null
+    },
+    {
+      "id": "knowledge-queue_flow-3",
+      "category": "System explanations",
+      "expected": "knowledge:queue_flow",
+      "predicted": "queue",
+      "correct": false,
+      "seconds": 0.187,
+      "error": null
+    },
+    {
+      "id": "knowledge-architecture-3",
+      "category": "System explanations",
+      "expected": "knowledge:architecture",
+      "predicted": "knowledge:architecture",
+      "correct": true,
+      "seconds": 0.221,
+      "error": null
+    },
+    {
+      "id": "knowledge-dashboard-3",
+      "category": "System explanations",
+      "expected": "knowledge:dashboard",
+      "predicted": "knowledge:dashboard",
+      "correct": true,
+      "seconds": 0.325,
+      "error": null
+    },
+    {
+      "id": "knowledge-privacy-3",
+      "category": "System explanations",
+      "expected": "knowledge:privacy",
+      "predicted": "definition:privacy",
+      "correct": false,
+      "seconds": 0.221,
+      "error": null
+    },
+    {
+      "id": "knowledge-offline-3",
+      "category": "System explanations",
+      "expected": "knowledge:offline",
+      "predicted": "machine",
+      "correct": false,
+      "seconds": 0.546,
+      "error": null
+    },
+    {
+      "id": "knowledge-results-3",
+      "category": "System explanations",
+      "expected": "knowledge:results",
+      "predicted": "knowledge:registration",
+      "correct": false,
+      "seconds": 0.246,
+      "error": null
+    },
+    {
+      "id": "knowledge-assistant-3",
+      "category": "System explanations",
+      "expected": "knowledge:assistant",
+      "predicted": "knowledge:assistant",
+      "correct": true,
+      "seconds": 0.235,
+      "error": null
+    },
+    {
+      "id": "knowledge-memory-3",
+      "category": "System explanations",
+      "expected": "knowledge:memory",
+      "predicted": "knowledge:memory",
+      "correct": true,
+      "seconds": 0.219,
+      "error": null
+    },
+    {
+      "id": "knowledge-training-3",
+      "category": "System explanations",
+      "expected": "knowledge:training",
+      "predicted": "knowledge:training",
+      "correct": true,
+      "seconds": 0.22,
+      "error": null
+    },
+    {
+      "id": "definition-accuracy-3",
+      "category": "Metric definitions",
+      "expected": "definition:accuracy",
+      "predicted": "definition:accuracy",
+      "correct": true,
+      "seconds": 0.302,
+      "error": null
+    },
+    {
+      "id": "definition-win_rate-3",
+      "category": "Metric definitions",
+      "expected": "definition:win_rate",
+      "predicted": "definition:win_rate",
+      "correct": true,
+      "seconds": 0.362,
+      "error": null
+    }
+  ]
+}

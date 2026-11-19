@@ -5,15 +5,18 @@ QUEUE = {'queue','queued','queuing','pila','nakapila','waiting','admissions'}
 MACHINE = {'cabinet','machine','esp32','heartbeat','rssi','firmware','wifi','wi-fi','connectivity','connection','connected'}
 REGISTRATION = {'registered','registration','registrations','joined','rehistrado','nagregister','rehistro'}
 COMPLETED = {'completed','finished','played','naglaro','nakatapos','natapos'}
-OPERATORS={'average':{'average','avg','mean'},'total':{'total','sum','kabuuan','kabuuang'},
+OPERATORS={'average':{'average','avg','mean'},'total':{'total','sum','combined','cumulative','aggregate','kabuuan','kabuuang'},
            'highest':{'highest','max','maximum','pinakamataas'},'lowest':{'lowest','min','minimum','pinakamababa'}}
-SEMANTIC_VOCAB=SCORE|QUEUE|MACHINE|REGISTRATION|COMPLETED|set().union(*OPERATORS.values())|set('define definition meaning means calculate calculated kinukwenta ibig sabihin histogram distribution distributed spread buckets leaderboard top ranking rank leading nangunguna who sino bawat nila sila lahat next page'.split())
+SEMANTIC_VOCAB=SCORE|QUEUE|MACHINE|REGISTRATION|COMPLETED|set().union(*OPERATORS.values())|set('define definition meaning means calculate calculated kinukwenta ibig sabihin histogram distribution distributed spread buckets leaderboard top ranking rank leading nangunguna who sino bawat nila sila lahat next page everyone everybody anyone anybody altogether arithmetic reachable require requires kept privately font family typeface long'.split())
 
 
 def semantic_words(normalized):
     words=set(normalized['safe_tokens'])
     tokens=normalized['safe_tokens']
-    mean_noun=any(token=='mean' and any(t in SCORE for t in tokens[index+1:index+4] if t not in {'of','the'})
+    # "mean by the total score" uses a verb, whereas "mean score" and
+    # "mean of the scores" name an arithmetic measure. Looking several words
+    # ahead accidentally turned every definition containing "mean by" into average.
+    mean_noun=any(token=='mean' and index+1<len(tokens) and tokens[index+1] in SCORE|{'of','value'}
                   for index,token in enumerate(tokens))
     aliases_to_ignore={'mean'} if words&{'do','does','did'} and not mean_noun else set()
     return words|{name for name,aliases in OPERATORS.items() if words&(aliases-aliases_to_ignore)}
@@ -25,8 +28,20 @@ def refers_to_previous(normalized):
     return bool(words) and words<=REFERENCE_WORDS and bool(normalized['requested_period'] or normalized['requested_source'] or {'next','page'}<=words)
 
 
+def reviewed_explanation(normalized):
+    """Distinguish reviewed design explanations from measurements of live services."""
+    words=semantic_words(normalized)
+    topic=normalized.get('system_topic_hint')
+    if topic=='privacy': return topic
+    if topic=='architecture' and words & {'how','why','explain','describe','roles','architecture','uses','use'}:
+        return topic
+    if topic=='dashboard' and words & {'font','typeface'}: return topic
+    return None
+
+
 def constraints(normalized):
     words=semantic_words(normalized)
+    if reviewed_explanation(normalized): return None
     definition=bool(words & {'define','definition','meaning','means'} or {'ibig','sabihin'}<=words or
                     (words & {'how','paano'} and words & {'scoring','calculate','calculated','kinukwenta'}) or ('mean' in words and words&{'do','does','did'}))
     explanation=bool(words & {'explain','describe','work','works','workflow','rules','architecture','protect','protected','encrypted'} or definition)
@@ -66,6 +81,8 @@ def constraints(normalized):
 
 def compatible(target, normalized):
     """A reviewed label is a hint, not permission to substitute another subject."""
+    explanation=reviewed_explanation(normalized)
+    if explanation: return target.get('topic')=='knowledge' and target.get('knowledge')==explanation
     needed=constraints(normalized)
     if needed is None: return True
     if needed['definition']: return target.get('topic')=='definition' and target.get('definition')==needed['definition']

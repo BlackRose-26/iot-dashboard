@@ -15,14 +15,18 @@ export function AssistantProvider({ children }) {
   const [service, setService] = useState({ reason: 'checking', available: false })
   const controller = useRef(null)
   const timer = useRef(null)
+  const memoryGeneration = useRef(0)
   const loadMemory = useCallback(async () => {
+    const generation = memoryGeneration.current
     try {
       const state = await api('/admin/assistant/memory')
+      if (generation !== memoryGeneration.current) return null
       setMemory(state)
       setMemoryError('')
       return state
     } catch {
-      setMemoryError('Saved memory is unavailable. You can still chat.')
+      if (generation === memoryGeneration.current)
+        setMemoryError('Saved memory is unavailable. You can still chat.')
       return null
     }
   }, [])
@@ -48,7 +52,11 @@ export function AssistantProvider({ children }) {
           if (state.reason === 'warming')
             timer.current = setTimeout(() => void inspect(false), 1500)
         } catch (error) {
-          if (error.name !== 'AbortError')
+          if (
+            controller.current === request &&
+            !request.signal.aborted &&
+            error.name !== 'AbortError'
+          )
             setService({ reason: 'ollama_unavailable', available: false })
         }
       }
@@ -60,14 +68,18 @@ export function AssistantProvider({ children }) {
     () => () => {
       controller.current?.abort()
       clearTimeout(timer.current)
+      memoryGeneration.current++
     },
     [],
   )
   async function forgetMemory() {
+    memoryGeneration.current++
     setMemoryBusy(true)
     setMemoryError('')
     try {
-      setMemory(await api('/admin/assistant/memory', { method: 'DELETE', csrf: admin?.csrf }))
+      const cleared = await api('/admin/assistant/memory', { method: 'DELETE', csrf: admin?.csrf })
+      memoryGeneration.current++
+      setMemory(cleared)
       setCandidate(null)
       setForgetRevision((value) => value + 1)
     } catch {

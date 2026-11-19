@@ -102,7 +102,9 @@ test('two independent phones queue in order, receive win/loss, and unlock leader
   await expect(first.getByLabel(/^Nickname/)).toBeFocused()
   await join(first, 'First Player', 'DUMMY-BROWSER-0001')
   await join(second, 'Second Player', 'DUMMY-BROWSER-0002')
-  await expect(first.getByText('You’re next. Get ready to stack.')).toBeVisible()
+  await expect(
+    first.getByText('You’re first in line. Wait for the operator to call you.'),
+  ).toBeVisible()
   await expect(second.getByText('1 player ahead of you')).toBeVisible()
   await first.reload()
   await expect(first.getByText('Hey, First Player.')).toBeVisible()
@@ -158,9 +160,12 @@ test('admin screens have neutral light and dark modes and accessible phone navig
   for (const theme of ['light', 'dark']) {
     if ((await page.locator('html').getAttribute('data-admin-theme')) !== theme)
       await page.getByRole('button', { name: `Switch to ${theme} mode` }).click()
-    for (const route of ['overview', 'analytics', 'queue', 'sessions', 'machines']) {
+    for (const route of ['overview', 'analytics', 'queue', 'sessions', 'machines', 'settings']) {
       await page.goto(`/admin/${route}`)
       await expect(page.locator('html')).toHaveAttribute('data-admin-theme', theme)
+      expect(
+        await page.locator('body').evaluate((element) => getComputedStyle(element).fontFamily),
+      ).toContain('Open Sans Variable')
       await screenshot(page, `${route}-${theme}`)
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])

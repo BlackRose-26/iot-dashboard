@@ -22,11 +22,18 @@ function setup() {
 }
 beforeEach(() => {
   state.player.canRegister = true
+  state.ticket = null
   state.joinQueue.mockReset()
   localStorage.clear()
   sessionStorage.clear()
 })
 describe('private player registration', () => {
+  it('preserves a review-held ticket after scanning again', () => {
+    state.ticket = { status: 'review' }
+    setup()
+    expect(screen.getByRole('link', { name: 'View my ticket' })).toBeVisible()
+    expect(screen.queryByLabelText(/^Student ID/)).not.toBeInTheDocument()
+  })
   it('focuses the first invalid field and describes all errors', async () => {
     const user = setup()
     await user.click(screen.getByRole('button', { name: 'Let’s stack' }))

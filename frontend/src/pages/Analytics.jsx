@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { CalendarDays, Gamepad2, Target, Trophy, Clock3 } from '../components/icons'
 import { api } from '../state/api'
+import { useApp } from '../state/AppContext'
 import { Card, PageHeading, Metric, Menu, EmptyState, Button, InfoNote } from '../components/ui'
 import { ActivityChart, LevelChart, OutcomesChart, ScoreChart } from '../components/charts'
 
@@ -17,6 +18,7 @@ const value = (number, suffix = '') =>
     : `${Number(number).toLocaleString('en-PH', { maximumFractionDigits: 1 })}${suffix}`
 
 export default function Analytics() {
+  const eventRevision = useApp()?.revision
   const [period, setPeriod] = useState('event_to_date')
   const [source, setSource] = useState('simulator')
   const [data, setData] = useState(null)
@@ -24,10 +26,12 @@ export default function Analytics() {
   const [loading, setLoading] = useState(true)
   const [revision, setRevision] = useState(0)
   useEffect(() => {
+    setData(null)
+  }, [period, source])
+  useEffect(() => {
     const controller = new AbortController()
     let active = true
     let running = false
-    setData(null)
     setError('')
     setLoading(true)
     async function load() {
@@ -57,7 +61,7 @@ export default function Analytics() {
       clearInterval(timer)
       window.removeEventListener('focus', load)
     }
-  }, [period, source, revision])
+  }, [period, source, revision, eventRevision])
   const summary = data?.summary
   return (
     <>

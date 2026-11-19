@@ -62,3 +62,12 @@ On a new computer, install [Node.js LTS](https://nodejs.org/en/download) and [Py
 The current Node installation is independent of Codex's bundled runtime and is on the user's PATH. PowerShell uses npm's Windows `.cmd` entry point through the local `Programs\NodeCommands` directory; its script execution policy was not changed. The root package requires no additional npm dependencies; frontend dependencies remain pinned in `frontend/package-lock.json`.
 
 The startup changes were reviewed from source only. No tests, builds, live API/database requests or browser checks were run, following the user's instruction to test the application themselves.
+
+
+## Audited readiness and origin configuration — 19 November 2026
+
+The health endpoint now checks required tables, applied migration filenames and initial event/cabinet/rules configuration. An incomplete setup returns 503 rather than claiming readiness. Apply pending migrations with the existing setup command; do not reset data or regenerate keys. Database connect/read/write waits are bounded at five seconds. Browser API requests are cancellable and bounded at 15 seconds (25 for assistant queries); after a timed-out action, check its latest state before retrying.
+
+For a LAN or HTTPS hostname, configure `STACK_PUBLIC_URL` or comma-separated `STACK_ALLOWED_ORIGINS` in the private backend environment and restart. The incoming Host header alone does not authorize writes or WebSockets. Development loopback aliases remain supported. Vite preview now honours `STACK_API_TARGET`, like the development server. Combined local startup still uses API 8000 and Vite 5173.
+
+The [quality audit](quality-audit.md) supersedes earlier source-only verification notes. Dedicated browser checks wait for API readiness before launching Vite. The running user servers were preserved; tests used only disposable databases and ports 8001/5174.

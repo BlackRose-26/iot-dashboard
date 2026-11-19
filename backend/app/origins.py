@@ -22,8 +22,9 @@ def origin_allowed(request, value, settings):
     origin = canonical_origin(value)
     if origin is None:
         return False
-    candidates = [settings.public_url, *settings.allowed_origins,
-                  f'{request.url.scheme}://{request.headers.get("host", "")}']
+    # Host is request input, not an authorization source. LAN/reverse-proxy
+    # addresses belong in the configured exact allowlist.
+    candidates = [settings.public_url, *settings.allowed_origins]
     if settings.development:
         candidates.extend(('http://localhost:5173', 'http://localhost:4173'))
     return origin in {canonical_origin(candidate) for candidate in candidates}

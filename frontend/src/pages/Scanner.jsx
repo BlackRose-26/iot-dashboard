@@ -8,7 +8,10 @@ import { registrationQrContent } from '../state/qr-entry'
 
 let scannerApi
 function loadScannerApi() {
-  scannerApi ||= import('html5-qrcode')
+  scannerApi ||= import('html5-qrcode').catch((error) => {
+    scannerApi = null
+    throw error
+  })
   return scannerApi
 }
 async function release(session) {
@@ -63,6 +66,7 @@ export default function Scanner({ message }) {
   const fileInput = useRef(null)
   const mounted = useRef(true)
   const validating = useRef(false)
+  const uploading = useRef(false)
   const cameraRequest = useRef(0)
   const request = useRef(null)
   const busy = ['requesting', 'image', 'verifying'].includes(mode)
@@ -102,7 +106,7 @@ export default function Scanner({ message }) {
       const context = await refreshPlayer()
       if (!mounted.current) return
       navigate(
-        context.ticket && ['waiting', 'called', 'playing'].includes(context.ticket.status)
+        context.ticket && ['waiting', 'called', 'playing', 'review'].includes(context.ticket.status)
           ? '/ticket'
           : '/register',
         { replace: true },
@@ -174,7 +178,7 @@ export default function Scanner({ message }) {
   async function upload(event) {
     const file = event.target.files?.[0]
     event.target.value = ''
-    if (!file || busy) return
+    if (!file || busy || uploading.current || validating.current) return
     if (
       !['image/png', 'image/jpeg', 'image/webp'].includes(file.type) ||
       file.size > 8 * 1024 * 1024 ||
@@ -184,6 +188,8 @@ export default function Scanner({ message }) {
       return
     }
     cameraRequest.current++
+    uploading.current = true
+    let session
     setError('')
     setMode('image')
     try {
@@ -192,7 +198,7 @@ export default function Scanner({ message }) {
       await release(imageScanner.current)
       const { Html5Qrcode, Html5QrcodeSupportedFormats } = await loadScannerApi()
       if (!mounted.current) return
-      const session = {
+      session = {
         scanner: new Html5Qrcode(fileId, {
           formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
           verbose: false,
@@ -201,7 +207,16 @@ export default function Scanner({ message }) {
         cancelled: false,
       }
       imageScanner.current = session
-      const text = await session.scanner.scanFile(file, false)
+      let text
+      try {
+        text = await session.scanner.scanFile(file, false)
+      } catch {
+        if (!mounted.current || session.cancelled) return
+        // A second maintained local API handles QR patterns the primary SDK
+        // cannot read. Images never leave the browser; no decoder is hand-built.
+        const { default: QrScanner } = await import('qr-scanner')
+        text = (await QrScanner.scanImage(file, { returnDetailedScanResult: true })).data
+      }
       await detected(text, 'upload', session)
       if (mounted.current && !validating.current) setMode('idle')
     } catch {
@@ -212,7 +227,8 @@ export default function Scanner({ message }) {
         setMode('idle')
       }
     } finally {
-      await release(imageScanner.current)
+      await release(session)
+      uploading.current = false
     }
   }
   return (

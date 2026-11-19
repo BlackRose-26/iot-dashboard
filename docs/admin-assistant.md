@@ -170,3 +170,12 @@ The [behavioral expansion](assistant-behavioral-expansion.md) fixes compound and
 See [research, architecture and validation](nlp-grounding-research.md). The current explicit measure and operation now outrank unrelated history and incompatible examples. Participant score lists, averages, completed-round sums, rankings and distributions have separate contracts. Score lists show public codes with best valid completed scores, source labels and bounded 50-row pagination; “next page” continues the same scope. A new `score_page` field is schema-validated in typed context, and score aggregation definitions are curated.
 
 Model status, automatic-scope information, memory controls/counter and training management now live in **Dashboard Settings** at `/admin/settings`. Per-answer review controls moved there as **Review last eligible answer**. The chat remains focused on questions, replies and evidence. Memory-toggle scope remains the administrator session, and all existing privacy/action/authentication boundaries remain enforced.
+
+
+## Quality audit update — 19 November 2026
+
+The [cross-system audit](quality-audit.md) corrects language families rather than exact chat phrases: registration/population wording, individual versus aggregate points, public ID-protection questions, architecture explanations and current-measure precedence over history. Unknown subjects now prompt clarification before data access, so an unrelated game question cannot be answered using Stack Moko Baby scores. Language coverage remains bounded; clarification is not a claim that every paraphrase is understood.
+
+Public knowledge now describes Dashboard Settings, Open Sans Variable, command acceptance/review holds and the actual review workflow: Settings → Review last eligible answer / Training examples. Memory and connection controls remain in Settings. An older memory read cannot restore forgotten context; an obsolete connection failure cannot replace a newer ready state.
+
+44 actual local `qwen3:4b-instruct` regression cases passed after fixes. The initial audit set passed 19/28; an independent 16-case follow-up initially passed 15/16 and exposed an unrelated-domain substitution. All 44 now serve as regression cases, not held-out proof of general accuracy. Synthetic public data only; no weights were trained. Existing private examples may need explicit re-review because the normalization/public-context fingerprint changed.

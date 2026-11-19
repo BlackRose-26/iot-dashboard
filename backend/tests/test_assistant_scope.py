@@ -9,7 +9,7 @@ from app.assistant import Assistant, Context, Question, RoutingPlan, automatic_s
 from app.database import execute
 from app.game import simulated_result
 from app.security import now
-from test_player_flow import environment, join, post, entry_payload
+from test_player_flow import environment, join, post, entry_payload, accept_command
 
 
 def test_default_scope_and_natural_followups():
@@ -33,6 +33,7 @@ def test_all_sources_are_separate_and_players_are_deduplicated(environment,monke
     device=TestClient(app,headers={'X-Device-Token':settings.device_token})
     assert device.post('/api/device/heartbeat',json={'state':'ready','firmware':'synthetic','rssi':-55}).status_code==200
     session=post(admin,'/api/admin/queue/call-next').json()['sessionId']
+    accept_command(device)
     assert device.post(f'/api/device/sessions/{session}/start').status_code==200
     with engine.begin() as c:
         execute(c,'UPDATE game_sessions SET started_at=:start WHERE public_id=:id',start=now()-timedelta(seconds=60),id=session)

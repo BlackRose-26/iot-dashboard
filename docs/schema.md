@@ -182,3 +182,17 @@ Quota checks lock the owner account before proposal; review locks the selected o
 ### Typed score pagination — 18 November 2026
 
 The existing `ai_admin_memory.state_json` validated context now supports `score_page` (integer 1–2,000), expanded curated score definitions and up to 13 named summary metrics. These are bounded interpretation parameters, not stored game results or personal values. Defaults validate older context JSON without a migration. Current schema/prompt fingerprints invalidate old reviewed approvals until re-review. The score-list analytics query uses existing players/game-session tables and public codes, with per-source snapshot paging; no identity table or new DDL is involved. See [research and contract](nlp-grounding-research.md).
+
+
+## Live event revision and outbox — 19 November 2026
+
+No migration is required. Existing `events.revision` is now a global committed event-state revision. Each relevant mutation, under the event lock, increments it and inserts `outbox_events` with that revision in the same transaction; new `payload_safe` values are `{}`. Queue/session-specific revisions retain their own meaning. Idempotent retries do not allocate another global revision.
+
+The dispatcher reads pending rows through `ix_outbox_pending`, queues revision-only hints and updates `published_at`/`attempts` afterward. Publication is not a browser delivery receipt. Older rows with former per-session revisions/payloads are not treated as authoritative notifications; current event revision and separately authorized REST snapshots are used. Short repeatable-read snapshot transactions prevent mixing rows and revision from concurrent commits. State-changing transactions retain READ COMMITTED and existing lock order. See [live protocol and actual recovery checks](live-updates.md).
+
+
+## Device command receipts and review holds — 19 November 2026
+
+No new DDL is needed. Existing `device_commands.receipt_hash` stores the canonical validated receipt hash; the first receipt sets `acknowledged_at`, accepted/rejected state and an allowlisted `rejection_code`. Duplicate same-hash receipts return the original acknowledgement without another transition. Conflicting hashes fail. A valid start requires the accepted receipt at the current expected session revision and marks it applied with `applied_at`.
+
+Unknown/rejected/expired assignments use the existing review session state, preserving `active_machine_id` and assigned queue entries. Undelivered reservation commands expire on a persisted hold; accepted receipts remain evidence. Staff review reasons use session-typed audit records. Delivery/hold changes increment event revisions and append outbox rows transactionally. Public/player snapshots never receive receipt hashes or command contents. See [contract, checks and recovery limits](device-command-delivery.md).

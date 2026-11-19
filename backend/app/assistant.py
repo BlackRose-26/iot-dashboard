@@ -21,10 +21,10 @@ from .security import now
 from .assistant_memory import MemoryStore
 from .assistant_knowledge import KNOWLEDGE, Knowledge, SOCIAL_QUESTIONS, Social
 from .assistant_interactions import COMMON_RESPONSES, composed_social, greeting_answer, interaction_social, interaction_text, interaction_words, strip_social_prefaces
-from .assistant_semantics import SCORE, SEMANTIC_VOCAB, constraints, refers_to_previous, resolve_subject, semantic_words
+from .assistant_semantics import SCORE, QUEUE, MACHINE, REGISTRATION, COMPLETED, SEMANTIC_VOCAB, constraints, refers_to_previous, resolve_subject, semantic_words, reviewed_explanation
 
 POLICY = 'analytics-v1-local'
-NORMALIZATION_VERSION = 'system-context-v7-grounded-requests'
+NORMALIZATION_VERSION = 'system-context-v8-audited-boundaries'
 REQUEST_SECONDS = 20
 WARMUP_SECONDS = 120
 MODEL_KEEP_ALIVE = '30m'
@@ -185,6 +185,7 @@ VOCABULARY.update(re.findall(r'[a-z]+(?:-[a-z]+)?', ' '.join(str(card) for card 
 VOCABULARY.update(interaction_words())
 VOCABULARY.update({'nila','sila','lahat','sum','page','pages','list','listing','each','every','individual','individually'})
 VOCABULARY.update(SEMANTIC_VOCAB)
+VOCABULARY.update('summarize ended pinakamaraming screens protection preparation offer maitutulong'.split())
 
 PROMPT = '''Understand a natural conversation with the Stack Moko Baby assistant. Return only JSON matching the schema.
 Input safe_tokens and meaning_hints describe the CURRENT question; unknown/private words were removed.
@@ -236,7 +237,7 @@ DEFINITIONS = {
                       'Ang highest score ay pinakamataas na valid completed-round score sa parehong source at period. N/A kung walang completed results.'),
     'lowest_score': ('Lowest score is the minimum valid completed-round score in the same source and period. No completed results means N/A.',
                      'Ang lowest score ay pinakamababang valid completed-round score sa parehong source at period. N/A kung walang completed results.'),
-    'accuracy': ('Overlap accuracy is total retained LED cells divided by total attempted row width. It is a game-derived metric, not physical tower stability.',
+    'accuracy': ('Pooled overlap accuracy is total retained LED cells divided by total attempted row width. It is a game-derived metric, not physical tower stability.',
                  'Ang overlap accuracy ay kabuuang retained LED cells ÷ kabuuang attempted row width. Game metric ito; hindi ito physical tower stability.'),
     'win_rate': ('Win rate is valid completed wins divided by all valid completed rounds in the same source, ruleset and time window. No completed rounds means N/A.',
                  'Ang win rate ay valid completed wins ÷ lahat ng valid completed rounds sa parehong source, ruleset at time window. N/A kung walang completed rounds.'),
@@ -248,6 +249,8 @@ DEFINITIONS = {
                 'Required at private ang student ID sa registration at encrypted ito sa database. Walang access ang assistant sa student IDs, identity hashes, credentials o private tokens.'),
 }
 
+# Public metric explanations must use the same approved vocabulary as their questions.
+VOCABULARY.update(re.findall(r'[a-z]+(?:-[a-z]+)?', ' '.join(str(value) for value in DEFINITIONS.values()).lower()))
 
 def normalize(question, preferences=None):
     value = unicodedata.normalize('NFKC', question).lower().strip()
@@ -256,7 +259,11 @@ def normalize(question, preferences=None):
         return None, 'needs_clarification'
     if re.search(r'\b(temperature|humidity|kilowatt|watt|energy|forecast|predict|personality|median)\b|power consumption|tower stability', value):
         return None, 'unsupported_measurement'
-    privacy_explanation = bool(re.search(r'\b(how|why|paano|bakit)\b', value) and re.search(r'\b(private|privacy|protect|protected|encrypted|encryption|secure|required|kailangan)\b', value) and not re.search(r'\b(reveal|show|list|export|dump|get|fetch|reconstruct)\b', value))
+    # A property/design question is public context; requesting the identifiers is not.
+    privacy_explanation = bool(
+        re.search(r'\b(how|why|where|what|are|is|do|does|explain|describe|paano|bakit|saan)\b', value)
+        and re.search(r'\b(private|privately|privacy|protect|protected|protection|encrypted|encryption|secure|storage|stored|required|require|requires|kailangan)\b', value)
+        and not re.search(r'\b(reveal|show|list|export|dump|get|fetch|reconstruct|decrypt|recover)\b', value))
     personal_identifier = bool(re.search(r'\b(?:my|your|their|our|his|her)\s+(?:(?:student|school|player|registration|account)\s+)?(?:id|identifier|code|number)\b|\bid\s*(?:is|:|=)', value))
     if personal_identifier and not privacy_explanation: return None, 'refused'
     if re.search(r'\b(passwords?|credentials?|secrets?|tokens?|api[\s_-]*keys?|identity[\s_-]*hash(?:es)?|ciphertext)\b|-----begin|[\w.+-]+@[\w.-]+|https?://', value) or (re.search(r'\bstudent[\s_-]*(?:ids?|numbers?|identifiers?)\b', value) and not privacy_explanation):
@@ -298,6 +305,7 @@ def normalize(question, preferences=None):
     words = set(tokens)
     unknown = set(all_words) - VOCABULARY - {'s','t','d','ll','ve','re'}
     scope_anchors = {'stack','moko','baby','game','games','event','carnival','players','player','score','scores','queue','pila','cabinet','machine','system','project','dashboard','registration','register','qr','camera','database','xampp','ollama','esp32','esp','privacy','private','encrypted','encryption','memory','level','levels','accuracy'}
+    scope_anchors |= SCORE | QUEUE | MACHINE | REGISTRATION | COMPLETED
     if unknown and not words & scope_anchors:
         return None, 'system_scope'
     periods = []
@@ -325,6 +333,8 @@ def normalize(question, preferences=None):
         if words & anchors:
             system_hint = topic
             break
+    if privacy_explanation and words & {'student','id','privacy','encrypted','encryption'}:
+        system_hint = 'privacy'
     return {'safe_tokens': tokens[:150], 'level_number': level, 'top_number': top, 'has_unrecognized_words': bool(unknown),
             'system_topic_hint': system_hint,
             'language_hint': explicit_language or (preferences.language if preferences else None) or ('taglish' if set(tokens) & TAGLISH_HINTS.keys() else 'en'),
@@ -367,6 +377,8 @@ def intent_payload(settings, normalized, previous=None, memory=None, examples=No
 def resolve_routing(route, normalized, previous=None):
     normalized,_=resolve_subject(normalized,previous)
     language = normalized['language_hint']
+    explanation=reviewed_explanation(normalized)
+    if explanation: return Intent(knowledge=explanation,language=language)
     required=constraints(normalized)
     if required:
         return Intent(tools=required['tools'],definition=required['definition'],language=language)
@@ -864,6 +876,13 @@ class Assistant:
                             'How does that relate to Stack Moko Baby? We can discuss gameplay, registration, the dashboard, architecture or your event data.' if blocked=='system_scope' else
                             'Please choose an event metric and a supported period: event to date, today, yesterday or last seven days. Available metrics include players, queue, cabinet, scores, levels and activity trends.', blocked)
                         audit_status = 'refused'
+                    elif normalized['has_unrecognized_words']:
+                        # Sanitization removes unknown subjects. The model cannot safely
+                        # reconstruct them from generic words such as "game" or "won".
+                        result = basic_response(body,'needs_clarification',
+                            "I couldn't match part of that wording to the reviewed project context. Please name the Stack Moko Baby topic or event metric you mean.",
+                            'unrecognized_context')
+                        audit_status = 'refused'
                     else:
                         async with asyncio.timeout(REQUEST_SECONDS):
                             readiness = await self.status()
@@ -894,7 +913,10 @@ class Assistant:
                                 tokens = {'input_tokens': response.get('prompt_eval_count'), 'output_tokens': response.get('eval_count')}
                                 routing = RoutingPlan.model_validate_json(response['message']['content'])
                             required=constraints(normalized)
-                            if required:
+                            explanation=reviewed_explanation(normalized)
+                            if explanation:
+                                routing=RoutingPlan(topic='knowledge',knowledge=explanation)
+                            elif required:
                                 # A model, reviewed example or old topic cannot override an explicit current request.
                                 topic_by_tool={'get_player_scores':'scores','get_score_distribution':'scores','get_event_summary':'players',
                                                'get_top_scores':'top','get_level_statistics':'levels','get_play_trend':'trend',

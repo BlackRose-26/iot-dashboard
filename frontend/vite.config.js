@@ -9,10 +9,19 @@ export default defineConfig({
       '/api': {
         target: process.env.STACK_API_TARGET || 'http://127.0.0.1:8000',
         changeOrigin: false,
+        ws: true,
       },
     },
   },
-  preview: { proxy: { '/api': { target: 'http://127.0.0.1:8000', changeOrigin: false } } },
+  preview: {
+    proxy: {
+      '/api': {
+        target: process.env.STACK_API_TARGET || 'http://127.0.0.1:8000',
+        changeOrigin: false,
+        ws: true,
+      },
+    },
+  },
   test: {
     environment: 'jsdom',
     setupFiles: './src/test-setup.js',

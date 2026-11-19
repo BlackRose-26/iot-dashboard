@@ -1,3 +1,11 @@
+## Current quality audit — 19 November 2026
+
+The [cross-system audit](quality-audit.md) supersedes earlier current-count and source-only notes below. Executed checks: 283 backend tests, 45 frontend tests, eight real Edge browser tests, the production build, critical Python static checks, documentation checks and dependency-advisory scans. Actual local Ollama regressions passed 44/44 after remediation; these are regression cases, not an unbiased language-quality benchmark.
+
+Fifty independent browser sessions, 250 context requests, actual forced API termination/restart with six pending outbox rows, terminal replay deduplication and a synthetic XAMPP dump/restore into a separate database passed. The audit records method, measured latencies and exact limits. Existing user servers/data were preserved. Actual phones, event LAN/TLS, physical ESP32/power failures and event rehearsal remain unverified.
+
+The following sections are historical milestone evidence, not cumulative current test counts.
+
 # Current QR/queue/authentication verification
 
 15 November 2026 · Canonical source: D:\iot-dashboard

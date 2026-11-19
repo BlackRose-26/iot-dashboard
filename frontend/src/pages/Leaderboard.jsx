@@ -30,6 +30,7 @@ export function PublicHeader() {
   )
 }
 export default function Leaderboard() {
+  const { revision } = useApp()
   const [rounds, setRounds] = useState([])
   const [source, setSource] = useState('')
   const [error, setError] = useState('')
@@ -40,6 +41,7 @@ export default function Leaderboard() {
         if (live) {
           setRounds(data.rounds)
           setSource(data.source)
+          setError('')
         }
       })
       .catch((e) => {
@@ -48,13 +50,14 @@ export default function Leaderboard() {
     return () => {
       live = false
     }
-  }, [])
+  }, [revision])
   const [search, setSearch] = useState('')
-  const [page, setPage] = useState(0)
+  const [requestedPage, setPage] = useState(0)
   const ranked = rankPlayers(rounds)
   const displayed = ranked.filter((p) =>
     `${p.nickname} ${p.code}`.toLowerCase().includes(search.toLowerCase()),
   )
+  const page = Math.min(requestedPage, Math.max(0, Math.ceil(displayed.length / 12) - 1))
   return (
     <div className="public-shell leaderboard-shell">
       <PublicHeader />
@@ -69,7 +72,7 @@ export default function Leaderboard() {
             <br />
             <span>You’re in good company.</span>
           </h1>
-          <p>ACS Carnival · 15 November 2026 · Classic v1</p>
+          <p>ACS Carnival · Classic v1 · Verified saved results</p>
         </div>
         {error && (
           <p className="field-error" role="alert">
@@ -78,7 +81,7 @@ export default function Leaderboard() {
         )}
         {source === 'simulator' && (
           <InfoNote>
-            Simulator leaderboard ? development rounds only. Physical cabinet scores are separate.
+            Simulator leaderboard · development rounds only. Physical cabinet scores are separate.
           </InfoNote>
         )}
         <div className="podium">
@@ -131,7 +134,7 @@ export default function Leaderboard() {
                   <button
                     aria-label="Previous page"
                     disabled={page === 0}
-                    onClick={() => setPage((p) => p - 1)}
+                    onClick={() => setPage(Math.max(0, page - 1))}
                   >
                     <ChevronLeft size={18} />
                   </button>
@@ -139,7 +142,7 @@ export default function Leaderboard() {
                   <button
                     aria-label="Next page"
                     disabled={(page + 1) * 12 >= displayed.length}
-                    onClick={() => setPage((p) => p + 1)}
+                    onClick={() => setPage(page + 1)}
                   >
                     <ChevronRight size={18} />
                   </button>

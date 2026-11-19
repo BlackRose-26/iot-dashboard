@@ -9,6 +9,7 @@ from fastapi import HTTPException
 from sqlalchemy import text
 
 from .security import now
+from .machine_status import cabinet_state
 
 Period = Literal['today', 'yesterday', 'last_7_days', 'event_to_date']
 Source = Literal['simulator', 'device']
@@ -148,8 +149,9 @@ def _collect_snapshot(c, period, source, requested, simulator_enabled, as_of, sn
         data['caveats'].append('Queue and cabinet status describe the current event, not the selected historical result window or source.')
     if 'get_machine_summary' in requested:
         machines = select(c, """SELECT m.observed_state,m.last_seen_at,m.health,m.enabled,m.maintenance,m.firmware_version,
-          (SELECT g.status FROM game_sessions g WHERE g.machine_id=m.id AND g.active_machine_id IS NOT NULL LIMIT 1) AS active_status
-          FROM machines m WHERE m.event_id=:event AND m.code='cabinet-01'""", params)
+          g.status AS active_status,g.result_source,g.ready_deadline_at
+          FROM machines m LEFT JOIN game_sessions g ON g.active_machine_id=m.id
+          WHERE m.event_id=:event AND m.code='cabinet-01'""", params)
         if not machines:
             data['machine'] = {'state': 'unknown', 'source': 'unknown', 'last_seen': None, 'age_seconds': None}
         else:
@@ -159,15 +161,12 @@ def _collect_snapshot(c, period, source, requested, simulator_enabled, as_of, sn
             if not isinstance(health, dict): health = {}
             origin = 'simulator' if health.get('source') == 'simulator' else 'device' if m['last_seen_at'] else 'unknown'
             age = max(0, int((as_of-m['last_seen_at']).total_seconds())) if m['last_seen_at'] else None
-            fresh = age is not None and age < 15
-            state = 'offline' if not fresh else {'reserved': 'reserved', 'countdown': 'reserved', 'playing': 'playing', 'awaiting_result': 'pending', 'review': 'pending'}.get(m['active_status'], 'ready' if m['observed_state']=='ready' else 'offline')
+            game = {'status':m['active_status'],'result_source':m['result_source'],'ready_deadline_at':m['ready_deadline_at']} if m['active_status'] else None
+            state = cabinet_state(m,game,as_of,simulator_enabled)
             data['machine'] = {'state': state, 'source': origin, 'last_seen': stamp(m['last_seen_at']),
                                'age_seconds': age, 'enabled': bool(m['enabled']), 'maintenance': bool(m['maintenance']),
                                'firmware': m['firmware_version'] if origin=='device' else None,
                                'rssi': health.get('rssi') if origin=='device' and type(health.get('rssi')) is int and -120<=health['rssi']<=0 else None}
-            # Simulator readiness is operationally persistent; its timestamp is not an ESP32 heartbeat.
-            if origin == 'simulator' and simulator_enabled:
-                data['machine']['state'] = {'reserved': 'reserved', 'countdown': 'reserved', 'playing': 'playing', 'awaiting_result': 'pending', 'review': 'pending'}.get(m['active_status'], 'ready' if m['observed_state']=='ready' else 'offline')
             if origin == 'simulator': data['caveats'].append('Cabinet observations come from the development simulator, not a connected ESP32. The recorded timestamp is not a fresh physical heartbeat.')
     if 'get_score_distribution' in requested:
         counts = select(c, """SELECT LEAST(FLOOR(g.score/300),4) AS bucket,COUNT(*) AS rounds""" + RESULTS + ' GROUP BY bucket', params)

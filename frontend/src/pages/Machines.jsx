@@ -1,7 +1,118 @@
+import { useState } from 'react'
 import { useApp } from '../state/AppContext'
-import { Card, CardHeader, PageHeading, Badge, Button, InfoNote } from '../components/ui'
+import { api } from '../state/api'
+import { Card, CardHeader, PageHeading, Badge, Button, InfoNote, Modal } from '../components/ui'
 import { Matrix, stateLabels } from '../components/LiveRound'
 import { Radio, Layers3 } from '../components/icons'
+
+export function DeviceCommands() {
+  const { deviceCommands = [], currentPlayer, admin, refresh, notify, busy } = useApp()
+  const [target, setTarget] = useState(null)
+  const [reason, setReason] = useState('')
+  const [error, setError] = useState('')
+  const [saving, setSaving] = useState(false)
+  const physical = currentPlayer?.source === 'device'
+  async function flag() {
+    setSaving(true)
+    setError('')
+    try {
+      await api(`/admin/sessions/${target.id}/review`, {
+        method: 'POST',
+        csrf: admin.csrf,
+        body: { expectedRevision: target.revision, reason: reason.trim() },
+      })
+      await refresh()
+      notify('Round held for operator review. The cabinet remains reserved.')
+      setTarget(null)
+    } catch (failure) {
+      setError(failure.message)
+    } finally {
+      setSaving(false)
+    }
+  }
+  return (
+    <Card>
+      <CardHeader title="Command delivery" subtitle="Saved reservation, receipt and start status" />
+      {!deviceCommands.length && (
+        <p className="field-help">No cabinet commands have been recorded.</p>
+      )}
+      <dl className="device-facts">
+        {deviceCommands.map((command) => (
+          <div key={command.id}>
+            <dt>
+              {command.source === 'simulator' ? 'Simulator' : 'Device'}{' '}
+              {command.type === 'reserve' ? 'reservation' : command.type}
+              <p className="field-help">{new Date(command.createdAt).toLocaleString('en-PH')}</p>
+            </dt>
+            <dd>
+              <Badge tone="soft">{command.status}</Badge>
+              {command.rejectionCode && (
+                <p className="field-help">{command.rejectionCode.replaceAll('_', ' ')}</p>
+              )}
+            </dd>
+          </div>
+        ))}
+      </dl>
+      <p className="field-help">
+        Pending means saved, accepted means the device recorded a receipt, and applied means the
+        server recorded the start. These states do not verify physical hardware.
+      </p>
+      {physical && currentPlayer.reviewRequired && (
+        <InfoNote>
+          This round needs operator review. The cabinet and player reservation remain held; a
+          timeout does not release them.
+        </InfoNote>
+      )}
+      {physical && currentPlayer.status !== 'review' && (
+        <Button
+          tone="light"
+          disabled={busy}
+          onClick={() => {
+            setTarget({ id: currentPlayer.sessionId, revision: currentPlayer.revision })
+            setReason('')
+            setError('')
+          }}
+        >
+          Flag round for review
+        </Button>
+      )}
+      {physical && currentPlayer.status === 'review' && (
+        <p role="status">
+          Review hold active. Device reconciliation is required before another turn can be assigned.
+        </p>
+      )}
+      <Modal
+        title="Hold this round for review"
+        description="The cabinet stays reserved while the operator investigates. This does not stop a physical game or release its ticket."
+        open={Boolean(target)}
+        onOpenChange={(open) => {
+          if (!open && !saving) setTarget(null)
+        }}
+      >
+        <label className="field-label" htmlFor="device-review-reason">
+          Reason for review
+        </label>
+        <textarea
+          id="device-review-reason"
+          className="text-input"
+          maxLength={160}
+          value={reason}
+          onChange={(event) => setReason(event.target.value)}
+        />
+        {error && (
+          <p className="field-error" role="alert">
+            {error}
+          </p>
+        )}
+        <div className="modal-actions">
+          <Button disabled={saving || !reason.trim()} onClick={flag}>
+            {saving ? 'Saving…' : 'Hold for review'}
+          </Button>
+        </div>
+      </Modal>
+    </Card>
+  )
+}
 
 export function SimulatorControls() {
   const { simulatorEnabled, simulate, busy, currentPlayer, machineState, machine } = useApp()
@@ -121,6 +232,7 @@ export default function Machines() {
           ? 'The simulator is active. This does not verify physical hardware.'
           : 'A fresh device heartbeat is required before calling a player. Missing readings remain unknown.'}
       </InfoNote>
+      <DeviceCommands />
       <SimulatorControls />
     </>
   )

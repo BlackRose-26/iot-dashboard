@@ -67,7 +67,7 @@ Avoid adding a permanent wide sidebar that changes the reference layout. Use a c
 | `--danger` | `#A62424` | Error text/icon; include explicit words |
 | Card / tile / row radius | `60px / 44px / 999px` | Main panels / operations tiles / pills |
 | Content spacing | `8, 16, 24, 32, 48px` | Consistent rhythm |
-| Typeface | Inter if available, else system sans-serif | Reference-like neutral grotesk; do not assert exact match |
+| Typeface | Open Sans Variable, bundled locally; system sans-serif fallback | Confirmed by the user on 19 November 2026; shared across admin/player views |
 | Type scale | `14, 16, 20, 24, 28, 64px` | Metadata through gauge number |
 
 No strong gradients, heavy shadows, glass effects or saturated rainbow charts. Use standard Font Awesome Free webfont symbols, black filled circular action controls, 48px minimum primary touch controls and ample internal spacing. Confirm actual text/background contrast in implementation; gauge details need a textual equivalent. Lime receives black text.
