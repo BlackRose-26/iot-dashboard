@@ -1,12 +1,19 @@
 import { useEffect, useState } from 'react'
 import { api } from '../state/api'
 import { Modal } from './ui'
+import { topics, kinds } from './reviewLabels'
 
 function freshTarget(topic) {
   return { topic, definition: null, knowledge: null, social: null }
 }
 
-export default function AssistantTrainingReview({ open, onOpenChange, candidate, csrf }) {
+export default function AssistantTrainingReview({
+  open,
+  onOpenChange,
+  candidate,
+  csrf,
+  singleReply = false,
+}) {
   const [options, setOptions] = useState(null)
   const [items, setItems] = useState([])
   const [selected, setSelected] = useState(null)
@@ -154,63 +161,71 @@ export default function AssistantTrainingReview({ open, onOpenChange, candidate,
     <Modal
       open={open}
       onOpenChange={onOpenChange}
-      title="Training examples"
-      description="Approve sanitized corrections to help interpret future questions when memory is on. Only your examples are shown. Exporting prepares a dataset; model weights are unchanged."
+      title={singleReply ? 'Review this reply' : 'Training examples'}
+      description={
+        singleReply
+          ? 'Check the words and choose what the person meant. Approved examples can help with similar questions when memory is on.'
+          : 'Review saved examples that can help with similar questions when memory is on.'
+      }
     >
       <div className="assistant-training-review">
         {error && <p role="alert">{error}</p>}
         {notice && <p role="status">{notice}</p>}
-        <button
-          className="text-button"
-          type="button"
-          disabled={busy || dirty}
-          onClick={() => void action(exportApproved)}
-        >
-          <i className="fa-solid fa-download" aria-hidden="true" /> Export approved JSONL
-        </button>
-        {dirty && <small>Save or approve your label changes before exporting.</small>}
-        <label>
-          Review queue
-          <select
-            aria-label="Review queue"
-            value={selected?.id || ''}
-            disabled={busy}
-            onChange={(event) => {
-              const row = items.find((item) => item.id === event.target.value)
-              if (row) choose(row)
-              else {
-                setSelected(null)
-                setTarget(candidate?.target || null)
-                setChecked(false)
-              }
-            }}
-          >
-            <option value="">
-              {candidate ? 'New selected conversation example' : 'Select an example'}
-            </option>
-            {items.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.status}
-                {!item.current ? ' · needs re-review' : ''} —{' '}
-                {item.input.safe_tokens.slice(0, 12).join(' ')}
-              </option>
-            ))}
-          </select>
-        </label>
-        {cursor && (
-          <button
-            type="button"
-            className="text-button"
-            disabled={busy}
-            onClick={() => void action(() => load(cursor))}
-          >
-            Load more examples
-          </button>
+        {!singleReply && (
+          <>
+            <button
+              className="text-button"
+              type="button"
+              disabled={busy || dirty}
+              onClick={() => void action(exportApproved)}
+            >
+              <i className="fa-solid fa-download" aria-hidden="true" /> Export approved JSONL
+            </button>
+            {dirty && <small>Save or approve your label changes before exporting.</small>}
+            <label>
+              Review queue
+              <select
+                aria-label="Review queue"
+                value={selected?.id || ''}
+                disabled={busy}
+                onChange={(event) => {
+                  const row = items.find((item) => item.id === event.target.value)
+                  if (row) choose(row)
+                  else {
+                    setSelected(null)
+                    setTarget(candidate?.target || null)
+                    setChecked(false)
+                  }
+                }}
+              >
+                <option value="">
+                  {candidate ? 'New selected conversation example' : 'Select an example'}
+                </option>
+                {items.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.status}
+                    {!item.current ? ' · needs re-review' : ''} —{' '}
+                    {item.input.safe_tokens.slice(0, 12).join(' ')}
+                  </option>
+                ))}
+              </select>
+            </label>
+            {cursor && (
+              <button
+                type="button"
+                className="text-button"
+                disabled={busy}
+                onClick={() => void action(() => load(cursor))}
+              >
+                Load more examples
+              </button>
+            )}
+          </>
         )}
         {input && options && target ? (
           <>
             <div className="assistant-training-preview">
-              <strong>Sanitized input</strong>
+              <strong>Words to check</strong>
               <p>{input.safe_tokens.join(' ')}</p>
               <small>No original message, metric answer or player record is saved.</small>
               {input.has_unrecognized_words && (
@@ -220,12 +235,12 @@ export default function AssistantTrainingReview({ open, onOpenChange, candidate,
                 </p>
               )}
               <details>
-                <summary>Typed context included</summary>
+                <summary>More details</summary>
                 <pre>{JSON.stringify({ ...input, safe_tokens: undefined }, null, 2)}</pre>
               </details>
             </div>
             <label>
-              Correct routing topic
+              What was the question about?
               <select
                 value={target.topic}
                 disabled={busy}
@@ -236,14 +251,14 @@ export default function AssistantTrainingReview({ open, onOpenChange, candidate,
               >
                 {options.topics.map((topic) => (
                   <option key={topic} value={topic}>
-                    {topic.replaceAll('_', ' ')}
+                    {topics[topic] || topic.replaceAll('_', ' ')}
                   </option>
                 ))}
               </select>
             </label>
             {labelField && (
               <label>
-                Correct {labelField} label
+                Which part?
                 <select
                   value={target[labelField] || ''}
                   disabled={busy}
@@ -255,7 +270,7 @@ export default function AssistantTrainingReview({ open, onOpenChange, candidate,
                   <option value="">Choose a label</option>
                   {options[labelField].map((label) => (
                     <option key={label} value={label}>
-                      {label.replaceAll('_', ' ')}
+                      {kinds[labelField]?.[label] || label.replaceAll('_', ' ')}
                     </option>
                   ))}
                 </select>
@@ -274,8 +289,7 @@ export default function AssistantTrainingReview({ open, onOpenChange, candidate,
                     disabled={busy}
                     onChange={(event) => setChecked(event.target.checked)}
                   />
-                  I reviewed the sanitized input and corrected labels. They contain no private data
-                  or real metric values.
+                  I checked the meaning. The example has no private details or real game numbers.
                 </label>
                 <div className="assistant-training-actions">
                   <button
@@ -319,7 +333,7 @@ export default function AssistantTrainingReview({ open, onOpenChange, candidate,
                 disabled={busy || !validTarget}
                 onClick={() => void action(save)}
               >
-                Save pending example
+                Save for approval
               </button>
             )}
           </>

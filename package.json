@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "node scripts/dev.mjs",
     "dev:backend": "node scripts/dev.mjs --backend-only",
-    "dev:frontend": "npm --prefix frontend run dev:frontend"
+    "dev:frontend": "npm --prefix frontend run dev:frontend",
+    "online": "node scripts/online.mjs",
+    "online:firmware": "node scripts/online.mjs --firmware",
+    "online:device": "node scripts/online.mjs --device",
+    "device:selftest": "node scripts/device.mjs --selftest",
+    "device:flash": "node scripts/device.mjs"
   },
   "engines": {
     "node": ">=22.12.0"

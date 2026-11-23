@@ -187,7 +187,7 @@ def test_loaded_model_is_ready_only_after_background_calibration(monkeypatch):
         task = service.prepare_task
         assert (await service.prepare())['reason'] == 'warming'
         assert service.prepare_task is task
-        assert (await service.ask(Question(question='Show scores.'), 1))['reason'] == 'warming'
+        assert (await service.ask(Question(question='Describe the project.'), 1))['reason'] == 'warming'
         assert not service.rates
         payload = calls[-1][1]
         assert payload['think'] is False and payload['keep_alive'] == '30m'

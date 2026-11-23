@@ -10,6 +10,7 @@ html[data-admin-theme] {
   --sage: #e3e6e8;
   --ink: #20252d;
   --muted: #606975;
+  --note-ink: var(--muted);
   --border: #dce0e5;
   --danger: #993e3e;
   --chart-primary: #73859a;
@@ -313,6 +314,21 @@ html[data-admin-theme] .toast {
   margin-top: 24px;
   padding: 28px;
 }
+.device-facts dt,
+.device-facts dd {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.device-facts dd {
+  max-width: 65%;
+}
+.toast {
+  width: max-content;
+}
+.toast > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
 .simulator-card h2 {
   font-size: 18px;
   margin: 0 0 8px;
@@ -366,6 +382,14 @@ html[data-admin-theme] .toast {
   height: auto !important;
 }
 @media (max-width: 700px) {
+  .scope-bar {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .scope-bar > .badge {
+    max-width: 100%;
+    white-space: normal;
+  }
   .admin-login > header {
     padding: 24px;
   }

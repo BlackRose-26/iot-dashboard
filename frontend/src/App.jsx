@@ -1,3 +1,4 @@
+import QuestionReview from './pages/QuestionReview'
 import { useLayoutEffect } from 'react'
 import { Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom'
 import Shell from './components/Shell'
@@ -16,13 +17,21 @@ import { useApp } from './state/AppContext'
 
 function AdminOnly() {
   const { admin, ready } = useApp()
+  const { pathname } = useLocation()
   if (!ready)
     return (
       <div className="page-loading" role="status">
         Checking your session…
       </div>
     )
-  if (!admin) return <Navigate to="/admin/login" replace />
+  if (!admin)
+    return (
+      <Navigate
+        to="/admin/login"
+        state={{ reviewQuestions: pathname === '/admin/question-review' }}
+        replace
+      />
+    )
   return <Shell />
 }
 function PlayerOnly({ completed = false }) {
@@ -65,6 +74,7 @@ export default function App() {
           <Route path="sessions" element={<Sessions />} />
           <Route path="machines" element={<Machines />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="question-review" element={<QuestionReview />} />
         </Route>
         <Route path="/join/:token" element={<Entry />} />
         <Route path="/register" element={<Registration />} />

@@ -1,34 +1,47 @@
 # Stack Moko Baby
 
+For free Wokwi-stage online operation, start XAMPP MySQL and run `npm run online:firmware`. It prints a public HTTPS login/scanner address and builds a private firmware image for that session. The PC must stay running; the address changes on restart. See [free online setup](docs/free-online.md). Render deployment files remain an inactive alternative.
+
+For the physical cabinet on a phone hotspot, `npm run device:selftest` checks the wiring and `npm run online:device` uploads hotspot-configured firmware over USB without erasing the device journal. See [physical bring-up](docs/hardware-bringup.md).
+
 ![Status: local development](https://img.shields.io/badge/status-local_development-64748b)
 ![React 19](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)
+![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-38bdf8?logo=tailwindcss&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-JSX-f7df1e?logo=javascript&logoColor=black)
 ![FastAPI](https://img.shields.io/badge/backend-FastAPI-009688?logo=fastapi&logoColor=white)
 ![XAMPP MariaDB](https://img.shields.io/badge/database-XAMPP_MariaDB-fb7a24?logo=xampp&logoColor=white)
-![ESP32 integration planned](https://img.shields.io/badge/ESP32-integration_planned-64748b)
+![ESP32 firmware prepared](https://img.shields.io/badge/ESP32-firmware_prepared-64748b)
 
 An IoT carnival LED-matrix stacking game with a private player queue and an administrator dashboard. Players scan the event QR, register, wait for their turn, play at the physical cabinet and receive a win/loss result with leaderboard access. The ESP32 and physical button own gameplay timing; the backend owns queue assignment and validated scores.
 
+Connected Matrix v1 firmware is prepared: 16 columns, 15 levels and one point per successful placement. Earlier Classic results keep separate scoring/rankings. See [ESP32/Wokwi and online setup](docs/esp32-online.md) for configuration and remaining device gates. The selected free HTTPS launcher retains XAMPP and local Ollama on this PC; Render deployment files remain an inactive alternative.
+
 ## Current implementation
+
+Stack Intelligence has limited coverage of unfamiliar wording: the first-use [325-case synthetic holdout](docs/nlp-evaluation/holdout-v1.md) measured 59/325 accepted intent/context matches, with frequent clarification of valid requests. Earlier small-set scores are development regressions. This needs further work before a broad natural-language reliability claim.
+
+A subsequent [language pipeline repair](docs/nlp-routing-repair.md) adds common English/Taglish normalization and direct routing for explicit supported requests. Its consumed-set regression is reported separately; the original first-use result remains preserved and new unseen accuracy is not established.
+
+The current repair includes filtered public vocabulary and separate topical checking. The reused 325-case regression reached **135/325 (41.54%)**, with 135 valid clarifications and one unsupported false acceptance. Broader NLP remains experimental despite passing backend and visible development checks.
 
 - **Player flow:** camera or image QR scanning through html5-qrcode, required private student ID, registration, persistent personal ticket, FIFO position, turn/result updates and post-game leaderboard.
 - **Administration:** session-based login, neutral light/dark dashboard, cards and charts, queue/admissions controls, saved sessions/results, cabinet status and registration QR download.
 - **Backend:** FastAPI, transactional MariaDB persistence, migrations, CSRF protection, encrypted student IDs and server-side score replay.
 - **Live updates:** authenticated staff/player notifications, durable post-commit outbox, revisioned snapshots, reconnect recovery and polling fallback; no public stream. See [behavior and limits](docs/live-updates.md).
-- **Device command boundary:** authenticated polling and durable receipts, receipt-required start, a command emulator and review-hold diagnostics. Physical firmware and guarded reconciliation remain pending.
+- **Device recovery:** authenticated polling, boot-bound persistent journals, immutable start/terminal evidence, stop receipts and guarded admin release/void/result recovery. A dedicated emulator exercises retries and reboot lineage. Physical firmware/NVS still requires hardware verification. See [the recovery workflow](docs/device-recovery.md).
 - **Development simulator:** explicit admin controls for readiness, start and win/loss results; simulator scores are labelled and separated from device rankings.
 - **Stack Intelligence:** local Ollama system conversation, private per-admin topic/preferences memory, read-only analytics and factual English/Taglish answers with scope/evidence. Memory improves continuity; selected sanitized routing examples can be reviewed and exported for later fine-tuning. Model weights are not automatically retrained. Local loading, English/Taglish routing and synthetic browser flows have been checked; broader release acceptance remains pending. See [AI setup and review checklist](docs/admin-assistant.md).
 
-Physical ESP32 firmware and end-to-end hardware integration remain pending. Closed-tab push, automated retention/recovery and production deployment hardening are also pending. This repository is a local development implementation; proposed numeric game settings still need play-testing.
+Connected ESP32 firmware compiles locally; actual Wokwi-to-cloud and physical hardware acceptance remain pending. Closed-tab push, automated retention/recovery and production deployment hardening are also pending. This repository is a development implementation; numeric game settings still need physical play-testing.
 
-The [19 November quality audit](docs/quality-audit.md) records security/correctness fixes, current automated/browser checks, local restart/load/restore evidence and the remaining release limits. New roadmap features are paused.
+The [19 November quality audit](docs/quality-audit.md) records security/correctness fixes, automated/browser checks, local restart/load/restore evidence and remaining release limits. The user resumed roadmap development on 20 November; the next progress report will be prepared only when requested.
 
 ## Technology
 
 | Layer | Stack |
 |---|---|
-| Frontend | React 19, JavaScript/JSX, Vite, React Router |
-| UI / visualization | Shared CSS tokens, Radix primitives, Recharts, Font Awesome webfonts |
+| Frontend | React.js 19, JavaScript/JSX, Vite, Tailwind CSS 4, React Router |
+| UI / visualization | Tailwind utilities and shared theme tokens, Radix primitives, Recharts, Font Awesome webfonts |
 | Backend | Python 3.13, FastAPI, SQLAlchemy Core |
 | Database | XAMPP MySQL service — local installation uses MariaDB 10.11.16 |
 | Planned cabinet | ESP32, LED matrix, physical button |

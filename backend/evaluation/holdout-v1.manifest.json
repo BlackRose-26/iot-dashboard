@@ -1,0 +1,110 @@
+{
+  "dataset_sha256": "692b28787ae9a109bf98dd7cbda1bbc2b5027493b0027f556c17cb05914525f6",
+  "n": 325,
+  "counts": {
+    "overview": 25,
+    "players": 25,
+    "queue": 25,
+    "machine": 25,
+    "scores": 25,
+    "levels": 25,
+    "trend": 25,
+    "top": 25,
+    "definition": 25,
+    "knowledge": 25,
+    "social": 25,
+    "follow_up": 25,
+    "unsupported": 25
+  },
+  "language_counts": {
+    "en": 182,
+    "taglish": 143
+  },
+  "subtype_counts": {
+    "overview": 25,
+    "players": 25,
+    "queue": 25,
+    "machine": 25,
+    "scores": 25,
+    "levels": 25,
+    "trend": 25,
+    "top": 25,
+    "definition:accuracy": 4,
+    "definition:win_rate": 3,
+    "definition:scoring": 3,
+    "definition:average_score": 5,
+    "definition:total_score": 4,
+    "definition:highest_score": 3,
+    "definition:lowest_score": 3,
+    "knowledge:gameplay": 2,
+    "knowledge:registration": 2,
+    "knowledge:queue_flow": 2,
+    "knowledge:architecture": 3,
+    "knowledge:dashboard": 2,
+    "knowledge:privacy": 2,
+    "knowledge:offline": 3,
+    "knowledge:results": 2,
+    "knowledge:assistant": 2,
+    "knowledge:memory": 2,
+    "knowledge:training": 3,
+    "social:greeting": 5,
+    "social:thanks": 4,
+    "social:identity": 3,
+    "social:help": 3,
+    "social:acknowledge": 4,
+    "social:farewell": 3,
+    "social:wellbeing": 3,
+    "follow_up": 25,
+    "unsupported": 25
+  },
+  "families_per_intent": {
+    "overview": 13,
+    "players": 13,
+    "queue": 14,
+    "machine": 13,
+    "scores": 14,
+    "levels": 13,
+    "trend": 13,
+    "top": 13,
+    "definition": 17,
+    "knowledge": 14,
+    "social": 11,
+    "follow_up": 13,
+    "unsupported": 14
+  },
+  "audit": {
+    "reference_count": 911,
+    "exact_collisions": [],
+    "near_duplicates": [],
+    "within_set_exact": [],
+    "within_set_near": [],
+    "policy": "Reject exact raw/usable-normalized overlaps and near pairs with content Jaccard>=0.70 plus character similarity>=0.84; thresholds fixed before predictions."
+  },
+  "runtime": {
+    "code": {
+      "backend/app/assistant.py": "b7e5e3522a1982af53188662675bafc010b50b52b8b54929919720b1f62181ad",
+      "backend/app/assistant_interactions.py": "7dcc39771d8fc316b9ade92e94fed8b756946c36d3138ce4c4c3c6fe7f1eb1c2",
+      "backend/app/assistant_knowledge.py": "5b6f705df5ec5c2e45ac1d1c7405d93f79605c43fc24b46fcaac5f75f00ea59c",
+      "backend/app/assistant_learning.py": "9bbbe34f2f2996e3390238e79741417e233aed235b4e34cc5af319541ce89d7b",
+      "backend/app/assistant_memory.py": "32e3b493075ddd21f76d046b45706faa3a42dc2a4e1b42329656b124e029c8eb",
+      "backend/app/assistant_semantics.py": "df59e3dd691ccd2c8e7154b03891cb4ec4f13d46ad7ed1051e6a448431125631",
+      "backend/app/assistant_training.py": "b867d554dbba36f8d20207aab4e0be26415542aa4d82109f3293396017c7c378",
+      "backend/app/analytics.py": "dee9b59bcf7fea3d217546f8af863b1fcd686cf87c8e13c8714cd022c5a30819"
+    },
+    "corpora": {
+      "backend/data/assistant-routing.json": "4b485f7b0a0a907b613195ebc24aff198cdf5436acff262f2447d2d2c6179145",
+      "backend/data/assistant-interactions.json": "835c7cff9d900cc43d9f69d3ca39f93add843f4614b020b5a45859992f8d0b0b",
+      "backend/data/assistant-behavioral.json": "ae09bd57029ba0f33cdbd58b2d4f5838c0292304556261173cd98085a08a5d1b",
+      "backend/data/assistant-routing-contrasts.json": "0e57c97a9f02778a558aa2920ee76bc2b8909bc751e1445cb8c4814ff89262bd"
+    },
+    "runtime_corpus_sha256": "966c994c36213d160ced752011a1ba4cf004bb7acb998685011acec1259dde62",
+    "prompt_sha256": "e3746670e2510ecc53cce8d646d1da1f4322ecdaf2381ad6527152650eecdb24"
+  },
+  "evaluation_code": {
+    "backend/holdout_audit.py": "34d37eb9ff8f6be0c55b2e5e8837404a14552e41ee1603552d368662af6b996b",
+    "backend/holdout_metrics.py": "663c44405e587dbb5bd28d321657531b4faacd85551acab9388ff5110021c4c6",
+    "backend/evaluate_holdout.py": "3f73f00628f93cf06c4a13a9efd86b774f33cfcf3db41a421f903c4fab579736",
+    "backend/evaluation/cases_v1.py": "9cb184fbc9cabad0ab2da0b54a298b9db75073bcf23f572b2225ce489a91b3ca"
+  },
+  "authoring": "Manual literal inventory; no prediction-based selection or application changes."
+}

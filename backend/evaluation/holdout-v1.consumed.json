@@ -1,0 +1,12 @@
+{
+  "started_at": "2026-11-19T22:19:32.794284+00:00",
+  "dataset_sha256": "692b28787ae9a109bf98dd7cbda1bbc2b5027493b0027f556c17cb05914525f6",
+  "model": {
+    "name": "qwen3:4b-instruct",
+    "digest": "0edcdef34593eac1aa2be9c7d06c432dcf81945adca5eca2f27662c18f168ba0"
+  },
+  "evaluator_sha256": "3f73f00628f93cf06c4a13a9efd86b774f33cfcf3db41a421f903c4fab579736",
+  "status": "complete",
+  "completed_at": "2026-11-19T22:19:55.625502+00:00",
+  "result_sha256": "a7c26b1a2184646d079457207814c31a6c4c626b7380cdcbb80a00d0a02bf64d"
+}

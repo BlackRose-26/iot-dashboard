@@ -59,10 +59,19 @@ def poll_commands(c, m):
           AND d.expected_revision=g.revision ORDER BY d.created_at,d.id LIMIT 5''', machine=m['id'], now=now())
         for row in rows:
             payload = json.loads(row['payload'])
-            commands.append({'id':row['public_id'], 'type':'reserve',
+            commands.append({'id':row['public_id'], 'type':'reserve', 'deliverySequence':row['id'],
                 'sessionId':row['session_uuid'], 'expectedRevision':row['expected_revision'],
                 'expiresAt':row['expires_at'].isoformat()+'Z',
                 'rules':payload['rules'], 'rulesHash':payload['rulesHash']})
+    if g and g['result_source']=='device' and g['status']=='review':
+        fences = all_rows(c, '''SELECT d.*,b.public_id AS boot_uuid FROM device_commands d
+          JOIN device_boots b ON b.id=d.target_boot_id AND b.retired_at IS NULL
+          WHERE d.session_id=:id AND d.command_type='fence' AND d.status='pending'
+          AND d.expected_revision=:revision AND d.expires_at>:now ORDER BY d.id''',
+          id=g['id'],revision=g['revision'],now=now())
+        commands.extend({'id':d['public_id'],'type':'fence','deliverySequence':d['id'],'sessionId':g['public_id'],
+                         'expectedRevision':d['expected_revision'],'bootId':d['boot_uuid'],
+                         'expiresAt':d['expires_at'].isoformat()+'Z'} for d in fences)
     return {'commands':commands, 'reviewRequired':review,
             'activeSessionId':g['public_id'] if g and g['result_source']=='device' else None}
 

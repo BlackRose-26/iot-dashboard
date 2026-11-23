@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useCallback, useEffect, useRef } f
 import { summarize } from '../data/demo'
 import { api } from './api'
 import { useLiveUpdates } from './useLiveUpdates'
+import { CLASSIC_GAME } from './game'
 
 const AppContext = createContext(null)
 function newest(previous, data) {
@@ -153,6 +154,7 @@ export function AppProvider({ children }) {
     <AppContext.Provider
       value={{
         ...snapshot,
+        game: (admin ? snapshot.game : player.game) || CLASSIC_GAME,
         admin,
         ready,
         player,

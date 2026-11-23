@@ -1,0 +1,23 @@
+{
+  "scope": "Measured routing stage; synthetic development data, not blind real-user or factual-answer accuracy.",
+  "groups": [
+    {
+      "name": "Reused regression",
+      "n": 21,
+      "before_correct": 12,
+      "after_correct": 21,
+      "before_accuracy": 0.5714285714285714,
+      "after_accuracy": 1.0,
+      "dataset_sha256": "4b485f7b0a0a907b613195ebc24aff198cdf5436acff262f2447d2d2c6179145"
+    },
+    {
+      "name": "Synthetic validation",
+      "n": 24,
+      "before_correct": 14,
+      "after_correct": 23,
+      "before_accuracy": 0.5833333333333334,
+      "after_accuracy": 0.9583333333333334,
+      "dataset_sha256": "f01f01a1e37ab56b8f9eb3993a48b0fa0930c5a2859c9f89388f11166097a07e"
+    }
+  ]
+}

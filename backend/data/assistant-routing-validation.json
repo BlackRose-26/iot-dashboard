@@ -1,0 +1,30 @@
+{
+  "version": "routing-validation-20261120-v1",
+  "evaluation_note": "Frozen synthetic developer-authored diagnostic set created before this improvement. Not blind real-user accuracy; do not retrieve these rows or tune repeatedly against them.",
+  "examples": [
+    {"id":"validation-01","family":"value-request-polite","split":"validation","question":"Please tell me the current average points.","target":{"topic":"scores"}},
+    {"id":"validation-02","family":"formula-request-purpose","split":"validation","question":"How are average points calculated?","target":{"topic":"definition","definition":"average_score"}},
+    {"id":"validation-03","family":"pooled-number-request","split":"validation","question":"Give the pooled overlap percentage for the whole event.","target":{"topic":"players"}},
+    {"id":"validation-04","family":"overlap-explanation-request","split":"validation","question":"What does retained overlap accuracy mean?","target":{"topic":"definition","definition":"accuracy"}},
+    {"id":"validation-05","family":"line-live-polite","split":"validation","question":"Please check how many people are waiting in line.","target":{"topic":"queue"}},
+    {"id":"validation-06","family":"line-design-authority","split":"validation","question":"Explain the operator role in queue assignment.","target":{"topic":"knowledge","knowledge":"queue_flow"}},
+    {"id":"validation-07","family":"readiness-live-request","split":"validation","question":"Tell me the current physical cabinet readiness.","target":{"topic":"machine"}},
+    {"id":"validation-08","family":"simulation-proof-boundary","split":"validation","question":"Can simulated results verify a real cabinet connection?","target":{"topic":"knowledge","knowledge":"offline"}},
+    {"id":"validation-09","family":"rank-request-taglish","split":"validation","question":"Sino ang leading player sa event?","target":{"topic":"top"}},
+    {"id":"validation-10","family":"rank-request-best","split":"validation","question":"Who is the best player on the board?","target":{"topic":"top"}},
+    {"id":"validation-11","family":"activity-peak-taglish","split":"validation","question":"Kailan pinakamaraming completed games ngayong araw?","target":{"topic":"trend"}},
+    {"id":"validation-12","family":"activity-pattern-en","split":"validation","question":"Show game activity by hour for today.","target":{"topic":"trend"}},
+    {"id":"validation-13","family":"sources-design","split":"validation","question":"Explain why device rankings and simulator rankings are separate.","target":{"topic":"knowledge","knowledge":"results"}},
+    {"id":"validation-14","family":"scores-per-person","split":"validation","question":"List the points of every completed player.","target":{"topic":"scores"}},
+    {"id":"validation-15","family":"privacy-design-need","split":"validation","question":"Explain why student identity is protected.","target":{"topic":"knowledge","knowledge":"privacy"}},
+    {"id":"validation-16","family":"entry-camera-design","split":"validation","question":"Describe player entry using the camera.","target":{"topic":"knowledge","knowledge":"registration"}},
+    {"id":"validation-17","family":"whole-event-summary","split":"validation","question":"Give an event summary including game activity.","target":{"topic":"overview"}},
+    {"id":"validation-18","family":"count-measure","split":"validation","question":"Tell me how many distinct players finished.","target":{"topic":"players"}},
+    {"id":"validation-19","family":"continuity-window","split":"validation","question":"And yesterday?","previous":{"tools":["get_player_scores"]},"target":{"topic":"follow_up"}},
+    {"id":"validation-20","family":"explicit-subject-overrides-memory","split":"validation","question":"What is the total score today?","previous":{"tools":["get_queue_summary"]},"target":{"topic":"scores"}},
+    {"id":"validation-21","family":"knowledge-software-design","split":"validation","question":"Describe how the frontend and backend work together.","target":{"topic":"knowledge","knowledge":"architecture"}},
+    {"id":"validation-22","family":"knowledge-assistant-scope","split":"validation","question":"Describe the assistant capabilities for event data.","target":{"topic":"knowledge","knowledge":"assistant"}},
+    {"id":"validation-23","family":"memory-design-no-weights","split":"validation","question":"How does remembered context help the conversation?","target":{"topic":"knowledge","knowledge":"memory"}},
+    {"id":"validation-24","family":"training-workflow-review","split":"validation","question":"Describe the review workflow for training examples.","target":{"topic":"knowledge","knowledge":"training"}}
+  ]
+}

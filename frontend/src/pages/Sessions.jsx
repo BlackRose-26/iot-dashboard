@@ -22,6 +22,7 @@ import {
   Metric,
 } from '../components/ui'
 import { useApp } from '../state/AppContext'
+import { gameLabel } from '../state/game'
 
 export function downloadResults(data) {
   const clean = (value) =>
@@ -63,7 +64,7 @@ export function downloadResults(data) {
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 export default function Sessions() {
-  const { rounds } = useApp()
+  const { rounds, game } = useApp()
   const [search, setSearch] = useState('')
   const [outcome, setOutcome] = useState('all')
   const [requestedPage, setPage] = useState(0)
@@ -93,7 +94,7 @@ export default function Sessions() {
       <Card className="sessions-card">
         <CardHeader
           title="Round history"
-          subtitle="Classic v1 · Saved rounds · Asia/Manila"
+          subtitle={`${gameLabel(game)} · Saved rounds · Asia/Manila`}
           icon={History}
           action={<Badge>{filtered.length} rounds</Badge>}
         />
@@ -157,7 +158,7 @@ export default function Sessions() {
                         <span className="mono">{r.id}</span>
                         <div>
                           <Badge tone="soft">
-                            {r.source === 'simulator' ? 'Simulator' : 'Device'}
+                            {r.source === 'simulator' ? 'Simulator' : 'Cabinet / Wokwi'}
                           </Badge>
                         </div>
                       </td>
@@ -166,7 +167,7 @@ export default function Sessions() {
                       </td>
                       <td>
                         {r.level}
-                        <span className="subtle"> / 12</span>
+                        <span className="subtle"> / {r.maxLevel || 12}</span>
                       </td>
                       <td>
                         <Badge tone={r.won ? 'lime' : 'neutral'}>
@@ -236,7 +237,9 @@ export default function Sessions() {
       <Modal
         title={selected ? `${selected.nickname}’s round` : 'Round details'}
         description={
-          selected ? `${selected.id} · ${selected.code} · Classic v1 · saved result` : ''
+          selected
+            ? `${selected.id} · ${selected.code} · ${gameLabel({ code: selected.ruleset })} · saved result`
+            : ''
         }
         open={Boolean(selected)}
         onOpenChange={(open) => {
@@ -249,7 +252,7 @@ export default function Sessions() {
               <Metric label="Final score" value={selected.score} detail={selected.reason} accent />
               <Metric
                 label="Completed level"
-                value={`${selected.level} / 12`}
+                value={`${selected.level} / ${selected.maxLevel || 12}`}
                 detail={`${selected.perfect} perfect rows`}
               />
             </div>

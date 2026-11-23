@@ -103,8 +103,8 @@ export function rankPlayers(data) {
   })
   return [...best.values()].sort(order).map((r, i) => ({ ...r, rank: i + 1 }))
 }
-export function levelStatistics(data) {
-  return Array.from({ length: 12 }, (_, i) => {
+export function levelStatistics(data, levels = 12) {
+  return Array.from({ length: levels }, (_, i) => {
     const attempts = data.flatMap((r) => r.placements).filter((p) => p.level === i + 1)
     const failures = attempts.filter((p) => p.overlap === 0).length
     return {

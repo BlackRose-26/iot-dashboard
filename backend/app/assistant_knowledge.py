@@ -52,6 +52,14 @@ KNOWLEDGE = {
         'admin-assistant.md'),
 }
 
+# Related reviewed cards give a request for more detail additional sourced content.
+RELATED_KNOWLEDGE = {
+    'registration':'queue_flow', 'queue_flow':'registration', 'architecture':'offline',
+    'gameplay':'results', 'results':'gameplay', 'offline':'architecture', 'privacy':'registration',
+    'memory':'privacy', 'training':'memory', 'assistant':'dashboard', 'dashboard':'assistant',
+}
+
+
 SOCIAL_QUESTIONS = {
     'greeting': 'hello', 'thanks': 'thank you', 'identity': 'who are you', 'help': 'what can you do',
     'acknowledge': 'okay', 'farewell': 'goodbye', 'wellbeing': 'how are you',

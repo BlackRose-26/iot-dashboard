@@ -2,9 +2,13 @@
 
 # Stack Moko Baby — functional specification
 
+## Confirmed integration update — 22 November 2026
+
+The user selected the uploaded sketch's **16-column, 15-level stacker**, six-cell starting width and **one point per successful placement, maximum 15**, with no perfect bonus. These Matrix v1 settings supersede older Classic-only proposals below for subsequent assignments. Existing Classic records keep their original ruleset. Players register/queue online, then use the cabinet's physical button; no remote browser gameplay is requested. First integration is Wokwi, followed by physical verification. The current Wokwi link uses a three-step 500 ms countdown, readable score/time HUD, GAME/OVER and DFPlayer tracks; the connected firmware preserves those functions. Timing, power and difficulty still need physical play-testing. Render hosts game/dashboard services; local AI connection is a later phase. See [the current integration contract and gates](esp32-online.md).
+
 Version 0.1 · 15 November 2026 · Implementation baseline
 
-Current browser synchronization uses authenticated revision-only hints and authoritative private/staff snapshots, with polling and reconnect recovery. See [implemented contract and limits](live-updates.md). Physical firmware and recovery acceptance remain pending.
+Current browser synchronization uses authenticated revision-only hints and authoritative private/staff snapshots, with polling and reconnect recovery. See [implemented contract and limits](live-updates.md). [Boot-bound device recovery](device-recovery.md) now supports sequenced journals, terminal-pending review, permanent stop receipts and guarded administrative resolution. A timeout alone cannot release a device assignment. Recovery never awards points for an incomplete trace; no-score closure expires the ticket and requires a new scan to rejoin. Physical firmware/NVS and power-loss acceptance remain pending.
 
 ## 1. Product and scope
 

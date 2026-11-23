@@ -1,0 +1,856 @@
+{
+  "kind": "visible-development-probes",
+  "measured_at": "2026-11-20T06:10:06.516987+00:00",
+  "limits": "Developer-authored development checks. Not held-out, independently human-adjudicated or general factual accuracy.",
+  "runtime": {
+    "code": {
+      "backend/app/assistant.py": "f74f0f121c8e244ee5381a9f0e2b8abe92206581731847c7e611874160feba0f",
+      "backend/app/assistant_interactions.py": "7dcc39771d8fc316b9ade92e94fed8b756946c36d3138ce4c4c3c6fe7f1eb1c2",
+      "backend/app/assistant_knowledge.py": "5b6f705df5ec5c2e45ac1d1c7405d93f79605c43fc24b46fcaac5f75f00ea59c",
+      "backend/app/assistant_language.py": "7fa5020fa9c45e7d85f946aa1b84606b3208a0d4731eb3dda394507346c3b9c9",
+      "backend/app/assistant_learning.py": "cd76c7e7f2c92543ba8d399a1df2c8d42dbbbe12317936a6cce2e8de39eacd74",
+      "backend/app/assistant_memory.py": "32e3b493075ddd21f76d046b45706faa3a42dc2a4e1b42329656b124e029c8eb",
+      "backend/app/assistant_semantics.py": "83c84cf7c469dc8e5035f322a2781646bb24fc2a2e540dae00e25b442e367052",
+      "backend/app/assistant_training.py": "fedef47fea57a6d8d8f89557f874f79bf4f0cc27011b157896e60418239b8427",
+      "backend/app/analytics.py": "dee9b59bcf7fea3d217546f8af863b1fcd686cf87c8e13c8714cd022c5a30819"
+    },
+    "corpora": {
+      "backend/data/assistant-routing.json": "4b485f7b0a0a907b613195ebc24aff198cdf5436acff262f2447d2d2c6179145",
+      "backend/data/assistant-interactions.json": "835c7cff9d900cc43d9f69d3ca39f93add843f4614b020b5a45859992f8d0b0b",
+      "backend/data/assistant-behavioral.json": "ae09bd57029ba0f33cdbd58b2d4f5838c0292304556261173cd98085a08a5d1b",
+      "backend/data/assistant-routing-contrasts.json": "0e57c97a9f02778a558aa2920ee76bc2b8909bc751e1445cb8c4814ff89262bd"
+    },
+    "runtime_corpus_sha256": "966c994c36213d160ced752011a1ba4cf004bb7acb998685011acec1259dde62",
+    "prompt_sha256": "fad04cee21068b2cc5136b18015e457871603e294eafdd48b52651d0a0b12f84"
+  },
+  "model": "qwen3:4b-instruct",
+  "development_sha256": "ec5754fbfdd9403c599ad4b75a607e0c13094bab3b4c508edfef5597ef53a597",
+  "metrics": {
+    "n": 34,
+    "accepted": 29,
+    "accepted_accuracy": 0.8529411764705882,
+    "accepted_wilson95": [
+      0.6987194350454783,
+      0.9355055855521753
+    ],
+    "exact_label_correct": 29,
+    "exact_label_accuracy": 0.8529411764705882,
+    "primary_correct": 29,
+    "primary_accuracy": 0.8529411764705882,
+    "macro_f1": 0.8519230769230769,
+    "per_intent": {
+      "definition": {
+        "n": 3,
+        "primary_correct": 2,
+        "accepted": 2,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "f1": 0.8,
+        "accepted_accuracy": 0.6666666666666666,
+        "accepted_wilson95": [
+          0.2076596008020477,
+          0.9385080552796037
+        ]
+      },
+      "knowledge": {
+        "n": 3,
+        "primary_correct": 1,
+        "accepted": 1,
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "f1": 0.5,
+        "accepted_accuracy": 0.3333333333333333,
+        "accepted_wilson95": [
+          0.06149194472039621,
+          0.7923403991979522
+        ]
+      },
+      "levels": {
+        "n": 2,
+        "primary_correct": 2,
+        "accepted": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accepted_accuracy": 1.0,
+        "accepted_wilson95": [
+          0.34238022750665303,
+          1
+        ]
+      },
+      "machine": {
+        "n": 2,
+        "primary_correct": 2,
+        "accepted": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accepted_accuracy": 1.0,
+        "accepted_wilson95": [
+          0.34238022750665303,
+          1
+        ]
+      },
+      "overview": {
+        "n": 2,
+        "primary_correct": 2,
+        "accepted": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accepted_accuracy": 1.0,
+        "accepted_wilson95": [
+          0.34238022750665303,
+          1
+        ]
+      },
+      "players": {
+        "n": 2,
+        "primary_correct": 2,
+        "accepted": 2,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "accepted_accuracy": 1.0,
+        "accepted_wilson95": [
+          0.34238022750665303,
+          1
+        ]
+      },
+      "queue": {
+        "n": 3,
+        "primary_correct": 3,
+        "accepted": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accepted_accuracy": 1.0,
+        "accepted_wilson95": [
+          0.4385029682449546,
+          1
+        ]
+      },
+      "scores": {
+        "n": 3,
+        "primary_correct": 3,
+        "accepted": 3,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.6666666666666666,
+        "accepted_accuracy": 1.0,
+        "accepted_wilson95": [
+          0.4385029682449546,
+          1
+        ]
+      },
+      "social": {
+        "n": 3,
+        "primary_correct": 3,
+        "accepted": 3,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accepted_accuracy": 1.0,
+        "accepted_wilson95": [
+          0.4385029682449546,
+          1
+        ]
+      },
+      "top": {
+        "n": 2,
+        "primary_correct": 1,
+        "accepted": 1,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.6666666666666666,
+        "accepted_accuracy": 0.5,
+        "accepted_wilson95": [
+          0.09453120573423074,
+          0.9054687942657693
+        ]
+      },
+      "trend": {
+        "n": 2,
+        "primary_correct": 2,
+        "accepted": 2,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "accepted_accuracy": 1.0,
+        "accepted_wilson95": [
+          0.34238022750665303,
+          1
+        ]
+      },
+      "unsupported": {
+        "n": 7,
+        "primary_correct": 6,
+        "accepted": 6,
+        "precision": 1.0,
+        "recall": 0.8571428571428571,
+        "f1": 0.923076923076923,
+        "accepted_accuracy": 0.8571428571428571,
+        "accepted_wilson95": [
+          0.4868721707256811,
+          0.9743203756552565
+        ]
+      }
+    },
+    "by_language": {
+      "en": {
+        "n": 28,
+        "accepted": 25
+      },
+      "taglish": {
+        "n": 6,
+        "accepted": 4
+      }
+    },
+    "confusion": [
+      {
+        "expected": "overview",
+        "predicted": "overview",
+        "n": 2
+      },
+      {
+        "expected": "players",
+        "predicted": "players",
+        "n": 2
+      },
+      {
+        "expected": "queue",
+        "predicted": "queue",
+        "n": 3
+      },
+      {
+        "expected": "machine",
+        "predicted": "machine",
+        "n": 2
+      },
+      {
+        "expected": "scores",
+        "predicted": "scores",
+        "n": 3
+      },
+      {
+        "expected": "levels",
+        "predicted": "levels",
+        "n": 2
+      },
+      {
+        "expected": "trend",
+        "predicted": "trend",
+        "n": 2
+      },
+      {
+        "expected": "top",
+        "predicted": "scores",
+        "n": 1
+      },
+      {
+        "expected": "top",
+        "predicted": "top",
+        "n": 1
+      },
+      {
+        "expected": "definition",
+        "predicted": "definition",
+        "n": 2
+      },
+      {
+        "expected": "definition",
+        "predicted": "scores",
+        "n": 1
+      },
+      {
+        "expected": "knowledge",
+        "predicted": "players",
+        "n": 2
+      },
+      {
+        "expected": "knowledge",
+        "predicted": "knowledge",
+        "n": 1
+      },
+      {
+        "expected": "social",
+        "predicted": "social",
+        "n": 3
+      },
+      {
+        "expected": "unsupported",
+        "predicted": "unsupported",
+        "n": 6
+      },
+      {
+        "expected": "unsupported",
+        "predicted": "scores",
+        "n": 1
+      }
+    ],
+    "unsupported_false_accepts": 1,
+    "valid_request_clarifications": 0,
+    "unavailable_or_errors": 0,
+    "interval_note": "Wilson intervals assume independent cases; paired language/family cases can be correlated. They do not establish real-user performance."
+  },
+  "cases": [
+    {
+      "id": "public-language-dev-01",
+      "family": "development",
+      "language": "en",
+      "expected_label": "overview",
+      "predicted_label": "overview",
+      "expected_topic": "overview",
+      "predicted_topic": "overview",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_event_summary",
+        "get_queue_summary",
+        "get_machine_summary"
+      ]
+    },
+    {
+      "id": "public-language-dev-02",
+      "family": "development",
+      "language": "en",
+      "expected_label": "overview",
+      "predicted_label": "overview",
+      "expected_topic": "overview",
+      "predicted_topic": "overview",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_event_summary",
+        "get_queue_summary",
+        "get_machine_summary"
+      ]
+    },
+    {
+      "id": "public-language-dev-03",
+      "family": "development",
+      "language": "en",
+      "expected_label": "players",
+      "predicted_label": "players",
+      "expected_topic": "players",
+      "predicted_topic": "players",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ]
+    },
+    {
+      "id": "public-language-dev-04",
+      "family": "development",
+      "language": "en",
+      "expected_label": "players",
+      "predicted_label": "players",
+      "expected_topic": "players",
+      "predicted_topic": "players",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ]
+    },
+    {
+      "id": "public-language-dev-05",
+      "family": "development",
+      "language": "en",
+      "expected_label": "queue",
+      "predicted_label": "queue",
+      "expected_topic": "queue",
+      "predicted_topic": "queue",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_queue_summary"
+      ]
+    },
+    {
+      "id": "public-language-dev-06",
+      "family": "development",
+      "language": "en",
+      "expected_label": "queue",
+      "predicted_label": "queue",
+      "expected_topic": "queue",
+      "predicted_topic": "queue",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_queue_summary"
+      ]
+    },
+    {
+      "id": "public-language-dev-07",
+      "family": "development",
+      "language": "en",
+      "expected_label": "machine",
+      "predicted_label": "machine",
+      "expected_topic": "machine",
+      "predicted_topic": "machine",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_machine_summary"
+      ]
+    },
+    {
+      "id": "public-language-dev-08",
+      "family": "development",
+      "language": "en",
+      "expected_label": "machine",
+      "predicted_label": "machine",
+      "expected_topic": "machine",
+      "predicted_topic": "machine",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_machine_summary"
+      ]
+    },
+    {
+      "id": "public-language-dev-09",
+      "family": "development",
+      "language": "en",
+      "expected_label": "scores",
+      "predicted_label": "scores",
+      "expected_topic": "scores",
+      "predicted_topic": "scores",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ]
+    },
+    {
+      "id": "public-language-dev-10",
+      "family": "development",
+      "language": "en",
+      "expected_label": "scores",
+      "predicted_label": "scores",
+      "expected_topic": "scores",
+      "predicted_topic": "scores",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ]
+    },
+    {
+      "id": "public-language-dev-11",
+      "family": "development",
+      "language": "en",
+      "expected_label": "levels",
+      "predicted_label": "levels",
+      "expected_topic": "levels",
+      "predicted_topic": "levels",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_level_statistics"
+      ]
+    },
+    {
+      "id": "public-language-dev-12",
+      "family": "development",
+      "language": "en",
+      "expected_label": "levels",
+      "predicted_label": "levels",
+      "expected_topic": "levels",
+      "predicted_topic": "levels",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_level_statistics"
+      ]
+    },
+    {
+      "id": "public-language-dev-13",
+      "family": "development",
+      "language": "en",
+      "expected_label": "trend",
+      "predicted_label": "trend",
+      "expected_topic": "trend",
+      "predicted_topic": "trend",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_play_trend"
+      ]
+    },
+    {
+      "id": "public-language-dev-14",
+      "family": "development",
+      "language": "en",
+      "expected_label": "trend",
+      "predicted_label": "trend",
+      "expected_topic": "trend",
+      "predicted_topic": "trend",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_play_trend"
+      ]
+    },
+    {
+      "id": "public-language-dev-15",
+      "family": "development",
+      "language": "en",
+      "expected_label": "top",
+      "predicted_label": "scores",
+      "expected_topic": "top",
+      "predicted_topic": "scores",
+      "exact_label": false,
+      "accepted": false,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ]
+    },
+    {
+      "id": "public-language-dev-16",
+      "family": "development",
+      "language": "en",
+      "expected_label": "top",
+      "predicted_label": "top",
+      "expected_topic": "top",
+      "predicted_topic": "top",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_top_scores"
+      ]
+    },
+    {
+      "id": "public-language-dev-17",
+      "family": "development",
+      "language": "en",
+      "expected_label": "definition:accuracy",
+      "predicted_label": "definition:accuracy",
+      "expected_topic": "definition",
+      "predicted_topic": "definition",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": []
+    },
+    {
+      "id": "public-language-dev-18",
+      "family": "development",
+      "language": "en",
+      "expected_label": "definition:total_score",
+      "predicted_label": "scores",
+      "expected_topic": "definition",
+      "predicted_topic": "scores",
+      "exact_label": false,
+      "accepted": false,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ]
+    },
+    {
+      "id": "public-language-dev-19",
+      "family": "development",
+      "language": "en",
+      "expected_label": "knowledge:registration",
+      "predicted_label": "players",
+      "expected_topic": "knowledge",
+      "predicted_topic": "players",
+      "exact_label": false,
+      "accepted": false,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ]
+    },
+    {
+      "id": "public-language-dev-20",
+      "family": "development",
+      "language": "en",
+      "expected_label": "knowledge:architecture",
+      "predicted_label": "knowledge:architecture",
+      "expected_topic": "knowledge",
+      "predicted_topic": "knowledge",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": []
+    },
+    {
+      "id": "public-language-dev-21",
+      "family": "development",
+      "language": "en",
+      "expected_label": "social:greeting",
+      "predicted_label": "social:greeting",
+      "expected_topic": "social",
+      "predicted_topic": "social",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "conversation",
+      "reason": "small_talk",
+      "tools": []
+    },
+    {
+      "id": "public-language-dev-22",
+      "family": "development",
+      "language": "en",
+      "expected_label": "social:thanks",
+      "predicted_label": "social:thanks",
+      "expected_topic": "social",
+      "predicted_topic": "social",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "conversation",
+      "reason": "small_talk",
+      "tools": []
+    },
+    {
+      "id": "public-language-dev-23",
+      "family": "development",
+      "language": "taglish",
+      "expected_label": "social:greeting",
+      "predicted_label": "social:greeting",
+      "expected_topic": "social",
+      "predicted_topic": "social",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "conversation",
+      "reason": "small_talk",
+      "tools": []
+    },
+    {
+      "id": "public-language-dev-24",
+      "family": "development",
+      "language": "taglish",
+      "expected_label": "scores",
+      "predicted_label": "scores",
+      "expected_topic": "scores",
+      "predicted_topic": "scores",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ]
+    },
+    {
+      "id": "public-language-dev-25",
+      "family": "development",
+      "language": "taglish",
+      "expected_label": "queue",
+      "predicted_label": "queue",
+      "expected_topic": "queue",
+      "predicted_topic": "queue",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_queue_summary"
+      ]
+    },
+    {
+      "id": "public-language-dev-26",
+      "family": "development",
+      "language": "taglish",
+      "expected_label": "knowledge:registration",
+      "predicted_label": "players",
+      "expected_topic": "knowledge",
+      "predicted_topic": "players",
+      "exact_label": false,
+      "accepted": false,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ]
+    },
+    {
+      "id": "public-language-dev-27",
+      "family": "development",
+      "language": "taglish",
+      "expected_label": "definition:scoring",
+      "predicted_label": "definition:scoring",
+      "expected_topic": "definition",
+      "predicted_topic": "definition",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": []
+    },
+    {
+      "id": "public-language-dev-28",
+      "family": "development",
+      "language": "en",
+      "expected_label": "unsupported",
+      "predicted_label": "unsupported",
+      "expected_topic": "unsupported",
+      "predicted_topic": "unsupported",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "tools": []
+    },
+    {
+      "id": "public-language-dev-29",
+      "family": "development",
+      "language": "en",
+      "expected_label": "unsupported",
+      "predicted_label": "unsupported",
+      "expected_topic": "unsupported",
+      "predicted_topic": "unsupported",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "tools": []
+    },
+    {
+      "id": "public-language-dev-30",
+      "family": "development",
+      "language": "en",
+      "expected_label": "unsupported",
+      "predicted_label": "unsupported",
+      "expected_topic": "unsupported",
+      "predicted_topic": "unsupported",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "tools": []
+    },
+    {
+      "id": "public-language-dev-31",
+      "family": "development",
+      "language": "en",
+      "expected_label": "unsupported",
+      "predicted_label": "unsupported",
+      "expected_topic": "unsupported",
+      "predicted_topic": "unsupported",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "needs_clarification",
+      "reason": "unsupported_question",
+      "tools": []
+    },
+    {
+      "id": "public-language-dev-32",
+      "family": "development",
+      "language": "en",
+      "expected_label": "unsupported",
+      "predicted_label": "unsupported",
+      "expected_topic": "unsupported",
+      "predicted_topic": "unsupported",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "refused",
+      "reason": "refused",
+      "tools": []
+    },
+    {
+      "id": "public-language-dev-33",
+      "family": "development",
+      "language": "en",
+      "expected_label": "unsupported",
+      "predicted_label": "unsupported",
+      "expected_topic": "unsupported",
+      "predicted_topic": "unsupported",
+      "exact_label": true,
+      "accepted": true,
+      "continuity_correct": true,
+      "status": "needs_clarification",
+      "reason": "unsupported_question",
+      "tools": []
+    },
+    {
+      "id": "public-language-dev-34",
+      "family": "development",
+      "language": "taglish",
+      "expected_label": "unsupported",
+      "predicted_label": "scores",
+      "expected_topic": "unsupported",
+      "predicted_topic": "scores",
+      "exact_label": false,
+      "accepted": false,
+      "continuity_correct": true,
+      "status": "ok",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,1695 @@
+{
+  "decision": "Retain candidate offline. Modest consumed-set gains, two unsupported answers and incomplete follow-up coverage. No fresh candidate generalization or overall factual-answer claim.",
+  "development": {
+    "baseline": {
+      "n": 130,
+      "exact": 60,
+      "supported_blocked": 40,
+      "unsupported_answered": 1,
+      "errors": 0
+    },
+    "candidate": {
+      "n": 130,
+      "exact": 67,
+      "supported_blocked": 30,
+      "unsupported_answered": 1,
+      "errors": 0
+    }
+  },
+  "development_scope": "Consumed 130-case local Ollama routing comparison using training-only retrieval and no-data renderers. Exact labels include rejection/clarification collapsed to unsupported.",
+  "first_use_service_baseline": {
+    "accepted": 130,
+    "n": 325,
+    "by_language": {
+      "en": {
+        "accepted": 80,
+        "n": 176
+      },
+      "taglish": {
+        "accepted": 50,
+        "n": 149
+      }
+    },
+    "by_intent": {
+      "definition": {
+        "accepted": 6,
+        "n": 25
+      },
+      "follow_up": {
+        "accepted": 0,
+        "n": 25
+      },
+      "knowledge": {
+        "accepted": 7,
+        "n": 25
+      },
+      "levels": {
+        "accepted": 8,
+        "n": 25
+      },
+      "machine": {
+        "accepted": 8,
+        "n": 25
+      },
+      "overview": {
+        "accepted": 3,
+        "n": 25
+      },
+      "players": {
+        "accepted": 16,
+        "n": 25
+      },
+      "queue": {
+        "accepted": 11,
+        "n": 25
+      },
+      "scores": {
+        "accepted": 17,
+        "n": 25
+      },
+      "social": {
+        "accepted": 15,
+        "n": 25
+      },
+      "top": {
+        "accepted": 10,
+        "n": 25
+      },
+      "trend": {
+        "accepted": 11,
+        "n": 25
+      },
+      "unsupported": {
+        "accepted": 18,
+        "n": 25
+      }
+    },
+    "by_family": {
+      "definition/accuracy": {
+        "accepted": 0,
+        "n": 3
+      },
+      "definition/average_score": {
+        "accepted": 1,
+        "n": 3
+      },
+      "definition/highest_score": {
+        "accepted": 0,
+        "n": 3
+      },
+      "definition/lowest_score": {
+        "accepted": 0,
+        "n": 3
+      },
+      "definition/privacy": {
+        "accepted": 0,
+        "n": 2
+      },
+      "definition/queue": {
+        "accepted": 2,
+        "n": 2
+      },
+      "definition/scoring": {
+        "accepted": 1,
+        "n": 3
+      },
+      "definition/total_score": {
+        "accepted": 2,
+        "n": 3
+      },
+      "definition/win_rate": {
+        "accepted": 0,
+        "n": 3
+      },
+      "follow_up/absent-subject-english": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/absent-subject-tagalog": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-definition-elaborate": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-device-accuracy-today": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-distribution-reset-period": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-duration-reset": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-event-both-sources": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-knowledge-more-detail": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-knowledge-short": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-level-change": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-level-tagalog": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-outcomes-current-day": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-overview-short": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-points-hardware": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-points-previous-day": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-queue-explanation": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-rank-limit": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-rank-limit-tagalog": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-ranks-simulated": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-scores-another-page": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-scores-next-page": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-sim-scores-yesterday": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-summary-detail": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-timeline-week": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-timeouts-device": {
+        "accepted": 0,
+        "n": 1
+      },
+      "knowledge/architecture": {
+        "accepted": 1,
+        "n": 3
+      },
+      "knowledge/assistant": {
+        "accepted": 1,
+        "n": 2
+      },
+      "knowledge/dashboard": {
+        "accepted": 0,
+        "n": 2
+      },
+      "knowledge/gameplay": {
+        "accepted": 1,
+        "n": 3
+      },
+      "knowledge/memory": {
+        "accepted": 0,
+        "n": 2
+      },
+      "knowledge/offline": {
+        "accepted": 0,
+        "n": 2
+      },
+      "knowledge/privacy": {
+        "accepted": 1,
+        "n": 2
+      },
+      "knowledge/queue_flow": {
+        "accepted": 1,
+        "n": 2
+      },
+      "knowledge/registration": {
+        "accepted": 0,
+        "n": 2
+      },
+      "knowledge/results": {
+        "accepted": 1,
+        "n": 3
+      },
+      "knowledge/training": {
+        "accepted": 1,
+        "n": 2
+      },
+      "levels/completion-by-row": {
+        "accepted": 2,
+        "n": 2
+      },
+      "levels/difficulty-from-results": {
+        "accepted": 1,
+        "n": 2
+      },
+      "levels/early-failure-levels": {
+        "accepted": 0,
+        "n": 2
+      },
+      "levels/high-level-reach": {
+        "accepted": 0,
+        "n": 1
+      },
+      "levels/level-attempt-table": {
+        "accepted": 0,
+        "n": 2
+      },
+      "levels/level-eight-outcomes": {
+        "accepted": 0,
+        "n": 2
+      },
+      "levels/level-five-counts": {
+        "accepted": 1,
+        "n": 2
+      },
+      "levels/level-loss-profile": {
+        "accepted": 0,
+        "n": 2
+      },
+      "levels/level-six-accuracy": {
+        "accepted": 2,
+        "n": 2
+      },
+      "levels/per-level-overlap": {
+        "accepted": 1,
+        "n": 2
+      },
+      "levels/per-level-placement": {
+        "accepted": 1,
+        "n": 2
+      },
+      "levels/progress-reached": {
+        "accepted": 0,
+        "n": 2
+      },
+      "levels/retained-width": {
+        "accepted": 0,
+        "n": 2
+      },
+      "machine/boot-observation": {
+        "accepted": 0,
+        "n": 2
+      },
+      "machine/cabinet-observation": {
+        "accepted": 1,
+        "n": 2
+      },
+      "machine/command-receipt-state": {
+        "accepted": 0,
+        "n": 2
+      },
+      "machine/current-eligibility": {
+        "accepted": 1,
+        "n": 1
+      },
+      "machine/firmware-report": {
+        "accepted": 0,
+        "n": 2
+      },
+      "machine/fresh-status": {
+        "accepted": 0,
+        "n": 2
+      },
+      "machine/last-contact-age": {
+        "accepted": 0,
+        "n": 2
+      },
+      "machine/last-known-not-proof": {
+        "accepted": 1,
+        "n": 2
+      },
+      "machine/maintenance-present": {
+        "accepted": 1,
+        "n": 2
+      },
+      "machine/physical-not-simulation": {
+        "accepted": 1,
+        "n": 2
+      },
+      "machine/reserved-machine": {
+        "accepted": 1,
+        "n": 2
+      },
+      "machine/review-hold-present": {
+        "accepted": 2,
+        "n": 2
+      },
+      "machine/rssi-observation": {
+        "accepted": 0,
+        "n": 2
+      },
+      "overview/activity-and-readiness": {
+        "accepted": 0,
+        "n": 2
+      },
+      "overview/end-of-shift": {
+        "accepted": 1,
+        "n": 2
+      },
+      "overview/event-wide-summary": {
+        "accepted": 1,
+        "n": 2
+      },
+      "overview/handoff-checklist": {
+        "accepted": 0,
+        "n": 3
+      },
+      "overview/management-summary": {
+        "accepted": 0,
+        "n": 2
+      },
+      "overview/mixed-results-summary": {
+        "accepted": 1,
+        "n": 2
+      },
+      "overview/multiple-sections": {
+        "accepted": 0,
+        "n": 3
+      },
+      "overview/opening-summary": {
+        "accepted": 0,
+        "n": 1
+      },
+      "overview/organizer-update": {
+        "accepted": 0,
+        "n": 2
+      },
+      "overview/overall-position": {
+        "accepted": 0,
+        "n": 1
+      },
+      "overview/progress-and-line": {
+        "accepted": 0,
+        "n": 2
+      },
+      "overview/short-briefing": {
+        "accepted": 0,
+        "n": 2
+      },
+      "overview/summary-not-ranking": {
+        "accepted": 0,
+        "n": 1
+      },
+      "players/completion-headcount": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/completion-outcomes": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/defeats-recorded": {
+        "accepted": 2,
+        "n": 2
+      },
+      "players/duration-summary": {
+        "accepted": 0,
+        "n": 1
+      },
+      "players/enrolled-unplayed": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/finished-round-count": {
+        "accepted": 2,
+        "n": 2
+      },
+      "players/mean-duration": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/outcome-proportion": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/overall-overlap": {
+        "accepted": 2,
+        "n": 2
+      },
+      "players/registered-headcount": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/results-versus-registration": {
+        "accepted": 2,
+        "n": 2
+      },
+      "players/timeout-outcomes": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/wins-recorded": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/admission-current": {
+        "accepted": 2,
+        "n": 2
+      },
+      "queue/admission-pause-check": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/assigned-population": {
+        "accepted": 0,
+        "n": 2
+      },
+      "queue/backlog-now": {
+        "accepted": 0,
+        "n": 2
+      },
+      "queue/current-ticket-states": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/current-wait-burden": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/next-waiting-position": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/oldest-ticket-age": {
+        "accepted": 0,
+        "n": 2
+      },
+      "queue/queue-empty-check": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/queue-review-state": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/reserved-versus-waiting": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/unserved-tickets": {
+        "accepted": 2,
+        "n": 2
+      },
+      "queue/waiting-population": {
+        "accepted": 0,
+        "n": 1
+      },
+      "scores/average-points-value": {
+        "accepted": 2,
+        "n": 2
+      },
+      "scores/combined-total-labelled": {
+        "accepted": 0,
+        "n": 2
+      },
+      "scores/device-points": {
+        "accepted": 2,
+        "n": 2
+      },
+      "scores/maximum-value-only": {
+        "accepted": 1,
+        "n": 2
+      },
+      "scores/minimum-value-only": {
+        "accepted": 1,
+        "n": 2
+      },
+      "scores/points-ledger": {
+        "accepted": 2,
+        "n": 2
+      },
+      "scores/points-per-result": {
+        "accepted": 0,
+        "n": 1
+      },
+      "scores/recent-score-list": {
+        "accepted": 1,
+        "n": 2
+      },
+      "scores/score-frequency": {
+        "accepted": 1,
+        "n": 2
+      },
+      "scores/score-range-values": {
+        "accepted": 2,
+        "n": 2
+      },
+      "scores/score-records-not-counts": {
+        "accepted": 2,
+        "n": 2
+      },
+      "scores/simulator-points": {
+        "accepted": 1,
+        "n": 2
+      },
+      "scores/sum-of-points": {
+        "accepted": 2,
+        "n": 2
+      },
+      "social/acknowledge": {
+        "accepted": 3,
+        "n": 4
+      },
+      "social/farewell": {
+        "accepted": 2,
+        "n": 3
+      },
+      "social/greeting": {
+        "accepted": 1,
+        "n": 4
+      },
+      "social/help": {
+        "accepted": 1,
+        "n": 4
+      },
+      "social/identity": {
+        "accepted": 3,
+        "n": 3
+      },
+      "social/thanks": {
+        "accepted": 2,
+        "n": 4
+      },
+      "social/wellbeing": {
+        "accepted": 3,
+        "n": 3
+      },
+      "top/first-ranked-person": {
+        "accepted": 0,
+        "n": 2
+      },
+      "top/first-three-over-event": {
+        "accepted": 0,
+        "n": 1
+      },
+      "top/leader-not-number": {
+        "accepted": 1,
+        "n": 2
+      },
+      "top/leaderboard-people": {
+        "accepted": 1,
+        "n": 2
+      },
+      "top/physical-leaders": {
+        "accepted": 1,
+        "n": 2
+      },
+      "top/podium-list": {
+        "accepted": 0,
+        "n": 2
+      },
+      "top/rank-order-nicknames": {
+        "accepted": 1,
+        "n": 2
+      },
+      "top/ranking-five": {
+        "accepted": 2,
+        "n": 2
+      },
+      "top/simulator-leaders": {
+        "accepted": 0,
+        "n": 2
+      },
+      "top/source-separated-leaders": {
+        "accepted": 2,
+        "n": 2
+      },
+      "top/today-leader": {
+        "accepted": 0,
+        "n": 2
+      },
+      "top/top-ten-people": {
+        "accepted": 2,
+        "n": 2
+      },
+      "top/yesterday-leader": {
+        "accepted": 0,
+        "n": 2
+      },
+      "trend/activity-rises-falls": {
+        "accepted": 1,
+        "n": 1
+      },
+      "trend/busy-window": {
+        "accepted": 1,
+        "n": 2
+      },
+      "trend/day-shape": {
+        "accepted": 0,
+        "n": 2
+      },
+      "trend/hourly-activity": {
+        "accepted": 0,
+        "n": 2
+      },
+      "trend/participation-over-time": {
+        "accepted": 2,
+        "n": 2
+      },
+      "trend/peak-round-throughput": {
+        "accepted": 2,
+        "n": 2
+      },
+      "trend/quiet-window": {
+        "accepted": 1,
+        "n": 2
+      },
+      "trend/session-activity-hours": {
+        "accepted": 0,
+        "n": 2
+      },
+      "trend/time-bucket-comparison": {
+        "accepted": 0,
+        "n": 2
+      },
+      "trend/time-pattern-source": {
+        "accepted": 1,
+        "n": 2
+      },
+      "trend/timeline-not-total": {
+        "accepted": 1,
+        "n": 2
+      },
+      "trend/week-activity-series": {
+        "accepted": 2,
+        "n": 2
+      },
+      "trend/yesterday-activity": {
+        "accepted": 0,
+        "n": 2
+      },
+      "unsupported/device-control": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/foreign-arcade-result": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/foreign-election-ranking": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/foreign-esports": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/foreign-hospital-line": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/foreign-oven-reading": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/foreign-robot-status": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/foreign-transport-line": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/future-score-forecast": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/holiday-planning": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/instruction-override": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/medical-treatment": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/personality-inference": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/private-credential": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/private-other-admin-chat": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/private-student-records": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/queue-control": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/recipe-dessert": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/score-write": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/stock-prediction": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/tower-stability-sensor": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/uninstalled-energy-meter": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/unrelated-homework": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/unrelated-image-edit": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/unrelated-music": {
+        "accepted": 1,
+        "n": 1
+      }
+    },
+    "family_bootstrap95": [
+      0.35185185185185186,
+      0.44954128440366975
+    ],
+    "by_behavior": {
+      "answer": {
+        "accepted": 112,
+        "n": 298
+      },
+      "needs_clarification": {
+        "accepted": 0,
+        "n": 2
+      },
+      "refused": {
+        "accepted": 18,
+        "n": 25
+      }
+    },
+    "statuses": {
+      "ok": 113,
+      "needs_clarification": 158,
+      "conversation": 47,
+      "no_data": 2,
+      "refused": 5
+    },
+    "failures": {
+      "ok": 25,
+      "unrecognized_context": 88,
+      "small_talk": 5,
+      "system_context": 20,
+      "system_scope": 44,
+      "unsupported_question": 9,
+      "two_interpretations": 3,
+      "refused": 1
+    },
+    "supported_answer_clarifications": 138,
+    "unsupported_answered": 2
+  },
+  "candidate_consumed_regression": {
+    "kind": "consumed-set regression only",
+    "freeze_sha256": "3af83730edd1af3c4da931c9976b62e2d4d123618e7c2d4625836410ebc56f4c",
+    "journal_sha256": "7fdaa3e4f6db51ea54c5609b972bec039b2b258f0a709d9a59bd5a3c3f8f879e",
+    "metrics": {
+      "accepted": 133,
+      "n": 325,
+      "by_language": {
+        "en": {
+          "accepted": 81,
+          "n": 176
+        },
+        "taglish": {
+          "accepted": 52,
+          "n": 149
+        }
+      },
+      "by_intent": {
+        "definition": {
+          "accepted": 7,
+          "n": 25
+        },
+        "follow_up": {
+          "accepted": 0,
+          "n": 25
+        },
+        "knowledge": {
+          "accepted": 7,
+          "n": 25
+        },
+        "levels": {
+          "accepted": 8,
+          "n": 25
+        },
+        "machine": {
+          "accepted": 8,
+          "n": 25
+        },
+        "overview": {
+          "accepted": 3,
+          "n": 25
+        },
+        "players": {
+          "accepted": 16,
+          "n": 25
+        },
+        "queue": {
+          "accepted": 12,
+          "n": 25
+        },
+        "scores": {
+          "accepted": 17,
+          "n": 25
+        },
+        "social": {
+          "accepted": 15,
+          "n": 25
+        },
+        "top": {
+          "accepted": 11,
+          "n": 25
+        },
+        "trend": {
+          "accepted": 11,
+          "n": 25
+        },
+        "unsupported": {
+          "accepted": 18,
+          "n": 25
+        }
+      },
+      "by_family": {
+        "definition/accuracy": {
+          "accepted": 0,
+          "n": 3
+        },
+        "definition/average_score": {
+          "accepted": 1,
+          "n": 3
+        },
+        "definition/highest_score": {
+          "accepted": 1,
+          "n": 3
+        },
+        "definition/lowest_score": {
+          "accepted": 0,
+          "n": 3
+        },
+        "definition/privacy": {
+          "accepted": 0,
+          "n": 2
+        },
+        "definition/queue": {
+          "accepted": 2,
+          "n": 2
+        },
+        "definition/scoring": {
+          "accepted": 1,
+          "n": 3
+        },
+        "definition/total_score": {
+          "accepted": 2,
+          "n": 3
+        },
+        "definition/win_rate": {
+          "accepted": 0,
+          "n": 3
+        },
+        "follow_up/absent-subject-english": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/absent-subject-tagalog": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-definition-elaborate": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-device-accuracy-today": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-distribution-reset-period": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-duration-reset": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-event-both-sources": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-knowledge-more-detail": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-knowledge-short": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-level-change": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-level-tagalog": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-outcomes-current-day": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-overview-short": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-points-hardware": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-points-previous-day": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-queue-explanation": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-rank-limit": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-rank-limit-tagalog": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-ranks-simulated": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-scores-another-page": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-scores-next-page": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-sim-scores-yesterday": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-summary-detail": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-timeline-week": {
+          "accepted": 0,
+          "n": 1
+        },
+        "follow_up/prior-timeouts-device": {
+          "accepted": 0,
+          "n": 1
+        },
+        "knowledge/architecture": {
+          "accepted": 1,
+          "n": 3
+        },
+        "knowledge/assistant": {
+          "accepted": 1,
+          "n": 2
+        },
+        "knowledge/dashboard": {
+          "accepted": 0,
+          "n": 2
+        },
+        "knowledge/gameplay": {
+          "accepted": 1,
+          "n": 3
+        },
+        "knowledge/memory": {
+          "accepted": 0,
+          "n": 2
+        },
+        "knowledge/offline": {
+          "accepted": 0,
+          "n": 2
+        },
+        "knowledge/privacy": {
+          "accepted": 1,
+          "n": 2
+        },
+        "knowledge/queue_flow": {
+          "accepted": 1,
+          "n": 2
+        },
+        "knowledge/registration": {
+          "accepted": 0,
+          "n": 2
+        },
+        "knowledge/results": {
+          "accepted": 1,
+          "n": 3
+        },
+        "knowledge/training": {
+          "accepted": 1,
+          "n": 2
+        },
+        "levels/completion-by-row": {
+          "accepted": 2,
+          "n": 2
+        },
+        "levels/difficulty-from-results": {
+          "accepted": 1,
+          "n": 2
+        },
+        "levels/early-failure-levels": {
+          "accepted": 0,
+          "n": 2
+        },
+        "levels/high-level-reach": {
+          "accepted": 0,
+          "n": 1
+        },
+        "levels/level-attempt-table": {
+          "accepted": 0,
+          "n": 2
+        },
+        "levels/level-eight-outcomes": {
+          "accepted": 0,
+          "n": 2
+        },
+        "levels/level-five-counts": {
+          "accepted": 1,
+          "n": 2
+        },
+        "levels/level-loss-profile": {
+          "accepted": 0,
+          "n": 2
+        },
+        "levels/level-six-accuracy": {
+          "accepted": 2,
+          "n": 2
+        },
+        "levels/per-level-overlap": {
+          "accepted": 1,
+          "n": 2
+        },
+        "levels/per-level-placement": {
+          "accepted": 1,
+          "n": 2
+        },
+        "levels/progress-reached": {
+          "accepted": 0,
+          "n": 2
+        },
+        "levels/retained-width": {
+          "accepted": 0,
+          "n": 2
+        },
+        "machine/boot-observation": {
+          "accepted": 0,
+          "n": 2
+        },
+        "machine/cabinet-observation": {
+          "accepted": 1,
+          "n": 2
+        },
+        "machine/command-receipt-state": {
+          "accepted": 0,
+          "n": 2
+        },
+        "machine/current-eligibility": {
+          "accepted": 1,
+          "n": 1
+        },
+        "machine/firmware-report": {
+          "accepted": 0,
+          "n": 2
+        },
+        "machine/fresh-status": {
+          "accepted": 0,
+          "n": 2
+        },
+        "machine/last-contact-age": {
+          "accepted": 0,
+          "n": 2
+        },
+        "machine/last-known-not-proof": {
+          "accepted": 1,
+          "n": 2
+        },
+        "machine/maintenance-present": {
+          "accepted": 1,
+          "n": 2
+        },
+        "machine/physical-not-simulation": {
+          "accepted": 1,
+          "n": 2
+        },
+        "machine/reserved-machine": {
+          "accepted": 1,
+          "n": 2
+        },
+        "machine/review-hold-present": {
+          "accepted": 2,
+          "n": 2
+        },
+        "machine/rssi-observation": {
+          "accepted": 0,
+          "n": 2
+        },
+        "overview/activity-and-readiness": {
+          "accepted": 0,
+          "n": 2
+        },
+        "overview/end-of-shift": {
+          "accepted": 1,
+          "n": 2
+        },
+        "overview/event-wide-summary": {
+          "accepted": 1,
+          "n": 2
+        },
+        "overview/handoff-checklist": {
+          "accepted": 0,
+          "n": 3
+        },
+        "overview/management-summary": {
+          "accepted": 0,
+          "n": 2
+        },
+        "overview/mixed-results-summary": {
+          "accepted": 1,
+          "n": 2
+        },
+        "overview/multiple-sections": {
+          "accepted": 0,
+          "n": 3
+        },
+        "overview/opening-summary": {
+          "accepted": 0,
+          "n": 1
+        },
+        "overview/organizer-update": {
+          "accepted": 0,
+          "n": 2
+        },
+        "overview/overall-position": {
+          "accepted": 0,
+          "n": 1
+        },
+        "overview/progress-and-line": {
+          "accepted": 0,
+          "n": 2
+        },
+        "overview/short-briefing": {
+          "accepted": 0,
+          "n": 2
+        },
+        "overview/summary-not-ranking": {
+          "accepted": 0,
+          "n": 1
+        },
+        "players/completion-headcount": {
+          "accepted": 1,
+          "n": 2
+        },
+        "players/completion-outcomes": {
+          "accepted": 1,
+          "n": 2
+        },
+        "players/defeats-recorded": {
+          "accepted": 2,
+          "n": 2
+        },
+        "players/duration-summary": {
+          "accepted": 0,
+          "n": 1
+        },
+        "players/enrolled-unplayed": {
+          "accepted": 1,
+          "n": 2
+        },
+        "players/finished-round-count": {
+          "accepted": 2,
+          "n": 2
+        },
+        "players/mean-duration": {
+          "accepted": 1,
+          "n": 2
+        },
+        "players/outcome-proportion": {
+          "accepted": 1,
+          "n": 2
+        },
+        "players/overall-overlap": {
+          "accepted": 2,
+          "n": 2
+        },
+        "players/registered-headcount": {
+          "accepted": 1,
+          "n": 2
+        },
+        "players/results-versus-registration": {
+          "accepted": 2,
+          "n": 2
+        },
+        "players/timeout-outcomes": {
+          "accepted": 1,
+          "n": 2
+        },
+        "players/wins-recorded": {
+          "accepted": 1,
+          "n": 2
+        },
+        "queue/admission-current": {
+          "accepted": 2,
+          "n": 2
+        },
+        "queue/admission-pause-check": {
+          "accepted": 1,
+          "n": 2
+        },
+        "queue/assigned-population": {
+          "accepted": 0,
+          "n": 2
+        },
+        "queue/backlog-now": {
+          "accepted": 0,
+          "n": 2
+        },
+        "queue/current-ticket-states": {
+          "accepted": 2,
+          "n": 2
+        },
+        "queue/current-wait-burden": {
+          "accepted": 1,
+          "n": 2
+        },
+        "queue/next-waiting-position": {
+          "accepted": 1,
+          "n": 2
+        },
+        "queue/oldest-ticket-age": {
+          "accepted": 0,
+          "n": 2
+        },
+        "queue/queue-empty-check": {
+          "accepted": 1,
+          "n": 2
+        },
+        "queue/queue-review-state": {
+          "accepted": 1,
+          "n": 2
+        },
+        "queue/reserved-versus-waiting": {
+          "accepted": 1,
+          "n": 2
+        },
+        "queue/unserved-tickets": {
+          "accepted": 2,
+          "n": 2
+        },
+        "queue/waiting-population": {
+          "accepted": 0,
+          "n": 1
+        },
+        "scores/average-points-value": {
+          "accepted": 2,
+          "n": 2
+        },
+        "scores/combined-total-labelled": {
+          "accepted": 0,
+          "n": 2
+        },
+        "scores/device-points": {
+          "accepted": 2,
+          "n": 2
+        },
+        "scores/maximum-value-only": {
+          "accepted": 1,
+          "n": 2
+        },
+        "scores/minimum-value-only": {
+          "accepted": 1,
+          "n": 2
+        },
+        "scores/points-ledger": {
+          "accepted": 2,
+          "n": 2
+        },
+        "scores/points-per-result": {
+          "accepted": 0,
+          "n": 1
+        },
+        "scores/recent-score-list": {
+          "accepted": 1,
+          "n": 2
+        },
+        "scores/score-frequency": {
+          "accepted": 1,
+          "n": 2
+        },
+        "scores/score-range-values": {
+          "accepted": 2,
+          "n": 2
+        },
+        "scores/score-records-not-counts": {
+          "accepted": 2,
+          "n": 2
+        },
+        "scores/simulator-points": {
+          "accepted": 1,
+          "n": 2
+        },
+        "scores/sum-of-points": {
+          "accepted": 2,
+          "n": 2
+        },
+        "social/acknowledge": {
+          "accepted": 3,
+          "n": 4
+        },
+        "social/farewell": {
+          "accepted": 2,
+          "n": 3
+        },
+        "social/greeting": {
+          "accepted": 1,
+          "n": 4
+        },
+        "social/help": {
+          "accepted": 1,
+          "n": 4
+        },
+        "social/identity": {
+          "accepted": 3,
+          "n": 3
+        },
+        "social/thanks": {
+          "accepted": 2,
+          "n": 4
+        },
+        "social/wellbeing": {
+          "accepted": 3,
+          "n": 3
+        },
+        "top/first-ranked-person": {
+          "accepted": 0,
+          "n": 2
+        },
+        "top/first-three-over-event": {
+          "accepted": 0,
+          "n": 1
+        },
+        "top/leader-not-number": {
+          "accepted": 1,
+          "n": 2
+        },
+        "top/leaderboard-people": {
+          "accepted": 1,
+          "n": 2
+        },
+        "top/physical-leaders": {
+          "accepted": 1,
+          "n": 2
+        },
+        "top/podium-list": {
+          "accepted": 0,
+          "n": 2
+        },
+        "top/rank-order-nicknames": {
+          "accepted": 1,
+          "n": 2
+        },
+        "top/ranking-five": {
+          "accepted": 2,
+          "n": 2
+        },
+        "top/simulator-leaders": {
+          "accepted": 0,
+          "n": 2
+        },
+        "top/source-separated-leaders": {
+          "accepted": 2,
+          "n": 2
+        },
+        "top/today-leader": {
+          "accepted": 0,
+          "n": 2
+        },
+        "top/top-ten-people": {
+          "accepted": 2,
+          "n": 2
+        },
+        "top/yesterday-leader": {
+          "accepted": 1,
+          "n": 2
+        },
+        "trend/activity-rises-falls": {
+          "accepted": 1,
+          "n": 1
+        },
+        "trend/busy-window": {
+          "accepted": 1,
+          "n": 2
+        },
+        "trend/day-shape": {
+          "accepted": 0,
+          "n": 2
+        },
+        "trend/hourly-activity": {
+          "accepted": 0,
+          "n": 2
+        },
+        "trend/participation-over-time": {
+          "accepted": 2,
+          "n": 2
+        },
+        "trend/peak-round-throughput": {
+          "accepted": 2,
+          "n": 2
+        },
+        "trend/quiet-window": {
+          "accepted": 1,
+          "n": 2
+        },
+        "trend/session-activity-hours": {
+          "accepted": 0,
+          "n": 2
+        },
+        "trend/time-bucket-comparison": {
+          "accepted": 0,
+          "n": 2
+        },
+        "trend/time-pattern-source": {
+          "accepted": 1,
+          "n": 2
+        },
+        "trend/timeline-not-total": {
+          "accepted": 1,
+          "n": 2
+        },
+        "trend/week-activity-series": {
+          "accepted": 2,
+          "n": 2
+        },
+        "trend/yesterday-activity": {
+          "accepted": 0,
+          "n": 2
+        },
+        "unsupported/device-control": {
+          "accepted": 0,
+          "n": 1
+        },
+        "unsupported/foreign-arcade-result": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/foreign-election-ranking": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/foreign-esports": {
+          "accepted": 0,
+          "n": 1
+        },
+        "unsupported/foreign-hospital-line": {
+          "accepted": 0,
+          "n": 1
+        },
+        "unsupported/foreign-oven-reading": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/foreign-robot-status": {
+          "accepted": 0,
+          "n": 1
+        },
+        "unsupported/foreign-transport-line": {
+          "accepted": 0,
+          "n": 1
+        },
+        "unsupported/future-score-forecast": {
+          "accepted": 0,
+          "n": 1
+        },
+        "unsupported/holiday-planning": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/instruction-override": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/medical-treatment": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/personality-inference": {
+          "accepted": 0,
+          "n": 1
+        },
+        "unsupported/private-credential": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/private-other-admin-chat": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/private-student-records": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/queue-control": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/recipe-dessert": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/score-write": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/stock-prediction": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/tower-stability-sensor": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/uninstalled-energy-meter": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/unrelated-homework": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/unrelated-image-edit": {
+          "accepted": 1,
+          "n": 1
+        },
+        "unsupported/unrelated-music": {
+          "accepted": 1,
+          "n": 1
+        }
+      },
+      "family_bootstrap95": [
+        0.3611111111111111,
+        0.4584615384615385
+      ],
+      "by_behavior": {
+        "answer": {
+          "accepted": 115,
+          "n": 298
+        },
+        "needs_clarification": {
+          "accepted": 0,
+          "n": 2
+        },
+        "refused": {
+          "accepted": 18,
+          "n": 25
+        }
+      },
+      "statuses": {
+        "ok": 116,
+        "needs_clarification": 154,
+        "conversation": 47,
+        "no_data": 3,
+        "refused": 5
+      },
+      "failures": {
+        "ok": 26,
+        "unrecognized_context": 86,
+        "small_talk": 5,
+        "system_context": 20,
+        "system_scope": 42,
+        "unsupported_question": 9,
+        "two_interpretations": 3,
+        "refused": 1
+      },
+      "supported_answer_clarifications": 134,
+      "unsupported_answered": 2
+    },
+    "paired_gains": 3,
+    "paired_losses": 0
+  },
+  "paired_family_bootstrap_delta_95": [
+    0.0,
+    0.018808777429467086
+  ],
+  "candidate_source_sha256": "332a34a3bcb082448383dae93dc0407531692e8c6c4878f0981b7a8bc6909f89",
+  "first_use_freeze_sha256": "7d1f4d493d49fc707e85febd162d2c1c2dd708a8bca72462229c76b663680288"
+}

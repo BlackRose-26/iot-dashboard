@@ -15,7 +15,7 @@ from typing import Literal
 from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 from starlette.concurrency import run_in_threadpool
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
@@ -23,13 +23,16 @@ from .config import Settings, BACKEND
 from .assistant import Assistant, Question, basic_response, REQUEST_SECONDS
 from .analytics import collect, Period, Source
 from .assistant_training import TrainingStore, Proposal, Review
+from .evaluation_review import CaseReview, read_reviews, save_review
 from .origins import origin_allowed
 from .database import make_engine, one, all_rows, execute
 from .live import LiveHub, record_change
 from .request_limits import RequestSizeLimit
 from .machine_status import cabinet_state
 from .device_commands import CommandAcknowledgement, poll_commands, acknowledge, requires_review, hold_for_review
-from .game import RULES, RULES_HASH, canonical, replay, simulated_result
+from .device_protocol import APIInput, Placement, Result, BootRegistration, JournalEvent, RecoveryReason, RecoveryResolution
+from .device_recovery import require_boot, register_boot, journal, request_fence, recovery_view, resolve
+from .game import active_rules, stored_rules, rules_hash, canonical, replay, simulated_result
 from .security import passwords, DUMMY_HASH, now, digest, csrf_for, verify_csrf, identity_lookup, encrypt_identity, set_cookie
 
 
@@ -181,20 +184,26 @@ def create_app(settings=None):
     def machine_state(m,g):
         return cabinet_state(m,g,now(),settings.simulator_enabled)
 
-    def rounds(c, source=None):
+    def rounds(c, source=None, ruleset_id=None):
+        if ruleset_id is None:
+            rules_row,rules=active_rules(c)
+            ruleset_id=rules_row['id']
+        else:
+            _,rules=stored_rules(c,ruleset_id=ruleset_id)
         rows=all_rows(c, '''SELECT g.*,p.nickname,p.public_code FROM game_sessions g JOIN players p ON p.id=g.player_id
-          WHERE g.status='completed' AND g.invalidated_at IS NULL AND (:source IS NULL OR g.result_source=:source)
-          ORDER BY g.completed_at DESC,g.id DESC''', source=source)
+          WHERE g.status='completed' AND g.invalidated_at IS NULL AND g.ruleset_id=:rules AND (:source IS NULL OR g.result_source=:source)
+          ORDER BY g.completed_at DESC,g.id DESC''', source=source,rules=ruleset_id)
         proofs={}
         for p in all_rows(c, '''SELECT p.* FROM placements p JOIN game_sessions g ON g.id=p.session_id
-          WHERE g.status='completed' AND g.invalidated_at IS NULL AND (:source IS NULL OR g.result_source=:source)
-          ORDER BY p.session_id,p.sequence_no''',source=source):
+          WHERE g.status='completed' AND g.invalidated_at IS NULL AND g.ruleset_id=:rules AND (:source IS NULL OR g.result_source=:source)
+          ORDER BY p.session_id,p.sequence_no''',source=source,rules=ruleset_id):
             proofs.setdefault(p['session_id'],[]).append(p)
         result=[]
         for r in rows:
             placements=proofs.get(r['id'],[])
             result.append({'id':r['public_id'],'code':r['public_code'],'nickname':r['nickname'], 'won':r['outcome']=='win',
               'reason':{'target_reached':'Target reached','zero_overlap':'No overlap','timeout':'Time expired'}[r['end_reason']],
+              'ruleset':rules['code'],'maxLevel':rules['levels'],
               'score':r['score'],'level':r['highest_level'],'perfect':r['perfect_rows'], 'overlap':r['overlap_total'],
               'totalWidth':r['attempted_width_total'],'accuracy':round(100*r['overlap_total']/r['attempted_width_total'],1) if r['attempted_width_total'] else 0,
               'duration':round(r['duration_ms']/1000,2),'hour':(r['completed_at'].hour+8)%24,
@@ -209,7 +218,7 @@ def create_app(settings=None):
         grant=one(c, '''SELECT e.*,q.enabled FROM entry_grants e JOIN qr_links q ON q.id=e.qr_link_id
           WHERE e.token_hash=:hash AND e.expires_at>:now''',hash=digest(raw),now=now()) if raw else None
         event=one(c,"SELECT status,revision FROM events WHERE code='acs-day'")
-        result={'canRegister':bool(grant and grant['enabled'] and not grant['used_at']), 'admissionsOpen':event['status']=='open',
+        result={'game':active_rules(c)[1], 'canRegister':bool(grant and grant['enabled'] and not grant['used_at']), 'admissionsOpen':event['status']=='open',
           'revision':event['revision'],'generatedAt':generated_at,
           'csrf':p['csrf'] if p else csrf_for(settings,raw) if grant else '', 'ticket':None, 'notifications':[]}
         if not p: return result
@@ -218,20 +227,21 @@ def create_app(settings=None):
         result['queueState']=('paused' if event['status']!='open' else
           'offline' if cabinet_state=='offline' else 'review' if cabinet_state=='review' else
           'awaiting_operator' if cabinet_state=='ready' else 'busy')
-        q=one(c, '''SELECT q.*,p.nickname,p.public_code,g.public_id AS session_uuid,g.status AS game_status,g.outcome,g.score,g.highest_level,g.result_source
+        q=one(c, '''SELECT q.*,p.nickname,p.public_code,g.public_id AS session_uuid,g.status AS game_status,g.outcome,g.score,g.highest_level,g.result_source,g.ruleset_id
           FROM queue_entries q JOIN players p ON p.id=q.player_id LEFT JOIN game_sessions g ON g.queue_entry_id=q.id
           WHERE q.player_id=:player ORDER BY q.id DESC LIMIT 1''',player=p['player_id'])
         if q:
             position=one(c,"SELECT COUNT(*) AS n FROM queue_entries WHERE event_id=:event AND status='waiting' AND (joined_at<:joined OR (joined_at=:joined AND id<=:id))",event=q['event_id'],joined=q['joined_at'],id=q['id'])['n'] if q['status']=='waiting' else None
             status= 'completed' if q['game_status']=='completed' else 'review' if q['game_status']=='review' else 'playing' if q['game_status']=='playing' else 'called' if q['status']=='assigned' else q['status']
             result['ticket']={'id':q['public_id'],'nickname':q['nickname'],'code':q['public_code'],'status':status,'position':position,
+              'game':stored_rules(c,ruleset_id=q['ruleset_id'])[1] if q['ruleset_id'] else result['game'],
               'sessionId':q['session_uuid'],'outcome':q['outcome'],'score':q['score'],'level':q['highest_level'],'source':q['result_source']}
         result['notifications']=[{'id':r['public_id'],'outcome':r['outcome'],'score':r['score']} for r in all_rows(c,'''SELECT n.public_id,g.outcome,g.score FROM player_notifications n JOIN game_sessions g ON g.id=n.session_id WHERE n.player_id=:player ORDER BY n.id DESC LIMIT 5''',player=p['player_id'])]
         return result
 
-    def audit(c,staff,action,entity=None,reason=None,entity_type='queue'):
+    def audit(c,staff,action,entity=None,reason=None,entity_type='queue',details=None):
         execute(c,'''INSERT INTO audit_logs(event_id,staff_user_id,action,entity_type,entity_public_id,reason,details_safe,request_id)
-          VALUES(1,:staff,:action,:kind,:entity,:reason,'{}',:request)''',staff=staff,action=action,kind=entity_type,entity=entity,reason=reason,request=str(uuid.uuid4()))
+          VALUES(1,:staff,:action,:kind,:entity,:reason,:details,:request)''',staff=staff,action=action,kind=entity_type,entity=entity,reason=reason,details=json.dumps(details or {}),request=str(uuid.uuid4()))
 
     @app.get('/api/health')
     def health():
@@ -242,9 +252,11 @@ def create_app(settings=None):
             applied={row['version'] for row in all_rows(c,'SELECT version FROM schema_migrations')}
             if not required_migrations or not required_migrations<=applied:
                 raise HTTPException(503,'Database migrations are incomplete. Follow the project setup guide.')
-            configured=one(c,"SELECT e.id FROM events e JOIN machines m ON m.event_id=e.id AND m.code='cabinet-01' JOIN rulesets r ON r.code='classic-v1' WHERE e.code='acs-day' AND e.id=1 AND m.id=1 AND r.id=1")
+            configured=one(c,"SELECT e.id FROM events e JOIN machines m ON m.event_id=e.id AND m.code='cabinet-01' WHERE e.code='acs-day' AND e.id=1 AND m.id=1")
             if not configured: raise HTTPException(503,'The initial event configuration is incomplete.')
-        return {'status':'ok','application':'stack-moko-baby','database':'XAMPP MariaDB'}
+            try: active_rules(c)
+            except ValueError: raise HTTPException(503,'The game rules configuration is incomplete.') from None
+        return {'status':'ok','application':'stack-moko-baby','database':'MariaDB'}
 
     @app.post('/api/admin/login')
     def login(body:Login, request:Request,response:Response):
@@ -292,11 +304,12 @@ def create_app(settings=None):
               d.created_at,d.acknowledged_at,d.applied_at,d.expires_at,d.rejection_code,
               g.public_id AS session_uuid,g.result_source FROM device_commands d LEFT JOIN game_sessions g ON g.id=d.session_id
               WHERE d.machine_id=:id ORDER BY d.id DESC LIMIT 5''', id=m['id'])
-            return {'revision':event['revision'],'generatedAt':generated_at,
+            return {'game':active_rules(c)[1], 'revision':event['revision'],'generatedAt':generated_at,
               'queue':[{'id':q['public_id'],'nickname':q['nickname'],'code':q['public_code'],'joinedAt':q['joined_at'].isoformat()+'Z'} for q in queue],
               'admissionsOpen':event['status']=='open','machineState':machine_state(m,g),'machine':{'lastSeen':m['last_seen_at'].isoformat()+'Z' if m['last_seen_at'] else None,'health':json.loads(m['health'] or '{}'),'firmware':m['firmware_version']},
               'currentPlayer':{'nickname':g['nickname'],'code':g['public_code'],'sessionId':g['public_id'],'source':g['result_source'],
                 'revision':g['revision'],'status':g['status'],'reviewRequired':requires_review(g)} if g else None,
+              'deviceRecovery':recovery_view(c,m,g) if g and g['result_source']=='device' else None,
               'deviceCommands':[{'id':d['public_id'],'type':d['command_type'],'status':d['status'],
                 'source':d['result_source'],
                 'expectedRevision':d['expected_revision'],'sessionId':d['session_uuid'], 'rejectionCode':d['rejection_code'],
@@ -332,6 +345,19 @@ def create_app(settings=None):
     async def assistant_forget_memory(request:Request):
         staff_id=await asyncio.to_thread(assistant_staff,request,True)
         return await assistant.forget_memory(staff_id)
+
+    @app.get('/api/admin/evaluation-review')
+    def evaluation_questions(request:Request,response:Response):
+        response.headers['Cache-Control']='private, no-store'
+        with engine.connect() as c:
+            owner=subject(c,request,'admin')['staff_user_id']
+            return read_reviews(c,owner)
+
+    @app.put('/api/admin/evaluation-review/{case_id}')
+    def evaluation_decision(case_id:str,body:CaseReview,request:Request):
+        with engine.begin() as c:
+            owner=subject(c,request,'admin',write=True)['staff_user_id']
+            return save_review(c,owner,case_id,body)
 
     @app.get('/api/admin/assistant/training/options')
     def assistant_training_options(request:Request):
@@ -467,9 +493,9 @@ def create_app(settings=None):
     def leaderboard(request:Request):
         with engine.connect() as c:
             p=subject(c,request,'player')
-            completed=one(c,"SELECT g.result_source,g.status FROM queue_entries q LEFT JOIN game_sessions g ON g.queue_entry_id=q.id WHERE q.player_id=:id ORDER BY q.id DESC LIMIT 1",id=p['player_id'])
+            completed=one(c,"SELECT g.result_source,g.status,g.ruleset_id FROM queue_entries q LEFT JOIN game_sessions g ON g.queue_entry_id=q.id WHERE q.player_id=:id ORDER BY q.id DESC LIMIT 1",id=p['player_id'])
             if not completed or completed['status']!='completed': raise HTTPException(403,'Finish your game to unlock the leaderboard.')
-            return {'rounds':rounds(c,completed['result_source']),'source':completed['result_source']}
+            return {'rounds':rounds(c,completed['result_source'],completed['ruleset_id']),'source':completed['result_source'],'game':stored_rules(c,ruleset_id=completed['ruleset_id'])[1]}
 
     @app.post('/api/admin/admissions')
     def admissions(body:Admissions,request:Request):
@@ -505,20 +531,26 @@ def create_app(settings=None):
             if not q: raise HTTPException(409,'No players are waiting.')
             source='simulator' if json.loads(m['health'] or '{}').get('source')=='simulator' else 'device'
             public=str(uuid.uuid4())
-            sid=execute(c,"INSERT INTO game_sessions(public_id,event_id,machine_id,queue_entry_id,player_id,ruleset_id,ready_deadline_at,result_source) VALUES(:uuid,1,1,:queue,:player,1,:deadline,:source)",uuid=public,queue=q['id'],player=q['player_id'],deadline=now()+timedelta(minutes=3),source=source).lastrowid
+            rules_row,rules=active_rules(c)
+            sid=execute(c,"INSERT INTO game_sessions(public_id,event_id,machine_id,queue_entry_id,player_id,ruleset_id,ready_deadline_at,result_source) VALUES(:uuid,1,1,:queue,:player,:rules,:deadline,:source)",uuid=public,queue=q['id'],player=q['player_id'],rules=rules_row['id'],deadline=now()+timedelta(minutes=3),source=source).lastrowid
             execute(c,"UPDATE queue_entries SET status='assigned',revision=revision+1 WHERE id=:id",id=q['id'])
-            execute(c,"INSERT INTO device_commands(public_id,machine_id,session_id,command_type,expected_revision,payload,issued_by,expires_at) VALUES(:uuid,1,:sid,'reserve',1,:payload,:staff,:expires)",uuid=str(uuid.uuid4()),sid=sid,payload=json.dumps({'sessionId':public,'rules':RULES,'rulesHash':RULES_HASH.hex(),'source':source}),staff=p['staff_user_id'],expires=now()+timedelta(minutes=3))
+            execute(c,"INSERT INTO device_commands(public_id,machine_id,session_id,command_type,expected_revision,payload,issued_by,expires_at) VALUES(:uuid,1,:sid,'reserve',1,:payload,:staff,:expires)",uuid=str(uuid.uuid4()),sid=sid,payload=json.dumps({'sessionId':public,'rules':rules,'rulesHash':rules_hash(rules).hex(),'source':source}),staff=p['staff_user_id'],expires=now()+timedelta(minutes=3))
             result={'sessionId':public}
             execute(c,"INSERT INTO request_receipts(actor_scope,operation,idempotency_key,request_hash,response_status,response_safe) VALUES(:actor,'call-next',:key,:hash,200,:response)",actor='staff:'+str(p['staff_user_id']),key=key,hash=digest('call-next'),response=json.dumps(result))
             audit(c,p['staff_user_id'],'player_called',public)
             record_change(c,'session.changed',public)
         return result
 
-    def device(c,request,lock=True):
+    def device(c,request,lock=True,boot_check=True):
         raw=request.headers.get('X-Device-Token','')
         m=machine(c,lock)
         if not raw or not hmac.compare_digest(digest(raw),m['device_token_hash']): raise HTTPException(401,'Device authentication required.')
+        if boot_check: require_boot(c,m,request.headers.get('X-Device-Boot-Id'))
         return m
+
+    def legacy_device(c,m):
+        if require_boot(c,m,None):
+            raise HTTPException(409,'Use the boot-bound journal protocol for this cabinet.')
 
     def start(c,public,source):
         g=one(c,'SELECT * FROM game_sessions WHERE public_id=:id FOR UPDATE',id=public)
@@ -544,8 +576,9 @@ def create_app(settings=None):
             if g['terminal_id']==payload['terminalId'] and hmac.compare_digest(g['result_hash'],hashed): return {'ok':True,'score':g['score']}
             raise HTTPException(409,'A different terminal result was already recorded.')
         if g['status']!='playing': raise HTTPException(409,'Start this round before submitting a result.')
-        if payload['rulesHash']!=RULES_HASH.hex(): raise HTTPException(422,'Ruleset mismatch.')
-        try: result=replay(payload['placements'],payload['durationMs'],payload['outcome'])
+        _,rules=stored_rules(c,ruleset_id=g['ruleset_id'])
+        if payload['rulesHash']!=rules_hash(rules).hex(): raise HTTPException(422,'Ruleset mismatch.')
+        try: result=replay(payload['placements'],payload['durationMs'],payload['outcome'],rules)
         except (ValueError,KeyError,TypeError): raise HTTPException(422,'The placement trace is not valid for this ruleset.')
         if source=='device' and (now()-g['started_at']).total_seconds()*1000+2000<payload['durationMs']: raise HTTPException(422,'Result timing is not valid.')
         for seq,p in enumerate(result['placements'],1):
@@ -571,7 +604,7 @@ def create_app(settings=None):
                 record_change(c,'machine.changed')
                 result={'ok':True}
             elif action=='start' and g: result=start(c,g['public_id'],'simulator')
-            elif action in ('win','loss') and g: result=finish(c,g['public_id'],simulated_result(action),'simulator')
+            elif action in ('win','loss') and g: result=finish(c,g['public_id'],simulated_result(action,stored_rules(c,ruleset_id=g['ruleset_id'])[1]),'simulator')
             elif action=='release' and g and g['result_source']=='simulator':
                 execute(c,"UPDATE game_sessions SET status='aborted',end_reason='operator_abort',revision=revision+1 WHERE id=:id",id=g['id'])
                 execute(c,"UPDATE queue_entries SET status='cancelled',closed_at=:now,revision=revision+1 WHERE id=:id",now=now(),id=g['queue_entry_id'])
@@ -598,7 +631,31 @@ def create_app(settings=None):
                     or not m['last_seen_at'] or (now()-m['last_seen_at']).total_seconds()>=15):
                 record_change(c,'machine.changed')
             g=active(c)
-            return {'activeSession':g['public_id'] if g and g['result_source']=='device' else None,'rules':RULES,'rulesHash':RULES_HASH.hex()}
+            rules=stored_rules(c,ruleset_id=g['ruleset_id'])[1] if g else active_rules(c)[1]
+            return {'activeSession':g['public_id'] if g and g['result_source']=='device' else None,'rules':rules,'rulesHash':rules_hash(rules).hex()}
+
+    @app.get('/api/device/enrollment')
+    def enrollment(request:Request):
+        # Read-only lineage discovery for erased flash/Wokwi resets. A new
+        # storageId still forces review and cannot prove an old game unstarted.
+        from .device_recovery import current_boot
+        with engine.connect() as c:
+            m=device(c,request,lock=False,boot_check=False)
+            boot=current_boot(c,m['id'])
+            return {'currentBootId':boot['public_id'] if boot else None}
+
+    @app.post('/api/device/boot')
+    def device_boot(body:BootRegistration,request:Request):
+        with engine.begin() as c:
+            event_lock(c);m=device(c,request,boot_check=False)
+            return register_boot(c,m,body)
+
+    @app.post('/api/device/journal')
+    def device_journal(body:JournalEvent,request:Request):
+        with engine.begin() as c:
+            event_lock(c);m=device(c,request)
+            result=journal(c,m,require_boot(c,m,request.headers.get('X-Device-Boot-Id')),body,start,finish)
+        return result if result['ok'] else JSONResponse({key:value for key,value in result.items() if key in ('detail','code')},status_code=409)
 
     @app.get('/api/device/commands')
     def device_commands(request:Request):
@@ -609,6 +666,7 @@ def create_app(settings=None):
     def device_ack(public:str,body:CommandAcknowledgement,request:Request):
         with engine.begin() as c:
             event_lock(c);m=device(c,request)
+            legacy_device(c,m)
             result=acknowledge(c,m,public,body)
         return result if result['ok'] else JSONResponse({'detail':result['detail']},status_code=409)
 
@@ -622,31 +680,54 @@ def create_app(settings=None):
             if hold_for_review(c,g): audit(c,p['staff_user_id'],'device_review_requested',public,body.reason.strip(),entity_type='session')
         return {'ok':True}
 
+    @app.post('/api/admin/sessions/{public}/fence')
+    def fence_round(public:str,body:RecoveryReason,request:Request):
+        return recovery_action(public,body,request,'fence')
+
+    @app.post('/api/admin/sessions/{public}/resolve')
+    def resolve_round(public:str,body:RecoveryResolution,request:Request):
+        return recovery_action(public,body,request,'resolve')
+
+    def recovery_action(public,body,request,operation):
+        with engine.begin() as c:
+            p=subject(c,request,'admin',write=True);event_lock(c);m=machine(c,True)
+            key=request.headers.get('Idempotency-Key','')
+            if not re.fullmatch(r'[a-f0-9-]{36}',key): raise HTTPException(422,'A request key is required.')
+            actor='staff:'+str(p['staff_user_id']);op='device-'+operation
+            hashed=digest(canonical({'sessionId':public,**body.model_dump()}))
+            receipt=one(c,'''SELECT * FROM request_receipts WHERE actor_scope=:actor
+              AND operation=:op AND idempotency_key=:key''',actor=actor,op=op,key=key)
+            if receipt:
+                if not hmac.compare_digest(receipt['request_hash'],hashed):
+                    raise HTTPException(409,'This request key already belongs to a different action.')
+                return json.loads(receipt['response_safe'])
+            g=one(c,'SELECT * FROM game_sessions WHERE public_id=:id AND machine_id=1 FOR UPDATE',id=public)
+            if not g or g['result_source']!='device': raise HTTPException(409,'Select a physical-device round.')
+            result=(request_fence(c,m,g,body,p['staff_user_id']) if operation=='fence'
+                    else resolve(c,m,g,body,finish))
+            audit(c,p['staff_user_id'],'device_'+operation,public,body.reason.strip(),entity_type='session',
+                  details={'revision':body.expectedRevision,**({'evidenceId':body.evidenceId,'resolution':body.action} if operation=='resolve' else {'commandId':result['commandId']})})
+            execute(c,'''INSERT INTO request_receipts(actor_scope,operation,idempotency_key,request_hash,response_status,response_safe)
+              VALUES(:actor,:op,:key,:hash,200,:response)''',actor=actor,op=op,key=key,hash=hashed,response=canonical(result))
+        return result
+
     @app.post('/api/device/sessions/{public}/start')
     def device_start(public:str,request:Request):
         with engine.begin() as c:
-            event_lock(c);device(c,request)
+            event_lock(c);m=device(c,request);legacy_device(c,m)
             return start(c,public,'device')
 
     @app.post('/api/device/sessions/{public}/result')
     def device_result(public:str,body:Result,request:Request):
         with engine.begin() as c:
-            event_lock(c);device(c,request)
+            event_lock(c);m=device(c,request);legacy_device(c,m)
             return finish(c,public,body,'device')
 
+    import os
+    if directory := os.getenv('STACK_FRONTEND_DIST'):
+        from .web_frontend import mount_frontend
+        mount_frontend(app,directory)
     return app
-
-
-class APIInput(BaseModel):
-    model_config={'extra':'forbid'}
-
-    @field_validator('*')
-    @classmethod
-    def valid_unicode(cls,value):
-        if isinstance(value,str):
-            try: value.encode('utf-8')
-            except UnicodeEncodeError: raise ValueError('Invalid text encoding.') from None
-        return value
 
 
 class Login(APIInput):
@@ -671,18 +752,6 @@ class Heartbeat(APIInput):
     state:str=Field(pattern=r'^(ready|playing|offline)$')
     firmware:str=Field(max_length=64)
     rssi:int|None=Field(default=None,ge=-120,le=0)
-class Placement(APIInput):
-    candidate_x:int=Field(strict=True,ge=0,le=7)
-    candidate_width:int=Field(strict=True,ge=1,le=3)
-    overlap_width:int=Field(strict=True,ge=0,le=3)
-    locked_at_ms:int=Field(strict=True,ge=30,lt=60000)
-class Result(APIInput):
-    model_config={'extra':'forbid'}
-    terminalId:str=Field(pattern=r'^[a-f0-9-]{36}$')
-    rulesHash:str=Field(pattern=r'^[a-f0-9]{64}$')
-    outcome:str=Field(pattern=r'^(win|loss)$')
-    durationMs:int=Field(strict=True,ge=0,le=60000)
-    placements:list[Placement]=Field(max_length=12)
 
 
 app=create_app() if __name__!='__main__' and __import__('os').getenv('STACK_SKIP_DEFAULT_APP')!='1' else None

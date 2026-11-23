@@ -1,7 +1,16 @@
-# Progress report evidence
+# NLP accuracy evaluation
 
-- `nlp-regression-metrics.png`: 44/44 recorded local Ollama regression checks. This is not independent model accuracy, precision, recall or F1.
-- `rule-engine-logic.png`: current backend scoring/overlap rules and a replay-verified synthetic example (375 points; 75% overlap accuracy). Numeric game settings remain proposed.
-- `dashboard-dark-synthetic.png`: actual Edge screenshot from the disposable browser test, with synthetic players/results and a labelled simulator.
+Measured accuracy: **57.1% (12/21)** for the local Ollama intent router before backend semantic corrections.
 
-No live ESP32 data or real student identities are represented. Source: the 19 November 2026 software audit.
+- `nlp-accuracy.png`: standard Matplotlib overall and category accuracy plots, calculated using scikit-learn `accuracy_score`.
+- `nlp-accuracy-counts.png`: correctly and incorrectly predicted test-label counts.
+- `accuracy-metrics.json`: computed accuracy values and plotting-library versions.
+- `intent-routing-evaluation.json`: expected/predicted labels, case IDs, timing and corpus hash.
+- `plot_accuracy.py`: reproducible plotting source; requires matplotlib and scikit-learn.
+- `dashboard-dark-synthetic.png`: previous actual browser screenshot with synthetic simulator results.
+
+Accuracy = exact matching predicted topics and relevant subtypes / all 21 evaluated questions. Ground-truth labels were frozen in the existing test split of `backend/data/assistant-routing.json` before evaluation. These rows are excluded from retrieved examples; no exact normalized test-input duplicate was found among retrieved training rows. Private examples were disabled. No database records or model-weight training were used.
+
+This is a small synthetic, developer-reviewed test set. It is not blind real-user accuracy, scoring/overlap accuracy, or end-to-end factual-answer accuracy. The separate 44/44 corrected regression suite remains a regression pass rate and is not substituted for this accuracy result. Rules and backend corrections are outside the measured router component.
+
+Metric definition: https://scikit-learn.org/stable/modules/generated/sklearn.metrics.accuracy_score.html

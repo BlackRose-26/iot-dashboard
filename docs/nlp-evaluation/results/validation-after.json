@@ -1,0 +1,683 @@
+{
+  "measured_at": "2026-11-19T21:40:55.999472+00:00",
+  "component": "application-guard-aware constraint-guided Ollama routing stage before final backend intent resolution",
+  "model": "qwen3:4b-instruct",
+  "dataset": "backend/data/assistant-routing-validation.json",
+  "normalization_version": "system-context-v9-contrastive-routing",
+  "prompt_sha256": "e3746670e2510ecc53cce8d646d1da1f4322ecdaf2381ad6527152650eecdb24",
+  "dataset_sha256": "f01f01a1e37ab56b8f9eb3993a48b0fa0930c5a2859c9f89388f11166097a07e",
+  "runtime_corpus_sha256": "966c994c36213d160ced752011a1ba4cf004bb7acb998685011acec1259dde62",
+  "split": "validation",
+  "private_memory": false,
+  "database_access": false,
+  "n": 24,
+  "correct": 23,
+  "accuracy": 0.9583333333333334,
+  "per_label": {
+    "scores": {
+      "n": 3,
+      "correct": 3
+    },
+    "definition:average_score": {
+      "n": 1,
+      "correct": 1
+    },
+    "players": {
+      "n": 2,
+      "correct": 1
+    },
+    "definition:accuracy": {
+      "n": 1,
+      "correct": 1
+    },
+    "queue": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:queue_flow": {
+      "n": 1,
+      "correct": 1
+    },
+    "machine": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:offline": {
+      "n": 1,
+      "correct": 1
+    },
+    "top": {
+      "n": 2,
+      "correct": 2
+    },
+    "trend": {
+      "n": 2,
+      "correct": 2
+    },
+    "knowledge:results": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:privacy": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:registration": {
+      "n": 1,
+      "correct": 1
+    },
+    "overview": {
+      "n": 1,
+      "correct": 1
+    },
+    "follow_up": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:architecture": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:assistant": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:memory": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:training": {
+      "n": 1,
+      "correct": 1
+    }
+  },
+  "confusion": [
+    {
+      "expected": "scores",
+      "predicted": "scores",
+      "count": 3
+    },
+    {
+      "expected": "definition:average_score",
+      "predicted": "definition:average_score",
+      "count": 1
+    },
+    {
+      "expected": "players",
+      "predicted": "levels",
+      "count": 1
+    },
+    {
+      "expected": "definition:accuracy",
+      "predicted": "definition:accuracy",
+      "count": 1
+    },
+    {
+      "expected": "queue",
+      "predicted": "queue",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:queue_flow",
+      "predicted": "knowledge:queue_flow",
+      "count": 1
+    },
+    {
+      "expected": "machine",
+      "predicted": "machine",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:offline",
+      "predicted": "knowledge:offline",
+      "count": 1
+    },
+    {
+      "expected": "top",
+      "predicted": "top",
+      "count": 2
+    },
+    {
+      "expected": "trend",
+      "predicted": "trend",
+      "count": 2
+    },
+    {
+      "expected": "knowledge:results",
+      "predicted": "knowledge:results",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:privacy",
+      "predicted": "knowledge:privacy",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:registration",
+      "predicted": "knowledge:registration",
+      "count": 1
+    },
+    {
+      "expected": "overview",
+      "predicted": "overview",
+      "count": 1
+    },
+    {
+      "expected": "players",
+      "predicted": "players",
+      "count": 1
+    },
+    {
+      "expected": "follow_up",
+      "predicted": "follow_up",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:architecture",
+      "predicted": "knowledge:architecture",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:assistant",
+      "predicted": "knowledge:assistant",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:memory",
+      "predicted": "knowledge:memory",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:training",
+      "predicted": "knowledge:training",
+      "count": 1
+    }
+  ],
+  "limits": "Frozen synthetic developer-authored diagnostic set created before this improvement. Not blind real-user accuracy; do not retrieve these rows or tune repeatedly against them.",
+  "cases": [
+    {
+      "id": "validation-01",
+      "family": "value-request-polite",
+      "expected": "scores",
+      "predicted": "scores",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3004,
+      "prompt_eval_count": 1239,
+      "eval_count": 7,
+      "done_reason": "stop",
+      "retrieved_examples": 1,
+      "resolved_intent": {
+        "tools": [
+          "get_event_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-02",
+      "family": "formula-request-purpose",
+      "expected": "definition:average_score",
+      "predicted": "definition:average_score",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3685,
+      "prompt_eval_count": 1238,
+      "eval_count": 14,
+      "done_reason": "stop",
+      "retrieved_examples": 1,
+      "resolved_intent": {
+        "tools": [],
+        "definition": "average_score",
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-03",
+      "family": "pooled-number-request",
+      "expected": "players",
+      "predicted": "levels",
+      "correct": false,
+      "error": null,
+      "seconds": 0.3221,
+      "prompt_eval_count": 1287,
+      "eval_count": 7,
+      "done_reason": "stop",
+      "retrieved_examples": 2,
+      "resolved_intent": {
+        "tools": [
+          "get_event_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-04",
+      "family": "overlap-explanation-request",
+      "expected": "definition:accuracy",
+      "predicted": "definition:accuracy",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3931,
+      "prompt_eval_count": 1275,
+      "eval_count": 13,
+      "done_reason": "stop",
+      "retrieved_examples": 2,
+      "resolved_intent": {
+        "tools": [],
+        "definition": "accuracy",
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-05",
+      "family": "line-live-polite",
+      "expected": "queue",
+      "predicted": "queue",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3454,
+      "prompt_eval_count": 1317,
+      "eval_count": 7,
+      "done_reason": "stop",
+      "retrieved_examples": 3,
+      "resolved_intent": {
+        "tools": [
+          "get_queue_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-06",
+      "family": "line-design-authority",
+      "expected": "knowledge:queue_flow",
+      "predicted": "knowledge:queue_flow",
+      "correct": true,
+      "error": null,
+      "seconds": 0.2994,
+      "prompt_eval_count": 1205,
+      "eval_count": 11,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "queue_flow",
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-07",
+      "family": "readiness-live-request",
+      "expected": "machine",
+      "predicted": "machine",
+      "correct": true,
+      "error": null,
+      "seconds": 0.2886,
+      "prompt_eval_count": 1241,
+      "eval_count": 7,
+      "done_reason": "stop",
+      "retrieved_examples": 1,
+      "resolved_intent": {
+        "tools": [
+          "get_machine_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-08",
+      "family": "simulation-proof-boundary",
+      "expected": "knowledge:offline",
+      "predicted": "knowledge:offline",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3959,
+      "prompt_eval_count": 1315,
+      "eval_count": 13,
+      "done_reason": "stop",
+      "retrieved_examples": 2,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "offline",
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-09",
+      "family": "rank-request-taglish",
+      "expected": "top",
+      "predicted": "top",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3346,
+      "prompt_eval_count": 1320,
+      "eval_count": 7,
+      "done_reason": "stop",
+      "retrieved_examples": 2,
+      "resolved_intent": {
+        "tools": [
+          "get_top_scores"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-10",
+      "family": "rank-request-best",
+      "expected": "top",
+      "predicted": "top",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3281,
+      "prompt_eval_count": 1270,
+      "eval_count": 7,
+      "done_reason": "stop",
+      "retrieved_examples": 2,
+      "resolved_intent": {
+        "tools": [
+          "get_top_scores"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-11",
+      "family": "activity-peak-taglish",
+      "expected": "trend",
+      "predicted": "trend",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3493,
+      "prompt_eval_count": 1356,
+      "eval_count": 8,
+      "done_reason": "stop",
+      "retrieved_examples": 3,
+      "resolved_intent": {
+        "tools": [
+          "get_play_trend"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-12",
+      "family": "activity-pattern-en",
+      "expected": "trend",
+      "predicted": "trend",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3381,
+      "prompt_eval_count": 1302,
+      "eval_count": 8,
+      "done_reason": "stop",
+      "retrieved_examples": 3,
+      "resolved_intent": {
+        "tools": [
+          "get_play_trend"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-13",
+      "family": "sources-design",
+      "expected": "knowledge:results",
+      "predicted": "knowledge:results",
+      "correct": true,
+      "error": null,
+      "seconds": 0.4201,
+      "prompt_eval_count": 1354,
+      "eval_count": 13,
+      "done_reason": "stop",
+      "retrieved_examples": 3,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "results",
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-14",
+      "family": "scores-per-person",
+      "expected": "scores",
+      "predicted": "scores",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3175,
+      "prompt_eval_count": 1275,
+      "eval_count": 7,
+      "done_reason": "stop",
+      "retrieved_examples": 2,
+      "resolved_intent": {
+        "tools": [
+          "get_player_scores"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-15",
+      "family": "privacy-design-need",
+      "expected": "knowledge:privacy",
+      "predicted": "knowledge:privacy",
+      "correct": true,
+      "error": null,
+      "seconds": 0.358,
+      "prompt_eval_count": 1249,
+      "eval_count": 13,
+      "done_reason": "stop",
+      "retrieved_examples": 1,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "privacy",
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-16",
+      "family": "entry-camera-design",
+      "expected": "knowledge:registration",
+      "predicted": "knowledge:registration",
+      "correct": true,
+      "error": null,
+      "seconds": 0.385,
+      "prompt_eval_count": 1243,
+      "eval_count": 13,
+      "done_reason": "stop",
+      "retrieved_examples": 1,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "registration",
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-17",
+      "family": "whole-event-summary",
+      "expected": "overview",
+      "predicted": "overview",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3124,
+      "prompt_eval_count": 1310,
+      "eval_count": 7,
+      "done_reason": "stop",
+      "retrieved_examples": 3,
+      "resolved_intent": {
+        "tools": [
+          "get_event_summary",
+          "get_machine_summary",
+          "get_queue_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-18",
+      "family": "count-measure",
+      "expected": "players",
+      "predicted": "players",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3186,
+      "prompt_eval_count": 1324,
+      "eval_count": 7,
+      "done_reason": "stop",
+      "retrieved_examples": 3,
+      "resolved_intent": {
+        "tools": [
+          "get_event_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-19",
+      "family": "continuity-window",
+      "expected": "follow_up",
+      "predicted": "follow_up",
+      "correct": true,
+      "error": null,
+      "seconds": 0.4397,
+      "prompt_eval_count": 1472,
+      "eval_count": 8,
+      "done_reason": "stop",
+      "retrieved_examples": 2,
+      "resolved_intent": {
+        "tools": [
+          "get_player_scores"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-20",
+      "family": "explicit-subject-overrides-memory",
+      "expected": "scores",
+      "predicted": "scores",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3027,
+      "prompt_eval_count": 1297,
+      "eval_count": 7,
+      "done_reason": "stop",
+      "retrieved_examples": 1,
+      "resolved_intent": {
+        "tools": [
+          "get_event_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-21",
+      "family": "knowledge-software-design",
+      "expected": "knowledge:architecture",
+      "predicted": "knowledge:architecture",
+      "correct": true,
+      "error": null,
+      "seconds": 0.2886,
+      "prompt_eval_count": 1209,
+      "eval_count": 10,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "architecture",
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-22",
+      "family": "knowledge-assistant-scope",
+      "expected": "knowledge:assistant",
+      "predicted": "knowledge:assistant",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3882,
+      "prompt_eval_count": 1261,
+      "eval_count": 13,
+      "done_reason": "stop",
+      "retrieved_examples": 2,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "assistant",
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-23",
+      "family": "memory-design-no-weights",
+      "expected": "knowledge:memory",
+      "predicted": "knowledge:memory",
+      "correct": true,
+      "error": null,
+      "seconds": 0.4552,
+      "prompt_eval_count": 1331,
+      "eval_count": 13,
+      "done_reason": "stop",
+      "retrieved_examples": 3,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "memory",
+        "clarify": false
+      }
+    },
+    {
+      "id": "validation-24",
+      "family": "training-workflow-review",
+      "expected": "knowledge:training",
+      "predicted": "knowledge:training",
+      "correct": true,
+      "error": null,
+      "seconds": 0.4324,
+      "prompt_eval_count": 1330,
+      "eval_count": 13,
+      "done_reason": "stop",
+      "retrieved_examples": 3,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "training",
+        "clarify": false
+      }
+    }
+  ]
+}

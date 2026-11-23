@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from app.assistant import Assistant, Question, RoutingPlan, normalize
-from app.assistant_learning import CORPUS, interpretation_choices, retrieve, seed_examples
+from app.assistant_learning import CORPUS, CONTRASTS, interpretation_choices, retrieve, seed_examples
 from app.assistant_interactions import interaction_rows
 from app.assistant_training import Proposal, TrainingInput, TrainingTarget
 from app.database import execute
@@ -21,7 +21,8 @@ def test_corpus_is_valid_and_evaluation_is_not_retrieved():
         assert not blocked,row['id']
         Proposal(input=TrainingInput(**normalized),target=TrainingTarget(**row['target']))
     train={tuple(sample['safe_tokens']) for sample,_,_ in seed_examples()}
-    assert len(seed_examples())==sum(row['split']=='train' for row in rows+list(interaction_rows()))
+    contrast_rows=json.loads(CONTRASTS.read_text())['examples']
+    assert len(seed_examples())==sum(row['split']=='train' for row in rows+contrast_rows+list(interaction_rows()))
     for row in rows:
         if row['split']=='test': assert tuple(normalize(row['question'])[0]['safe_tokens']) not in train
 
@@ -77,14 +78,14 @@ def test_ambiguous_query_does_not_query_live_data_until_choice(environment,monke
 
 def test_exact_correction_routes_without_model_but_reads_fresh_data(environment,monkeypatch):
     app,admin,_,engine,settings=environment
-    body=candidate('How many players registered?','players')
+    body=candidate('Check event figures.','players')
     row=admin.post(BASE,json=body).json()
     assert approve(admin,row).status_code==200
     async def ready(self): return {'available':True}
     async def forbidden(*args,**kwargs): pytest.fail('Exact reviewed correction should route locally')
     monkeypatch.setattr(Assistant,'status',ready)
     monkeypatch.setattr('app.assistant.model_json',forbidden)
-    reply=admin.post('/api/admin/assistant/query',json={'question':'How many players registered?'}).json()
+    reply=admin.post('/api/admin/assistant/query',json={'question':'Check event figures.'}).json()
     assert reply['status']=='ok' or reply['status']=='no_data'
     assert reply['learning']['method']=='reviewed_example'
     assert reply['as_of'] is not None and reply['learning']['model_weights_changed'] is False

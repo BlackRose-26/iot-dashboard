@@ -29,9 +29,10 @@ import PlayerList from '../components/PlayerList'
 import { RegistrationQR } from '../components/Shell'
 import { useApp } from '../state/AppContext'
 import { rankPlayers } from '../data/demo'
+import { CLASSIC_GAME, gameLabel } from '../state/game'
 
 export default function Overview() {
-  const { stats, rounds, queue, admissionsOpen } = useApp()
+  const { stats, rounds, queue, admissionsOpen, game = CLASSIC_GAME } = useApp()
   const [rankingSource, setRankingSource] = useState('simulator')
   const metrics = [
     {
@@ -111,7 +112,8 @@ export default function Overview() {
             </div>
             <div className="overview-bottom">
               <span className="tiny-dot" />
-              Classic v1 · 60 seconds · 12 levels<span>All saved sources</span>
+              {gameLabel(game)} · {game.round_limit_ms / 1000} seconds · {game.levels} levels
+              <span>Current rules · all saved sources</span>
             </div>
           </Card>
         </div>
@@ -128,7 +130,7 @@ export default function Overview() {
       </div>
       <div className="two-column">
         <ActivityChart rounds={rounds} />
-        <LevelChart rounds={rounds} />
+        <LevelChart rounds={rounds} levels={game.levels} />
       </div>
       <div className="two-column lower-grid">
         <Card>
@@ -139,10 +141,10 @@ export default function Overview() {
             action={
               <Menu
                 label="Leaderboard result source"
-                value={rankingSource === 'simulator' ? 'Simulator' : 'Device'}
+                value={rankingSource === 'simulator' ? 'Simulator' : 'Cabinet / Wokwi'}
                 options={[
                   { value: 'simulator', label: 'Simulator' },
-                  { value: 'device', label: 'Device' },
+                  { value: 'device', label: 'Cabinet / Wokwi' },
                 ]}
                 onChange={setRankingSource}
               />

@@ -94,4 +94,4 @@ Real XAMPP `mysqldump`/`mysql` tools restored a generated database into a second
 
 ESP32 firmware/panel/power/button tests, trusted boot/session/terminal reconciliation and guarded release, separate staff capabilities, identity recovery/retention, actual phone TLS/WSS/background behavior and deployment validation remain named work. They are not silently marked complete by this audit. Local benchmark samples must be labelled loopback, not event-LAN acceptance.
 
-Closed-tab push, prolonged mixed-load/hardware soak, operational restore/observability and physical event rehearsal also remain. Numeric game settings stay proposed until play-tested. New roadmap implementation remains paused after this audit, as instructed.
+Closed-tab push, prolonged mixed-load/hardware soak, operational restore/observability and physical event rehearsal also remain. Numeric game settings stay proposed until play-tested. The user explicitly resumed roadmap development on 20 November; subsequent milestone evidence is recorded in [device recovery](device-recovery.md) and [remaining work](remaining-work.md), separately from this completed audit.

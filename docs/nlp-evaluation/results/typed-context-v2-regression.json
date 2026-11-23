@@ -1,0 +1,4800 @@
+{
+  "baseline_accepted": 130,
+  "development": {
+    "before": {
+      "exact": 60,
+      "unsupported_answers": 1,
+      "follow_ups": 2,
+      "service_errors": 0
+    },
+    "after": {
+      "exact": 95,
+      "unsupported_answers": 0,
+      "follow_ups": 10,
+      "service_errors": 0
+    }
+  },
+  "kind": "consumed-set regression only",
+  "freeze_sha256": "b43a760eaeda892a0a334aa8b340955616da49765ccd73f65e0223a89b0dc1d1",
+  "journal_sha256": "fa73dce75ace5ec3b07558f66417af68e4de2a4cc0eb216dc4d1fe9fc319cbea",
+  "metrics": {
+    "accepted": 146,
+    "n": 325,
+    "by_language": {
+      "en": {
+        "accepted": 91,
+        "n": 176
+      },
+      "taglish": {
+        "accepted": 55,
+        "n": 149
+      }
+    },
+    "by_intent": {
+      "definition": {
+        "accepted": 8,
+        "n": 25
+      },
+      "follow_up": {
+        "accepted": 7,
+        "n": 25
+      },
+      "knowledge": {
+        "accepted": 7,
+        "n": 25
+      },
+      "levels": {
+        "accepted": 10,
+        "n": 25
+      },
+      "machine": {
+        "accepted": 8,
+        "n": 25
+      },
+      "overview": {
+        "accepted": 3,
+        "n": 25
+      },
+      "players": {
+        "accepted": 17,
+        "n": 25
+      },
+      "queue": {
+        "accepted": 12,
+        "n": 25
+      },
+      "scores": {
+        "accepted": 18,
+        "n": 25
+      },
+      "social": {
+        "accepted": 15,
+        "n": 25
+      },
+      "top": {
+        "accepted": 11,
+        "n": 25
+      },
+      "trend": {
+        "accepted": 11,
+        "n": 25
+      },
+      "unsupported": {
+        "accepted": 19,
+        "n": 25
+      }
+    },
+    "by_family": {
+      "definition/accuracy": {
+        "accepted": 0,
+        "n": 3
+      },
+      "definition/average_score": {
+        "accepted": 2,
+        "n": 3
+      },
+      "definition/highest_score": {
+        "accepted": 1,
+        "n": 3
+      },
+      "definition/lowest_score": {
+        "accepted": 0,
+        "n": 3
+      },
+      "definition/privacy": {
+        "accepted": 0,
+        "n": 2
+      },
+      "definition/queue": {
+        "accepted": 2,
+        "n": 2
+      },
+      "definition/scoring": {
+        "accepted": 1,
+        "n": 3
+      },
+      "definition/total_score": {
+        "accepted": 2,
+        "n": 3
+      },
+      "definition/win_rate": {
+        "accepted": 0,
+        "n": 3
+      },
+      "follow_up/absent-subject-english": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/absent-subject-tagalog": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-definition-elaborate": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-device-accuracy-today": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-distribution-reset-period": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-duration-reset": {
+        "accepted": 1,
+        "n": 1
+      },
+      "follow_up/prior-event-both-sources": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-knowledge-more-detail": {
+        "accepted": 1,
+        "n": 1
+      },
+      "follow_up/prior-knowledge-short": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-level-change": {
+        "accepted": 1,
+        "n": 1
+      },
+      "follow_up/prior-level-tagalog": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-outcomes-current-day": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-overview-short": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-points-hardware": {
+        "accepted": 1,
+        "n": 1
+      },
+      "follow_up/prior-points-previous-day": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-queue-explanation": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-rank-limit": {
+        "accepted": 1,
+        "n": 1
+      },
+      "follow_up/prior-rank-limit-tagalog": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-ranks-simulated": {
+        "accepted": 1,
+        "n": 1
+      },
+      "follow_up/prior-scores-another-page": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-scores-next-page": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-sim-scores-yesterday": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-summary-detail": {
+        "accepted": 0,
+        "n": 1
+      },
+      "follow_up/prior-timeline-week": {
+        "accepted": 1,
+        "n": 1
+      },
+      "follow_up/prior-timeouts-device": {
+        "accepted": 0,
+        "n": 1
+      },
+      "knowledge/architecture": {
+        "accepted": 1,
+        "n": 3
+      },
+      "knowledge/assistant": {
+        "accepted": 1,
+        "n": 2
+      },
+      "knowledge/dashboard": {
+        "accepted": 0,
+        "n": 2
+      },
+      "knowledge/gameplay": {
+        "accepted": 1,
+        "n": 3
+      },
+      "knowledge/memory": {
+        "accepted": 0,
+        "n": 2
+      },
+      "knowledge/offline": {
+        "accepted": 0,
+        "n": 2
+      },
+      "knowledge/privacy": {
+        "accepted": 1,
+        "n": 2
+      },
+      "knowledge/queue_flow": {
+        "accepted": 1,
+        "n": 2
+      },
+      "knowledge/registration": {
+        "accepted": 0,
+        "n": 2
+      },
+      "knowledge/results": {
+        "accepted": 1,
+        "n": 3
+      },
+      "knowledge/training": {
+        "accepted": 1,
+        "n": 2
+      },
+      "levels/completion-by-row": {
+        "accepted": 2,
+        "n": 2
+      },
+      "levels/difficulty-from-results": {
+        "accepted": 1,
+        "n": 2
+      },
+      "levels/early-failure-levels": {
+        "accepted": 0,
+        "n": 2
+      },
+      "levels/high-level-reach": {
+        "accepted": 1,
+        "n": 1
+      },
+      "levels/level-attempt-table": {
+        "accepted": 0,
+        "n": 2
+      },
+      "levels/level-eight-outcomes": {
+        "accepted": 0,
+        "n": 2
+      },
+      "levels/level-five-counts": {
+        "accepted": 2,
+        "n": 2
+      },
+      "levels/level-loss-profile": {
+        "accepted": 0,
+        "n": 2
+      },
+      "levels/level-six-accuracy": {
+        "accepted": 2,
+        "n": 2
+      },
+      "levels/per-level-overlap": {
+        "accepted": 1,
+        "n": 2
+      },
+      "levels/per-level-placement": {
+        "accepted": 1,
+        "n": 2
+      },
+      "levels/progress-reached": {
+        "accepted": 0,
+        "n": 2
+      },
+      "levels/retained-width": {
+        "accepted": 0,
+        "n": 2
+      },
+      "machine/boot-observation": {
+        "accepted": 0,
+        "n": 2
+      },
+      "machine/cabinet-observation": {
+        "accepted": 1,
+        "n": 2
+      },
+      "machine/command-receipt-state": {
+        "accepted": 0,
+        "n": 2
+      },
+      "machine/current-eligibility": {
+        "accepted": 1,
+        "n": 1
+      },
+      "machine/firmware-report": {
+        "accepted": 0,
+        "n": 2
+      },
+      "machine/fresh-status": {
+        "accepted": 0,
+        "n": 2
+      },
+      "machine/last-contact-age": {
+        "accepted": 0,
+        "n": 2
+      },
+      "machine/last-known-not-proof": {
+        "accepted": 1,
+        "n": 2
+      },
+      "machine/maintenance-present": {
+        "accepted": 1,
+        "n": 2
+      },
+      "machine/physical-not-simulation": {
+        "accepted": 1,
+        "n": 2
+      },
+      "machine/reserved-machine": {
+        "accepted": 1,
+        "n": 2
+      },
+      "machine/review-hold-present": {
+        "accepted": 2,
+        "n": 2
+      },
+      "machine/rssi-observation": {
+        "accepted": 0,
+        "n": 2
+      },
+      "overview/activity-and-readiness": {
+        "accepted": 0,
+        "n": 2
+      },
+      "overview/end-of-shift": {
+        "accepted": 1,
+        "n": 2
+      },
+      "overview/event-wide-summary": {
+        "accepted": 1,
+        "n": 2
+      },
+      "overview/handoff-checklist": {
+        "accepted": 0,
+        "n": 3
+      },
+      "overview/management-summary": {
+        "accepted": 0,
+        "n": 2
+      },
+      "overview/mixed-results-summary": {
+        "accepted": 1,
+        "n": 2
+      },
+      "overview/multiple-sections": {
+        "accepted": 0,
+        "n": 3
+      },
+      "overview/opening-summary": {
+        "accepted": 0,
+        "n": 1
+      },
+      "overview/organizer-update": {
+        "accepted": 0,
+        "n": 2
+      },
+      "overview/overall-position": {
+        "accepted": 0,
+        "n": 1
+      },
+      "overview/progress-and-line": {
+        "accepted": 0,
+        "n": 2
+      },
+      "overview/short-briefing": {
+        "accepted": 0,
+        "n": 2
+      },
+      "overview/summary-not-ranking": {
+        "accepted": 0,
+        "n": 1
+      },
+      "players/completion-headcount": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/completion-outcomes": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/defeats-recorded": {
+        "accepted": 2,
+        "n": 2
+      },
+      "players/duration-summary": {
+        "accepted": 0,
+        "n": 1
+      },
+      "players/enrolled-unplayed": {
+        "accepted": 2,
+        "n": 2
+      },
+      "players/finished-round-count": {
+        "accepted": 2,
+        "n": 2
+      },
+      "players/mean-duration": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/outcome-proportion": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/overall-overlap": {
+        "accepted": 2,
+        "n": 2
+      },
+      "players/registered-headcount": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/results-versus-registration": {
+        "accepted": 2,
+        "n": 2
+      },
+      "players/timeout-outcomes": {
+        "accepted": 1,
+        "n": 2
+      },
+      "players/wins-recorded": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/admission-current": {
+        "accepted": 2,
+        "n": 2
+      },
+      "queue/admission-pause-check": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/assigned-population": {
+        "accepted": 0,
+        "n": 2
+      },
+      "queue/backlog-now": {
+        "accepted": 0,
+        "n": 2
+      },
+      "queue/current-ticket-states": {
+        "accepted": 2,
+        "n": 2
+      },
+      "queue/current-wait-burden": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/next-waiting-position": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/oldest-ticket-age": {
+        "accepted": 0,
+        "n": 2
+      },
+      "queue/queue-empty-check": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/queue-review-state": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/reserved-versus-waiting": {
+        "accepted": 1,
+        "n": 2
+      },
+      "queue/unserved-tickets": {
+        "accepted": 2,
+        "n": 2
+      },
+      "queue/waiting-population": {
+        "accepted": 0,
+        "n": 1
+      },
+      "scores/average-points-value": {
+        "accepted": 2,
+        "n": 2
+      },
+      "scores/combined-total-labelled": {
+        "accepted": 0,
+        "n": 2
+      },
+      "scores/device-points": {
+        "accepted": 2,
+        "n": 2
+      },
+      "scores/maximum-value-only": {
+        "accepted": 1,
+        "n": 2
+      },
+      "scores/minimum-value-only": {
+        "accepted": 2,
+        "n": 2
+      },
+      "scores/points-ledger": {
+        "accepted": 2,
+        "n": 2
+      },
+      "scores/points-per-result": {
+        "accepted": 0,
+        "n": 1
+      },
+      "scores/recent-score-list": {
+        "accepted": 1,
+        "n": 2
+      },
+      "scores/score-frequency": {
+        "accepted": 1,
+        "n": 2
+      },
+      "scores/score-range-values": {
+        "accepted": 2,
+        "n": 2
+      },
+      "scores/score-records-not-counts": {
+        "accepted": 2,
+        "n": 2
+      },
+      "scores/simulator-points": {
+        "accepted": 1,
+        "n": 2
+      },
+      "scores/sum-of-points": {
+        "accepted": 2,
+        "n": 2
+      },
+      "social/acknowledge": {
+        "accepted": 3,
+        "n": 4
+      },
+      "social/farewell": {
+        "accepted": 2,
+        "n": 3
+      },
+      "social/greeting": {
+        "accepted": 1,
+        "n": 4
+      },
+      "social/help": {
+        "accepted": 1,
+        "n": 4
+      },
+      "social/identity": {
+        "accepted": 3,
+        "n": 3
+      },
+      "social/thanks": {
+        "accepted": 2,
+        "n": 4
+      },
+      "social/wellbeing": {
+        "accepted": 3,
+        "n": 3
+      },
+      "top/first-ranked-person": {
+        "accepted": 0,
+        "n": 2
+      },
+      "top/first-three-over-event": {
+        "accepted": 0,
+        "n": 1
+      },
+      "top/leader-not-number": {
+        "accepted": 1,
+        "n": 2
+      },
+      "top/leaderboard-people": {
+        "accepted": 1,
+        "n": 2
+      },
+      "top/physical-leaders": {
+        "accepted": 1,
+        "n": 2
+      },
+      "top/podium-list": {
+        "accepted": 0,
+        "n": 2
+      },
+      "top/rank-order-nicknames": {
+        "accepted": 1,
+        "n": 2
+      },
+      "top/ranking-five": {
+        "accepted": 2,
+        "n": 2
+      },
+      "top/simulator-leaders": {
+        "accepted": 0,
+        "n": 2
+      },
+      "top/source-separated-leaders": {
+        "accepted": 2,
+        "n": 2
+      },
+      "top/today-leader": {
+        "accepted": 0,
+        "n": 2
+      },
+      "top/top-ten-people": {
+        "accepted": 2,
+        "n": 2
+      },
+      "top/yesterday-leader": {
+        "accepted": 1,
+        "n": 2
+      },
+      "trend/activity-rises-falls": {
+        "accepted": 1,
+        "n": 1
+      },
+      "trend/busy-window": {
+        "accepted": 1,
+        "n": 2
+      },
+      "trend/day-shape": {
+        "accepted": 0,
+        "n": 2
+      },
+      "trend/hourly-activity": {
+        "accepted": 0,
+        "n": 2
+      },
+      "trend/participation-over-time": {
+        "accepted": 2,
+        "n": 2
+      },
+      "trend/peak-round-throughput": {
+        "accepted": 2,
+        "n": 2
+      },
+      "trend/quiet-window": {
+        "accepted": 1,
+        "n": 2
+      },
+      "trend/session-activity-hours": {
+        "accepted": 0,
+        "n": 2
+      },
+      "trend/time-bucket-comparison": {
+        "accepted": 0,
+        "n": 2
+      },
+      "trend/time-pattern-source": {
+        "accepted": 1,
+        "n": 2
+      },
+      "trend/timeline-not-total": {
+        "accepted": 1,
+        "n": 2
+      },
+      "trend/week-activity-series": {
+        "accepted": 2,
+        "n": 2
+      },
+      "trend/yesterday-activity": {
+        "accepted": 0,
+        "n": 2
+      },
+      "unsupported/device-control": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/foreign-arcade-result": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/foreign-election-ranking": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/foreign-esports": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/foreign-hospital-line": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/foreign-oven-reading": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/foreign-robot-status": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/foreign-transport-line": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/future-score-forecast": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/holiday-planning": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/instruction-override": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/medical-treatment": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/personality-inference": {
+        "accepted": 0,
+        "n": 1
+      },
+      "unsupported/private-credential": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/private-other-admin-chat": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/private-student-records": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/queue-control": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/recipe-dessert": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/score-write": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/stock-prediction": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/tower-stability-sensor": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/uninstalled-energy-meter": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/unrelated-homework": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/unrelated-image-edit": {
+        "accepted": 1,
+        "n": 1
+      },
+      "unsupported/unrelated-music": {
+        "accepted": 1,
+        "n": 1
+      }
+    },
+    "family_bootstrap95": [
+      0.39755351681957185,
+      0.5
+    ],
+    "by_behavior": {
+      "answer": {
+        "accepted": 127,
+        "n": 298
+      },
+      "needs_clarification": {
+        "accepted": 0,
+        "n": 2
+      },
+      "refused": {
+        "accepted": 19,
+        "n": 25
+      }
+    },
+    "statuses": {
+      "ok": 121,
+      "needs_clarification": 150,
+      "conversation": 45,
+      "no_data": 4,
+      "refused": 5
+    },
+    "failures": {
+      "ok": 21,
+      "unrecognized_context": 83,
+      "small_talk": 4,
+      "system_context": 18,
+      "system_scope": 42,
+      "unsupported_question": 6,
+      "two_interpretations": 3,
+      "refused": 1,
+      "needs_clarification": 1
+    },
+    "supported_answer_clarifications": 130,
+    "unsupported_answered": 2
+  },
+  "paired_gains": 16,
+  "paired_losses": 0,
+  "cases": [
+    {
+      "id": "fresh-definition-23",
+      "family": "definition/queue",
+      "language": "taglish",
+      "expected": "definition:queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "definition:queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-16",
+      "family": "scores/average-points-value",
+      "language": "taglish",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-08",
+      "family": "follow_up/prior-scores-next-page",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": [
+        "score_page"
+      ]
+    },
+    {
+      "id": "fresh-scores-12",
+      "family": "scores/points-per-result",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-24",
+      "family": "follow_up/absent-subject-english",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "needs_clarification",
+      "accepted": false,
+      "returned_label": "social:help",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-19",
+      "family": "unsupported/tower-stability-sensor",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-20",
+      "family": "machine/reserved-machine",
+      "language": "taglish",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-23",
+      "family": "knowledge/architecture",
+      "language": "en",
+      "expected": "knowledge:architecture",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-23",
+      "family": "machine/command-receipt-state",
+      "language": "taglish",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:privacy",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-06",
+      "family": "unsupported/foreign-oven-reading",
+      "language": "taglish",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unsupported_measurement",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-24",
+      "family": "social/identity",
+      "language": "en",
+      "expected": "social:identity",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:identity",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-07",
+      "family": "unsupported/recipe-dessert",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-06",
+      "family": "trend/participation-over-time",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "trend",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-23",
+      "family": "follow_up/prior-overview-short",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": [
+        "tools"
+      ]
+    },
+    {
+      "id": "fresh-definition-21",
+      "family": "definition/lowest_score",
+      "language": "taglish",
+      "expected": "definition:lowest_score",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-19",
+      "family": "overview/mixed-results-summary",
+      "language": "taglish",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-08",
+      "family": "scores/device-points",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "no_data",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-05",
+      "family": "players/wins-recorded",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-21",
+      "family": "machine/boot-observation",
+      "language": "taglish",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:offline",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-19",
+      "family": "knowledge/memory",
+      "language": "en",
+      "expected": "knowledge:memory",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-21",
+      "family": "levels/progress-reached",
+      "language": "taglish",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-02",
+      "family": "definition/accuracy",
+      "language": "en",
+      "expected": "definition:accuracy",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:gameplay",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-04",
+      "family": "overview/event-wide-summary",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "overview",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-25",
+      "family": "unsupported/unrelated-image-edit",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-18",
+      "family": "top/today-leader",
+      "language": "taglish",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-17",
+      "family": "follow_up/prior-sim-scores-yesterday",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unsupported_question",
+      "mismatched_context_fields": [
+        "tools",
+        "period",
+        "source"
+      ]
+    },
+    {
+      "id": "fresh-machine-10",
+      "family": "machine/command-receipt-state",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-14",
+      "family": "overview/activity-and-readiness",
+      "language": "taglish",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-03",
+      "family": "follow_up/prior-timeline-week",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "follow_up",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-11",
+      "family": "knowledge/privacy",
+      "language": "en",
+      "expected": "knowledge:privacy",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "knowledge:privacy",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-05",
+      "family": "social/thanks",
+      "language": "en",
+      "expected": "social:thanks",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:thanks",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-17",
+      "family": "knowledge/assistant",
+      "language": "en",
+      "expected": "knowledge:assistant",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "knowledge:assistant",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-15",
+      "family": "players/completion-headcount",
+      "language": "taglish",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-21",
+      "family": "social/help",
+      "language": "taglish",
+      "expected": "social:help",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-02",
+      "family": "unsupported/foreign-hospital-line",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-08",
+      "family": "social/thanks",
+      "language": "taglish",
+      "expected": "social:thanks",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-19",
+      "family": "players/defeats-recorded",
+      "language": "taglish",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-13",
+      "family": "queue/queue-review-state",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-04",
+      "family": "top/leaderboard-people",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "top",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-20",
+      "family": "unsupported/uninstalled-energy-meter",
+      "language": "taglish",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unsupported_measurement",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-15",
+      "family": "knowledge/results",
+      "language": "en",
+      "expected": "knowledge:results",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-04",
+      "family": "machine/firmware-report",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-01",
+      "family": "top/first-ranked-person",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-05",
+      "family": "levels/per-level-overlap",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "levels",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-02",
+      "family": "machine/last-contact-age",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-19",
+      "family": "scores/score-frequency",
+      "language": "taglish",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-15",
+      "family": "machine/last-contact-age",
+      "language": "taglish",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-03",
+      "family": "levels/completion-by-row",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "levels",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-02",
+      "family": "trend/busy-window",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "trend",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-23",
+      "family": "social/identity",
+      "language": "en",
+      "expected": "social:identity",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:identity",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-09",
+      "family": "definition/scoring",
+      "language": "taglish",
+      "expected": "definition:scoring",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:gameplay",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-16",
+      "family": "top/ranking-five",
+      "language": "taglish",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "top",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-15",
+      "family": "overview/handoff-checklist",
+      "language": "taglish",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-13",
+      "family": "top/first-three-over-event",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:results",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-16",
+      "family": "trend/quiet-window",
+      "language": "taglish",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "trend",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-22",
+      "family": "scores/recent-score-list",
+      "language": "taglish",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-12",
+      "family": "social/acknowledge",
+      "language": "taglish",
+      "expected": "social:acknowledge",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:acknowledge",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-09",
+      "family": "unsupported/unrelated-music",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-09",
+      "family": "follow_up/prior-scores-another-page",
+      "language": "taglish",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": [
+        "tools",
+        "score_page"
+      ]
+    },
+    {
+      "id": "fresh-top-02",
+      "family": "top/podium-list",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-18",
+      "family": "definition/highest_score",
+      "language": "taglish",
+      "expected": "definition:highest_score",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-13",
+      "family": "machine/current-eligibility",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "machine",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-13",
+      "family": "definition/total_score",
+      "language": "en",
+      "expected": "definition:total_score",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-22",
+      "family": "knowledge/training",
+      "language": "taglish",
+      "expected": "knowledge:training",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-25",
+      "family": "follow_up/absent-subject-tagalog",
+      "language": "taglish",
+      "expected": "follow_up",
+      "behavior": "needs_clarification",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-04",
+      "family": "scores/maximum-value-only",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-10",
+      "family": "overview/short-briefing",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-18",
+      "family": "social/farewell",
+      "language": "taglish",
+      "expected": "social:farewell",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "social:acknowledge",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-05",
+      "family": "unsupported/foreign-robot-status",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": false,
+      "returned_label": "machine",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-17",
+      "family": "top/leaderboard-people",
+      "language": "taglish",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-17",
+      "family": "machine/firmware-report",
+      "language": "taglish",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-03",
+      "family": "queue/admission-current",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-21",
+      "family": "scores/device-points",
+      "language": "taglish",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "no_data",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-07",
+      "family": "social/thanks",
+      "language": "taglish",
+      "expected": "social:thanks",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:thanks",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-14",
+      "family": "top/first-ranked-person",
+      "language": "taglish",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-08",
+      "family": "machine/boot-observation",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:registration",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-09",
+      "family": "machine/review-hold-present",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "machine",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-03",
+      "family": "top/ranking-five",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "top",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-13",
+      "family": "follow_up/prior-level-change",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "follow_up",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-05",
+      "family": "machine/maintenance-present",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "machine",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-15",
+      "family": "definition/total_score",
+      "language": "taglish",
+      "expected": "definition:total_score",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "definition:total_score",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-01",
+      "family": "levels/level-attempt-table",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-03",
+      "family": "players/enrolled-unplayed",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-08",
+      "family": "definition/scoring",
+      "language": "en",
+      "expected": "definition:scoring",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "definition:scoring",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-23",
+      "family": "scores/score-records-not-counts",
+      "language": "taglish",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-16",
+      "family": "queue/admission-current",
+      "language": "taglish",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-17",
+      "family": "queue/oldest-ticket-age",
+      "language": "taglish",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-24",
+      "family": "players/enrolled-unplayed",
+      "language": "taglish",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-23",
+      "family": "unsupported/foreign-election-ranking",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-02",
+      "family": "queue/reserved-versus-waiting",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-09",
+      "family": "top/rank-order-nicknames",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-07",
+      "family": "queue/waiting-population",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-07",
+      "family": "top/simulator-leaders",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-09",
+      "family": "scores/recent-score-list",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-05",
+      "family": "queue/backlog-now",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-24",
+      "family": "machine/physical-not-simulation",
+      "language": "taglish",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "machine",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-16",
+      "family": "definition/highest_score",
+      "language": "en",
+      "expected": "definition:highest_score",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "definition:highest_score",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-25",
+      "family": "top/source-separated-leaders",
+      "language": "taglish",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "top",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-04",
+      "family": "players/finished-round-count",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-25",
+      "family": "machine/last-known-not-proof",
+      "language": "taglish",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-21",
+      "family": "follow_up/prior-duration-reset",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "follow_up",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-10",
+      "family": "players/duration-summary",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "overview",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-18",
+      "family": "follow_up/prior-device-accuracy-today",
+      "language": "taglish",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "two_interpretations",
+      "mismatched_context_fields": [
+        "tools",
+        "period",
+        "source",
+        "metrics"
+      ]
+    },
+    {
+      "id": "fresh-trend-14",
+      "family": "trend/hourly-activity",
+      "language": "taglish",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-11",
+      "family": "levels/per-level-placement",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-03",
+      "family": "definition/accuracy",
+      "language": "taglish",
+      "expected": "definition:accuracy",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "two_interpretations",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-23",
+      "family": "overview/management-summary",
+      "language": "taglish",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-18",
+      "family": "unsupported/stock-prediction",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unsupported_measurement",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-09",
+      "family": "queue/queue-empty-check",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-21",
+      "family": "knowledge/training",
+      "language": "en",
+      "expected": "knowledge:training",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "knowledge:training",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-22",
+      "family": "follow_up/prior-timeouts-device",
+      "language": "taglish",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-09",
+      "family": "overview/mixed-results-summary",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "overview",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-01",
+      "family": "players/registered-headcount",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-18",
+      "family": "players/wins-recorded",
+      "language": "taglish",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-11",
+      "family": "queue/current-ticket-states",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-06",
+      "family": "machine/fresh-status",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-10",
+      "family": "unsupported/unrelated-homework",
+      "language": "taglish",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-03",
+      "family": "social/greeting",
+      "language": "taglish",
+      "expected": "social:greeting",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-20",
+      "family": "top/simulator-leaders",
+      "language": "taglish",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-10",
+      "family": "top/top-ten-people",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "top",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-13",
+      "family": "social/wellbeing",
+      "language": "en",
+      "expected": "social:wellbeing",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:wellbeing",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-06",
+      "family": "follow_up/prior-event-both-sources",
+      "language": "taglish",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "overview",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": [
+        "tools"
+      ]
+    },
+    {
+      "id": "fresh-follow_up-01",
+      "family": "follow_up/prior-points-previous-day",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": [
+        "tools",
+        "period"
+      ]
+    },
+    {
+      "id": "fresh-definition-20",
+      "family": "definition/lowest_score",
+      "language": "en",
+      "expected": "definition:lowest_score",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-11",
+      "family": "overview/progress-and-line",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unsupported_question",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-05",
+      "family": "definition/win_rate",
+      "language": "en",
+      "expected": "definition:win_rate",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-22",
+      "family": "social/help",
+      "language": "taglish",
+      "expected": "social:help",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-07",
+      "family": "scores/simulator-points",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-17",
+      "family": "definition/highest_score",
+      "language": "en",
+      "expected": "definition:highest_score",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-25",
+      "family": "definition/privacy",
+      "language": "taglish",
+      "expected": "definition:privacy",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-14",
+      "family": "queue/unserved-tickets",
+      "language": "taglish",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-09",
+      "family": "levels/level-eight-outcomes",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-24",
+      "family": "queue/current-wait-burden",
+      "language": "taglish",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-03",
+      "family": "overview/activity-and-readiness",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unsupported_question",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-14",
+      "family": "knowledge/offline",
+      "language": "taglish",
+      "expected": "knowledge:offline",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-18",
+      "family": "scores/minimum-value-only",
+      "language": "taglish",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-10",
+      "family": "knowledge/dashboard",
+      "language": "taglish",
+      "expected": "knowledge:dashboard",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:training",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-10",
+      "family": "social/acknowledge",
+      "language": "en",
+      "expected": "social:acknowledge",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:acknowledge",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-01",
+      "family": "machine/cabinet-observation",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "machine",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-14",
+      "family": "unsupported/score-write",
+      "language": "taglish",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "refused",
+      "reason": "refused",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-12",
+      "family": "machine/last-known-not-proof",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "machine",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-17",
+      "family": "unsupported/medical-treatment",
+      "language": "taglish",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-24",
+      "family": "unsupported/private-other-admin-chat",
+      "language": "taglish",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-07",
+      "family": "definition/scoring",
+      "language": "en",
+      "expected": "definition:scoring",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:gameplay",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-21",
+      "family": "players/outcome-proportion",
+      "language": "taglish",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-17",
+      "family": "social/farewell",
+      "language": "en",
+      "expected": "social:farewell",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:farewell",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-06",
+      "family": "knowledge/queue_flow",
+      "language": "taglish",
+      "expected": "knowledge:queue_flow",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:registration",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-15",
+      "family": "levels/early-failure-levels",
+      "language": "taglish",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:results",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-15",
+      "family": "follow_up/prior-rank-limit",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "follow_up",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-19",
+      "family": "social/help",
+      "language": "en",
+      "expected": "social:help",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:help",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-13",
+      "family": "levels/level-six-accuracy",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "levels",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-23",
+      "family": "top/top-ten-people",
+      "language": "taglish",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "top",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-06",
+      "family": "queue/next-waiting-position",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-24",
+      "family": "levels/per-level-placement",
+      "language": "taglish",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "levels",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-16",
+      "family": "social/farewell",
+      "language": "en",
+      "expected": "social:farewell",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:farewell",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-14",
+      "family": "levels/level-attempt-table",
+      "language": "taglish",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-07",
+      "family": "trend/time-bucket-comparison",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-03",
+      "family": "unsupported/foreign-transport-line",
+      "language": "taglish",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-24",
+      "family": "trend/yesterday-activity",
+      "language": "taglish",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-15",
+      "family": "queue/reserved-versus-waiting",
+      "language": "taglish",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-05",
+      "family": "scores/minimum-value-only",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-20",
+      "family": "overview/end-of-shift",
+      "language": "taglish",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:registration",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-08",
+      "family": "knowledge/architecture",
+      "language": "taglish",
+      "expected": "knowledge:architecture",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "knowledge:architecture",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-14",
+      "family": "scores/points-ledger",
+      "language": "taglish",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-16",
+      "family": "knowledge/results",
+      "language": "taglish",
+      "expected": "knowledge:results",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "knowledge:results",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-13",
+      "family": "knowledge/offline",
+      "language": "en",
+      "expected": "knowledge:offline",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "machine",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-12",
+      "family": "follow_up/prior-summary-detail",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unsupported_question",
+      "mismatched_context_fields": [
+        "tools",
+        "period",
+        "detailed"
+      ]
+    },
+    {
+      "id": "fresh-overview-25",
+      "family": "overview/multiple-sections",
+      "language": "taglish",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-17",
+      "family": "levels/level-five-counts",
+      "language": "taglish",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "levels",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-10",
+      "family": "levels/level-loss-profile",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-02",
+      "family": "knowledge/gameplay",
+      "language": "taglish",
+      "expected": "knowledge:gameplay",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-19",
+      "family": "trend/participation-over-time",
+      "language": "taglish",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "trend",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-19",
+      "family": "top/yesterday-leader",
+      "language": "taglish",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "top",
+      "status": "no_data",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-11",
+      "family": "social/acknowledge",
+      "language": "taglish",
+      "expected": "social:acknowledge",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:privacy",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-11",
+      "family": "trend/activity-rises-falls",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "trend",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-04",
+      "family": "unsupported/foreign-arcade-result",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-13",
+      "family": "trend/time-pattern-source",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "trend",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-13",
+      "family": "scores/combined-total-labelled",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-22",
+      "family": "players/mean-duration",
+      "language": "taglish",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-14",
+      "family": "definition/total_score",
+      "language": "en",
+      "expected": "definition:total_score",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "definition:total_score",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-04",
+      "family": "social/greeting",
+      "language": "taglish",
+      "expected": "social:greeting",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "social:help",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-07",
+      "family": "knowledge/architecture",
+      "language": "en",
+      "expected": "knowledge:architecture",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:dashboard",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-11",
+      "family": "machine/physical-not-simulation",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-08",
+      "family": "levels/progress-reached",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-05",
+      "family": "follow_up/prior-ranks-simulated",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "follow_up",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-22",
+      "family": "top/rank-order-nicknames",
+      "language": "taglish",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "top",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-05",
+      "family": "overview/multiple-sections",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:dashboard",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-09",
+      "family": "knowledge/dashboard",
+      "language": "en",
+      "expected": "knowledge:dashboard",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:registration",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-07",
+      "family": "levels/retained-width",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "definition:accuracy",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-18",
+      "family": "queue/backlog-now",
+      "language": "taglish",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-20",
+      "family": "levels/retained-width",
+      "language": "taglish",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "definition:accuracy",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-20",
+      "family": "queue/assigned-population",
+      "language": "taglish",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-02",
+      "family": "levels/early-failure-levels",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-16",
+      "family": "overview/multiple-sections",
+      "language": "taglish",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-20",
+      "family": "trend/time-bucket-comparison",
+      "language": "taglish",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-02",
+      "family": "social/greeting",
+      "language": "en",
+      "expected": "social:greeting",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-15",
+      "family": "trend/busy-window",
+      "language": "taglish",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-17",
+      "family": "overview/organizer-update",
+      "language": "taglish",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-15",
+      "family": "unsupported/device-control",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": false,
+      "returned_label": "machine",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-06",
+      "family": "top/yesterday-leader",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:gameplay",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-23",
+      "family": "levels/level-loss-profile",
+      "language": "taglish",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-23",
+      "family": "trend/peak-round-throughput",
+      "language": "taglish",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "trend",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-05",
+      "family": "knowledge/queue_flow",
+      "language": "en",
+      "expected": "knowledge:queue_flow",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "knowledge:queue_flow",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-04",
+      "family": "knowledge/registration",
+      "language": "taglish",
+      "expected": "knowledge:registration",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-12",
+      "family": "knowledge/privacy",
+      "language": "taglish",
+      "expected": "knowledge:privacy",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "refused",
+      "reason": "refused",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-16",
+      "family": "players/results-versus-registration",
+      "language": "taglish",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-04",
+      "family": "levels/level-five-counts",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "levels",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-21",
+      "family": "overview/short-briefing",
+      "language": "taglish",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "social:help",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-15",
+      "family": "social/wellbeing",
+      "language": "taglish",
+      "expected": "social:wellbeing",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:wellbeing",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-19",
+      "family": "queue/next-waiting-position",
+      "language": "taglish",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-13",
+      "family": "overview/management-summary",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-01",
+      "family": "trend/hourly-activity",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-08",
+      "family": "unsupported/holiday-planning",
+      "language": "taglish",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-07",
+      "family": "machine/reserved-machine",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "machine",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-21",
+      "family": "top/physical-leaders",
+      "language": "taglish",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "top",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-04",
+      "family": "definition/win_rate",
+      "language": "en",
+      "expected": "definition:win_rate",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-22",
+      "family": "machine/review-hold-present",
+      "language": "taglish",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "machine",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-12",
+      "family": "queue/current-wait-burden",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-07",
+      "family": "players/timeout-outcomes",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-06",
+      "family": "social/thanks",
+      "language": "en",
+      "expected": "social:thanks",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "needs_clarification",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-24",
+      "family": "overview/handoff-checklist",
+      "language": "taglish",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-12",
+      "family": "definition/average_score",
+      "language": "taglish",
+      "expected": "definition:average_score",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "definition:average_score",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-20",
+      "family": "social/help",
+      "language": "en",
+      "expected": "social:help",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-22",
+      "family": "levels/level-eight-outcomes",
+      "language": "taglish",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-01",
+      "family": "unsupported/foreign-esports",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-17",
+      "family": "scores/maximum-value-only",
+      "language": "taglish",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-18",
+      "family": "trend/day-shape",
+      "language": "taglish",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-11",
+      "family": "players/overall-overlap",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-01",
+      "family": "definition/accuracy",
+      "language": "en",
+      "expected": "definition:accuracy",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "two_interpretations",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-09",
+      "family": "players/mean-duration",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-12",
+      "family": "unsupported/private-credential",
+      "language": "taglish",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "refused",
+      "reason": "refused",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-08",
+      "family": "top/physical-leaders",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-17",
+      "family": "trend/timeline-not-total",
+      "language": "taglish",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-22",
+      "family": "unsupported/future-score-forecast",
+      "language": "taglish",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-21",
+      "family": "trend/week-activity-series",
+      "language": "taglish",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "trend",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-12",
+      "family": "top/source-separated-leaders",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "top",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-15",
+      "family": "scores/sum-of-points",
+      "language": "taglish",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-01",
+      "family": "social/greeting",
+      "language": "en",
+      "expected": "social:greeting",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:greeting",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-20",
+      "family": "knowledge/memory",
+      "language": "taglish",
+      "expected": "knowledge:memory",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-10",
+      "family": "follow_up/prior-knowledge-more-detail",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "follow_up",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-02",
+      "family": "overview/opening-summary",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-01",
+      "family": "scores/points-ledger",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-03",
+      "family": "machine/rssi-observation",
+      "language": "en",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-04",
+      "family": "trend/timeline-not-total",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "trend",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-10",
+      "family": "trend/peak-round-throughput",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "trend",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-25",
+      "family": "scores/combined-total-labelled",
+      "language": "taglish",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-19",
+      "family": "levels/difficulty-from-results",
+      "language": "taglish",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "levels",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-01",
+      "family": "overview/handoff-checklist",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-06",
+      "family": "overview/organizer-update",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-11",
+      "family": "definition/average_score",
+      "language": "en",
+      "expected": "definition:average_score",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "definition:average_score",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-04",
+      "family": "queue/oldest-ticket-age",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-16",
+      "family": "machine/rssi-observation",
+      "language": "taglish",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-02",
+      "family": "follow_up/prior-outcomes-current-day",
+      "language": "taglish",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": [
+        "tools",
+        "metrics"
+      ]
+    },
+    {
+      "id": "fresh-definition-10",
+      "family": "definition/average_score",
+      "language": "en",
+      "expected": "definition:average_score",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-19",
+      "family": "definition/lowest_score",
+      "language": "en",
+      "expected": "definition:lowest_score",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:dashboard",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-12",
+      "family": "overview/end-of-shift",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "overview",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-18",
+      "family": "levels/per-level-overlap",
+      "language": "taglish",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-25",
+      "family": "players/completion-outcomes",
+      "language": "taglish",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-15",
+      "family": "top/podium-list",
+      "language": "taglish",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-11",
+      "family": "follow_up/prior-knowledge-short",
+      "language": "taglish",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": [
+        "knowledge"
+      ]
+    },
+    {
+      "id": "fresh-machine-18",
+      "family": "machine/maintenance-present",
+      "language": "taglish",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-05",
+      "family": "trend/day-shape",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-24",
+      "family": "definition/privacy",
+      "language": "en",
+      "expected": "definition:privacy",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "knowledge:privacy",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-14",
+      "family": "social/wellbeing",
+      "language": "en",
+      "expected": "social:wellbeing",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:wellbeing",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-24",
+      "family": "scores/score-range-values",
+      "language": "taglish",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-08",
+      "family": "trend/week-activity-series",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "trend",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-11",
+      "family": "top/leader-not-number",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "top",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-08",
+      "family": "players/outcome-proportion",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-22",
+      "family": "overview/progress-and-line",
+      "language": "taglish",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-02",
+      "family": "players/completion-headcount",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-20",
+      "family": "scores/simulator-points",
+      "language": "taglish",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-17",
+      "family": "players/finished-round-count",
+      "language": "taglish",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-02",
+      "family": "scores/sum-of-points",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-top-24",
+      "family": "top/leader-not-number",
+      "language": "taglish",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unsupported_question",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-06",
+      "family": "levels/difficulty-from-results",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-12",
+      "family": "players/results-versus-registration",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-06",
+      "family": "players/defeats-recorded",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-01",
+      "family": "knowledge/gameplay",
+      "language": "en",
+      "expected": "knowledge:gameplay",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "knowledge:gameplay",
+      "status": "conversation",
+      "reason": "system_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-11",
+      "family": "scores/score-range-values",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-06",
+      "family": "definition/win_rate",
+      "language": "taglish",
+      "expected": "definition:win_rate",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-definition-22",
+      "family": "definition/queue",
+      "language": "en",
+      "expected": "definition:queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "definition:queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-19",
+      "family": "follow_up/prior-definition-elaborate",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "definition:total_score",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": [
+        "detailed"
+      ]
+    },
+    {
+      "id": "fresh-queue-22",
+      "family": "queue/admission-pause-check",
+      "language": "taglish",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-08",
+      "family": "queue/assigned-population",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-03",
+      "family": "knowledge/registration",
+      "language": "en",
+      "expected": "knowledge:registration",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-20",
+      "family": "players/timeout-outcomes",
+      "language": "taglish",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-06",
+      "family": "scores/score-frequency",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-03",
+      "family": "trend/quiet-window",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-25",
+      "family": "queue/queue-review-state",
+      "language": "taglish",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-08",
+      "family": "overview/summary-not-ranking",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-22",
+      "family": "trend/session-activity-hours",
+      "language": "taglish",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-24",
+      "family": "knowledge/gameplay",
+      "language": "en",
+      "expected": "knowledge:gameplay",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-07",
+      "family": "follow_up/prior-distribution-reset-period",
+      "language": "en",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": [
+        "tools"
+      ]
+    },
+    {
+      "id": "fresh-machine-19",
+      "family": "machine/fresh-status",
+      "language": "taglish",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-09",
+      "family": "trend/session-activity-hours",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-01",
+      "family": "queue/unserved-tickets",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-14",
+      "family": "players/registered-headcount",
+      "language": "taglish",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-social-25",
+      "family": "social/identity",
+      "language": "taglish",
+      "expected": "social:identity",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:identity",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-25",
+      "family": "knowledge/results",
+      "language": "taglish",
+      "expected": "knowledge:results",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "top",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-16",
+      "family": "levels/completion-by-row",
+      "language": "taglish",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "levels",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-20",
+      "family": "follow_up/prior-queue-explanation",
+      "language": "taglish",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": [
+        "detailed",
+        "knowledge"
+      ]
+    },
+    {
+      "id": "fresh-social-09",
+      "family": "social/acknowledge",
+      "language": "en",
+      "expected": "social:acknowledge",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "social:acknowledge",
+      "status": "conversation",
+      "reason": "small_talk",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-12",
+      "family": "levels/high-level-reach",
+      "language": "en",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "levels",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-21",
+      "family": "queue/queue-empty-check",
+      "language": "taglish",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-10",
+      "family": "queue/admission-pause-check",
+      "language": "en",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-16",
+      "family": "follow_up/prior-rank-limit-tagalog",
+      "language": "taglish",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": [
+        "tools",
+        "limit"
+      ]
+    },
+    {
+      "id": "fresh-players-23",
+      "family": "players/overall-overlap",
+      "language": "taglish",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-13",
+      "family": "unsupported/queue-control",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "refused",
+      "reason": "refused",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-25",
+      "family": "trend/time-pattern-source",
+      "language": "taglish",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unsupported_question",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-trend-12",
+      "family": "trend/yesterday-activity",
+      "language": "en",
+      "expected": "trend",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-10",
+      "family": "scores/score-records-not-counts",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-levels-25",
+      "family": "levels/level-six-accuracy",
+      "language": "taglish",
+      "expected": "levels",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "levels",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-18",
+      "family": "overview/event-wide-summary",
+      "language": "taglish",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-scores-03",
+      "family": "scores/average-points-value",
+      "language": "en",
+      "expected": "scores",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "scores",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-machine-14",
+      "family": "machine/cabinet-observation",
+      "language": "taglish",
+      "expected": "machine",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-knowledge-18",
+      "family": "knowledge/assistant",
+      "language": "taglish",
+      "expected": "knowledge:assistant",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-overview-07",
+      "family": "overview/overall-position",
+      "language": "en",
+      "expected": "overview",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "trend",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-04",
+      "family": "follow_up/prior-points-hardware",
+      "language": "taglish",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "follow_up",
+      "status": "no_data",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-follow_up-14",
+      "family": "follow_up/prior-level-tagalog",
+      "language": "taglish",
+      "expected": "follow_up",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "definition:accuracy",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": [
+        "tools",
+        "definition",
+        "level"
+      ]
+    },
+    {
+      "id": "fresh-top-05",
+      "family": "top/today-leader",
+      "language": "en",
+      "expected": "top",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": "players",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-21",
+      "family": "unsupported/personality-inference",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-11",
+      "family": "unsupported/private-student-records",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "unsupported_question",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-unsupported-16",
+      "family": "unsupported/instruction-override",
+      "language": "en",
+      "expected": "unsupported",
+      "behavior": "refused",
+      "accepted": true,
+      "returned_label": null,
+      "status": "refused",
+      "reason": "refused",
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-queue-23",
+      "family": "queue/current-ticket-states",
+      "language": "taglish",
+      "expected": "queue",
+      "behavior": "answer",
+      "accepted": true,
+      "returned_label": "queue",
+      "status": "ok",
+      "reason": null,
+      "mismatched_context_fields": []
+    },
+    {
+      "id": "fresh-players-13",
+      "family": "players/completion-outcomes",
+      "language": "en",
+      "expected": "players",
+      "behavior": "answer",
+      "accepted": false,
+      "returned_label": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "mismatched_context_fields": []
+    }
+  ]
+}

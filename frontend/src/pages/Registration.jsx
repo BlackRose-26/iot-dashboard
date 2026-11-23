@@ -18,6 +18,7 @@ import { PublicHeader } from './Leaderboard'
 import { useApp } from '../state/AppContext'
 import { validateRegistration } from '../data/demo'
 import { ScanGate } from './Entry'
+import { CLASSIC_GAME, gameLabel } from '../state/game'
 
 export function StackArtwork() {
   return (
@@ -51,7 +52,7 @@ export function StackArtwork() {
   )
 }
 export default function Registration() {
-  const { admissionsOpen, joinQueue, ticket, player, ready } = useApp()
+  const { admissionsOpen, joinQueue, ticket, player, ready, game = CLASSIC_GAME } = useApp()
   const navigate = useNavigate()
   const [nickname, setNickname] = useState('')
   const [studentId, setStudentId] = useState('')
@@ -123,11 +124,15 @@ export default function Registration() {
               </span>
               <span>
                 <Layers3 size={17} />
-                <strong>12 levels</strong>to the top
+                <strong>{game.levels} levels</strong>to the top
               </span>
               <span>
                 <Trophy size={17} />
-                <strong>1,500 points</strong>the perfect stack
+                <strong>
+                  {(game.levels * (game.row_points + game.perfect_bonus)).toLocaleString('en-PH')}{' '}
+                  points
+                </strong>
+                the perfect stack
               </span>
             </div>
           </section>
@@ -162,7 +167,13 @@ export default function Registration() {
                 description="Admissions are paused. Please check with the cabinet operator."
               />
             ) : (
-              <form ref={formRef} onSubmit={submit} noValidate aria-label="Player registration">
+              <form
+                className="tw:min-w-0"
+                ref={formRef}
+                onSubmit={submit}
+                noValidate
+                aria-label="Player registration"
+              >
                 {errors.server && (
                   <p className="field-error" role="alert">
                     {errors.server}
@@ -306,7 +317,7 @@ export default function Registration() {
         </div>
       </main>
       <footer className="public-footer">
-        ACS Carnival · Classic v1 · Game settings are proposed for play-testing.
+        ACS Carnival · {gameLabel(game)} · Game settings are proposed for play-testing.
       </footer>
     </div>
   )

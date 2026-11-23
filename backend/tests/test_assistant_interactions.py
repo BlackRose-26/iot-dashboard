@@ -37,7 +37,12 @@ def test_social_match_does_not_hide_a_mixed_system_or_private_request():
         if row['kind'] not in ('system','boundary'): continue
         assert conversational_reply(Question(question=row['question'])) is None,row['id']
         safe,blocked=normalize(row['question'])
-        assert blocked==row.get('expected_block'),row['id']
+        if row.get('expected_block')=='system_scope' and blocked is None:
+            # Public dictionary nouns now reach the separate topical check;
+            # private/control/measurement refusals remain immediate below.
+            assert safe['requires_scope_check'],row['id']
+        else:
+            assert blocked==row.get('expected_block'),row['id']
 
 
 def test_evaluation_and_boundary_records_are_not_runtime_examples():

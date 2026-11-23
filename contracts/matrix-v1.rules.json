@@ -1,0 +1,13 @@
+{
+  "base_step_ms": 60,
+  "code": "matrix-v1",
+  "columns": 16,
+  "foundation_x": 5,
+  "initial_width": 6,
+  "levels": 15,
+  "minimum_step_ms": 50,
+  "perfect_bonus": 0,
+  "round_limit_ms": 60000,
+  "row_points": 1,
+  "step_decrease_ms": 10
+}

@@ -10,6 +10,7 @@ from sqlalchemy import text
 
 from .security import now
 from .machine_status import cabinet_state
+from .game import active_rules
 
 Period = Literal['today', 'yesterday', 'last_7_days', 'event_to_date']
 Source = Literal['simulator', 'device']
@@ -76,7 +77,7 @@ def collect_all(engine, period: Period = 'event_to_date', tools=None, simulator_
         simulator = _collect_snapshot(c, period, 'simulator', requested, simulator_enabled, as_of, snapshot+'.simulator',score_page)
         scope = dict(simulator['scope'], source='all')
         bundle = {'snapshot_id':snapshot,'as_of':simulator['as_of'],'scope':scope,
-                  'scope_label':f"ACS Carnival · Classic v1 · {PERIOD_LABELS[period]} · All available result sources",
+                  'scope_label':f"ACS Carnival · {scope['ruleset']} · {PERIOD_LABELS[period]} · All available result sources",
                   'tools':requested,'shared':{key:simulator[key] for key in ('queue','machine') if key in simulator},
                   'cohorts':{},'caveats':list(simulator['caveats'])}
         if result_tools:
@@ -90,24 +91,24 @@ def collect_all(engine, period: Period = 'event_to_date', tools=None, simulator_
             params={'event':None,'rules':None,'start':None,'end':None}
             # The same fixed event/rules and half-open window used by both cohorts.
             event=select(c,"SELECT id FROM events WHERE code='acs-day'",{})[0]
-            rules=select(c,"SELECT id FROM rulesets WHERE code='classic-v1'",{})[0]
+            rules,_=active_rules(c)
             params.update(event=event['id'],rules=rules['id'],start=datetime.fromisoformat(scope['start'].removesuffix('Z')),
                           end=datetime.fromisoformat(scope['end'].removesuffix('Z')))
             all_results=RESULTS.replace('g.result_source=:source',"g.result_source IN ('simulator','device')")
             counts=select(c,'SELECT COUNT(*) AS completed_games,COUNT(DISTINCT g.player_id) AS completed_players'+all_results,params)[0]
             counts['registrations']=simulator['summary']['registrations']
             bundle['global_counts']=counts
-        bundle['caveats'].append('All sources were checked in one read-only snapshot. Simulator and physical-device competitive metrics and rankings stay separate.')
+        bundle['caveats'].append('All sources were checked in one read-only snapshot. Dashboard-simulator and device-protocol competitive metrics stay separate. Device protocol can include Wokwi simulation; it does not prove physical hardware play.')
         bundle['caveats']=list(dict.fromkeys(bundle['caveats']))
         return clean(bundle)
 
 
 def _collect_snapshot(c, period, source, requested, simulator_enabled, as_of, snapshot_id, score_page=1):
     event_rows = select(c, "SELECT id,name,timezone,created_at,starts_at,status FROM events WHERE code='acs-day'", {})
-    rules_rows = select(c, "SELECT id,code FROM rulesets WHERE code='classic-v1'", {})
-    if not event_rows or not rules_rows:
+    if not event_rows:
         raise HTTPException(503, 'Event analytics configuration is unavailable.')
-    event, rules = event_rows[0], rules_rows[0]
+    event = event_rows[0]
+    rules, config = active_rules(c)
     if event['timezone'] != 'Asia/Manila':
         raise HTTPException(503, 'This release supports the Asia/Manila event timezone.')
     today = (as_of + timedelta(hours=8)).replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(hours=8)
@@ -122,7 +123,8 @@ def _collect_snapshot(c, period, source, requested, simulator_enabled, as_of, sn
              'period': period, 'source': source, 'start': stamp(start), 'end': stamp(end)}
     params = {'event': event['id'], 'rules': rules['id'], 'source': source, 'start': start, 'end': end, 'as_of': as_of}
     data = {'snapshot_id': snapshot_id, 'as_of': stamp(as_of), 'scope': scope,
-            'scope_label': f"ACS Carnival · Classic v1 · {PERIOD_LABELS[period]} · {source} results",
+            'scope_label': f"ACS Carnival · {rules['code']} · {PERIOD_LABELS[period]} · {source} results",
+            'game': config,
             'tools': requested, 'caveats': []}
     if 'get_event_summary' in requested:
         summary = select(c, """SELECT COUNT(*) AS completed_games,COUNT(DISTINCT g.player_id) AS completed_players,
@@ -169,16 +171,18 @@ def _collect_snapshot(c, period, source, requested, simulator_enabled, as_of, sn
                                'rssi': health.get('rssi') if origin=='device' and type(health.get('rssi')) is int and -120<=health['rssi']<=0 else None}
             if origin == 'simulator': data['caveats'].append('Cabinet observations come from the development simulator, not a connected ESP32. The recorded timestamp is not a fresh physical heartbeat.')
     if 'get_score_distribution' in requested:
-        counts = select(c, """SELECT LEAST(FLOOR(g.score/300),4) AS bucket,COUNT(*) AS rounds""" + RESULTS + ' GROUP BY bucket', params)
+        maximum = config['levels']*(config['row_points']+config['perfect_bonus'])
+        step = max(1, maximum//5)
+        counts = select(c, """SELECT LEAST(FLOOR(g.score/:step),4) AS bucket,COUNT(*) AS rounds""" + RESULTS + ' GROUP BY bucket', dict(params,step=step))
         by_bucket = {int(r['bucket']): int(r['rounds']) for r in counts}
-        data['scores'] = [{'label': f'{i*300}–{1500 if i==4 else (i+1)*300-1}', 'rounds': by_bucket.get(i, 0)} for i in range(5)]
+        data['scores'] = [{'label': f'{i*step}–{maximum if i==4 else (i+1)*step-1}', 'rounds': by_bucket.get(i, 0)} for i in range(5)]
     if 'get_level_statistics' in requested:
         rows = select(c, """SELECT p.level_no AS level,COUNT(*) AS attempts,
           SUM(p.overlap_width=0) AS failures,SUM(p.overlap_width) AS retained,SUM(p.candidate_width) AS attempted
           FROM placements p JOIN game_sessions g ON g.id=p.session_id""" + RESULTS.replace(' FROM game_sessions g', '') + ' GROUP BY p.level_no', params)
         levels = {int(r['level']): r for r in rows}
         data['levels'] = []
-        for level in range(1, 13):
+        for level in range(1, config['levels']+1):
             r = levels.get(level, {'level': level, 'attempts': 0, 'failures': 0, 'retained': 0, 'attempted': 0})
             r['rate'] = round(100*r['failures']/r['attempts'], 1) if r['attempts'] else None
             r['accuracy'] = round(100*r['retained']/r['attempted'], 1) if r['attempted'] else None

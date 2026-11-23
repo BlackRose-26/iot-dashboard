@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Check, ArrowUpRight, Ticket as TicketIcon } from '../components/icons'
 import { useApp } from '../state/AppContext'
+import { gameLabel } from '../state/game'
 import { PublicHeader } from './Leaderboard'
 import { Card, Badge, Button, Modal, InfoNote } from '../components/ui'
 import { StackArtwork } from './Registration'
@@ -21,7 +22,8 @@ const waitingMessages = {
   paused: 'The operator has paused the queue. Your place is saved; wait for it to reopen.',
   offline:
     'The cabinet is not ready yet. Your place is saved. Ask the operator to check the cabinet connection.',
-  review: 'The operator is reviewing the cabinet. Your place is saved; please wait for the review to finish.',
+  review:
+    'The operator is reviewing the cabinet. Your place is saved; please wait for the review to finish.',
   busy: 'The cabinet is handling another round. The operator will call the next player when it is ready.',
   awaiting_operator:
     'The cabinet is ready. Wait for the operator to call the next player; registration does not start a round.',
@@ -164,7 +166,7 @@ export default function Ticket() {
               </strong>
               <p>
                 {completed
-                  ? `points · Level ${ticket.level} / 12`
+                  ? `points · Level ${ticket.level} / ${ticket.game?.levels || 12}`
                   : waiting
                     ? ticket.position === 1
                       ? 'You’re first in line. Wait for the operator to call you.'
@@ -216,7 +218,7 @@ export default function Ticket() {
               </div>
               <div>
                 <span>Rules</span>
-                <strong>Classic v1</strong>
+                <strong>{gameLabel(ticket.game)}</strong>
               </div>
             </div>
             {completed ? (

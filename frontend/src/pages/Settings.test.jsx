@@ -1,3 +1,4 @@
+import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, expect, it, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -29,23 +30,31 @@ beforeEach(() => {
 })
 it('places diagnostics, memory and review management in Settings', async () => {
   render(
-    <AssistantProvider>
-      <Settings />
-    </AssistantProvider>,
+    <MemoryRouter>
+      <AssistantProvider>
+        <Settings />
+      </AssistantProvider>
+    </MemoryRouter>,
   )
   expect(await screen.findByText('Local model ready')).toBeInTheDocument()
   expect(screen.getByRole('button', { name: 'Check connection' })).toBeInTheDocument()
   expect(screen.getByRole('checkbox', { name: 'Use private memory' })).toBeChecked()
   expect(screen.getByRole('button', { name: 'Forget saved memory' })).toBeInTheDocument()
+  expect(screen.getByRole('link', { name: 'Review questions' })).toHaveAttribute(
+    'href',
+    '/admin/question-review',
+  )
   expect(screen.getByRole('button', { name: 'Training examples' })).toBeInTheDocument()
 })
 it('applies the Settings memory toggle to the shared chat session', async () => {
   const user = userEvent.setup()
   render(
-    <AssistantProvider>
-      <Settings />
-      <AdminAssistant />
-    </AssistantProvider>,
+    <MemoryRouter>
+      <AssistantProvider>
+        <Settings />
+        <AdminAssistant />
+      </AssistantProvider>
+    </MemoryRouter>,
   )
   await screen.findByText('Local model ready')
   await user.click(screen.getByRole('checkbox', { name: 'Use private memory' }))

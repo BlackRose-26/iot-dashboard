@@ -1,9 +1,17 @@
 {
-  "7": "analytics.py",
-  "14": "test_device_commands.py",
-  "32": "Current QR player flow and administrator access",
-  "35": "Context",
-  "38": "Canonical documentation index and authority",
-  "41": "test_assistant_generalization.py",
-  "43": "routing"
+  "2": "Verified remaining software, hardware, release and NLP gates",
+  "3": "argparse",
+  "6": "RoutingPlan",
+  "7": "RecoveryEmulator",
+  "8": "V11 language coverage and topical scope repair",
+  "15": "normalize",
+  "20": "online.mjs",
+  "27": "Candidate evaluation preparation, review and first-use chronology",
+  "31": "test_routing_quality.py",
+  "36": "evaluation_review.py",
+  "49": "dev.mjs",
+  "51": "test_live_updates.py",
+  "52": "run.py",
+  "60": "one",
+  "74": "execute"
 }

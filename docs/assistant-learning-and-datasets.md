@@ -1,5 +1,7 @@
 # Stack Intelligence learning and clarification
 
+**20 November routing update:** [42 new contrastive examples and measured evaluation](nlp-evaluation/README.md) extend the runtime training corpora without importing evaluation text. Retrieval uses approved semantic features and actual demonstration roles; a typed request kind prevents explicit live-value queries becoming definitions. Generated average-score and whole-event labels now match the requested subject. A frozen 24-case validation file remains outside runtime corpora. Evaluation informed development and is not described as blind testing or model-weight learning.
+
 18 November 2026. Implemented locally with the existing Ollama router, FastAPI and XAMPP MariaDB. This extends the [review/export workflow](assistant-training.md); the model weights remain unchanged.
 
 ## Learning from past chat

@@ -8,6 +8,7 @@ import { ThemeSwitch } from '../pages/AdminLogin'
 import AdminAssistant from './AdminAssistant'
 import { AssistantProvider } from '../state/AssistantContext'
 import UpdateStatus from './UpdateStatus'
+import { gameLabel } from '../state/game'
 
 const tabs = [
   ['overview', 'Overview'],
@@ -96,7 +97,7 @@ export function RegistrationQR() {
 export default function Shell() {
   const { pathname } = useLocation()
   const [mobileNav, setMobileNav] = useState(false)
-  const { toast, setToast, logout, admin, machine } = useApp()
+  const { toast, setToast, logout, admin, machine, game } = useApp()
   useEffect(() => {
     setMobileNav(false)
     window.scrollTo(0, 0)
@@ -146,7 +147,7 @@ export default function Shell() {
             <span className="scope-dot" />
             ACS Carnival
             <ChevronRight size={13} />
-            <span>Classic v1</span>
+            <span>{gameLabel(game)}</span>
           </span>
           <Badge tone="soft">
             {machine.health?.source === 'simulator'
@@ -162,7 +163,7 @@ export default function Shell() {
           <span>Stack Moko Baby · Event operations</span>
           <UpdateStatus />
         </footer>
-        <AdminAssistant />
+        <AdminAssistant onReviewPage={pathname === '/admin/question-review'} />
         {toast && (
           <div className="toast" role="status">
             <Check size={19} />

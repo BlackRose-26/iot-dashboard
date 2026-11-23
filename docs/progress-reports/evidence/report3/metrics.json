@@ -1,0 +1,62 @@
+{
+  "title": "NLP routing and behavior evaluation",
+  "dataset": "325 synthetic questions",
+  "accepted": 130,
+  "n": 325,
+  "accepted_percent": 40.0,
+  "by_intent": {
+    "definition": {
+      "accepted": 6,
+      "n": 25
+    },
+    "follow_up": {
+      "accepted": 0,
+      "n": 25
+    },
+    "knowledge": {
+      "accepted": 7,
+      "n": 25
+    },
+    "levels": {
+      "accepted": 8,
+      "n": 25
+    },
+    "machine": {
+      "accepted": 8,
+      "n": 25
+    },
+    "overview": {
+      "accepted": 3,
+      "n": 25
+    },
+    "players": {
+      "accepted": 16,
+      "n": 25
+    },
+    "queue": {
+      "accepted": 11,
+      "n": 25
+    },
+    "scores": {
+      "accepted": 17,
+      "n": 25
+    },
+    "social": {
+      "accepted": 15,
+      "n": 25
+    },
+    "top": {
+      "accepted": 10,
+      "n": 25
+    },
+    "trend": {
+      "accepted": 11,
+      "n": 25
+    },
+    "unsupported": {
+      "accepted": 18,
+      "n": 25
+    }
+  },
+  "source_sha256": "278d54726755c15930062b06db49118741de4f24638efcf2c62c89c3c02e0ea6"
+}

@@ -29,7 +29,7 @@ Engineering judgment specific to this project: one consistent palette, shared ca
 - **Font Awesome Free Webfonts + CSS** supplies all standard UI symbols, as the user requested. The SVG/JS icon renderer is not installed. Fonts are hosted locally. [Font Awesome webfont setup](https://docs.fontawesome.com/web/setup/host-yourself/webfonts).
 - **React Router** supplies explicit public and staff-preview routes. [Declarative routing setup](https://reactrouter.com/start/declarative/installation).
 
-Bootstrap/MUI-style prebuilt themes were not selected because their default visual treatment would require substantial restyling to match the supplied reference. Shared CSS tokens and Radix primitives provide consistency without imposing another theme.
+The user selected Tailwind CSS on 20 November 2026. Tailwind utilities, shared live CSS tokens and Radix primitives now provide consistency while preserving the supplied visual treatment. The official Vite plugin compiles the utility CSS locally; see [integration, sources and migration scope](tailwind-ui.md). Earlier styling decisions are superseded where they conflict with that confirmed choice.
 
 ## Verification boundaries
 

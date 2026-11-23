@@ -102,7 +102,7 @@ def test_player_score_sql_is_paginated_and_keeps_source_evidence(environment):
     answer=compose_all(first,Context(tools=['get_player_scores']))
     assert 'next page' in answer['answer'] and 'EXAMPLE-000' in answer['answer']
     assert 'players joined' not in answer['answer'] and 'players waiting' not in answer['answer']
-    assert 'Physical device: No matching recorded results' in answer['answer']
+    assert 'Cabinet / Wokwi: No matching recorded results' in answer['answer']
 
 
 def test_api_answers_scores_not_a_wrong_model_or_saved_subject(environment,monkeypatch):

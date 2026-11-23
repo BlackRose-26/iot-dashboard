@@ -4,6 +4,11 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "online": "node ../scripts/online.mjs",
+    "online:firmware": "node ../scripts/online.mjs --firmware",
+    "online:device": "node ../scripts/online.mjs --device",
+    "device:selftest": "node ../scripts/device.mjs --selftest",
+    "device:flash": "node ../scripts/device.mjs",
     "dev": "node ../scripts/dev.mjs",
     "dev:frontend": "vite --host 0.0.0.0 --port 5173 --strictPort",
     "build": "vite build",
@@ -29,12 +34,14 @@
   "devDependencies": {
     "@axe-core/playwright": "4.14.0",
     "@playwright/test": "1.65.1",
+    "@tailwindcss/vite": "4.3.5",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
     "@testing-library/user-event": "14.6.10",
     "@vitejs/plugin-react": "6.3.0",
     "jsdom": "31.0.1",
     "prettier": "3.10.1",
+    "tailwindcss": "4.3.5",
     "vite": "8.3.8",
     "vitest": "5.1.0"
   },

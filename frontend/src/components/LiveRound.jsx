@@ -13,6 +13,7 @@ import {
 import { Link } from 'react-router-dom'
 import { useApp } from '../state/AppContext'
 import { Card, CardHeader, Badge, Menu, Button } from './ui'
+import { CLASSIC_GAME, gameLabel } from '../state/game'
 
 export const stateLabels = {
   playing: 'Playing',
@@ -22,11 +23,12 @@ export const stateLabels = {
   review: 'Review required',
   reserved: 'Player called',
 }
-export function Matrix({ large = false, level = 7 }) {
+export function Matrix({ large = false, level = 7, columns = 8, levels = 12 }) {
   const cells = []
-  for (let row = 11; row >= 0; row--)
-    for (let col = 0; col < 8; col++) {
-      const filled = row < level && col >= 2 && col < 5 - Math.floor(row / 5)
+  const left = Math.floor(columns / 3)
+  for (let row = levels - 1; row >= 0; row--)
+    for (let col = 0; col < columns; col++) {
+      const filled = row < level && col >= left && col < columns - left - Math.floor(row / 5)
       cells.push(
         <span
           key={`${row}-${col}`}
@@ -37,6 +39,10 @@ export function Matrix({ large = false, level = 7 }) {
   return (
     <div
       className={`matrix ${large ? 'large' : ''}`}
+      style={{
+        gridTemplateColumns: `repeat(${columns}, 1fr)`,
+        gridTemplateRows: `repeat(${levels}, 1fr)`,
+      }}
       aria-label={`Illustration of ${level} stacked rows`}
       role="img"
     >
@@ -112,7 +118,14 @@ export function Gauge({ state = 'offline' }) {
   )
 }
 export default function LiveRound() {
-  const { machineState, currentPlayer, queue, admissionsOpen, callNext } = useApp()
+  const {
+    machineState,
+    currentPlayer,
+    queue,
+    admissionsOpen,
+    callNext,
+    game = CLASSIC_GAME,
+  } = useApp()
   const isPlaying = machineState === 'playing'
   const isReady = machineState === 'ready'
   const blockedReason = !admissionsOpen
@@ -146,7 +159,7 @@ export default function LiveRound() {
             <Timer size={13} />
             60s round
           </Badge>
-          <span>Classic v1</span>
+          <span>{gameLabel(game)}</span>
         </div>
         <Gauge state={machineState} />
         <div className="live-bottom">
@@ -163,20 +176,19 @@ export default function LiveRound() {
               <span>
                 {isPlaying || machineState === 'reserved'
                   ? currentPlayer?.code
-                  : 'One button. Twelve levels.'}
+                  : `One button. ${game.levels} levels.`}
               </span>
             </div>
           </div>
           <div className="level-label">
             <strong>
-              {isPlaying ? '07' : '—'}
-              <span> / 12</span>
+              —<span> / {game.levels}</span>
             </strong>
             <span>level completed</span>
           </div>
         </div>
         <div className="level-track" aria-hidden="true">
-          {Array.from({ length: 12 }, (_, i) => (
+          {Array.from({ length: game.levels }, (_, i) => (
             <i key={i} className="" />
           ))}
         </div>

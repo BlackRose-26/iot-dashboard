@@ -51,8 +51,9 @@ def test_persistent_memory_restores_subject_without_storing_messages(environment
         followup = fresh.post('/api/admin/assistant/query', json={'question':'Could you explain more about that?'}).json()
         assert followup['context']['knowledge']=='architecture'
     fresh_app.state.engine.dispose()
-    assert routing[-1]['previous']['knowledge']=='architecture'
-    assert routing[-1]['prior_contexts'][0]['knowledge']=='architecture'
+    assert followup['context']['detailed'] and len(followup['knowledge_sources'])==2
+    assert response['answer'] in followup['answer'] and len(followup['answer'])>len(response['answer'])
+    assert not routing  # The restored typed subject resolves this edit without external inference.
     assert 'staff_user_id' not in str(routing) and question not in str(routing)
 
 
@@ -119,7 +120,9 @@ def test_explicit_system_subject_beats_an_older_conversation(question,topic):
 
 @pytest.mark.parametrize('question', ['Who won the world cup?', 'Tell me a joke about politics.'])
 def test_missing_unrelated_subject_is_not_silently_replaced_with_event_facts(question):
-    assert normalize(question)[1]=='system_scope'
+    safe,blocked=normalize(question)
+    assert blocked=='system_scope' or safe['has_unrecognized_words'] or safe['requires_scope_check']
+    assert resolve_routing(RoutingPlan(topic='unsupported'),safe).clarify if safe else blocked
 
 
 def test_explaining_privacy_does_not_allow_identity_retrieval():

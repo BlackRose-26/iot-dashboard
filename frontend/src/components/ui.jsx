@@ -26,7 +26,12 @@ export function IconButton({ children, label, className = '', ...props }) {
   return (
     <Tooltip.Root>
       <Tooltip.Trigger asChild>
-        <button type="button" aria-label={label} className={`icon-button ${className}`} {...props}>
+        <button
+          type="button"
+          aria-label={label}
+          className={`icon-button tw:flex tw:items-center tw:justify-center tw:disabled:cursor-not-allowed ${className}`}
+          {...props}
+        >
           {children}
         </button>
       </Tooltip.Trigger>
@@ -49,23 +54,23 @@ export function Badge({ children, tone = 'neutral', dot = false, ...props }) {
 }
 export function Card({ children, className = '', ...props }) {
   return (
-    <section className={`card ${className}`} {...props}>
+    <section className={`card tw:min-w-0 ${className}`} {...props}>
       {children}
     </section>
   )
 }
 export function CardHeader({ title, subtitle, icon: Icon, action }) {
   return (
-    <div className="card-heading">
-      <div className="card-title-wrap">
+    <div className="card-heading tw:flex tw:items-center tw:justify-between">
+      <div className="card-title-wrap tw:flex tw:min-w-0 tw:items-center">
         {Icon && (
-          <span className="heading-icon">
+          <span className="heading-icon tw:shrink-0">
             <Icon size={23} strokeWidth={1.6} />
           </span>
         )}
-        <div>
+        <div className="tw:min-w-0">
           <h2>{title}</h2>
-          {subtitle && <p>{subtitle}</p>}
+          {subtitle && <p className="tw:text-muted">{subtitle}</p>}
         </div>
       </div>
       {action}
@@ -81,25 +86,29 @@ export function RoundLink({ to, label }) {
 }
 export function Button({ children, tone = 'dark', className = '', ...props }) {
   return (
-    <button type="button" className={`button ${tone} ${className}`} {...props}>
+    <button
+      type="button"
+      className={`button ${tone} tw:inline-flex tw:items-center tw:justify-center tw:font-sans tw:disabled:cursor-not-allowed ${className}`}
+      {...props}
+    >
       {children}
     </button>
   )
 }
 export function PageHeading({
-  eyebrow = 'ACS CARNIVAL / CLASSIC V1',
+  eyebrow = 'ACS CARNIVAL / EVENT OPERATIONS',
   title,
   description,
   children,
 }) {
   return (
     <div className="page-heading">
-      <div>
+      <div className="tw:min-w-0">
         <span className="eyebrow">{eyebrow}</span>
         <h1>{title}</h1>
         {description && <p>{description}</p>}
       </div>
-      <div className="page-actions">{children}</div>
+      <div className="page-actions tw:flex tw:shrink-0 tw:items-center">{children}</div>
     </div>
   )
 }
@@ -169,7 +178,7 @@ export function EmptyState({
 }
 export function InfoNote({ children, className = '' }) {
   return (
-    <div className={`info-note ${className}`}>
+    <div className={`info-note tw:flex tw:items-start tw:gap-2 tw:text-note ${className}`}>
       <Info size={17} />
       <span>{children}</span>
     </div>

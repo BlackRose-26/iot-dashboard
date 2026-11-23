@@ -1,5 +1,13 @@
 # Stack Intelligence — local administrator analytics
 
+**Current language repair:** [linguistic projection and explicit semantic routing](nlp-routing-repair.md) now handle common contractions, public English/Taglish synonyms and question grammar. Familiar explicit metrics and system explanations do not wait for model inference; broader wording uses the separate topical check and router. Unknown subjects, privacy/action guards and schema-validated facts remain enforced. This supersedes older statements that every analytical question requires a ready model; the assistant-enabled switch still applies. A fresh independent evaluation is still needed for the repaired predictor.
+
+The final v11 pipeline adds filtered WordNet/Tagalog word forms and separate topical input checking for broader wording. Its preserved 325-case **regression** scored **135/325 (41.54%)**, with 135 valid clarifications and one incorrectly accepted unsupported question. Backend checks passed 406 tests; visible development probes passed 34/34. These do not close the broader reliability gate or replace the original first-use result.
+
+**Broader evaluation:** the [325-case first-use synthetic holdout](nlp-evaluation/holdout-v1.md), kept outside runtime examples, measured 59/325 accepted intent/context matches. Vocabulary/scope gates clarified 247 valid requests. This exposes limited novel-language coverage; the older high small-set scores below remain development regressions. The frozen predictor was not repaired using the new test prompts.
+
+**Routing improvement, 20 November 2026:** [measured changes and evidence](nlp-evaluation/README.md) add 42 contrastive routing examples, semantic kind-constrained Ollama output, English/Taglish retrieval and consistent learning labels. Actual runs improved the reused 21-case set from 12 to 21 correct and the synthetic validation set from 14 to 23 of 24. These are development measurements, not independent real-user/factual-answer accuracy. The model weights remain unchanged; old private approvals require re-review under the new context fingerprint.
+
 18 November 2026 · Grounded conversation and private structured memory implemented; local Ollama installation and model download completed on this development PC. Targeted unit, local-model and disposable browser validation completed; broader release acceptance remains pending.
 
 ## Current behavior

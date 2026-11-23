@@ -11,6 +11,7 @@ import {
 } from '../components/icons'
 import { rankPlayers } from '../data/demo'
 import { useApp } from '../state/AppContext'
+import { CLASSIC_GAME, gameLabel } from '../state/game'
 import { api } from '../state/api'
 import PlayerList from '../components/PlayerList'
 import { Logo, Badge, SearchInput, Card, EmptyState, Button, InfoNote } from '../components/ui'
@@ -33,6 +34,7 @@ export default function Leaderboard() {
   const { revision } = useApp()
   const [rounds, setRounds] = useState([])
   const [source, setSource] = useState('')
+  const [game, setGame] = useState(CLASSIC_GAME)
   const [error, setError] = useState('')
   useEffect(() => {
     let live = true
@@ -41,6 +43,7 @@ export default function Leaderboard() {
         if (live) {
           setRounds(data.rounds)
           setSource(data.source)
+          setGame(data.game || CLASSIC_GAME)
           setError('')
         }
       })
@@ -72,7 +75,7 @@ export default function Leaderboard() {
             <br />
             <span>You’re in good company.</span>
           </h1>
-          <p>ACS Carnival · Classic v1 · Verified saved results</p>
+          <p>ACS Carnival · {gameLabel(game)} · Verified saved results</p>
         </div>
         {error && (
           <p className="field-error" role="alert">
@@ -81,8 +84,12 @@ export default function Leaderboard() {
         )}
         {source === 'simulator' && (
           <InfoNote>
-            Simulator leaderboard · development rounds only. Physical cabinet scores are separate.
+            Dashboard simulator leaderboard · development rounds only. Cabinet / Wokwi scores are
+            separate.
           </InfoNote>
+        )}
+        {source === 'device' && (
+          <InfoNote>Cabinet / Wokwi leaderboard · includes connected simulator rounds.</InfoNote>
         )}
         <div className="podium">
           {[ranked[1], ranked[0], ranked[2]].filter(Boolean).map((p) => (

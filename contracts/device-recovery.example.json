@@ -1,0 +1,42 @@
+{
+  "description": "Synthetic protocol-v2 examples; send the current boot header and private device credential out of band.",
+  "registration": {
+    "bootId": "11111111-1111-4111-8111-111111111111",
+    "previousBootId": null,
+    "storageId": "22222222-2222-4222-8222-222222222222",
+    "uptimeMs": 0
+  },
+  "reservationJournal": {
+    "eventId": "33333333-3333-4333-8333-333333333333",
+    "sequence": 1,
+    "uptimeMs": 100,
+    "sessionId": "44444444-4444-4444-8444-444444444444",
+    "commandId": "55555555-5555-4555-8555-555555555555",
+    "expectedRevision": 1,
+    "phase": "reserved"
+  },
+  "fenceCommand": {
+    "deliverySequence": 2,
+    "id": "66666666-6666-4666-8666-666666666666",
+    "type": "fence",
+    "sessionId": "44444444-4444-4444-8444-444444444444",
+    "bootId": "11111111-1111-4111-8111-111111111111",
+    "expectedRevision": 3,
+    "expiresAt": "2026-11-20T01:03:00Z"
+  },
+  "fenceJournal": {
+    "eventId": "77777777-7777-4777-8777-777777777777",
+    "sequence": 2,
+    "uptimeMs": 200,
+    "sessionId": "44444444-4444-4444-8444-444444444444",
+    "commandId": "66666666-6666-4666-8666-666666666666",
+    "expectedRevision": 3,
+    "phase": "fenced_unstarted"
+  },
+  "resolution": {
+    "reason": "Operator reviewed the saved stop receipt.",
+    "expectedRevision": 3,
+    "evidenceId": "77777777-7777-4777-8777-777777777777",
+    "action": "release_unstarted"
+  }
+}

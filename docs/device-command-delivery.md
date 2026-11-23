@@ -1,5 +1,9 @@
 # Device command delivery and review holds
 
+**22 November 2026:** authenticated reserve/fence envelopes additionally return integer `deliverySequence`, monotonically increasing for commands from this database. Connected Matrix firmware persists the greatest accepted/stopped delivery sequence before acknowledging, rejecting all older reservations even after round details change. Preserve the database and device storage epoch together; replacing either requires explicit lineage recovery. This is delivery ordering, not player identity. See [ESP32 integration](esp32-online.md).
+
+> Extended on 20 November 2026 by [boot-bound device recovery](device-recovery.md), including migration 005, protocol-v2 journals, terminal recovery and guarded review resolution. Original v1 claims below describe the pre-enrollment protocol. Once a cabinet registers a boot, legacy mutation endpoints cannot bypass its journal.
+
 Implemented and checked 19 November 2026. This is the backend/emulator portion of build-plan step 4, with Machine-page diagnostics. Physical firmware, boot/journal reconciliation and release of uncertain physical-device rounds remain unfinished. The ESP32 is unavailable; the checks below used synthetic databases and an emulator.
 
 ## Implemented protocol

@@ -1,0 +1,39 @@
+{
+  "kind": "consumed-holdout-regression",
+  "runtime": {
+    "code": {
+      "backend/app/assistant.py": "19e88c6f1bb79ecfb291b2fa7db0c53103c4f655b96c72da124e7ba23877be9a",
+      "backend/app/assistant_interactions.py": "7dcc39771d8fc316b9ade92e94fed8b756946c36d3138ce4c4c3c6fe7f1eb1c2",
+      "backend/app/assistant_knowledge.py": "5b6f705df5ec5c2e45ac1d1c7405d93f79605c43fc24b46fcaac5f75f00ea59c",
+      "backend/app/assistant_language.py": "f894c4f13270aff638e551c135c6110ff66de8f355d1d11186cdc7f4446bdf43",
+      "backend/app/assistant_learning.py": "cd76c7e7f2c92543ba8d399a1df2c8d42dbbbe12317936a6cce2e8de39eacd74",
+      "backend/app/assistant_memory.py": "32e3b493075ddd21f76d046b45706faa3a42dc2a4e1b42329656b124e029c8eb",
+      "backend/app/assistant_semantics.py": "167d693d75dd7b3b19ae0e240eea27a5237f33ee57df95bdfd16646b9f5355e8",
+      "backend/app/assistant_training.py": "fedef47fea57a6d8d8f89557f874f79bf4f0cc27011b157896e60418239b8427",
+      "backend/app/analytics.py": "dee9b59bcf7fea3d217546f8af863b1fcd686cf87c8e13c8714cd022c5a30819"
+    },
+    "corpora": {
+      "backend/data/assistant-routing.json": "4b485f7b0a0a907b613195ebc24aff198cdf5436acff262f2447d2d2c6179145",
+      "backend/data/assistant-interactions.json": "835c7cff9d900cc43d9f69d3ca39f93add843f4614b020b5a45859992f8d0b0b",
+      "backend/data/assistant-behavioral.json": "ae09bd57029ba0f33cdbd58b2d4f5838c0292304556261173cd98085a08a5d1b",
+      "backend/data/assistant-routing-contrasts.json": "0e57c97a9f02778a558aa2920ee76bc2b8909bc751e1445cb8c4814ff89262bd"
+    },
+    "runtime_corpus_sha256": "966c994c36213d160ced752011a1ba4cf004bb7acb998685011acec1259dde62",
+    "prompt_sha256": "fad04cee21068b2cc5136b18015e457871603e294eafdd48b52651d0a0b12f84"
+  },
+  "public_lexicon_sha256": "4538c86324c1c22271774caf3afe9230c6987ecc20899c54968604b0bcbf0f7e",
+  "scorer": {
+    "backend/holdout_audit.py": "34d37eb9ff8f6be0c55b2e5e8837404a14552e41ee1603552d368662af6b996b",
+    "backend/holdout_metrics.py": "663c44405e587dbb5bd28d321657531b4faacd85551acab9388ff5110021c4c6",
+    "backend/evaluate_holdout.py": "3f73f00628f93cf06c4a13a9efd86b774f33cfcf3db41a421f903c4fab579736",
+    "backend/evaluation/cases_v1.py": "9cb184fbc9cabad0ab2da0b54a298b9db75073bcf23f572b2225ce489a91b3ca"
+  },
+  "runner_sha256": "e10a2bdf22020c4816cb82987b673447eb4205afc7d7ab547dbce1a02ddc609b",
+  "protected_inputs": {
+    "backend\\evaluation\\holdout-v1.json": "692b28787ae9a109bf98dd7cbda1bbc2b5027493b0027f556c17cb05914525f6",
+    "backend\\evaluation\\holdout-v1.manifest.json": "cc17553ffce14e798ab9d1db3e1e362f88d227d63941e1e7c256eb15617065b4",
+    "backend\\evaluation\\holdout-v1.consumed.json": "f5672caf1d6f182a0827000c8835cfac1f4465a946ea617f53e35315759b6372",
+    "docs\\nlp-evaluation\\results\\holdout-v1.json": "a7c26b1a2184646d079457207814c31a6c4c626b7380cdcbb80a00d0a02bf64d"
+  },
+  "started_at": "2026-11-20T06:23:10.425035+00:00"
+}

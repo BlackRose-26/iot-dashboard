@@ -1,6 +1,6 @@
 # Stack Moko Baby backend
 
-FastAPI, SQLAlchemy Core and the local XAMPP MariaDB service. This implementation supports one event (`acs-day`), one cabinet (`cabinet-01`) and the proposed Classic v1 ruleset. Local Ollama NLP and read-only analytics have targeted synthetic validation; ESP32 firmware remains deferred. See [AI setup and manual review](../docs/admin-assistant.md).
+FastAPI, SQLAlchemy Core and the local XAMPP MariaDB service. This implementation supports one event (`acs-day`), one cabinet (`cabinet-01`), selected Matrix v1 rules (16 columns, 15 levels, one point per retained placement) and preserved Classic v1 histories. Same-origin HTTPS operation is running through the free PC tunnel; actual Wokwi protocol exchange and physical verification have separate gates. Render/MariaDB deployment files remain inactive. See [free online startup](../docs/free-online.md), [ESP32 integration](../docs/esp32-online.md) and [AI setup and manual review](../docs/admin-assistant.md).
 
 ## Local startup
 
@@ -54,7 +54,7 @@ Reviewed routing examples use additive migration `004_assistant_training.sql` (a
 
 ## Device command contract — 19 November 2026
 
-`GET /api/device/commands` and `POST /api/device/commands/{commandUuid}/ack` now provide authenticated, repeatable delivery and durable canonical receipt deduplication. A physical-device start requires its accepted non-expired reservation receipt. Legacy device clients that skipped this step must update; simulator controls remain separate. Rejection/expiry and explicit staff review retain the assignment; guarded reconciliation/release remains future work. The Machine page shows safe command metadata and review holds. See [full contract, emulator and actual checks](../docs/device-command-delivery.md), [remaining-work audit](../docs/remaining-work.md) and [synthetic contract](../contracts/device-command.example.json).
+`GET /api/device/commands` and the original ACK endpoint provide authenticated, repeatable delivery for unregistered legacy cabinets. Migration 005 adds [boot-bound recovery](../docs/device-recovery.md): enrolled cabinets must use the sequenced journal endpoint, immutable start/terminal markers and current-boot stop receipts. The Cabinet page supports guarded release, interrupted void and validated terminal recovery with CSRF, revision/evidence checks, audit and durable retry receipts. `recovery_emulator.py` is separate from the v1 `device_emulator.py`; preserve their journals. Actual firmware/NVS behavior remains unverified. See [the original command contract](../docs/device-command-delivery.md) and [remaining gates](../docs/remaining-work.md).
 
 
 ## Quality checks — disposable data only

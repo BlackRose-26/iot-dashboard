@@ -1,0 +1,28 @@
+{
+  "metric": "accuracy_score",
+  "component": "Ollama intent router before backend semantic overrides",
+  "accuracy": 0.5714285714285714,
+  "accuracy_percent": 57.14,
+  "correct": 12,
+  "total": 21,
+  "by_category": {
+    "Event and queue queries": {
+      "accuracy_percent": 37.5,
+      "correct": 3,
+      "total": 8
+    },
+    "System explanations": {
+      "accuracy_percent": 63.64,
+      "correct": 7,
+      "total": 11
+    },
+    "Metric definitions": {
+      "accuracy_percent": 100.0,
+      "correct": 2,
+      "total": 2
+    }
+  },
+  "sklearn_version": "1.9.1",
+  "matplotlib_version": "3.11.2",
+  "limits": "Small synthetic developer-reviewed set, not blind real-user accuracy or end-to-end factual accuracy."
+}

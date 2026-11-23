@@ -1,12 +1,14 @@
+import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useApp } from '../state/AppContext'
 import { useAssistant, assistantStatus } from '../state/AssistantContext'
 import { Card, CardHeader, PageHeading } from '../components/ui'
 import AssistantTrainingReview from '../components/AssistantTrainingReview'
 import '../styles/settings.css'
+import { gameLabel } from '../state/game'
 
 export default function Settings() {
-  const { admin, theme, setTheme } = useApp()
+  const { admin, theme, setTheme, game } = useApp()
   const ai = useAssistant()
   const [trainingOpen, setTrainingOpen] = useState(false)
   const [reviewLast, setReviewLast] = useState(false)
@@ -49,8 +51,8 @@ export default function Settings() {
             date or result source in your message.
           </p>
           <p className="settings-help">
-            ACS Carnival · Classic v1 · Local Ollama. Simulator and physical-device results are
-            labelled separately.
+            ACS Carnival · {gameLabel(game)} · Local Ollama. Simulator and physical-device results
+            are labelled separately.
           </p>
         </Card>
         <Card>
@@ -82,6 +84,15 @@ export default function Settings() {
             Forget saved memory
           </button>
           {ai.memoryError && <p role="status">{ai.memoryError}</p>}
+        </Card>
+        <Card>
+          <CardHeader
+            title="Check practice questions"
+            subtitle="Help check what the assistant should understand."
+          />
+          <Link to="/admin/question-review" className="button light tw:mt-3">
+            Review questions
+          </Link>
         </Card>
         <Card>
           <CardHeader

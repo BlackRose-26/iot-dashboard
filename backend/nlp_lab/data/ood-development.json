@@ -1,0 +1,17 @@
+{
+  "provenance": "New developer-authored synthetic NEGATIVE development examples. Not independently human-reviewed; not system facts; never runtime retrieval or unseen-test evidence.",
+  "families": {
+    "sports-results": ["Who is leading the football league?", "What is the basketball score?", "Show tennis rankings.", "Sino ang panalo sa volleyball?", "Compare the cricket scores."],
+    "foreign-queues": ["How long is the airport queue?", "Count passengers waiting for a bus.", "What is the restaurant waiting list?", "Ilan ang nakapila sa bangko?", "Check the supermarket checkout line."],
+    "food": ["Explain how to cook rice.", "What ingredients make soup?", "Recommend a dinner recipe.", "Paano gumawa ng tinapay?", "How much salt goes into pasta?"],
+    "weather": ["What will the weather be tomorrow?", "Forecast the rainfall.", "Show the outdoor temperature.", "Uulan ba mamayang gabi?", "Is a storm approaching?"],
+    "financial": ["Predict the stock market.", "Which investment is safest?", "Show the price of gold.", "Magkano ang palitan ng pera?", "How much interest does a bank pay?"],
+    "medical": ["Diagnose my headache.", "Which medicine should I take?", "Explain a blood test result.", "Ano ang gamot sa ubo?", "Does this symptom need surgery?"],
+    "travel": ["Book a hotel room.", "Find the cheapest flight.", "What visa do I need?", "Saan magandang magbakasyon?", "Plan a trip to the beach."],
+    "personal-trivia": ["Write a birthday poem.", "Tell me a political joke.", "Who won a movie award?", "Magkuwento tungkol sa hari.", "Explain ancient mythology."],
+    "foreign-machines": ["Is the printer connected?", "Check the elevator readiness.", "Why is the washing machine stuck?", "Konektado ba ang refrigerator?", "Show the car engine status."],
+    "other-software": ["How do I edit a video?", "Explain a spreadsheet formula.", "Create a game in another application.", "Paano mag-edit ng litrato?", "Show a social media account ranking."],
+    "foreign-players": ["Show chess tournament participants.", "List the football players.", "Who has the highest bowling score?", "Ilan ang naglaro ng baseball?", "What is the golf score distribution?"],
+    "unrecorded-analytics": ["Predict which player will win tomorrow.", "Estimate each visitor's intelligence.", "Measure physical tower stability.", "Magkano ang electricity bill ng booth?", "Infer participant personalities from game results."]
+  }
+}

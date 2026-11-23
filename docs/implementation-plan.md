@@ -2,7 +2,27 @@
 
 # Stack Moko Baby — step-by-step build plan
 
-19 November 2026 · Current implementation and remaining acceptance gates
+**Latest hosting choice, 22 November:** use the [free PC + XAMPP + HTTPS tunnel](free-online.md) selected after the Render cost discussion. Public health and private image compilation passed. Next run the configured image in Wokwi with the user's approved upload path, verify the cabinet heartbeat and assigned game journey, then retain the separate physical/NVS gates. Keep the prepared Render option inactive.
+
+## Current device/hosting milestone — 22 November 2026
+
+The user selected Wokwi first, Matrix v1 (16 columns, 15 levels, maximum 15 points), online registration/queue/dashboard with physical-button gameplay, and the free PC/XAMPP HTTPS tunnel. [ESP32/online setup](esp32-online.md) is the current work package. Classic histories retain their original rules. Firmware compilation, local Matrix device/API checks and public HTTPS access checks passed. Next verify the actual Wokwi boot/heartbeat and assigned button-game journey using the private configured image. Follow with real ESP32 NVS/power/button/display/audio acceptance and event load tests. Do not mark hardware complete from emulator/browser success.
+
+## Active milestone — Wokwi and free HTTPS, 22 November 2026
+
+Implement the user's selected Matrix v1 game (16 columns, 15 levels, one point per level) with version-bound replay and separate Classic history. Connected firmware, durable boot/journal handling and same-origin React/API serving are prepared; see [integration guide](esp32-online.md). The free launcher configures the temporary HTTPS origin and builds private firmware. Verify the actual Wokwi exchange and complete QR → registration → assigned physical-button round → validated win/loss → notification/leaderboard journey. XAMPP and local Ollama remain on the PC. Keep Render inactive. Actual ESP32, power/NVS/audio and event load checks remain separate gates.
+
+**Implemented on 21 November 2026.** Administrators can open Settings → Review questions or visit `/admin/question-review`. Each card shows one synthetic question, its earlier topic, suggested meaning and expected action. Reviewers can confirm it, correct it or mark it unclear. Search, filters, navigation and a saved progress count cover all 325 cases. Migration 006 stores each administrator's versioned decisions separately from frozen labels and chat training examples. The [typed-context regression](nlp-evaluation/results/typed-context-v2-regression.json) records 146/325 accepted against the original 130/325, including 7/25 follow-ups. Human decisions can guide later adjudication and development using separate examples.
+
+**NLP repair, 20 November 2026:** implement and verify [public language projection, separate topical checking and explicit semantic routing](nlp-routing-repair.md) using independent development probes. Preserve the original 325-case measurement and gold labels; freeze predictor/lexicon/scorer for each explicitly labelled consumed-set replay. Subsequent unseen acceptance requires a new independently authored/adjudicated test set with 20–50 diverse cases per primary intent. Development scores and reused tests do not close that gate. Do not automatically train model weights or start the next progress report.
+
+**Authorized offline comparison completed:** the [isolated NLP lab](nlp-offline-experiment.md) ran TF-IDF, frozen multilingual embeddings, actual local SetFit adaptation and the current Ollama routing adapter. The [measured development report](nlp-evaluation/offline-lab-20261120.md) supports no production replacement: SetFit did not improve the 130-case result and failed misleading-history diagnostics. Live Ollama weights/routing remain unchanged. The [label guide](nlp-label-guide.md) and typed-state prototype are implemented; reviewed rare-class/topic-change training families and independent final collection/review remain next gates. The [325-case candidate collection](nlp-evaluation/candidate-v2-preparation.md) is now filled, with 25 AI-authored questions per intent and no automated reference collisions; independent review and final evaluation remain pending. No progress report is requested.
+
+**History follow-on completed:** [training-only history augmentation and current-question ablation](nlp-evaluation/history-lab-20261120.md) ran in a new frozen experiment without changing the first run. It addresses the shortcut but does not improve overall correctness/coverage enough for promotion. Forty supported development requests are blocked upstream. Next: design a privacy-preserving separation of input refusal, wording and scope; obtain reviewed rare-class/multi-turn data; validate on new development families before a separately reviewed final test. Existing cohorts are consumed regression material.
+
+**Frontend styling, 20 November 2026:** the user confirmed React.js JavaScript/JSX and Tailwind CSS. Tailwind 4.3.5 and its Vite plugin are installed; shared primitives and the recovery layout use utilities. Follow [the Tailwind UI conventions](tailwind-ui.md) for subsequent page updates and migrate specialized CSS as those pages change. This styling task does not create the next progress report.
+
+20 November 2026 · Development resumed; current implementation and remaining acceptance gates
 
 The application now has a React JavaScript frontend, FastAPI backend, XAMPP/MariaDB migrations, private QR registration/tickets, transactional FIFO assignment, score replay, admin views and local Ollama analytics. Browser live synchronization is implemented below. Earlier milestone notes describe their dates, not the current whole application. Numeric rules remain proposals until play-tested. Estimates are rough; acceptance evidence determines completion.
 
@@ -11,14 +31,14 @@ The application now has a React JavaScript frontend, FastAPI backend, XAMPP/Mari
 | 0, 2 | Proposed rules and deterministic backend replay/simulator exist | ESP32/panel, wiring, local firmware engine, latency/playability |
 | 1 | Repeatable npm startup, database setup and Graphify installed | Release packaging and final operational checks |
 | 3 | Staff sessions, encrypted identity and private player access implemented | Distinct operator/admin permissions, staffed recovery, retention/rotation and trusted phone HTTPS |
-| 4 | FIFO locking, durable reservations, polling/ACK receipts, emulator and review-hold diagnostics implemented | Trusted boot/terminal reconciliation, no-show evidence and guarded resolution UI |
+| 4 | FIFO, reservations, boot-bound journal/stop receipts, emulator and guarded recovery UI implemented | Physical device journal/NVS and power-loss acceptance |
 | 5 | Backend trace replay and atomic result/notification/outbox commit implemented | Firmware journal, reboot/power-cut tests and physical integration |
-| 6 | Reference-based admin/player pages, settings and real analytics implemented | Hardware telemetry, reconciliation forms and final release accessibility review |
-| 7 | Authorized live hints, snapshots, reconnect and polling implemented | Actual process-kill recovery, 50-browser/LAN measurements and phone WSS |
-| 8 | Local conversational Ollama routing, verified tools, private memory and reviewed examples implemented | Full release-policy evaluation; actual fine-tuning remains deferred |
+| 6 | Reference-based admin/player pages, settings, real analytics and recovery forms implemented | Hardware telemetry and final release accessibility review |
+| 7 | Authorized live hints, reconnect, polling, actual test-process kill/recovery and 50 loopback browser contexts checked | Event-LAN measurements, prolonged soak and phone WSS |
+| 8 | Local Ollama routing, verified tools, private memory and reviewed examples; isolated offline SetFit comparison completed without promotion | Reviewed training coverage, independent final evaluation and full release-policy checks; production fine-tuning remains deferred |
 | 9 onward | Release/operations work remains | Follow the exit gates below; no hardware completion is claimed |
 
-Next independent work: trusted boot/session/terminal reconciliation with emulator recovery tests, then guarded operator resolution of review holds. Command polling/ACKs and conservative review holds are implemented. See the [verified remaining-work audit](remaining-work.md); identity/retention and release-failure testing can also proceed without hardware. Physical ESP32 work still waits for available hardware.
+Next independent work: enforce distinct operator/admin permissions and safe provisioning, then identity lifecycle and operational release gates. Boot/session/terminal reconciliation and guarded recovery are implemented and locally checked; physical ESP32/NVS acceptance still waits for available hardware. See the [verified remaining-work audit](remaining-work.md).
 
 ## 0. Resolve physical and operational constraints — 0.5–1 day
 
@@ -63,13 +83,15 @@ Confirm student-ID format, identity recovery owner, retention settings, event ru
 
 ## 4. Implement queue and transactional session assignment — 1–2 days
 
+**Resumed 20 November 2026:** [boot-bound device recovery](device-recovery.md) adds protocol-v2 journals, immutable start/terminal evidence, boot-targeted fences, audited/idempotent guarded operator decisions and a persistent recovery emulator. Legacy compatibility is retained only for cabinets that have never registered a boot. Physical NVS/power-loss/firmware validation is still pending. See remaining-work.md for executed verification and outstanding gates.
+
 **Command milestone, 19 November 2026:** [device delivery and review holds](device-command-delivery.md) now provides read-only polling, durable accepted/rejected receipts, idempotent retries, receipt-required start, a file-journal emulator and admin/private-player review states. Full suite: 213 backend and 36 frontend checks; build, synthetic Brave and targeted axe checks passed. Lost-ACK replay after API/emulator recreation is checked; actual process termination, physical firmware/NVS and release of uncertain rounds remain pending. No migration or database reset is required.
 
 1. Build queue join/cancel/position endpoints and FIFO query. Duplicate submissions reuse a live ticket.
 2. Provision machine credentials out of band; store hashes. Build fresh-heartbeat eligibility and maintenance/admission states.
 3. Implement event → machine → queue → session lock order, one active-session unique constraint, reservation command creation and operation receipts.
 4. Implemented: device command polling/acknowledgment, expected revision, canonical receipt hashes and idempotent delivery. Commands commit before delivery; the emulator persists before ACK. Actual firmware persistence remains unverified.
-5. Partially implemented: rejected/expired reservations and explicit staff review retain the cabinet and ticket. Device-confirmed non-start resolution and the guarded release flow remain pending; no timer silently frees a physical-device round.
+5. Implemented in software: rejected/expired reservations and explicit staff review retain the cabinet and ticket. Boot-targeted fence receipts support guarded unstarted release, interrupted no-score void and validated terminal recovery. Conflicting evidence remains quarantined. No timer silently frees a physical-device round; hardware persistence is unverified.
 
 **Exit:** AC-02/AC-06/AC-10 concurrency and race fixtures pass; repeated command delivery produces one reserved round.
 
@@ -146,4 +168,4 @@ Estimated total: roughly 11–20 focused working days for a small team, subject 
 
 ## Quality audit — 19 November 2026
 
-The [cross-system audit](quality-audit.md) fixes confirmed request/authentication, QR, game-duration, cabinet-state, chart, async-state and NLP-scope defects. It records executed checks and remaining limitations. Current authorisation ends at this audit; do not automatically start reconciliation or the other new roadmap features. Proposed numeric game settings remain subject to physical play-testing.
+The [cross-system audit](quality-audit.md) fixes confirmed request/authentication, QR, game-duration, cabinet-state, chart, async-state and NLP-scope defects. It records executed checks and remaining limitations. The user explicitly resumed roadmap development on 20 November; the earlier audit pause is superseded. Proposed numeric game settings remain subject to physical play-testing.

@@ -1,0 +1,59 @@
+# Review paid service/disk choices in Render before creating resources.
+# Private MariaDB, same-origin React/API, one API worker. Ollama stays local.
+services:
+  - type: pserv
+    name: stack-moko-db
+    runtime: docker
+    dockerfilePath: ./deploy/mariadb/Dockerfile
+    dockerContext: ./deploy/mariadb
+    plan: starter
+    disk:
+      name: stack-moko-db-data
+      mountPath: /var/lib/mysql
+      sizeGB: 1
+    envVars:
+      - key: MARIADB_DATABASE
+        value: stack_moko_baby
+      - key: MARIADB_USER
+        value: stack_moko_app
+      - key: MARIADB_PASSWORD
+        generateValue: true
+      - key: MARIADB_ROOT_PASSWORD
+        generateValue: true
+  - type: web
+    name: stack-moko-baby
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    numInstances: 1
+    healthCheckPath: /api/health
+    preDeployCommand: python backend/setup_server.py
+    envVars:
+      - key: STACK_DB_HOST
+        fromService:
+          type: pserv
+          name: stack-moko-db
+          property: host
+      - key: STACK_DB_PASSWORD
+        fromService:
+          type: pserv
+          name: stack-moko-db
+          envVarKey: MARIADB_PASSWORD
+      - key: STACK_ENV
+        value: production
+      - key: STACK_COOKIE_SECURE
+        value: "true"
+      - key: STACK_SIMULATOR_ENABLED
+        value: "false"
+      - key: STACK_AI_ENABLED
+        value: "false"
+      - key: STACK_IDENTITY_KEY
+        sync: false
+      - key: STACK_LOOKUP_KEY
+        sync: false
+      - key: STACK_CSRF_KEY
+        sync: false
+      - key: STACK_DEVICE_TOKEN
+        sync: false
+      - key: STACK_INITIAL_ADMIN_PASSWORD
+        sync: false

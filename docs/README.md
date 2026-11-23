@@ -1,8 +1,14 @@
 > **Read this file before project work.** This is the canonical internal guide and specification index. The [root README](../README.md) provides the public project introduction, implementation status and installation instructions; it does not replace this guide.
 
-> **Quality audit, 19 November 2026:** the user-authorized [cross-system audit and remediation](quality-audit.md) records the completed local fixes/checks and remaining release boundaries. New roadmap features remain paused; completion of this audit does not start the next feature milestone. Open Sans Variable remains the confirmed application typeface.
+**Latest hosting choice, 22 November:** after reviewing Render costs, the user selected [free PC + XAMPP + HTTPS tunnel operation](free-online.md) for Wokwi. The launcher starts the same-origin dashboard/API with the current public address and can build private configured firmware. Public HTTPS health has returned 200. Render is an inactive prepared alternative; do not provision paid services under the earlier choice.
+
+> **Development resumed, 20 November 2026:** the user explicitly resumed roadmap work after the [quality audit](quality-audit.md) and progress report. Continue ready software milestones; create the next report only when requested. [Boot-bound device recovery](device-recovery.md) is the current milestone. Open Sans Variable remains the confirmed application typeface.
+
+**23 November 2026 — physical cabinet preparation:** the user chose a phone hotspot (Android or iPhone) with the ESP32 reaching the backend through the HTTPS tunnel and players on their own mobile data; the hardware follows the existing wiring guide. [Physical bring-up](hardware-bringup.md) adds a wiring self-test build, `npm run online:device` (hotspot config plus NVS-preserving USB upload), hotspot diagnostics and ordered acceptance gates. Builds and the flash-layout check pass; no step has run on the physical cabinet yet.
 
 Player entry now uses the [camera and image scanner API](qr-scanner.md).
+
+**22 November 2026 — firmware/online integration:** the user confirmed Wokwi first, online queue/dashboard and physical-button gameplay. They selected the sketch's 16 columns, 15 levels and one point per level. [ESP32 and online setup](esp32-online.md) describes the connected firmware, immutable Matrix v1 rules, current checks and hosting choices. Classic results remain separate. The temporary HTTPS dashboard is running; actual Wokwi protocol exchange and physical operation have separate acceptance gates.
 
 For daily development use the [combined npm startup and troubleshooting guide](local-setup.md). Start MySQL in XAMPP, then run `npm run dev` from the project root or `frontend`; the launcher starts the API before Vite. Node/npm and a normal backend virtual environment are already installed locally.
 
@@ -10,7 +16,19 @@ For daily development use the [combined npm startup and troubleshooting guide](l
 
 # Stack Moko Baby — project documentation
 
-Updated: 19 November 2026 (Asia/Manila). Status: implementation baseline with proposed parameters identified. React JavaScript uses FastAPI and XAMPP MariaDB for admin authentication, QR entry, private registration and persistent queueing. Local Ollama NLP routing and verified analytics have targeted unit, local-model and synthetic browser validation. Physical ESP32 firmware and integration remain future work.
+The [325-case frozen NLP holdout](nlp-evaluation/holdout-v1.md) preserves the original first-use baseline: 25 cases per primary intent, strict runtime/few-shot separation and 59/325 accepted matches. Earlier small-set results remain development regressions.
+
+The subsequent [language coverage repair](nlp-routing-repair.md) adds filtered public English/Tagalog vocabulary, separate topical checking and a model-independent path for familiar explicit requests. The current consumed-set replay measured **135/325 (41.54%)**, with **135 valid clarifications and one unsupported false acceptance**. All 406 backend tests and 34 visible development probes passed, but broader reliability remains inadequate. This is regression evidence, not fresh unseen accuracy; the AI quality gate remains open.
+
+The [offline classifier comparison](nlp-offline-experiment.md) includes actual local SetFit training, TF-IDF and frozen multilingual E5 baselines, a [label guide](nlp-label-guide.md), typed-state prototype and [measured graphs/results](nlp-evaluation/offline-lab-20261120.md). None replaces the live router: SetFit did not improve the 130-case development result and showed severe history-presence shortcuts. The [candidate evaluation collection](nlp-evaluation/candidate-v2-preparation.md) now contains **325 AI-authored questions**, 25 per intent, with automated non-overlap checks completed. A blinded AI review covered all 325 questions. In the [frozen first-use evaluation](nlp-evaluation/results/holdout-v2-ai-first-use.json), the current service met the routing and behavior criteria on 130/325 (40.0%), including 0/25 follow-ups. The synthetic labels have AI adjudication only.
+
+On 21 November the assistant gained local handling of follow-ups that change dates, game sources, page, level, ranking size or explanation detail. On separate development questions it reached 95/130 exact matches, up from 60. On the [consumed 325-case replay](nlp-evaluation/results/typed-context-v2-regression.json) it reached 146 accepted, with 7/25 follow-ups and two unsupported requests answered. To review the cases manually, sign in and open **Settings → Review questions**. Confirm the suggested meaning, change it, or mark the question unclear. Each decision is private to the reviewer and versioned separately from the original measurement.
+
+The [follow-on history ablation](nlp-evaluation/history-lab-20261120.md) preserves that run and adds 792 training-only history variants. Context stress improves, while overall correctness and useful coverage remain inadequate. Forty supported development questions are blocked before classification; further model training alone cannot resolve the input-admission problem. All fourteen offline integrity checks passed. No live model is changed.
+
+The [measured NLP improvement](nlp-evaluation/README.md) records the 20 November routing/data changes, actual before/after measurements, case-level evidence and remaining classifier error. These are synthetic development results, not general chatbot accuracy.
+
+Updated: 22 November 2026 (Asia/Manila). React JavaScript uses FastAPI and XAMPP MariaDB locally for admin authentication, QR entry, private registration, persistent queueing and guarded device recovery. Matrix v1 firmware compiles and the 15-point software journey passes local browser/API checks. Free HTTPS operation retains the local database and Ollama; Render is an inactive alternative. Actual Wokwi-to-backend operation and physical ESP32/NVS acceptance remain pending. Local Ollama NLP routing/analytics retain their earlier measured limits.
 
 Read the current [player flow and access implementation](player-flow-and-access.md) first. It supersedes older preview-only and public-access assumptions.
 
@@ -18,7 +36,7 @@ The administrator workspace includes [Stack Intelligence](admin-assistant.md): a
 
 The [durable browser update implementation](live-updates.md) now adds authenticated revision-only notifications, coherent snapshots, reconnect recovery, polling fallback and freshness indicators. Local synthetic validation is recorded separately from outstanding LAN/load/hardware gates.
 
-The [verified remaining-work audit](remaining-work.md) separates implemented software from unrun release/hardware gates. [Device command polling and durable acknowledgements](device-command-delivery.md) are now implemented with an emulator and Machine-page review holds. Trusted boot/terminal reconciliation and release of uncertain rounds remain the next milestone.
+The [verified remaining-work audit](remaining-work.md) separates implemented software from unrun release/hardware gates. [Command delivery](device-command-delivery.md) is extended by [boot-bound journals, terminal recovery and guarded operator resolution](device-recovery.md). Physical firmware/NVS and actual power-loss behavior still require hardware verification.
 
 ## Read in this order
 
@@ -41,7 +59,7 @@ Confirmed by the user in this chat:
 - Final name: **Stack Moko Baby**.
 - Gameplay: **LED matrix stacker with a physical button**.
 - **Student ID required and kept private**.
-- Frontend: **React with JavaScript/JSX**, using Vite.
+- Frontend: **React.js with JavaScript/JSX, Vite and Tailwind CSS**. Follow the [Tailwind UI conventions](tailwind-ui.md) for semantic tokens, shared primitives, themes and incremental migration.
 - Database: **XAMPP MySQL service**, verified locally as **MariaDB 10.11.16**.
 - Use the supplied [Sourcio dashboard reference](https://dribbble.com/shots/22063014-Smart-Home-Dashboard-Energy-Analytics-Sourcio) accurately, with content and interactions appropriate to this game.
 - Save documentation under `D:\iot-dashboard\docs` and install Graphify for project understanding.

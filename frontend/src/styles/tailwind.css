@@ -1,0 +1,33 @@
+/* Compiled locally by @tailwindcss/vite; never use the runtime CDN. */
+@layer theme, base, components, utilities;
+@import 'tailwindcss/theme.css' layer(theme) prefix(tw);
+@import 'tailwindcss/utilities.css' layer(utilities) prefix(tw) source(none);
+
+/* Preserve the established reset, reference styling and existing cascade order. */
+@import './foundation.css' layer(components);
+@import './app.css' layer(components);
+@import './refinements.css' layer(components);
+@import './access-and-themes.css' layer(components);
+@import './scanner.css' layer(components);
+@import './admin-assistant.css' layer(components);
+
+@source '../';
+@source '../../index.html';
+
+@custom-variant dark (&:where([data-admin-theme='dark'], [data-admin-theme='dark'] *));
+
+/* Inline aliases resolve the live admin/player CSS variables, including portals. */
+@theme inline {
+  --font-sans: 'Open Sans Variable', 'Open Sans', 'Segoe UI', Arial, sans-serif;
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-soft: var(--surface-soft);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-note: var(--note-ink);
+  --color-line: var(--border);
+  --color-danger: var(--danger);
+  --radius-panel: var(--radius-card);
+  --radius-tile: var(--radius-tile);
+  --radius-control: var(--radius-control);
+}

@@ -123,8 +123,8 @@ export function ActivityChart({ data, rounds = [], large = false, granularity = 
     </Card>
   )
 }
-export function LevelChart({ rounds = [], large = false, data: suppliedData }) {
-  const data = suppliedData || levelStatistics(rounds)
+export function LevelChart({ rounds = [], large = false, data: suppliedData, levels = 12 }) {
+  const data = suppliedData || levelStatistics(rounds, levels)
   const hardest = [...data].filter((d) => d.attempts >= 20).sort((a, b) => b.rate - a.rate)[0]
   return (
     <Card className={`chart-card ${large ? 'span-2' : ''}`}>
@@ -132,7 +132,7 @@ export function LevelChart({ rounds = [], large = false, data: suppliedData }) {
         title="Where the stack slips"
         subtitle="Zero-overlap failure rate by attempted level"
         icon={Layers3}
-        action={<Badge>12 levels</Badge>}
+        action={<Badge>{data.length} levels</Badge>}
       />
       <div className="chart-summary">
         <strong>
@@ -252,7 +252,7 @@ export function ScoreChart({ rounds = [], data: suppliedData }) {
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <p className="chart-footnote">Classic v1 · maximum 1,500 points</p>
+      <p className="chart-footnote">Scores are grouped within the selected game rules.</p>
     </Card>
   )
 }

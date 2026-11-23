@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
 import AxeBuilder from '@axe-core/playwright'
+import { randomUUID } from 'node:crypto'
 
 test.describe.configure({ mode: 'serial' })
 const errors = []
@@ -189,4 +190,128 @@ test('admin screens have neutral light and dark modes and accessible phone navig
   await screenshot(page, 'admin-dark-phone')
   expect(violations).toEqual([])
   expect(errors).toEqual([])
+})
+
+test('boot-bound device fence enables an audited unstarted release in the admin UI', async ({
+  page,
+  browser,
+}) => {
+  await login(page)
+  const playerContext = await browser.newContext({ viewport: { width: 390, height: 844 } })
+  try {
+    const player = await playerContext.newPage()
+    await join(player, 'Recovery Guest', 'DUMMY-BROWSER-RECOVERY')
+    const bootId = randomUUID()
+    const deviceHeaders = {
+      'X-Device-Token': process.env.STACK_DEVICE_TOKEN,
+      'X-Device-Boot-Id': bootId,
+    }
+    const registered = await page.request.post('/api/device/boot', {
+      headers: deviceHeaders,
+      data: { bootId, storageId: randomUUID(), previousBootId: null, uptimeMs: 0 },
+    })
+    expect(registered.status()).toBe(200)
+    expect(
+      (
+        await page.request.post('/api/device/heartbeat', {
+          headers: deviceHeaders,
+          data: { state: 'ready', firmware: 'synthetic-browser-recovery' },
+        })
+      ).status(),
+    ).toBe(200)
+    await page.goto('/admin/queue')
+    await page.getByRole('button', { name: 'Call next player' }).click()
+    await expect(player.getByText(/It’s your turn/)).toBeVisible()
+    const command = (
+      await (await page.request.get('/api/device/commands', { headers: deviceHeaders })).json()
+    ).commands[0]
+    expect(
+      (
+        await page.request.post('/api/device/journal', {
+          headers: deviceHeaders,
+          data: {
+            eventId: randomUUID(),
+            sequence: 1,
+            uptimeMs: 100,
+            sessionId: command.sessionId,
+            commandId: command.id,
+            expectedRevision: command.expectedRevision,
+            phase: 'reserved',
+          },
+        })
+      ).status(),
+    ).toBe(200)
+    await page.goto('/admin/machines')
+    await expect(page.getByText(bootId, { exact: true })).toBeVisible()
+    await page.getByRole('button', { name: 'Request device stop', exact: true }).click()
+    await page.getByLabel('Reason for this decision').fill('Synthetic browser recovery check')
+    await page.getByRole('button', { name: 'Confirm decision' }).click()
+    await expect(page.getByRole('dialog')).toHaveCount(0)
+    await expect(page.getByRole('button', { name: 'Release unstarted round' })).toHaveCount(0)
+    const fence = (
+      await (await page.request.get('/api/device/commands', { headers: deviceHeaders })).json()
+    ).commands[0]
+    expect(fence.type).toBe('fence')
+    expect(
+      (
+        await page.request.post('/api/device/journal', {
+          headers: deviceHeaders,
+          data: {
+            eventId: randomUUID(),
+            sequence: 2,
+            uptimeMs: 200,
+            sessionId: fence.sessionId,
+            commandId: fence.id,
+            expectedRevision: fence.expectedRevision,
+            phase: 'fenced_unstarted',
+          },
+        })
+      ).status(),
+    ).toBe(200)
+    await expect(page.getByRole('button', { name: 'Release unstarted round' })).toBeVisible()
+    for (const theme of ['light', 'dark']) {
+      if ((await page.locator('html').getAttribute('data-admin-theme')) !== theme)
+        await page.getByRole('button', { name: `Switch to ${theme} mode` }).click()
+      const recoveryCard = page.locator('section').filter({
+        has: page.getByRole('heading', { name: 'Device recovery', exact: true }),
+      })
+      // These utilities override the legacy card padding, proving the Vite CSS
+      // pipeline and layer order work in the real browser, not just in JSX.
+      await expect(recoveryCard).toHaveCSS('padding', '28px')
+      await expect(recoveryCard).toHaveCSS('margin-top', '24px')
+      await screenshot(page, `device-recovery-${theme}`)
+      expect(
+        (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze())
+          .violations,
+      ).toEqual([])
+    }
+    await page.setViewportSize({ width: 360, height: 800 })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(360)
+    await screenshot(page, 'device-recovery-phone')
+    await page.getByRole('button', { name: 'Release unstarted round' }).click()
+    await page
+      .getByLabel('Reason for this decision')
+      .fill('Reviewed saved never-started fence receipt')
+    await page.getByRole('button', { name: 'Confirm decision' }).click()
+    await expect(page.getByText(bootId, { exact: true })).toHaveCount(0)
+    await expect(page.locator('.toast')).toBeVisible()
+    const toastWidth = await page
+      .locator('.toast')
+      .evaluate((element) => element.getBoundingClientRect().width)
+    expect(toastWidth).toBeGreaterThanOrEqual(320)
+    expect(toastWidth).toBeLessThanOrEqual(336)
+    await expect
+      .poll(
+        async () => (await (await player.request.get('/api/player/context')).json()).ticket.status,
+      )
+      .toBe('expired')
+    const snapshot = await (await page.request.get('/api/admin/snapshot')).json()
+    expect(snapshot.currentPlayer).toBeNull()
+    expect(snapshot.machineState).toBe('offline')
+    expect(
+      (await (await player.request.get('/api/player/context')).json()).notifications,
+    ).toHaveLength(0)
+  } finally {
+    await playerContext.close()
+  }
 })

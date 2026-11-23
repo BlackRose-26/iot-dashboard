@@ -10,13 +10,17 @@ from sqlalchemy.exc import SQLAlchemyError
 from .database import all_rows
 from .assistant_interactions import INTERACTIONS, BEHAVIORAL
 from .assistant_semantics import compatible
+from .assistant_language import GRAMMAR
 
 CORPUS = Path(__file__).resolve().parents[1] / 'data' / 'assistant-routing.json'
+CONTRASTS = CORPUS.with_name('assistant-routing-contrasts.json')
+RUNTIME_CORPORA = (CORPUS,INTERACTIONS,BEHAVIORAL,CONTRASTS)
 STOP = set('a an the is are was were be do does did can could would should will what which how why who me my us our this that it its they their them there here of in on at to for from and or please paki po ang ng sa ba mga'.split())
+STOP |= GRAMMAR - {'how','why','when','who','what','explain','describe','current','currently','recorded','today','yesterday','now','earlier','previous','prior','latest','long','longer','short','brief','detailed','detail','details'}
 
 
 def corpus_digest():
-    return hashlib.sha256(b'\0'.join(path.read_bytes() for path in (CORPUS,INTERACTIONS,BEHAVIORAL))).hexdigest()
+    return hashlib.sha256(b'\0'.join(path.read_bytes() for path in RUNTIME_CORPORA)).hexdigest()
 
 
 def seed_examples():
@@ -28,7 +32,7 @@ def _seed_examples(version):
     from .assistant import normalize
     from .assistant_training import Proposal, TrainingInput, TrainingTarget
     result = []
-    rows = [row for path in (CORPUS,INTERACTIONS,BEHAVIORAL) for row in json.loads(path.read_text(encoding='utf-8'))['examples']]
+    rows = [row for path in RUNTIME_CORPORA for row in json.loads(path.read_text(encoding='utf-8'))['examples']]
     for row in rows:
         if row['split']!='train': continue
         normalized, blocked = normalize(row['question'])
@@ -63,15 +67,15 @@ def retrieve(engine, staff_id, normalized, previous=None, use_memory=True):
         except SQLAlchemyError:
             available = False
     current = {**normalized,'previous':previous,'prior_contexts':[]}
-    current_words = set(normalized['safe_tokens'])-STOP
+    current_words = semantic_features(normalized)-STOP
     ranked = []
     for sample,target,origin in examples:
         if not compatible(target,normalized): continue
-        exact = signature(sample)==signature(current) and not normalized['has_unrecognized_words']
-        words = set(sample['safe_tokens'])-STOP
+        exact = signature(sample)==signature(current) and not normalized['has_unrecognized_words'] and not normalized.get('requires_scope_check')
+        words = semantic_features(sample)-STOP
         overlap = current_words & words
         score = len(overlap)/len(current_words|words) if current_words|words else 0
-        if exact or (len(overlap)>=2 and score>=0.35):
+        if exact or (overlap and score>=0.2):
             ranked.append((exact,origin=='reviewed_chat',score,sample,target,origin))
     ranked.sort(key=lambda row:row[:3],reverse=True)
     # Conflicting exact human labels must be clarified rather than chosen arbitrarily.
@@ -93,9 +97,17 @@ def retrieve(engine, staff_id, normalized, previous=None, use_memory=True):
             'exact':exact,'reviewed_matches':sum(row[1] for row in ranked[:3]),'available':available}
 
 
+def semantic_features(sample):
+    """Approved dictionary meanings reduce English/Taglish lexical mismatch."""
+    from .assistant_semantics import semantic_words
+    return semantic_words(sample) | {word for hint in sample.get('meaning_hints',[]) for word in hint.split()}
+
+
 def interpretation_choices(normalized, routing):
     """Two domain-specific readings only when a supported question is ambiguous."""
     words = set(normalized['safe_tokens'])
+    if normalized.get('requires_scope_check') and routing.topic in {'unsupported','knowledge','definition','social'}:
+        return []
     if words & {'define','definition','explain','meaning','means','calculate','calculated','paano'}:
         return []
     pair = None

@@ -47,7 +47,8 @@ def test_polling_is_authorized_repeatable_and_contains_no_player_identity(enviro
     assert admin.get('/api/admin/snapshot').json()['revision'] == revision
     for forbidden in ('DUMMY-', 'nickname', 'student', 'token', 'id_lookup', 'receipt_hash'):
         assert forbidden not in first.text
-    assert set(command) == {'id','type','sessionId','expectedRevision','expiresAt','rules','rulesHash'}
+    assert set(command) == {'id','type','deliverySequence','sessionId','expectedRevision','expiresAt','rules','rulesHash'}
+    assert type(command['deliverySequence']) is int and command['deliverySequence']>0
 
 
 def test_start_requires_durable_receipt_and_duplicate_ack_start_result_are_safe(environment):

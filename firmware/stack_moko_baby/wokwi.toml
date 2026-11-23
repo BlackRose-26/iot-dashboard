@@ -1,0 +1,4 @@
+[wokwi]
+version = 1
+firmware = "build/stack_moko_baby.ino.bin"
+elf = "build/stack_moko_baby.ino.elf"

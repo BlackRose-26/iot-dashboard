@@ -1,0 +1,630 @@
+{
+  "measured_at": "2026-11-19T20:40:23.737652+00:00",
+  "component": "raw local intent router before backend semantic resolution",
+  "model": "qwen3:4b-instruct",
+  "dataset": "backend/data/assistant-routing.json",
+  "dataset_sha256": "4b485f7b0a0a907b613195ebc24aff198cdf5436acff262f2447d2d2c6179145",
+  "runtime_corpus_sha256": "676863f7e9c370ac2e901caadf31cb0f55f27d3f259129ddc1470647694dd58c",
+  "split": "test",
+  "private_memory": false,
+  "database_access": false,
+  "n": 21,
+  "correct": 12,
+  "accuracy": 0.5714285714285714,
+  "per_label": {
+    "overview": {
+      "n": 1,
+      "correct": 1
+    },
+    "players": {
+      "n": 1,
+      "correct": 0
+    },
+    "queue": {
+      "n": 1,
+      "correct": 0
+    },
+    "machine": {
+      "n": 1,
+      "correct": 1
+    },
+    "scores": {
+      "n": 1,
+      "correct": 0
+    },
+    "levels": {
+      "n": 1,
+      "correct": 1
+    },
+    "trend": {
+      "n": 1,
+      "correct": 0
+    },
+    "top": {
+      "n": 1,
+      "correct": 0
+    },
+    "knowledge:gameplay": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:registration": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:queue_flow": {
+      "n": 1,
+      "correct": 0
+    },
+    "knowledge:architecture": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:dashboard": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:privacy": {
+      "n": 1,
+      "correct": 0
+    },
+    "knowledge:offline": {
+      "n": 1,
+      "correct": 0
+    },
+    "knowledge:results": {
+      "n": 1,
+      "correct": 0
+    },
+    "knowledge:assistant": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:memory": {
+      "n": 1,
+      "correct": 1
+    },
+    "knowledge:training": {
+      "n": 1,
+      "correct": 1
+    },
+    "definition:accuracy": {
+      "n": 1,
+      "correct": 1
+    },
+    "definition:win_rate": {
+      "n": 1,
+      "correct": 1
+    }
+  },
+  "confusion": [
+    {
+      "expected": "overview",
+      "predicted": "overview",
+      "count": 1
+    },
+    {
+      "expected": "players",
+      "predicted": "definition:accuracy",
+      "count": 1
+    },
+    {
+      "expected": "queue",
+      "predicted": "definition:accuracy",
+      "count": 1
+    },
+    {
+      "expected": "machine",
+      "predicted": "machine",
+      "count": 1
+    },
+    {
+      "expected": "scores",
+      "predicted": "definition:average_score",
+      "count": 1
+    },
+    {
+      "expected": "levels",
+      "predicted": "levels",
+      "count": 1
+    },
+    {
+      "expected": "trend",
+      "predicted": "players",
+      "count": 1
+    },
+    {
+      "expected": "top",
+      "predicted": "scores",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:gameplay",
+      "predicted": "knowledge:gameplay",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:registration",
+      "predicted": "knowledge:registration",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:queue_flow",
+      "predicted": "queue",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:architecture",
+      "predicted": "knowledge:architecture",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:dashboard",
+      "predicted": "knowledge:dashboard",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:privacy",
+      "predicted": "definition:privacy",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:offline",
+      "predicted": "machine",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:results",
+      "predicted": "knowledge:registration",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:assistant",
+      "predicted": "knowledge:assistant",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:memory",
+      "predicted": "knowledge:memory",
+      "count": 1
+    },
+    {
+      "expected": "knowledge:training",
+      "predicted": "knowledge:training",
+      "count": 1
+    },
+    {
+      "expected": "definition:accuracy",
+      "predicted": "definition:accuracy",
+      "count": 1
+    },
+    {
+      "expected": "definition:win_rate",
+      "predicted": "definition:win_rate",
+      "count": 1
+    }
+  ],
+  "limits": "Synthetic development regression, not blind real-user or end-to-end factual accuracy.",
+  "cases": [
+    {
+      "id": "overview-3",
+      "family": "overview-3",
+      "expected": "overview",
+      "predicted": "overview",
+      "correct": true,
+      "error": null,
+      "seconds": 0.2088,
+      "prompt_eval_count": 856,
+      "eval_count": 6,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [
+          "get_play_trend"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "players-6",
+      "family": "players-6",
+      "expected": "players",
+      "predicted": "definition:accuracy",
+      "correct": false,
+      "error": null,
+      "seconds": 0.2672,
+      "prompt_eval_count": 857,
+      "eval_count": 10,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [
+          "get_event_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "queue-3",
+      "family": "queue-3",
+      "expected": "queue",
+      "predicted": "definition:accuracy",
+      "correct": false,
+      "error": null,
+      "seconds": 0.2691,
+      "prompt_eval_count": 861,
+      "eval_count": 10,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [
+          "get_machine_summary",
+          "get_queue_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "machine-3",
+      "family": "machine-3",
+      "expected": "machine",
+      "predicted": "machine",
+      "correct": true,
+      "error": null,
+      "seconds": 0.5097,
+      "prompt_eval_count": 987,
+      "eval_count": 22,
+      "done_reason": "stop",
+      "retrieved_examples": 1,
+      "resolved_intent": {
+        "tools": [
+          "get_machine_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "scores-3",
+      "family": "scores-3",
+      "expected": "scores",
+      "predicted": "definition:average_score",
+      "correct": false,
+      "error": null,
+      "seconds": 0.3118,
+      "prompt_eval_count": 860,
+      "eval_count": 11,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [
+          "get_event_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "levels-3",
+      "family": "levels-3",
+      "expected": "levels",
+      "predicted": "levels",
+      "correct": true,
+      "error": null,
+      "seconds": 0.2168,
+      "prompt_eval_count": 872,
+      "eval_count": 6,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [
+          "get_level_statistics"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "trend-3",
+      "family": "trend-3",
+      "expected": "trend",
+      "predicted": "players",
+      "correct": false,
+      "error": null,
+      "seconds": 0.244,
+      "prompt_eval_count": 876,
+      "eval_count": 6,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [
+          "get_event_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "top-3",
+      "family": "top-3",
+      "expected": "top",
+      "predicted": "scores",
+      "correct": false,
+      "error": null,
+      "seconds": 0.2994,
+      "prompt_eval_count": 874,
+      "eval_count": 11,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [
+          "get_top_scores"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "knowledge-gameplay-3",
+      "family": "knowledge-gameplay-3",
+      "expected": "knowledge:gameplay",
+      "predicted": "knowledge:gameplay",
+      "correct": true,
+      "error": null,
+      "seconds": 0.2889,
+      "prompt_eval_count": 866,
+      "eval_count": 11,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "gameplay",
+        "clarify": false
+      }
+    },
+    {
+      "id": "knowledge-registration-3",
+      "family": "knowledge-registration-3",
+      "expected": "knowledge:registration",
+      "predicted": "knowledge:registration",
+      "correct": true,
+      "error": null,
+      "seconds": 0.364,
+      "prompt_eval_count": 969,
+      "eval_count": 10,
+      "done_reason": "stop",
+      "retrieved_examples": 1,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "registration",
+        "clarify": false
+      }
+    },
+    {
+      "id": "knowledge-queue_flow-3",
+      "family": "knowledge-queue_flow-3",
+      "expected": "knowledge:queue_flow",
+      "predicted": "queue",
+      "correct": false,
+      "error": null,
+      "seconds": 0.2175,
+      "prompt_eval_count": 860,
+      "eval_count": 6,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [
+          "get_queue_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "knowledge-architecture-3",
+      "family": "knowledge-architecture-3",
+      "expected": "knowledge:architecture",
+      "predicted": "knowledge:architecture",
+      "correct": true,
+      "error": null,
+      "seconds": 0.2661,
+      "prompt_eval_count": 862,
+      "eval_count": 10,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "architecture",
+        "clarify": false
+      }
+    },
+    {
+      "id": "knowledge-dashboard-3",
+      "family": "knowledge-dashboard-3",
+      "expected": "knowledge:dashboard",
+      "predicted": "knowledge:dashboard",
+      "correct": true,
+      "error": null,
+      "seconds": 0.4051,
+      "prompt_eval_count": 978,
+      "eval_count": 13,
+      "done_reason": "stop",
+      "retrieved_examples": 1,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "dashboard",
+        "clarify": false
+      }
+    },
+    {
+      "id": "knowledge-privacy-3",
+      "family": "knowledge-privacy-3",
+      "expected": "knowledge:privacy",
+      "predicted": "definition:privacy",
+      "correct": false,
+      "error": null,
+      "seconds": 0.2643,
+      "prompt_eval_count": 856,
+      "eval_count": 10,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "privacy",
+        "clarify": false
+      }
+    },
+    {
+      "id": "knowledge-offline-3",
+      "family": "knowledge-offline-3",
+      "expected": "knowledge:offline",
+      "predicted": "machine",
+      "correct": false,
+      "error": null,
+      "seconds": 0.6217,
+      "prompt_eval_count": 979,
+      "eval_count": 15,
+      "done_reason": "stop",
+      "retrieved_examples": 1,
+      "resolved_intent": {
+        "tools": [
+          "get_machine_summary"
+        ],
+        "definition": null,
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "knowledge-results-3",
+      "family": "knowledge-results-3",
+      "expected": "knowledge:results",
+      "predicted": "knowledge:registration",
+      "correct": false,
+      "error": null,
+      "seconds": 0.2959,
+      "prompt_eval_count": 869,
+      "eval_count": 10,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "registration",
+        "clarify": false
+      }
+    },
+    {
+      "id": "knowledge-assistant-3",
+      "family": "knowledge-assistant-3",
+      "expected": "knowledge:assistant",
+      "predicted": "knowledge:assistant",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3154,
+      "prompt_eval_count": 857,
+      "eval_count": 10,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "assistant",
+        "clarify": false
+      }
+    },
+    {
+      "id": "knowledge-memory-3",
+      "family": "knowledge-memory-3",
+      "expected": "knowledge:memory",
+      "predicted": "knowledge:memory",
+      "correct": true,
+      "error": null,
+      "seconds": 0.2956,
+      "prompt_eval_count": 864,
+      "eval_count": 10,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "memory",
+        "clarify": false
+      }
+    },
+    {
+      "id": "knowledge-training-3",
+      "family": "knowledge-training-3",
+      "expected": "knowledge:training",
+      "predicted": "knowledge:training",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3327,
+      "prompt_eval_count": 861,
+      "eval_count": 10,
+      "done_reason": "stop",
+      "retrieved_examples": 0,
+      "resolved_intent": {
+        "tools": [],
+        "definition": null,
+        "knowledge": "training",
+        "clarify": false
+      }
+    },
+    {
+      "id": "definition-accuracy-3",
+      "family": "definition-accuracy-3",
+      "expected": "definition:accuracy",
+      "predicted": "definition:accuracy",
+      "correct": true,
+      "error": null,
+      "seconds": 0.3666,
+      "prompt_eval_count": 964,
+      "eval_count": 13,
+      "done_reason": "stop",
+      "retrieved_examples": 1,
+      "resolved_intent": {
+        "tools": [],
+        "definition": "accuracy",
+        "knowledge": null,
+        "clarify": false
+      }
+    },
+    {
+      "id": "definition-win_rate-3",
+      "family": "definition-win_rate-3",
+      "expected": "definition:win_rate",
+      "predicted": "definition:win_rate",
+      "correct": true,
+      "error": null,
+      "seconds": 0.4537,
+      "prompt_eval_count": 1081,
+      "eval_count": 14,
+      "done_reason": "stop",
+      "retrieved_examples": 2,
+      "resolved_intent": {
+        "tools": [],
+        "definition": "win_rate",
+        "knowledge": null,
+        "clarify": false
+      }
+    }
+  ]
+}

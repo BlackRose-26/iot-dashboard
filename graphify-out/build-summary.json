@@ -1,30 +1,30 @@
 {
-  "nodes": 1236,
-  "edges": 3313,
-  "communities": 60,
+  "nodes": 1729,
+  "edges": 5214,
+  "communities": 81,
   "health": {
-    "node_count": 1178,
+    "node_count": 1654,
     "unverified_node_count": 0,
-    "raw_edge_count": 3451,
+    "raw_edge_count": 5446,
     "non_object_edges": 0,
     "missing_endpoint_edges": 0,
-    "dangling_endpoint_edges": 257,
-    "external_reference_edges": 10,
-    "self_loop_edges": 3,
-    "valid_candidate_edges": 3184,
-    "exact_duplicate_edges": 0,
-    "directed_unique_endpoint_pairs": 3048,
-    "directed_same_endpoint_collapsed_edges": 136,
-    "undirected_unique_endpoint_pairs": 3047,
-    "undirected_same_endpoint_collapsed_edges": 137,
-    "same_endpoint_group_count": 136,
-    "relation_variant_groups": 132,
+    "dangling_endpoint_edges": 616,
+    "external_reference_edges": 12,
+    "self_loop_edges": 4,
+    "valid_candidate_edges": 4818,
+    "exact_duplicate_edges": 1,
+    "directed_unique_endpoint_pairs": 4602,
+    "directed_same_endpoint_collapsed_edges": 216,
+    "undirected_unique_endpoint_pairs": 4598,
+    "undirected_same_endpoint_collapsed_edges": 220,
+    "same_endpoint_group_count": 215,
+    "relation_variant_groups": 207,
     "source_file_variant_groups": 0,
-    "source_location_variant_groups": 4,
+    "source_location_variant_groups": 7,
     "context_variant_groups": 0,
     "post_build_graph_type": "DiGraph",
-    "post_build_node_count": 1236,
-    "post_build_edge_count": 3313,
+    "post_build_node_count": 1729,
+    "post_build_edge_count": 5214,
     "post_build_error": "",
     "producer_suppression": {
       "path": "D:\\iot-dashboard\\.tools\\graphify-py313\\Lib\\site-packages\\graphify\\extract.py",
@@ -107,6 +107,29 @@
     },
     "examples": [
       {
+        "source": "backend_nlp_lab_models_fit_temperature",
+        "target": "backend_nlp_lab_models_fit_temperature_loss",
+        "edge_count": 3,
+        "relations": [
+          "calls",
+          "contains",
+          "indirect_call"
+        ],
+        "source_files": [
+          "backend/nlp_lab/models.py"
+        ],
+        "source_locations": [
+          "L65",
+          "L66",
+          "L68"
+        ],
+        "contexts": [
+          "",
+          "argument",
+          "call"
+        ]
+      },
+      {
         "source": "backend_app_assistant_compose",
         "target": "backend_app_assistant_compose_add",
         "edge_count": 2,
@@ -118,8 +141,8 @@
           "backend/app/assistant.py"
         ],
         "source_locations": [
-          "L518",
-          "L523"
+          "L652",
+          "L657"
         ],
         "contexts": [
           "",
@@ -138,8 +161,8 @@
           "backend/app/assistant.py"
         ],
         "source_locations": [
-          "L520",
-          "L528"
+          "L654",
+          "L662"
         ],
         "contexts": [
           "",
@@ -158,8 +181,8 @@
           "backend/app/assistant.py"
         ],
         "source_locations": [
-          "L792",
-          "L803"
+          "L926",
+          "L937"
         ],
         "contexts": [
           "",
@@ -178,32 +201,12 @@
           "backend/app/assistant.py"
         ],
         "source_locations": [
-          "L975",
-          "L982"
+          "L1187",
+          "L1194"
         ],
         "contexts": [
           "",
           "call"
-        ]
-      },
-      {
-        "source": "backend_app_assistant_interactions_social_spelling",
-        "target": "backend_app_assistant_interactions_social_spelling_replace",
-        "edge_count": 2,
-        "relations": [
-          "contains",
-          "indirect_call"
-        ],
-        "source_files": [
-          "backend/app/assistant_interactions.py"
-        ],
-        "source_locations": [
-          "L18",
-          "L26"
-        ],
-        "contexts": [
-          "",
-          "argument"
         ]
       }
     ]

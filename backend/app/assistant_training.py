@@ -10,6 +10,8 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_valida
 from .assistant import Context, Definition, DEFINITIONS, NORMALIZATION_VERSION, POLICY, PROMPT, RoutingPlan, TAGLISH_HINTS, VOCABULARY, normalize
 from .assistant_knowledge import KNOWLEDGE, Knowledge, Social
 from .analytics import Period, ChatSource
+from .assistant_language import ALIASES, CONTRACTIONS
+from .assistant_language import lexical_resource
 from .database import all_rows, execute, one
 
 
@@ -19,6 +21,7 @@ class TrainingInput(BaseModel):
     level_number: int | None = Field(default=None, ge=1, le=12)
     top_number: int | None = Field(default=None, ge=1, le=10)
     has_unrecognized_words: bool = False
+    requires_scope_check: bool = False
     system_topic_hint: Knowledge | None = None
     language_hint: Literal['en','taglish'] = 'en'
     meaning_hints: list[str] = Field(default_factory=list, max_length=50)
@@ -89,6 +92,8 @@ def canonical(value):
 def context_version():
     from .assistant_learning import corpus_digest
     public = {'policy':POLICY,'normalizer':NORMALIZATION_VERSION,'prompt':PROMPT,'knowledge':KNOWLEDGE,'definitions':DEFINITIONS,'vocabulary':sorted(VOCABULARY),
+              'language_aliases':ALIASES,'language_contractions':CONTRACTIONS,
+              'public_lexicon_sha256':lexical_resource()[1],
               'routing_corpus':corpus_digest(),
               'input_schema':TrainingInput.model_json_schema(),'target_schema':RoutingPlan.model_json_schema()}
     return hashlib.sha256(canonical(public).encode()).hexdigest()

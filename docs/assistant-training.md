@@ -68,3 +68,7 @@ Current approved owner examples now help route future questions when memory is e
 ## Controls relocated — 18 November 2026
 
 Review management now lives in `/admin/settings`. Use **Review last eligible answer** to inspect the current volatile sanitized candidate, then save pending and approve separately in **Training examples**. Chat no longer contains per-answer review buttons. Reloading the workspace can discard an unselected candidate; persisted pending/approved examples remain in the owner’s review queue. See [request grounding and Settings](nlp-grounding-research.md).
+
+## Planned evaluation case review page — 21 November 2026
+
+The user requested a separate administrator page where reviewers can inspect every evaluation case instead of working from files. Show each question, proposed classification, typed previous context and expected behavior/state, with clear explanations, confirm/correct/reject controls, notes, versioned decisions, case navigation and review-progress filters. Keep evaluation cases separate from owner-approved chat training examples; approval must not send held-out prompts into runtime retrieval or training. Keep predictions hidden during pre-evaluation label review. Corrections after first use must retain the original result and create a separate annotation version. No actual player identities, private chats or credentials belong in this interface. This is a later milestone, not an implemented page.

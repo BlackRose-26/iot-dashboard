@@ -42,3 +42,7 @@ training-artifacts/
 *.pth
 pytorch_model.bin
 adapter_model.bin
+firmware/**/config.h
+firmware/**/build/
+*.elf
+*.bin

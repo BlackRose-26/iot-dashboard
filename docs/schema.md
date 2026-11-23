@@ -2,6 +2,16 @@
 
 # Stack Moko Baby — MySQL data model
 
+## Matrix rules extension — 22 November 2026
+
+`006_matrix_rules.sql` adds immutable `matrix-v1` to `rulesets` and selects it through `events.settings.active_ruleset`. No identity, placement or score columns are replaced. Each new `game_sessions.ruleset_id` is chosen at assignment; completion/recovery loads that exact stored configuration/hash. Classic v1 results retain their earlier scoring, and competitive reads filter by ruleset/source. `device_commands.id` is also exposed to its authenticated cabinet as monotonic `deliverySequence`, enabling a durable firmware rejection watermark without exposing player identity. See [ESP32/online operation](esp32-online.md).
+
+## Current recovery extension — 20 November 2026
+
+Migration `005_device_recovery.sql` adds `device_boots` (current boot uniqueness, predecessor and persistent storage epoch, monotonic sequence/uptime), `device_journal_events` (immutable event/boot-sequence receipts, command/session binding, original validated trace and safe retry response), and `device_recovery_conflicts` (rejected event fingerprint and investigation reason). Commands gain accepted/target boot foreign keys and accepted uptime, and support the `fence` type. Sessions gain a quarantine flag. No identity columns are added; these operational tables must never be exported into model context or Graphify inputs.
+
+Original journal rows are never rewritten by recovery. Guarded closure/result recovery updates the existing session/ticket in one transaction with an audit row, idempotency receipt and live invalidation. Public player responses exclude boot/storage IDs, command receipts and journal payloads. See [the implemented recovery contract](device-recovery.md). The older candidate schema.sql remains a proposal; ordered backend migrations are authoritative for the running application.
+
 15 November 2026 · Candidate DDL: [schema.sql](schema.sql). Target: **XAMPP MySQL service — installed MariaDB 10.11.16**, InnoDB, utf8mb4 with `utf8mb4_unicode_ci`. See verification.md for earlier isolated schema checks. The additive assistant-memory migration was applied locally on 18 November; existing player/game records were not read or changed by that migration. Versioned SQL files in `backend/migrations` are authoritative for the current local implementation; keep this reference synchronized with them. The older Alembic recommendation is superseded for this implementation.
 
 ## 1. Conventions

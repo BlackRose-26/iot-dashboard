@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { useApp } from '../state/AppContext'
+import { gameLabel } from '../state/game'
 import { api } from '../state/api'
 import { Card, CardHeader, PageHeading, Badge, Button, InfoNote, Modal } from '../components/ui'
 import { Matrix, stateLabels } from '../components/LiveRound'
 import { Radio, Layers3 } from '../components/icons'
+import DeviceRecovery from '../components/DeviceRecovery'
 
 export function DeviceCommands() {
   const { deviceCommands = [], currentPlayer, admin, refresh, notify, busy } = useApp()
@@ -55,7 +57,8 @@ export function DeviceCommands() {
       </dl>
       <p className="field-help">
         Pending means saved, accepted means the device recorded a receipt, and applied means the
-        server recorded the start. These states do not verify physical hardware.
+        server recorded the start (or a stop receipt for a fence command). These states do not
+        verify physical hardware.
       </p>
       {physical && currentPlayer.reviewRequired && (
         <InfoNote>
@@ -170,7 +173,7 @@ export function SimulatorControls() {
   )
 }
 export default function Machines() {
-  const { machineState, machine, currentPlayer } = useApp()
+  const { machineState, machine, currentPlayer, game } = useApp()
   const simulated = machine.health?.source === 'simulator'
   return (
     <>
@@ -185,7 +188,7 @@ export default function Machines() {
             subtitle="ESP32 · LED matrix · physical button"
             icon={Layers3}
           />
-          <Matrix large level={0} />
+          <Matrix large level={0} columns={game?.columns} levels={game?.levels} />
           <p className="field-help">Board illustration. Live row telemetry is not connected.</p>
         </Card>
         <Card>
@@ -222,7 +225,7 @@ export default function Machines() {
             </div>
             <div>
               <dt>Ruleset</dt>
-              <dd>Classic v1 · proposed</dd>
+              <dd>{gameLabel(game)} · play-testing pending</dd>
             </div>
           </dl>
         </Card>
@@ -233,6 +236,7 @@ export default function Machines() {
           : 'A fresh device heartbeat is required before calling a player. Missing readings remain unknown.'}
       </InfoNote>
       <DeviceCommands />
+      <DeviceRecovery />
       <SimulatorControls />
     </>
   )

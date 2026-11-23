@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useApp } from '../state/AppContext'
 import { Logo, Card, Button, IconButton } from '../components/ui'
 
@@ -17,11 +17,13 @@ export function ThemeSwitch() {
 export default function AdminLogin() {
   const { admin, login, connectionError } = useApp()
   const navigate = useNavigate()
+  const destination =
+    useLocation().state?.reviewQuestions === true ? '/admin/question-review' : '/admin/overview'
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
-  if (admin) return <Navigate to="/admin/overview" replace />
+  if (admin) return <Navigate to={destination} replace />
   async function submit(event) {
     event.preventDefault()
     setSubmitting(true)
@@ -29,7 +31,7 @@ export default function AdminLogin() {
     try {
       await login(username, password)
       setPassword('')
-      navigate('/admin/overview', { replace: true })
+      navigate(destination, { replace: true })
     } catch (e) {
       setError(e.message)
       setPassword('')
@@ -51,13 +53,13 @@ export default function AdminLogin() {
           <span className="eyebrow">OPERATOR ACCESS</span>
           <h1>Welcome back.</h1>
           <p>Sign in to manage the carnival.</p>
-          <form onSubmit={submit} aria-label="Admin sign in">
+          <form className="tw:min-w-0" onSubmit={submit} aria-label="Admin sign in">
             <label className="field-label" htmlFor="admin-username">
               Username
             </label>
             <input
               id="admin-username"
-              className="text-input"
+              className="text-input tw:w-full tw:text-ink"
               autoComplete="username"
               required
               maxLength={80}
@@ -70,7 +72,7 @@ export default function AdminLogin() {
             </label>
             <input
               id="admin-password"
-              className="text-input"
+              className="text-input tw:w-full tw:text-ink"
               type="password"
               autoComplete="current-password"
               required

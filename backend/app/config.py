@@ -27,6 +27,20 @@ class Settings:
     @classmethod
     def load(cls):
         load_dotenv(BACKEND / '.env')
+        public_url=os.getenv('STACK_PUBLIC_URL') or os.getenv('RENDER_EXTERNAL_URL') or 'http://127.0.0.1:5173'
+        database_url=os.getenv('STACK_DATABASE_URL')
+        if not database_url:
+            from sqlalchemy.engine import URL
+            database_url=URL.create('mysql+pymysql',username='stack_moko_app',
+                password=os.environ['STACK_DB_PASSWORD'],host=os.environ['STACK_DB_HOST'],
+                port=3306,database='stack_moko_baby',query={'charset':'utf8mb4'}).render_as_string(hide_password=False)
+        if os.getenv('STACK_ENV','development') != 'development':
+            from urllib.parse import urlsplit
+            public=urlsplit(public_url)
+            if (public.scheme!='https' or not public.hostname or public.username or public.password
+                    or public.path not in ('','/') or public.query or public.fragment
+                    or os.getenv('STACK_COOKIE_SECURE','false').lower()!='true'):
+                raise RuntimeError('Production needs an HTTPS public origin and secure cookies.')
         def key(name):
             value = os.environ.get(name)
             if not value:
@@ -36,12 +50,12 @@ class Settings:
                 raise RuntimeError('Invalid backend key configuration.')
             return result
         return cls(
-            database_url=os.environ['STACK_DATABASE_URL'],
+            database_url=database_url,
             identity_key=key('STACK_IDENTITY_KEY'),
             lookup_key=key('STACK_LOOKUP_KEY'),
             csrf_key=key('STACK_CSRF_KEY'),
             device_token=os.environ['STACK_DEVICE_TOKEN'],
-            public_url=os.getenv('STACK_PUBLIC_URL', 'http://127.0.0.1:5173').rstrip('/'),
+            public_url=public_url.rstrip('/'),
             cookie_secure=os.getenv('STACK_COOKIE_SECURE', 'false').lower() == 'true',
             simulator_enabled=os.getenv('STACK_SIMULATOR_ENABLED', 'true').lower() == 'true',
             development=os.getenv('STACK_ENV', 'development') == 'development',

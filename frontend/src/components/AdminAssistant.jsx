@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useApp } from '../state/AppContext'
 import { api } from '../state/api'
+import QuestionReview from '../pages/QuestionReview'
+import AssistantTrainingReview from './AssistantTrainingReview'
 import { useAssistant } from '../state/AssistantContext'
 
 const answerLabels = {
@@ -119,7 +121,7 @@ function Symbol({ name }) {
   return <i className={`fa-solid fa-${name}`} aria-hidden="true" />
 }
 
-export default function AdminAssistant() {
+export default function AdminAssistant({ onReviewPage = false }) {
   const { admin, refresh } = useApp()
   const {
     useMemory,
@@ -135,6 +137,9 @@ export default function AdminAssistant() {
     setCandidate,
   } = useAssistant()
   const [open, setOpen] = useState(false)
+  const [reviewMode, setReviewing] = useState(false)
+  const reviewing = reviewMode && !onReviewPage
+  const [replyForReview, setReplyForReview] = useState(null)
   const [draft, setDraft] = useState('')
   const [messages, setMessages] = useState([])
   const launcher = useRef(null)
@@ -188,18 +193,18 @@ export default function AdminAssistant() {
   )
 
   useEffect(() => {
-    if (open && !pending) input.current?.focus({ preventScroll: true })
+    if (open && !reviewing && !pending) input.current?.focus({ preventScroll: true })
     else if (!open && returnFocus.current) {
       launcher.current?.focus()
       returnFocus.current = false
     }
-  }, [open, pending])
+  }, [open, reviewing, pending])
 
   useEffect(() => {
     if (open && transcript.current) {
       transcript.current.scrollTop = messages.length ? transcript.current.scrollHeight : 0
     }
-  }, [open, messages])
+  }, [open, reviewing, messages])
 
   function minimize() {
     returnFocus.current = true
@@ -288,7 +293,7 @@ export default function AdminAssistant() {
       className={`admin-assistant${open ? ' is-open' : ''}`}
       aria-label="Stack Intelligence assistant"
       onKeyDown={(event) => {
-        if (open && event.key === 'Escape') {
+        if (open && !replyForReview && event.key === 'Escape') {
           event.stopPropagation()
           minimize()
         }
@@ -327,25 +332,34 @@ export default function AdminAssistant() {
           </span>
           <div className="assistant-heading">
             <h2 id="assistant-title">Stack Intelligence</h2>
-            <p>Your event, in conversation.</p>
+            <button
+              type="button"
+              className="text-button tw:mt-1 tw:min-h-8 tw:text-sm"
+              aria-pressed={reviewing}
+              onClick={() => (onReviewPage ? minimize() : setReviewing(!reviewing))}
+            >
+              {reviewing ? 'Back to chat' : 'Review practice questions'}
+            </button>
           </div>
-          <button
-            type="button"
-            className="assistant-tool"
-            aria-label="Clear conversation"
-            title="New conversation"
-            onClick={() => {
-              cancel()
-              restoreMemory.current = false
-              setMessages([])
-              setDraft('')
-              setContext(null)
-              setLastRequest(null)
-              input.current?.focus()
-            }}
-          >
-            <Symbol name="rotate-left" />
-          </button>
+          {!reviewing && (
+            <button
+              type="button"
+              className="assistant-tool"
+              aria-label="Clear conversation"
+              title="New conversation"
+              onClick={() => {
+                cancel()
+                restoreMemory.current = false
+                setMessages([])
+                setDraft('')
+                setContext(null)
+                setLastRequest(null)
+                input.current?.focus()
+              }}
+            >
+              <Symbol name="rotate-left" />
+            </button>
+          )}
           <button
             type="button"
             className="assistant-tool"
@@ -357,152 +371,187 @@ export default function AdminAssistant() {
           </button>
         </header>
 
-        {service.reason === 'warming' && (
-          <p className="assistant-loading-note" role="status">
-            Loading event analysis; first use can take up to two minutes. You can still say hello or
-            ask what I can help with while it loads.
-          </p>
-        )}
-
-        <div
-          className="assistant-transcript"
-          ref={transcript}
-          role="region"
-          aria-label="Conversation and suggested questions"
-          tabIndex={0}
-        >
-          {!messages.length && (
-            <div className="assistant-welcome">
-              <span className="eyebrow">LET’S TALK ABOUT YOUR EVENT</span>
-              <h3>Hi! How can I help?</h3>
-              <p>Say hello, ask a quick question, or choose something below to get started.</p>
-              <div className="assistant-suggestions" aria-label="Suggested questions">
-                {suggestions.map(({ icon, label, question }) => (
-                  <button key={label} type="button" onClick={() => chooseQuestion(question)}>
-                    <Symbol name={icon} />
-                    <span>
-                      <strong>{label}</strong>
-                      <span>{question}</span>
-                    </span>
-                    <Symbol name="arrow-up-right-from-square" />
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          <div
-            className="assistant-messages"
-            role="log"
-            aria-label="Conversation"
-            aria-live="polite"
-            aria-relevant="additions"
+        {reviewing ? (
+          <section
+            className="tw:min-h-0 tw:flex-1 tw:overflow-y-auto tw:overscroll-contain tw:p-3"
+            aria-label="Practice question review"
           >
-            {messages.map((message) => (
-              <div key={message.id} className={`assistant-message is-${message.role}`}>
-                <span className="assistant-message-author">
-                  {message.role === 'user'
-                    ? 'You'
-                    : `Stack Intelligence · ${answerLabels[message.response?.status] || 'Connection problem'}`}
-                </span>
-                <p>{message.text}</p>
-                {message.response?.interpretations?.length === 2 && (
-                  <div
-                    className="assistant-interpretations"
-                    aria-label="Choose the intended meaning"
-                  >
-                    {message.response.interpretations.map((option) => (
-                      <button
-                        type="button"
-                        key={option.question}
-                        disabled={pending || memoryBusy}
-                        onClick={() =>
-                          void send({
-                            question: option.question,
-                            previous: context,
-                            use_memory: useMemory,
-                          })
-                        }
-                      >
-                        {option.label}
+            <QuestionReview embedded />
+          </section>
+        ) : (
+          <>
+            {service.reason === 'warming' && (
+              <p className="assistant-loading-note" role="status">
+                Loading event analysis; first use can take up to two minutes. You can still say
+                hello or ask what I can help with while it loads.
+              </p>
+            )}
+
+            <div
+              className="assistant-transcript"
+              ref={transcript}
+              role="region"
+              aria-label="Conversation and suggested questions"
+              tabIndex={0}
+            >
+              {!messages.length && (
+                <div className="assistant-welcome">
+                  <span className="eyebrow">LET’S TALK ABOUT YOUR EVENT</span>
+                  <h3>Hi! How can I help?</h3>
+                  <p>Say hello, ask a quick question, or choose something below to get started.</p>
+                  <div className="assistant-suggestions" aria-label="Suggested questions">
+                    {suggestions.map(({ icon, label, question }) => (
+                      <button key={label} type="button" onClick={() => chooseQuestion(question)}>
+                        <Symbol name={icon} />
+                        <span>
+                          <strong>{label}</strong>
+                          <span>{question}</span>
+                        </span>
+                        <Symbol name="arrow-up-right-from-square" />
                       </button>
                     ))}
                   </div>
-                )}
-                {message.response?.as_of && (
-                  <small className="assistant-caveat">{message.response.scope_label}</small>
-                )}
-                {message.response?.as_of && <Evidence response={message.response} />}
-                {message.response?.knowledge_sources?.map((source) => (
-                  <small className="assistant-caveat" key={source.document}>
-                    System guide · {source.title}
-                  </small>
+                </div>
+              )}
+              <div
+                className="assistant-messages"
+                role="log"
+                aria-label="Conversation"
+                aria-live="polite"
+                aria-relevant="additions"
+              >
+                {messages.map((message) => (
+                  <div key={message.id} className={`assistant-message is-${message.role}`}>
+                    <span className="assistant-message-author">
+                      {message.role === 'user'
+                        ? 'You'
+                        : `Stack Intelligence · ${answerLabels[message.response?.status] || 'Connection problem'}`}
+                    </span>
+                    <p>{message.text}</p>
+                    {message.response?.interpretations?.length === 2 && (
+                      <div
+                        className="assistant-interpretations"
+                        aria-label="Choose the intended meaning"
+                      >
+                        {message.response.interpretations.map((option) => (
+                          <button
+                            type="button"
+                            key={option.question}
+                            disabled={pending || memoryBusy}
+                            onClick={() =>
+                              void send({
+                                question: option.question,
+                                previous: context,
+                                use_memory: useMemory,
+                              })
+                            }
+                          >
+                            {option.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    {message.response?.as_of && (
+                      <small className="assistant-caveat">{message.response.scope_label}</small>
+                    )}
+                    {message.response?.review_candidate && (
+                      <button
+                        type="button"
+                        className="text-button tw:mt-2 tw:min-h-8"
+                        onClick={() => setReplyForReview(message.response.review_candidate)}
+                      >
+                        Review this reply
+                      </button>
+                    )}
+                    {message.response?.as_of && <Evidence response={message.response} />}
+                    {message.response?.knowledge_sources?.map((source) => (
+                      <small className="assistant-caveat" key={source.document}>
+                        System guide · {source.title}
+                      </small>
+                    ))}
+                  </div>
                 ))}
               </div>
-            ))}
-          </div>
-          {pending && (
-            <p className="assistant-pending" role="status">
-              Thinking…
-            </p>
-          )}
-        </div>
+              {pending && (
+                <p className="assistant-pending" role="status">
+                  Thinking…
+                </p>
+              )}
+            </div>
 
-        <form className="assistant-composer" onSubmit={submit}>
-          <label className="sr-only" htmlFor="assistant-question">
-            Ask Stack Intelligence
-          </label>
-          <div className="assistant-input-wrap">
-            <textarea
-              id="assistant-question"
-              ref={input}
-              value={draft}
-              disabled={pending}
-              onChange={(event) => setDraft(event.target.value)}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) {
-                  event.preventDefault()
-                  event.currentTarget.form.requestSubmit()
-                }
-              }}
-              rows={2}
-              maxLength={1000}
-              placeholder="Say hello, or ask about your event…"
-              aria-describedby="assistant-composer-help"
-            />
-            <button
-              className="assistant-send"
-              type="submit"
-              disabled={!draft.trim() || pending}
-              aria-label="Send question"
-              title="Send question"
-            >
-              <Symbol name="arrow-up" />
-            </button>
-          </div>
-          <div className="assistant-composer-meta" id="assistant-composer-help">
-            <span>
-              Read-only · English / Taglish · Keep student IDs and credentials out of chat.
-            </span>
-            <span>{draft.length}/1,000</span>
-          </div>
-          {pending ? (
-            <button type="button" className="text-button" onClick={cancel}>
-              Cancel request · keep draft
-            </button>
-          ) : (
-            lastRequest && (
-              <button
-                type="button"
-                className="text-button"
-                disabled={!service.available}
-                onClick={() => void send(lastRequest, true)}
-              >
-                Retry last question
-              </button>
-            )
-          )}
-        </form>
+            <form className="assistant-composer" onSubmit={submit}>
+              <label className="sr-only" htmlFor="assistant-question">
+                Ask Stack Intelligence
+              </label>
+              <div className="assistant-input-wrap">
+                <textarea
+                  id="assistant-question"
+                  ref={input}
+                  value={draft}
+                  disabled={pending}
+                  onChange={(event) => setDraft(event.target.value)}
+                  onKeyDown={(event) => {
+                    if (
+                      event.key === 'Enter' &&
+                      !event.shiftKey &&
+                      !event.nativeEvent.isComposing
+                    ) {
+                      event.preventDefault()
+                      event.currentTarget.form.requestSubmit()
+                    }
+                  }}
+                  rows={2}
+                  maxLength={1000}
+                  placeholder="Say hello, or ask about your event…"
+                  aria-describedby="assistant-composer-help"
+                />
+                <button
+                  className="assistant-send"
+                  type="submit"
+                  disabled={!draft.trim() || pending}
+                  aria-label="Send question"
+                  title="Send question"
+                >
+                  <Symbol name="arrow-up" />
+                </button>
+              </div>
+              <div className="assistant-composer-meta" id="assistant-composer-help">
+                <span>
+                  Read-only · English / Taglish · Keep student IDs and credentials out of chat.
+                </span>
+                <span>{draft.length}/1,000</span>
+              </div>
+              {pending ? (
+                <button type="button" className="text-button" onClick={cancel}>
+                  Cancel request · keep draft
+                </button>
+              ) : (
+                lastRequest && (
+                  <button
+                    type="button"
+                    className="text-button"
+                    disabled={!service.available}
+                    onClick={() => void send(lastRequest, true)}
+                  >
+                    Retry last question
+                  </button>
+                )
+              )}
+            </form>
+          </>
+        )}
       </section>
+      {replyForReview && (
+        <AssistantTrainingReview
+          open
+          singleReply
+          candidate={replyForReview}
+          csrf={admin?.csrf}
+          onOpenChange={(shown) => {
+            if (!shown) setReplyForReview(null)
+          }}
+        />
+      )}
     </aside>
   )
 }

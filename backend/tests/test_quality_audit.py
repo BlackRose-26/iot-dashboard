@@ -7,6 +7,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from app.analytics import collect
+from app.assistant import Assistant
 from app.database import execute
 from app.game import replay, simulated_result
 from test_player_flow import environment, join, post, entry_payload
@@ -16,12 +17,16 @@ from test_player_flow import environment, join, post, entry_payload
     'Show the football score.', 'How many cryptocurrency players registered?'])
 def test_unknown_subject_cannot_be_replaced_with_event_data(environment,monkeypatch,question):
     app,admin,token,engine,settings=environment
-    async def forbidden(*args,**kwargs): pytest.fail('Unknown subjects must be clarified before model routing')
-    monkeypatch.setattr('app.assistant.model_json',forbidden)
+    async def ready(*args,**kwargs): return {'available':True}
+    async def scope_only(settings,payload,*args,**kwargs):
+        assert set(payload['format']['properties'])=={'scope'},'A foreign subject must stop before intent routing'
+        return {'message':{'content':'{"scope":"unsupported"}'}}
+    monkeypatch.setattr(Assistant,'status',ready)
+    monkeypatch.setattr('app.assistant.model_json',scope_only)
     monkeypatch.setattr('app.assistant.collect_all',lambda *a,**k:pytest.fail('No data for an unknown subject'))
     response=admin.post('/api/admin/assistant/query',json={'question':question,'use_memory':False})
     assert response.status_code==200
-    assert response.json()['reason']=='unrecognized_context'
+    assert response.json()['reason'] in {'unrecognized_context','system_scope'}
     assert response.json()['status']=='needs_clarification' and response.json()['context']['tools']==[]
 
 

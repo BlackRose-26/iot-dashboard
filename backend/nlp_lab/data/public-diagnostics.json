@@ -1,0 +1,25 @@
+{
+  "provenance": "Developer-authored public synthetic wording probes, manually checked for absence of identity values. DEVELOPMENT diagnostic only; not independent human gold or training data. Does not authorize arbitrary raw runtime questions.",
+  "examples": [
+    {"id":"wording-01","question":"Give me a birdseye look at our carnival.","label":"overview"},
+    {"id":"wording-02","question":"How many peeps have enrolled?","label":"players"},
+    {"id":"wording-03","question":"How long's the line of waiting contestants?","label":"queue"},
+    {"id":"wording-04","question":"Is our ESP32 alive and chatty?","label":"machine"},
+    {"id":"wording-05","question":"Couldya list the points each participant earned?","label":"scores"},
+    {"id":"wording-06","question":"Which row trips up players most?","label":"levels"},
+    {"id":"wording-07","question":"When does traffic at the booth ramp up?","label":"trend"},
+    {"id":"wording-08","question":"Who's ahead on points?","label":"top"},
+    {"id":"wording-09","question":"Break down how the scoring math works.","label":"definition:scoring"},
+    {"id":"wording-10","question":"How do folk get through signup?","label":"knowledge:registration"},
+    {"id":"wording-11","question":"Hellooo, goodafternoon!","label":"social:greeting"},
+    {"id":"wording-12","question":"Same stats, yday please.","label":"follow_up","previous":{"tools":["get_player_scores"],"period":"event_to_date","source":"simulator"}},
+    {"id":"wording-13","question":"What's everyone's combined point tally?","label":"scores"},
+    {"id":"wording-14","question":"Pasilip ng puntos ng bawat sumali.","label":"scores"},
+    {"id":"wording-15","question":"Kumusta yung koneksyon ng ating makina?","label":"machine"},
+    {"id":"wording-16","question":"Paexplain kung paano nagkakaroon ng queue ticket.","label":"knowledge:queue_flow"},
+    {"id":"wording-17","question":"Anu-anong screens ang para sa administrator?","label":"knowledge:dashboard"},
+    {"id":"wording-18","question":"How is the chat's recollection kept private?","label":"knowledge:memory"},
+    {"id":"wording-19","question":"Can you shorten the preceding explanation?","label":"follow_up","previous":{"knowledge":"registration"}},
+    {"id":"wording-20","question":"Maraming salamat sa tulong mo, assistant!","label":"social:thanks"}
+  ]
+}

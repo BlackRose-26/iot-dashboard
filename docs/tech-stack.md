@@ -2,6 +2,26 @@
 
 # Stack Moko Baby — tech stack and architecture
 
+**Latest hosting choice, 22 November:** [free PC/XAMPP + HTTPS tunnel](free-online.md) supersedes the earlier Render activation choice. React/API share the temporary HTTPS origin while MariaDB and Ollama stay on loopback/local services. `npm run online:firmware` builds a private image for the new hostname. Render files remain inactive; actual connected Wokwi and physical acceptance require their own evidence.
+
+## Current device and hosting decision — 22 November 2026
+
+The user selected **Matrix v1** (16 columns, 15 levels, one point per successful level, maximum 15) from the supplied ESP32 sketch, currently in Wokwi. [Connected firmware and online operation](esp32-online.md) supersedes older Classic-only/panel proposals below. FastAPI binds each assignment to an immutable stored ruleset and validates the terminal trace against that version; dashboard/AI analytics and leaderboards keep ruleset cohorts separate. Local timing and physical input remain on ESP32; queue assignment and accepted scores remain transactional backend work.
+
+The active free setup builds React and serves it with FastAPI from one HTTPS tunnel origin. XAMPP MariaDB and local Ollama remain on this PC. The root Dockerfile and `render.yaml` are an inactive paid-hosting alternative: one API instance, private persistent MariaDB and AI disabled until a separate secure connection is designed. Local XAMPP/Ollama would not become Render loopback services. Cloud creation and the Docker deployment remain unrun and unauthorized for billing.
+
+## NLP language and scope repair — 20 November 2026
+
+[The current NLP pipeline](nlp-routing-repair.md) uses a bundled filtered English/Tagalog word resource, privacy-preserving lexical projection, a separate local Ollama scope decision for broader wording, then schema-constrained intent routing. Familiar explicit requests use deterministic read-only analytics/context without waiting for model inference. A broader request rejected by scope never reaches analytics; keywords cannot override that rejection. Both model stages share the 4,096-token allocation and existing 20-second deadline. NLTK 3.9.2 is a build-tool dependency only; application installation has no new Python dependency or runtime dictionary download. WordNet/Wiktionary licensing and resource hashes accompany the bundled asset. Frozen tests remain outside runtime retrieval and Graphify; consumed replays are regression evidence only.
+
+## Confirmed frontend styling — 20 November 2026
+
+The user selected **React.js with JavaScript/JSX and Tailwind CSS**. The existing React app now compiles pinned `tailwindcss` and `@tailwindcss/vite` **4.3.5** through Vite. Shared React primitives, login/registration hooks and device recovery use prefixed utilities. [Tailwind integration and UI conventions](tailwind-ui.md) define semantic tokens, the live admin light/dark selector and the incremental migration of specialized CSS. The reset, Open Sans Variable and Font Awesome webfonts remain part of the design system. This supersedes earlier CSS-modules styling recommendations.
+
+## Device recovery extension — 20 November 2026
+
+The FastAPI service now implements [boot-bound recovery](device-recovery.md) using the existing SQLAlchemy/MariaDB transactions and deterministic score replay. No new runtime dependency is required. Protocol-v2 devices register boot/storage lineage and submit immutable, sequenced journal evidence; current-boot fences precede guarded admin release/void. Valid terminal-pending traces use the ordinary replay service and durable idempotency receipts. A separate filesystem-journaled emulator exercises restart/retry behavior. The React Cabinet status page shows evidence and requires a reason for decisions. AI remains read-only. Migration 005 is additive; firmware/NVS and physical power-loss validation remain pending.
+
 ## Local NLP implementation update — 17 November 2026
 
 The admin chat now calls FastAPI for local Ollama intent interpretation using `qwen3:4b-instruct`. Existing pinned HTTPX/Pydantic dependencies handle bounded loopback HTTP and strict schemas; no cloud SDK, vector database or extra NLP dependency is required. Approved vocabulary and typed context reach the model; database rows/raw history never do. A shared MariaDB repeatable-read READ ONLY service powers both deterministic Analytics charts and chat templates. Fixed queries have per-statement limits; existing `ai_requests` stores safe metadata in a separate transaction. Migration 003 adds private structured `ai_admin_memory`; analytics itself adds no table. Status, analytics, preparation, private-memory and query routes are admin-authorized; preparation/query POSTs and memory DELETE require CSRF. A 120-second background calibration handles cold loading, while normal questions retain their 20-second deadline. Ollama returns a strict topic; the backend maps it to approved analytics and selects bilingual factual templates. Ollama availability does not affect ordinary startup/health. See [implementation, contracts, setup and targeted validation](admin-assistant.md). The current Python environment is 3.13; older baseline recommendations below are historical where superseded.
@@ -12,8 +32,8 @@ Version 0.1 · 15 November 2026. Recommendations below are engineering decisions
 
 | Layer | Baseline | Purpose and tradeoff |
 |---|---|---|
-| Web | React, JavaScript (JSX), Vite; CSS variables/CSS modules; React Router; TanStack Query planned for backend integration | Use Vite’s `react` JavaScript template, `.jsx` components and `.js` modules; JSDoc is optional. Mobile registration, post-completion player leaderboard and staff dashboard. A client-rendered app is sufficient for an event; no SSR needed. |
-| UI | Shared CSS design tokens, Radix primitives, standard Font Awesome webfont icons, Recharts for trends/distributions; data gauge | The initial UI uses locally hosted fonts and standard font icons, with no SVG icon renderer. Preserve Sourcio proportions through shared components. Install exact compatible releases and lock them. |
+| Web | React.js, JavaScript/JSX, Vite, Tailwind CSS 4.3.5, React Router | Use `.jsx` components and `.js` modules with locally compiled Tailwind utilities. Current data loading uses the existing API client and React context; no additional query library is required for this styling change. |
+| UI | Tailwind semantic utilities, shared CSS variables, Radix primitives, Font Awesome webfonts, Recharts and data gauge | Shared components and live theme tokens preserve the reference composition and neutral admin light/dark themes. Specialized CSS is retained in a lower-priority components layer during migration. |
 | Server | Python 3.12, FastAPI, Pydantic v2, Uvicorn | Typed HTTP contracts, authorization and browser WebSockets. [FastAPI documents WebSocket dependencies and disconnect handling](https://fastapi.tiangolo.com/advanced/websockets/). |
 | Persistence | XAMPP MySQL service (installed MariaDB 10.11.16), InnoDB, utf8mb4; SQLAlchemy 2.x and Alembic | Transactional assignment, replay-safe results and versioned migrations. Use a tested SQLAlchemy 2.0/2.1 combination, pinned at implementation. |
 | DB driver | PyMySQL via synchronous SQLAlchemy sessions | Simple first release. Keep database-bound handlers synchronous or in worker threads; do not block the async WebSocket loop. [Driver options](https://docs.sqlalchemy.org/en/20/dialects/mysql.html). |

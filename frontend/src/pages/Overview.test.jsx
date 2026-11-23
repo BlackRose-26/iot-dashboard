@@ -47,7 +47,7 @@ it('ranks within the explicitly selected result source', async () => {
   expect(screen.getByText('Synthetic Simulator')).toBeInTheDocument()
   expect(screen.queryByText('Synthetic Device')).not.toBeInTheDocument()
   await user.click(screen.getByRole('button', { name: 'Leaderboard result source' }))
-  await user.click(screen.getByRole('menuitem', { name: 'Device' }))
+  await user.click(screen.getByRole('menuitem', { name: 'Cabinet / Wokwi' }))
   expect(screen.getByText('Synthetic Device')).toBeInTheDocument()
   expect(screen.queryByText('Synthetic Simulator')).not.toBeInTheDocument()
 })

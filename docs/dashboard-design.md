@@ -2,6 +2,10 @@
 
 # Stack Moko Baby — dashboard design contract
 
+## React.js and Tailwind CSS — confirmed 20 November 2026
+
+Implement new and updated UI with React JavaScript/JSX and locally compiled Tailwind CSS. Use the shared semantic tokens and components described in [Tailwind UI conventions](tailwind-ui.md). The styling framework does not change the supplied reference composition, admin neutral light/dark themes, player palette, local Open Sans Variable or Font Awesome webfont symbols. Existing specialized chart/artwork/chat styling is migrated incrementally and must not be replaced with an unrelated prebuilt theme.
+
 ## Current administrator chat addition — 16 November 2026
 
 The admin shell includes a bottom-fixed **Stack Intelligence** chat dock across authenticated dashboard pages. It retains neutral light/dark themes, Font Awesome webfonts, suggested questions, keyboard access and clear/minimize controls. As of 17 November, the preview is connected to local Ollama intent routing and backend factual templates, with period/source selectors, connection status, loading/cancel/retry, clarification and evidence/caveats. Player/login pages never show it. Analytics charts use the same backend calculations with their own explicit filters; chat does not silently inherit page filters. See [current implementation and pending manual validation](admin-assistant.md). Local model setup status is recorded in the linked guide; all application checks remain pending.

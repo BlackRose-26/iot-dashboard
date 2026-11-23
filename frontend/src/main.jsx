@@ -8,12 +8,7 @@ import '@fontsource-variable/open-sans'
 import '@fontsource-variable/open-sans/wght-italic.css'
 import '@fortawesome/fontawesome-free/css/fontawesome.min.css'
 import '@fortawesome/fontawesome-free/css/solid.min.css'
-import './styles/foundation.css'
-import './styles/app.css'
-import './styles/refinements.css'
-import './styles/access-and-themes.css'
-import './styles/scanner.css'
-import './styles/admin-assistant.css'
+import './styles/tailwind.css'
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
