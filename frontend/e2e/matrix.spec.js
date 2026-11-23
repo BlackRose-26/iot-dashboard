@@ -47,10 +47,15 @@ test('Matrix device protocol completes a 15-point game and updates the player an
     await player.getByRole('button', { name: 'Let’s stack' }).click()
     await expect(player).toHaveURL(/\/ticket$/)
     const bootId = randomUUID()
+    // Like fresh firmware: discover the current lineage first, because an
+    // earlier spec may already have registered a boot in this database.
+    const enrollment = await device.get('/api/device/enrollment')
+    expect(enrollment.status()).toBe(200)
+    const { currentBootId } = await enrollment.json()
     expect(
       (
         await device.post('/api/device/boot', {
-          data: { bootId, previousBootId: null, storageId: randomUUID(), uptimeMs: 0 },
+          data: { bootId, previousBootId: currentBootId, storageId: randomUUID(), uptimeMs: 0 },
         })
       ).status(),
     ).toBe(200)

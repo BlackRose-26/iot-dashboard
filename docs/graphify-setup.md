@@ -19,6 +19,8 @@ D:\iot-dashboard\
 
 See [verification.md](verification.md) for the actual delivery checks and any setup limitations. Installing a package is not proof that a map was generated or that a background watcher is active.
 
+**Claude Code, 23 November 2026:** `graphify install --project --platform claude` added `.claude/skills/graphify/`, `CLAUDE.md`, `.claude/CLAUDE.md` and Graphify hooks in `.claude/settings.json`. The hooks call `.tools/graphify-py313/Scripts/graphify.exe` through `$CLAUDE_PROJECT_DIR`, because `graphify` is not on PATH; they only add graph reminders and never block a tool. The skill appears after a Claude Code session restart. The same day, document semantics were re-extracted for 20 changed documents (coverage verified to each last line) and merged into the graph: 1,950 nodes, 5,272 edges, 96 named communities. Node count went from 1,976 to 1,950. That reduction comes entirely from the re-extracted documents, whose notes are coarser but complete. The health check reported 4 self-loop and 6 collapsed duplicate edges, and no dangling or missing endpoints.
+
 ## Usage from project root
 
 ```powershell

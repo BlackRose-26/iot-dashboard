@@ -95,3 +95,14 @@ Real XAMPP `mysqldump`/`mysql` tools restored a generated database into a second
 ESP32 firmware/panel/power/button tests, trusted boot/session/terminal reconciliation and guarded release, separate staff capabilities, identity recovery/retention, actual phone TLS/WSS/background behavior and deployment validation remain named work. They are not silently marked complete by this audit. Local benchmark samples must be labelled loopback, not event-LAN acceptance.
 
 Closed-tab push, prolonged mixed-load/hardware soak, operational restore/observability and physical event rehearsal also remain. Numeric game settings stay proposed until play-tested. The user explicitly resumed roadmap development on 20 November; subsequent milestone evidence is recorded in [device recovery](device-recovery.md) and [remaining work](remaining-work.md), separately from this completed audit.
+
+## Regression run — 23 November 2026
+
+Run after the physical-cabinet preparation, with XAMPP MariaDB 10.11.16 running and disposable test databases only:
+
+- **Backend:** 443 runtime tests passed (`backend/.venv`). The first run had 1 failure: `test_assistant.py` still expected Classic's 12-level limit and rejected `level=13`. Matrix v1 legitimately allows levels 1–15, so the test now rejects `level=16`. The two offline-lab test files need the separate lab environment (`.tools/nlp-lab-venv`, which has numpy); there 14 tests passed.
+- **Frontend:** 48 unit tests and the production build passed.
+- **Browser (Edge, isolated servers):** 12 of 12 passed with `STACK_TEST_RULESET=matrix-v1`. The Matrix journey had failed with HTTP 409 when it ran after the boot-fence flow in the same database: it claimed no predecessor boot. It now discovers the current lineage through `/api/device/enrollment` first, as fresh firmware does. Without the variable the Matrix journey is skipped by design.
+- **Firmware:** the self-test and game builds compiled, and `flash-device.py` refused a write that overlapped NVS.
+
+None of this is physical cabinet, phone-hotspot or Wokwi network evidence. Those gates stay open in [physical bring-up](hardware-bringup.md).

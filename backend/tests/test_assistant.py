@@ -54,7 +54,7 @@ def test_unapproved_tools_filters_and_extra_arguments_are_rejected():
     with pytest.raises(ValidationError): Intent(tools=['execute_sql'])
     with pytest.raises(ValidationError): Question(question='Show scores', event='another-event')
     with pytest.raises(ValidationError): Question(question='Show scores', source='untrusted-source')
-    with pytest.raises(ValidationError): Context(level=13)
+    with pytest.raises(ValidationError): Context(level=16)  # Matrix v1 allows levels 1-15
 
 
 def fixture_data(summary):
