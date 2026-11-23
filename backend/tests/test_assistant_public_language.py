@@ -92,7 +92,11 @@ def test_scope_rejection_stops_before_router_and_analytics(environment,monkeypat
     async def scope_only(settings,payload,*args,**kwargs):
         calls.append(payload)
         assert set(payload['format']['properties'])=={'scope'}
-        assert len(payload['messages'])==2
+        # Only the fixed project-authored scope demonstrations; no retrieved or private examples.
+        from app.assistant import SCOPE_EXAMPLES
+        assert len(payload['messages'])==2+2*len(SCOPE_EXAMPLES)
+        shown=[json.loads(m['content'])['request_text'] for m in payload['messages'][1:-1:2]]
+        assert shown==[text for text,_,_ in SCOPE_EXAMPLES]
         return {'message':{'content':'{"scope":"unsupported"}'}}
     monkeypatch.setattr(Assistant,'status',ready)
     monkeypatch.setattr('app.assistant.model_json',scope_only)

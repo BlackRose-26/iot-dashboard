@@ -4,6 +4,10 @@
 
 **Current connection blocker:** actual browser testing loaded the private firmware. Core 4.0.0 hit the TLS watchdog; the compatibility build and network scheduling/reuse fixes compile and boot, but Wokwi repeatedly fails to connect to `wss://netwi.wokwi.com/`. No authenticated fresh heartbeat or connected round was observed. Retest when the public gateway connects; the dashboard remains online. See [evidence and retry instructions](free-online.md).
 
+## NLP admission repair — 24 November 2026
+
+See [the repair](nlp-admission-repair.md): lexicon v2 and admission changes; development admission 99/120 → 112/120 with off-topic holds kept; consumed replay 135/325 → 191/325 (unsupported false acceptances 1 → 3); 457 backend tests passed. Open: fresh independently reviewed test set, wrong-topic answers and generic system replies.
+
 ## Physical cabinet preparation — 23 November 2026
 
 Network choice: phone hotspot, ESP32 through the HTTPS tunnel, players on their own mobile data. Software preparation is done: wiring self-test build, `npm run online:device` NVS-preserving USB upload, hotspot name/password validation, Wi-Fi/time serial diagnostics and the ordered gates in [physical bring-up](hardware-bringup.md). Self-test and game builds compiled and the flash-layout check refused an NVS-overlapping write. Open: every physical gate in that guide (self-test stages, Wi-Fi/heartbeat, first assigned round, power loss, hotspot drop, data use). Quick Tunnel hostnames still require a USB re-flash per launcher restart unless a stable named tunnel is adopted.

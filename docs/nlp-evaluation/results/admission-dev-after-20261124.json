@@ -1,0 +1,1180 @@
+{
+  "kind": "development admission regression (not held-out accuracy)",
+  "scope_examples": 8,
+  "lexicon": "93effc864dfdf9c910169f6a338060fa602f5029e8d9a77d9d75dabf1b8223d9",
+  "summary": {
+    "supported": {
+      "n": 120,
+      "admitted": 112,
+      "outcomes": {
+        "admitted_model": 68,
+        "admitted_local": 44,
+        "model_unsupported": 3,
+        "unrecognized_context": 4,
+        "system_scope": 1
+      }
+    },
+    "unsupported": {
+      "n": 10,
+      "admitted": 0,
+      "outcomes": {
+        "system_scope": 6,
+        "unrecognized_context": 1,
+        "model_unsupported": 2,
+        "unsupported_measurement": 1
+      }
+    },
+    "out_of_scope": {
+      "n": 60,
+      "admitted": 1,
+      "outcomes": {
+        "system_scope": 21,
+        "model_unsupported": 33,
+        "unsupported_measurement": 5,
+        "admitted_model": 1
+      }
+    }
+  },
+  "cases": [
+    {
+      "set": "supported",
+      "intent": "overview",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "overview",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "overview",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "overview",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "overview",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "overview",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "overview",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "overview",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "overview",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "overview",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "players",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "players",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "players",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "players",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "players",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "players",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "players",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "players",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "players",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "players",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "queue",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "queue",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "queue",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "queue",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "queue",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "queue",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "queue",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "queue",
+      "language": "taglish",
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "supported",
+      "intent": "queue",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "queue",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "machine",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "machine",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "machine",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "machine",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "machine",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "machine",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "machine",
+      "language": "taglish",
+      "outcome": "unrecognized_context"
+    },
+    {
+      "set": "supported",
+      "intent": "machine",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "machine",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "machine",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "scores",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "scores",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "scores",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "scores",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "scores",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "scores",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "scores",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "scores",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "scores",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "scores",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "levels",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "levels",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "levels",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "levels",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "levels",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "levels",
+      "language": "en",
+      "outcome": "unrecognized_context"
+    },
+    {
+      "set": "supported",
+      "intent": "levels",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "levels",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "levels",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "levels",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "trend",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "trend",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "trend",
+      "language": "en",
+      "outcome": "unrecognized_context"
+    },
+    {
+      "set": "supported",
+      "intent": "trend",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "trend",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "trend",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "trend",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "trend",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "trend",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "trend",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "top",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "top",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "top",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "top",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "top",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "top",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "top",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "top",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "top",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "top",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "definition:accuracy",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "definition:win_rate",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "definition:scoring",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "definition:average_score",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "definition:total_score",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "definition:highest_score",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "definition:lowest_score",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "definition:accuracy",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "definition:win_rate",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "definition:scoring",
+      "language": "taglish",
+      "outcome": "unrecognized_context"
+    },
+    {
+      "set": "supported",
+      "intent": "knowledge:gameplay",
+      "language": "en",
+      "outcome": "system_scope"
+    },
+    {
+      "set": "supported",
+      "intent": "knowledge:registration",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "knowledge:queue_flow",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "knowledge:architecture",
+      "language": "en",
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "supported",
+      "intent": "knowledge:dashboard",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "knowledge:privacy",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "knowledge:offline",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "knowledge:results",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "knowledge:memory",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "knowledge:training",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "social:greeting",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "social:thanks",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "social:identity",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "social:help",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "social:acknowledge",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "social:farewell",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "social:wellbeing",
+      "language": "en",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "social:greeting",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "social:thanks",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "social:farewell",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "follow_up",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "follow_up",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "follow_up",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "follow_up",
+      "language": "en",
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "supported",
+      "intent": "follow_up",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "follow_up",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "follow_up",
+      "language": "en",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "follow_up",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "supported",
+      "intent": "follow_up",
+      "language": "taglish",
+      "outcome": "admitted_local"
+    },
+    {
+      "set": "supported",
+      "intent": "follow_up",
+      "language": "taglish",
+      "outcome": "admitted_model"
+    },
+    {
+      "set": "unsupported",
+      "intent": "unsupported",
+      "language": "en",
+      "outcome": "system_scope"
+    },
+    {
+      "set": "unsupported",
+      "intent": "unsupported",
+      "language": "en",
+      "outcome": "system_scope"
+    },
+    {
+      "set": "unsupported",
+      "intent": "unsupported",
+      "language": "en",
+      "outcome": "unrecognized_context"
+    },
+    {
+      "set": "unsupported",
+      "intent": "unsupported",
+      "language": "en",
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "unsupported",
+      "intent": "unsupported",
+      "language": "en",
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "unsupported",
+      "intent": "unsupported",
+      "language": "en",
+      "outcome": "system_scope"
+    },
+    {
+      "set": "unsupported",
+      "intent": "unsupported",
+      "language": "en",
+      "outcome": "unsupported_measurement"
+    },
+    {
+      "set": "unsupported",
+      "intent": "unsupported",
+      "language": "taglish",
+      "outcome": "system_scope"
+    },
+    {
+      "set": "unsupported",
+      "intent": "unsupported",
+      "language": "taglish",
+      "outcome": "system_scope"
+    },
+    {
+      "set": "unsupported",
+      "intent": "unsupported",
+      "language": "taglish",
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "unsupported_measurement"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "unsupported_measurement"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "unsupported_measurement"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "unsupported_measurement"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "system_scope"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "unsupported_measurement"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "model_unsupported"
+    },
+    {
+      "set": "out_of_scope",
+      "intent": "unsupported",
+      "language": null,
+      "outcome": "admitted_model"
+    }
+  ]
+}

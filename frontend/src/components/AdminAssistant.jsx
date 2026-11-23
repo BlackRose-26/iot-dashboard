@@ -428,7 +428,7 @@ export default function AdminAssistant({ onReviewPage = false }) {
                         : `Stack Intelligence · ${answerLabels[message.response?.status] || 'Connection problem'}`}
                     </span>
                     <p>{message.text}</p>
-                    {message.response?.interpretations?.length === 2 && (
+                    {message.response?.interpretations?.length > 0 && (
                       <div
                         className="assistant-interpretations"
                         aria-label="Choose the intended meaning"

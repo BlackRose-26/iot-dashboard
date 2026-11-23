@@ -21,3 +21,7 @@ Modifications: selected ordinary parts of speech and their word forms; removed p
 Research citation: Tatu Ylonen (2022), “Wiktextract: Wiktionary as Machine-Readable Structured Data,” LREC 2022, pp. 1317–1325.
 
 Licenses described here apply to their respective resource portions, not a new license declaration for the application code.
+
+## Lexicon v2 (24 November 2026)
+
+`assistant-language-lexicon-v2.json` is built by `build_language_lexicon.py --v2` from the same WordNet 3.0 archive and cached Kaikki/Wiktextract Tagalog file (same licences). It keeps a word when at least one sense is ordinary, adds WordNet irregular inflections, and removes title-case Tagalog proper names. It contains word forms only. The v1 file is kept unchanged for consumed-set replays.

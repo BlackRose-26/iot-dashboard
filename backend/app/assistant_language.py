@@ -11,7 +11,7 @@ import hashlib
 import json
 from pathlib import Path
 
-LEXICON = Path(__file__).resolve().parents[1]/'data/assistant-language-lexicon.json'
+LEXICON = Path(__file__).resolve().parents[1]/'data/assistant-language-lexicon-v2.json'  # v2: 24 Nov 2026; v1 kept frozen
 
 
 @lru_cache(maxsize=1)
@@ -28,6 +28,21 @@ def lexical_resource():
 def tagalog_language_words():
     data=json.loads(LEXICON.read_text(encoding='utf-8'))
     return frozenset(data['tagalog'])-frozenset(data['english'])
+
+
+@lru_cache(maxsize=1)
+def tagalog_words():
+    """Every public Tagalog form, including those spelled like English words (akin, huli)."""
+    return frozenset(json.loads(LEXICON.read_text(encoding='utf-8'))['tagalog'])
+
+
+# Reviewed chat shorthand (English and Taglish). Each maps to an ordinary word that the
+# guards and router already know; none names a person, metric value or command.
+SHORTHAND = {
+    'pls':'please','plz':'please','pki':'paki','thx':'thanks','ty':'thanks','u':'you','ur':'your','r':'are',
+    'rn':'now','abt':'about','hw':'how','cuz':'because','coz':'because','bc':'because','gonna':'going',
+    'wanna':'want','gimme':'give','lemme':'let','k':'ok','okie':'ok','panu':'paano',
+}
 
 
 # Canonical meanings rather than an ever-growing list of complete questions.
@@ -173,6 +188,11 @@ def project_words(value, vocabulary):
         if word in METRIC_COMPOUNDS:
             projected.extend(METRIC_COMPOUNDS[word])
             continue
+        word = SHORTHAND.get(word,word)
+        if word not in vocabulary and re.search(r'(.)\1\1',word):
+            # Stretched chat spelling: "pleaseee" -> "please", "sooo" -> "so".
+            word = next((form for form in (re.sub(r'(.)\1{2,}',r'\1\1',word),re.sub(r'(.)\1{2,}',r'\1',word))
+                         if form in vocabulary),word)
         word = QUERY_FORMS.get(word,word)
         if word.startswith('paki') and word[4:] in POLITE_ROOTS:
             word=word[4:]
@@ -187,6 +207,14 @@ def project_words(value, vocabulary):
             if word.endswith('s') and not word.endswith('ss'): candidates.append(word[:-1])
             if word.endswith('ing'): candidates.extend([word[:-3],word[:-3]+'e'])
             if word.endswith('ed'): candidates.extend([word[:-2],word[:-1]])
+            if word.endswith('es'): candidates.append(word[:-2])
+            if word.endswith('est') and len(word)>5:
+                # Superlatives: oldest -> old, nicest -> nice, biggest -> big, happiest -> happy.
+                candidates.extend([word[:-3],word[:-2]]+([word[:-4]] if word[-4]==word[-5] else [])+
+                                  ([word[:-4]+'y'] if word.endswith('iest') else []))
             word = next((stem for stem in candidates if stem in vocabulary), word)
+            if word not in vocabulary and word.endswith('ng') and len(word)>=5:
+                # Tagalog linker: huli + ng -> huling, akin + g -> aking. Only a public Tagalog root counts.
+                word = next((stem for stem in (word[:-2],word[:-1]) if stem in tagalog_words() and stem in vocabulary),word)
         projected.append(ALIASES.get(word,word))
     return projected

@@ -1,0 +1,7 @@
+# Frozen evaluation inputs are content-hashed (see docs/nlp-evaluation/holdout-v1.md).
+# Never let Git rewrite their line endings, or replays refuse to run.
+backend/holdout_audit.py -text
+backend/holdout_metrics.py -text
+backend/evaluate_holdout.py -text
+backend/evaluation/** -text
+docs/nlp-evaluation/results/** -text

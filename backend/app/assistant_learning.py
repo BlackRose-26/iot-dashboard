@@ -103,6 +103,30 @@ def semantic_features(sample):
     return semantic_words(sample) | {word for hint in sample.get('meaning_hints',[]) for word in hint.split()}
 
 
+# One-tap clarification (24 Nov 2026). When a request is held because part of it is
+# unknown or off-topic, offer up to three event topics that the recognised words name.
+# Each suggested question routes deterministically to read-only analytics; nothing is
+# answered until the person picks one, so an unknown name is never silently replaced.
+TOPIC_CHOICES = [
+    ({'score','scores','points','puntos','average','highest','lowest'}, 'Scores', 'Show the score summary.'),
+    ({'top','leaderboard','ranking','rankings','leading','nangunguna'}, 'Leaderboard', 'Show the top scores.'),
+    ({'queue','pila','waiting','line','admissions'}, 'Queue', 'How many players are waiting in the queue?'),
+    ({'cabinet','machine','esp32','esp','heartbeat','connection','connected','device'}, 'Cabinet status',
+     'What is the cabinet connection and readiness status?'),
+    ({'players','player','manlalaro','registered','registration','participants','completed'}, 'Players',
+     'How many players registered and completed a round?'),
+    ({'level','levels','antas','hardest','difficult','accuracy'}, 'Level difficulty', 'Which level is the hardest?'),
+    ({'trend','activity','busiest','hourly','daily'}, 'Activity trend', 'Show the play trend.'),
+    ({'event','overview','summary','carnival','game','games'}, 'Event overview', 'Give me an overview of the whole event.'),
+]
+
+
+def topic_choices(normalized):
+    if not normalized: return []
+    words = semantic_features(normalized)
+    return [{'label':label,'question':question} for anchors,label,question in TOPIC_CHOICES if words & anchors][:3]
+
+
 def interpretation_choices(normalized, routing):
     """Two domain-specific readings only when a supported question is ambiguous."""
     words = set(normalized['safe_tokens'])

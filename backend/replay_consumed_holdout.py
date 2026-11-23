@@ -16,7 +16,7 @@ import time
 import httpx
 
 from app.assistant import Question
-from app.assistant_language import lexical_resource
+from app.assistant_language import LEXICON, lexical_resource  # LEXICON = the file the app loads (v2 since 24 Nov)
 from app.database import execute
 from app.security import DUMMY_HASH
 from evaluate_holdout import ObservedAssistant, score
@@ -87,7 +87,7 @@ async def replay(output):
             output.with_suffix('.partial.json').write_text(json.dumps({'kind':frozen['kind'],'cases':cases},indent=2),encoding='utf-8')
             if (index+1)%25==0:
                 print(json.dumps({'regression_evaluated':index+1,'total':len(rows),'accepted':sum(c['accepted'] for c in cases)}),flush=True)
-        if protected_inputs()[1]!=protected or runtime_fingerprint()!=frozen['runtime'] or sha(Path(__file__))!=frozen['runner_sha256'] or sha(ROOT/'backend/data/assistant-language-lexicon.json')!=frozen['public_lexicon_sha256']:
+        if protected_inputs()[1]!=protected or runtime_fingerprint()!=frozen['runtime'] or sha(Path(__file__))!=frozen['runner_sha256'] or sha(LEXICON)!=frozen['public_lexicon_sha256']:
             raise RuntimeError('Frozen predictor, scorer, runner or protected artifacts changed during replay.')
         report={'kind':frozen['kind'],'measured_at':datetime.now(timezone.utc).isoformat(),
                 'dataset_sha256':manifest['dataset_sha256'],'model':model,
