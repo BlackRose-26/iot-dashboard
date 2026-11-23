@@ -11,7 +11,8 @@
     "online:firmware": "node scripts/online.mjs --firmware",
     "online:device": "node scripts/online.mjs --device",
     "device:selftest": "node scripts/device.mjs --selftest",
-    "device:flash": "node scripts/device.mjs"
+    "device:flash": "node scripts/device.mjs",
+    "device:url": "node scripts/device.mjs url"
   },
   "engines": {
     "node": ">=22.12.0"

@@ -10,7 +10,7 @@ See [the repair](nlp-admission-repair.md): lexicon v2 and admission changes; dev
 
 ## Physical cabinet preparation — 23 November 2026
 
-Network choice: phone hotspot, ESP32 through the HTTPS tunnel, players on their own mobile data. Software preparation is done: wiring self-test build, `npm run online:device` NVS-preserving USB upload, hotspot name/password validation, Wi-Fi/time serial diagnostics and the ordered gates in [physical bring-up](hardware-bringup.md). Self-test and game builds compiled and the flash-layout check refused an NVS-overlapping write. Open: every physical gate in that guide (self-test stages, Wi-Fi/heartbeat, first assigned round, power loss, hotspot drop, data use). Quick Tunnel hostnames still require a USB re-flash per launcher restart unless a stable named tunnel is adopted.
+Network choice: phone hotspot, ESP32 through the HTTPS tunnel, players on their own mobile data. Software preparation is done: wiring self-test build, `npm run online:device` NVS-preserving USB upload, hotspot name/password validation, Wi-Fi/time serial diagnostics and the ordered gates in [physical bring-up](hardware-bringup.md). Self-test and game builds compiled and the flash-layout check refused an NVS-overlapping write. Open: every physical gate in that guide (self-test stages, Wi-Fi/heartbeat, first assigned round, power loss, hotspot drop, data use). Since 24 November the launcher sends each new Quick Tunnel hostname to the cabinet over USB (no reflash); the registration QR still changes per restart unless a stable named tunnel is adopted.
 
 ## Current ESP32/online integration — 22 November 2026
 

@@ -9,6 +9,7 @@
     "online:device": "node ../scripts/online.mjs --device",
     "device:selftest": "node ../scripts/device.mjs --selftest",
     "device:flash": "node ../scripts/device.mjs",
+    "device:url": "node ../scripts/device.mjs url",
     "dev": "node ../scripts/dev.mjs",
     "dev:frontend": "vite --host 0.0.0.0 --port 5173 --strictPort",
     "build": "vite build",

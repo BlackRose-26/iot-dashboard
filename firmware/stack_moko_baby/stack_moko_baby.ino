@@ -53,6 +53,76 @@ void IRAM_ATTR buttonISR() {
 uint64_t lastHeartbeat=0, lastPoll=0, nextRequest=0;
 uint32_t backoff=1000;
 
+// ---- Server address that can change without reflashing (24 Nov 2026) ----
+// A free Cloudflare Quick Tunnel gets a new hostname on every launcher start. The
+// laptop sends "STACK-URL https://<host>" over USB serial; the address is kept in its
+// own NVS namespace ("stack-cfg", separate from the game journal) and tagged with the
+// compiled STACK_API_BASE, so a newly flashed build always starts from its own address.
+char apiBase[160]=STACK_API_BASE;
+portMUX_TYPE baseLock=portMUX_INITIALIZER_UNLOCKED;
+String currentBase() {
+  char copy[sizeof(apiBase)];
+  portENTER_CRITICAL(&baseLock); memcpy(copy,apiBase,sizeof(copy)); portEXIT_CRITICAL(&baseLock);
+  return String(copy);
+}
+void setBase(const char* value) {
+  portENTER_CRITICAL(&baseLock);
+  strncpy(apiBase,value,sizeof(apiBase)-1); apiBase[sizeof(apiBase)-1]=0;
+  portEXIT_CRITICAL(&baseLock);
+}
+bool privateHttp(const String& base);
+// Only an HTTPS Quick Tunnel origin, the compiled address, or (when explicitly compiled
+// in) a private-LAN HTTP origin. The device token is sent only to these, and TLS is
+// still verified against the compiled trust anchors.
+bool allowedBase(const String& url) {
+  if (url==STACK_API_BASE) return true;
+  if (STACK_ALLOW_LOCAL_HTTP && privateHttp(url)) return true;
+  if (!url.startsWith("https://") || url.length()>=sizeof(apiBase)) return false;
+  String host=url.substring(8);
+  for (size_t i=0;i<host.length();i++) {
+    char c=host[i];
+    if (!(isLowerCase(c)||isDigit(c)||c=='-'||c=='.')) return false;  // no path, port, user or query
+  }
+  return host.endsWith(".trycloudflare.com") && host.length()>18;
+}
+void loadSavedBase() {
+  Preferences cfg;
+  if (!cfg.begin("stack-cfg",false)) return;
+  String built=cfg.getString("built",""), saved=cfg.getString("api","");
+  if (built==STACK_API_BASE && saved.length() && allowedBase(saved)) setBase(saved.c_str());
+  else if (saved.length()) { cfg.remove("api"); cfg.remove("built"); }  // a new build starts from its own address
+  cfg.end();
+  Serial.printf("Server address: %s\n",currentBase().c_str());
+}
+void handleCommand(String text) {
+  text.trim();
+  if (text=="STACK-URL?") { Serial.printf("STACK-URL-CURRENT %s\n",currentBase().c_str()); return; }
+  if (!text.startsWith("STACK-URL ")) return;
+  String url=text.substring(10); url.trim();
+  while (url.endsWith("/")) url.remove(url.length()-1);
+  if (!allowedBase(url)) { Serial.println("STACK-URL-REJECTED address not allowed"); return; }
+  if (mode==COUNTDOWN || mode==PLAYING) { Serial.println("STACK-URL-REJECTED busy: round in progress"); return; }
+  if (url!=currentBase()) {
+    Preferences cfg;
+    bool stored=cfg.begin("stack-cfg",false) && cfg.putString("api",url)==url.length() &&
+                cfg.putString("built",STACK_API_BASE)==strlen(STACK_API_BASE);
+    cfg.end();
+    if (!stored) { Serial.println("STACK-URL-REJECTED storage failed"); return; }
+    setBase(url.c_str());
+    nextRequest=0; backoff=1000;  // reconnect at once with the new address
+  }
+  Serial.printf("STACK-URL-OK %s\n",url.c_str());
+}
+void serialCommands() {
+  static char line[200]; static size_t length=0;
+  while (Serial.available()) {
+    char c=char(Serial.read());
+    if (c=='\r' || c=='\n') { line[length]=0; if (length) handleCommand(String(line)); length=0; }
+    else if (length<sizeof(line)-1) line[length++]=c;
+    else length=0;  // overlong line: drop it
+  }
+}
+
 uint64_t uptime() { return esp_timer_get_time()/1000ULL; }
 String uuid() {
   uint8_t b[16]; esp_fill_random(b,16); b[6]=(b[6]&15)|64; b[8]=(b[8]&63)|128;
@@ -124,10 +194,14 @@ void networkTask(void*) {
   http.setConnectTimeout(3000); http.setTimeout(3000);
   http.setReuse(true);
   http.setFollowRedirects(HTTPC_DISABLE_FOLLOW_REDIRECTS);
+  String lastBase;
   for (;;) {
     RequestJob* job=nullptr;
     if (xQueueReceive(requests,&job,portMAX_DELAY)!=pdTRUE) continue;
-    String base=STACK_API_BASE;
+    String base=currentBase();
+    if (base!=lastBase) {  // new server address: never reuse the old host's connection
+      secure.stop(); plain.stop(); lastBase=base;
+    }
     bool tls=base.startsWith("https://");
     bool localHttp=STACK_ALLOW_LOCAL_HTTP && privateHttp(base);
     if (WiFi.status()==WL_CONNECTED && (tls || localHttp) &&
@@ -600,6 +674,7 @@ void setup() {
   if (strlen(STACK_DEVICE_TOKEN)<32 || strstr(STACK_DEVICE_TOKEN,"REPLACE_") || strstr(STACK_API_BASE,"YOUR-")) {
     mode=FAULT; Serial.println("Configure private config.h before connecting; no token was sent."); return;
   }
+  loadSavedBase();  // before the network task starts
   requests=xQueueCreate(1,sizeof(RequestJob*)); replies=xQueueCreate(1,sizeof(RequestJob*));
   // TLS verification can be CPU-heavy in simulation. Priority zero shares
   // core 0 with its idle task so the watchdog remains fed and enabled.
@@ -622,6 +697,7 @@ void loop() {
   if (!clockReported && time(nullptr)>1735689600) {
     clockReported=true; Serial.println("Network time synchronized; verified HTTPS can start.");
   }
+  serialCommands();
   synchronize();
   updateAudio();
   updateSound();

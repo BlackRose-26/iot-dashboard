@@ -232,6 +232,19 @@ async function main() {
     "[online] Keep this terminal and MySQL running. Ctrl+C stops the app and tunnel. The address changes on the next run.",
   );
   const device = process.argv.includes("--device");
+  if (!device && !process.argv.includes("--firmware")) {
+    // New tunnel address -> tell the USB-connected cabinet. No compile or reflash.
+    try {
+      await completed(
+        start(python, ["scripts/set-device-url.py", "--url", origin, "--if-present"]),
+        "cabinet address update",
+      );
+    } catch {
+      console.error(
+        "[online] Dashboard is online, but the cabinet did not take the new address. Close any serial monitor and run: npm run device:url",
+      );
+    }
+  }
   if (device || process.argv.includes("--firmware")) {
     if (device)
       console.log(

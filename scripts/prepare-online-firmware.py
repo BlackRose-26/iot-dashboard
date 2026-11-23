@@ -8,6 +8,7 @@ import subprocess
 import sys
 import time
 import json
+import re
 import urllib.request
 from urllib.parse import urlencode
 import certifi
@@ -46,6 +47,30 @@ def merge_firmware(cli, source, root):
         data=path.read_bytes(); start=int(offset,16)
         if merged[start:start+len(data)]!=data:
             raise RuntimeError('Merged firmware does not match the current build.')
+
+
+# Public roots behind Cloudflare edge certificates (Google Trust Services, Let's Encrypt,
+# SSL.com). Each Quick Tunnel hostname can get a certificate from any of them, so the
+# cabinet trusts this small bundle and a new hostname needs no new firmware.
+TUNNEL_ROOTS = ('GTS Root R1','GTS Root R3','GTS Root R4','ISRG Root X1','ISRG Root X2',
+                'SSL.com TLS RSA Root CA 2022','SSL.com TLS ECC Root CA 2022')
+
+
+def trust_bundle(live_root_der):
+    """The live chain's root plus the named public roots, read only from certifi's store."""
+    from cryptography import x509
+    from cryptography.x509.oid import NameOID
+    live = ssl.DER_cert_to_PEM_cert(live_root_der)
+    found = {}
+    for block in re.findall(r'-----BEGIN CERTIFICATE-----.+?-----END CERTIFICATE-----',
+                            Path(certifi.where()).read_text(encoding='ascii'), re.S):
+        names = x509.load_pem_x509_certificate(block.encode()).subject.get_attributes_for_oid(NameOID.COMMON_NAME)
+        if names and names[0].value in TUNNEL_ROOTS: found.setdefault(names[0].value, block)
+    missing = set(TUNNEL_ROOTS) - set(found)
+    if missing: raise RuntimeError('certifi lacks expected tunnel roots: ' + ', '.join(sorted(missing)))
+    blocks = [live.strip()] + [found[name] for name in TUNNEL_ROOTS]
+    unique = list(dict.fromkeys(''.join(b.split()) for b in blocks))  # drop the live root if already listed
+    return '\n'.join(next(b for b in blocks if ''.join(b.split()) == key) for key in unique) + '\n'
 
 
 def main():
@@ -88,7 +113,7 @@ def main():
     if not chain: raise RuntimeError('No verified HTTPS certificate chain was available.')
     ca=root/'.tools'/'free-online'/'root-ca.pem'
     ca.parent.mkdir(parents=True,exist_ok=True)
-    ca.write_text(ssl.DER_cert_to_PEM_cert(chain[-1]),encoding='ascii')
+    ca.write_text(trust_bundle(chain[-1]),encoding='ascii')  # live root + public tunnel roots
     configure=[sys.executable,str(root/'scripts'/'configure-firmware.py'),'--url',args.url,'--ca',str(ca)]
     if args.device: configure+=['--ssid',os.environ['STACK_FIRMWARE_WIFI_SSID']]
     subprocess.run(configure,cwd=root,check=True)

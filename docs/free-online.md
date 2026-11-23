@@ -39,7 +39,7 @@ The user confirmed online queue/dashboard plus cabinet-button gameplay. Wait for
 
 ## Address and availability
 
-Cloudflare supplies a different `https://....trycloudflare.com` hostname for each new Quick Tunnel. The launcher records the current one in ignored `.tools/free-online/current-url.txt`. Each new run therefore needs a fresh registration QR and rebuilt/reloaded Wokwi firmware. Old bookmarks, QR images and old firmware URLs stop working after the tunnel closes. The dashboard's normal access protections still apply at the public hostname; local HTTP is not the online login address.
+Cloudflare supplies a different `https://....trycloudflare.com` hostname for each new Quick Tunnel. The launcher records the current one in ignored `.tools/free-online/current-url.txt`. Each new run therefore needs a fresh registration QR. The physical cabinet takes the new address over USB without reflashing (`npm run online` does this automatically, or `npm run device:url`; see [physical bring-up](hardware-bringup.md)). A Wokwi simulation still needs its private image rebuilt and reloaded. Old bookmarks, QR images and old firmware URLs stop working after the tunnel closes. The dashboard's normal access protections still apply at the public hostname; local HTTP is not the online login address.
 
 Your PC, network, MySQL, backend and tunnel must stay running. Quick Tunnels are for development, have no uptime guarantee and currently allow up to 200 in-flight requests. The PC's ordinary Internet/electricity costs still apply. A stable named tunnel requires its own domain/configuration; it is a later event-hosting choice. Do not expose database port 3306 or Ollama port 11434 directly.
 

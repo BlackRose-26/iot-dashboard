@@ -52,7 +52,9 @@ $env:STACK_FIRMWARE_WIFI_PASSWORD = "YOUR-HOTSPOT-PASSWORD"
 npm run online:device
 ```
 
-The launcher prints the administrator and player links, saves the tunnel's verified root certificate, writes private `config.h` and uploads the game firmware. Keep the terminal running. **Each new run gets a new tunnel hostname**, so the cabinet must be re-flashed by USB every time the launcher restarts (a stable named tunnel would remove this; it needs a domain). If firmware upload fails, the dashboard stays online; fix the cause and run the retry command it prints.
+The launcher prints the administrator and player links, saves a root-certificate bundle (the live tunnel root plus the Google Trust Services, Let's Encrypt and SSL.com roots Cloudflare uses), writes private `config.h` and uploads the game firmware. Keep the terminal running. If firmware upload fails, the dashboard stays online; fix the cause and run the retry command it prints.
+
+**Later restarts do not need a reflash (24 November 2026).** Each launcher start gets a new tunnel hostname. Plain `npm run online` sends it to the USB-connected cabinet as `STACK-URL https://<name>.trycloudflare.com`. The firmware stores it in its own NVS namespace (`stack-cfg`, separate from the game journal) and reconnects without rebooting. It accepts only HTTPS `*.trycloudflare.com` origins or the compiled address, refuses during a countdown or round (the helper retries), and a newly flashed build always starts from its compiled address. If the cabinet was unplugged or a serial monitor held the port, run `npm run device:url` later. Reflash with `npm run online:device` only for firmware or Wi-Fi changes, or if a future tunnel certificate chains to a root outside the bundle (the serial log then shows a TLS error). The registration QR still changes with the hostname: show it from the dashboard's Registration QR on a screen rather than printing it.
 
 ## 4. Connection gates (watch the serial monitor and the Machines page)
 
@@ -80,6 +82,7 @@ A `Network request failed: HTTP transport …, TLS …` line means the address, 
 | Power-off during idle, then power-on: cabinet re-registers without operator action | Not run |
 | Power-off mid-round: round held for operator review, no score awarded automatically | Not run |
 | Hotspot drop and recovery during idle | Not run |
+| Launcher restart: `npm run online` sends the new address over USB and a fresh heartbeat follows, with no reflash | Not run |
 | Mobile-data use over a 30-minute rehearsal recorded | Not run |
 
 Passing these gates is physical acceptance evidence; Wokwi runs and backend tests are not.
