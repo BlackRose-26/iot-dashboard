@@ -4,9 +4,9 @@
   "editor": "wokwi",
   "parts": [
     {"type":"wokwi-esp32-devkit-v1","id":"esp","top":100,"left":-180,"attrs":{}},
+    {"type":"wokwi-led-matrix","id":"hud","top":-60,"left":40,"attrs":{"rows":"8","cols":"32","layout":"serpentine"}},
+    {"type":"wokwi-led-matrix","id":"upper","top":80,"left":40,"attrs":{"rows":"16","cols":"16","layout":"serpentine"}},
     {"type":"wokwi-led-matrix","id":"bottom","top":320,"left":40,"attrs":{"rows":"16","cols":"16","layout":"serpentine"}},
-    {"type":"wokwi-led-matrix","id":"middle","top":80,"left":40,"attrs":{"rows":"16","cols":"16","layout":"serpentine"}},
-    {"type":"wokwi-led-matrix","id":"top","top":-160,"left":40,"attrs":{"rows":"16","cols":"16","layout":"serpentine"}},
     {"type":"wokwi-pushbutton","id":"button","top":420,"left":-150,"attrs":{"color":"red","bounce":"1"}},
     {"type":"wokwi-buzzer","id":"piezo","top":310,"left":-150,"attrs":{}},
     {"type":"wokwi-led","id":"stripIndicator","top":230,"left":-270,"attrs":{"color":"yellow"}},
@@ -14,9 +14,9 @@
   ],
   "connections": [
     ["esp:TX0","$serialMonitor:RX","",[]], ["esp:RX0","$serialMonitor:TX","",[]],
-    ["esp:D18","bottom:DIN","green",[]], ["bottom:DOUT","middle:DIN","green",[]], ["middle:DOUT","top:DIN","green",[]],
-    ["esp:VIN","bottom:VDD","red",[]], ["esp:VIN","middle:VDD","red",[]], ["esp:VIN","top:VDD","red",[]],
-    ["esp:GND.1","bottom:VSS","black",[]], ["esp:GND.1","middle:VSS","black",[]], ["esp:GND.1","top:VSS","black",[]],
+    ["esp:D18","hud:DIN","green",[]], ["hud:DOUT","bottom:DIN","green",[]], ["bottom:DOUT","upper:DIN","green",[]],
+    ["esp:VIN","hud:VDD","red",[]], ["esp:VIN","bottom:VDD","red",[]], ["esp:VIN","upper:VDD","red",[]],
+    ["esp:GND.1","hud:VSS","black",[]], ["esp:GND.1","bottom:VSS","black",[]], ["esp:GND.1","upper:VSS","black",[]],
     ["esp:D27","button:1.l","blue",[]], ["esp:GND.1","button:2.l","black",[]],
     ["esp:D26","piezo:2","orange",[]], ["esp:GND.1","piezo:1","black",[]],
     ["esp:D25","stripResistor:1","yellow",[]], ["stripResistor:2","stripIndicator:A","yellow",[]], ["stripIndicator:C","esp:GND.1","black",[]]

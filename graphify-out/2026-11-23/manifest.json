@@ -42,10 +42,10 @@
     "semantic_hash": "26038b3d60da5157bb5c1a6fc0a2faa8"
   },
   "docs/graphify-setup.md": {
-    "mtime": 1794999334.9685087,
-    "seen": 1794999588.227475,
-    "ast_hash": "9c0f7cc22041f4ddba2caa07b058de2d",
-    "semantic_hash": "9c0f7cc22041f4ddba2caa07b058de2d"
+    "mtime": 1795435083.6223538,
+    "seen": 1795435103.1487217,
+    "ast_hash": "34acc7011dbaa36550248d78d6f36359",
+    "semantic_hash": ""
   },
   "docs/implementation-plan.md": {
     "mtime": 1795413525.2200575,
@@ -846,10 +846,10 @@
     "semantic_hash": "b1206483d47d1365af3892fc34f5ca39"
   },
   "docs/quality-audit.md": {
-    "mtime": 1795413525.5123613,
-    "seen": 1795434921.6145673,
-    "ast_hash": "b9c85e52ada5fe172e0f68b3b4cd7cb1",
-    "semantic_hash": "b9c85e52ada5fe172e0f68b3b4cd7cb1"
+    "mtime": 1795435083.435047,
+    "seen": 1795435103.1487694,
+    "ast_hash": "d0d0c021e24831827cf11948986493f3",
+    "semantic_hash": ""
   },
   "contracts/device-recovery.example.json": {
     "mtime": 1795413525.201527,
@@ -1336,5 +1336,11 @@
     "seen": 1795434921.6145337,
     "ast_hash": "366f7626a01d47ca3907591414a2ba71",
     "semantic_hash": "366f7626a01d47ca3907591414a2ba71"
+  },
+  "frontend/package-lock.json": {
+    "mtime": 1795413525.5293627,
+    "seen": 1795435103.1488006,
+    "ast_hash": "6954c72c33e023f482c30a58b2469d33",
+    "semantic_hash": ""
   }
 }

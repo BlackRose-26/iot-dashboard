@@ -12,10 +12,10 @@
     "semantic_hash": "1f8523f2ca3eadd1b2efc1f67f8eba10"
   },
   "AGENTS.md": {
-    "mtime": 1795434275.9303977,
-    "seen": 1795434921.614531,
-    "ast_hash": "9a65983cf2168d8b8efef6c6a5721c06",
-    "semantic_hash": "9a65983cf2168d8b8efef6c6a5721c06"
+    "mtime": 1795437216.1466568,
+    "seen": 1795437359.174131,
+    "ast_hash": "ee819fda5de51409808a7d91a6b1cc95",
+    "semantic_hash": ""
   },
   "docs/README.md": {
     "mtime": 1795413525.204527,
@@ -1152,10 +1152,10 @@
     "semantic_hash": "2ecae6e3896cb3bbfd9ad9c3d9cdaaf7"
   },
   "docs/esp32-online.md": {
-    "mtime": 1795413525.2160583,
-    "seen": 1795434921.6145499,
-    "ast_hash": "e70cc2dae873eb301e4e1b27c6739bf4",
-    "semantic_hash": "e70cc2dae873eb301e4e1b27c6739bf4"
+    "mtime": 1795437209.4184344,
+    "seen": 1795437359.1741743,
+    "ast_hash": "35d4b00c58268b6ab3d78236ed163e33",
+    "semantic_hash": ""
   },
   "backend/app/web_frontend.py": {
     "mtime": 1795413525.1028259,
@@ -1206,10 +1206,10 @@
     "semantic_hash": "082e1fedffbe643968b76b0a4865912f"
   },
   "firmware/stack_moko_baby/diagram.json": {
-    "mtime": 1795413525.5183609,
-    "seen": 1795434921.6143146,
-    "ast_hash": "817b97954bc7b1d5172620eade00d09c",
-    "semantic_hash": "817b97954bc7b1d5172620eade00d09c"
+    "mtime": 1795436666.9813428,
+    "seen": 1795437359.1739094,
+    "ast_hash": "ee3670fd9454e7f3fd38df7def477ad7",
+    "semantic_hash": ""
   },
   "firmware/stack_moko_baby/game_engine.h": {
     "mtime": 1795413525.5183609,
@@ -1266,16 +1266,16 @@
     "semantic_hash": "50005729bf16db89399711bf75102176"
   },
   "scripts/package-wokwi.py": {
-    "mtime": 1795413525.7475576,
-    "seen": 1795434921.6145146,
-    "ast_hash": "a726be04a30b3f26fbfabe36d22543f5",
-    "semantic_hash": "a726be04a30b3f26fbfabe36d22543f5"
+    "mtime": 1795436681.948945,
+    "seen": 1795437359.1741147,
+    "ast_hash": "6ba7ae35b91d4d7c23677207c8c64bb9",
+    "semantic_hash": ""
   },
   "scripts/prepare-online-firmware.py": {
-    "mtime": 1795413525.7475576,
-    "seen": 1795434921.6145175,
-    "ast_hash": "0fdfcedf05a2ebf69e6811791792cc13",
-    "semantic_hash": "0fdfcedf05a2ebf69e6811791792cc13"
+    "mtime": 1795436672.711773,
+    "seen": 1795437359.1741173,
+    "ast_hash": "a242e4e60ef91533b5463192775593e0",
+    "semantic_hash": ""
   },
   "scripts/prepare-render-secrets.py": {
     "mtime": 1795413525.7475576,
@@ -1314,10 +1314,10 @@
     "semantic_hash": "405bc4a8e6b7be70aedfec0d597a7c67"
   },
   "docs/hardware-bringup.md": {
-    "mtime": 1795413525.2190578,
-    "seen": 1795434921.614555,
-    "ast_hash": "cfb71bf7044d5480194cbfba94d7c794",
-    "semantic_hash": "cfb71bf7044d5480194cbfba94d7c794"
+    "mtime": 1795437216.0316503,
+    "seen": 1795437359.1741855,
+    "ast_hash": "fa4f779ddc3fd761245d536e7de98dd6",
+    "semantic_hash": ""
   },
   ".claude/settings.json": {
     "mtime": 1795434471.6674585,
@@ -1336,6 +1336,18 @@
     "seen": 1795434921.6145337,
     "ast_hash": "366f7626a01d47ca3907591414a2ba71",
     "semantic_hash": "366f7626a01d47ca3907591414a2ba71"
+  },
+  "firmware/stack_moko_baby/display_layout.h": {
+    "mtime": 1795436536.1729538,
+    "seen": 1795437359.1739137,
+    "ast_hash": "f47f76d19fb072a9b650eb5464552951",
+    "semantic_hash": ""
+  },
+  "docs/Stack-Moko-Baby-Wiring-and-Operation-Guide.pdf": {
+    "mtime": 1795437334.5996742,
+    "seen": 1795437359.1742597,
+    "ast_hash": "43d6161ee200ac9c335d358081660137",
+    "semantic_hash": ""
   },
   "frontend/package-lock.json": {
     "mtime": 1795413525.5293627,

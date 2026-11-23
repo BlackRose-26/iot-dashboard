@@ -33,5 +33,6 @@
   "79": "Read-only command polling (GET /api/device/commands)",
   "83": "Cloudflare Quick Tunnel",
   "85": "Persist-before-ACK reservation receipt",
-  "96": "Self-test stages (panel chain, orientation, button, strip, audio)"
+  "96": "Self-test stages (panel chain, orientation, button, strip, audio)",
+  "97": "display_layout.h"
 }

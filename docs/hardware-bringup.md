@@ -1,6 +1,6 @@
 # Physical cabinet bring-up over a phone hotspot
 
-Updated 23 November 2026. This guide follows the user's network choice: **phone hotspot → ESP32 → mobile data → Cloudflare HTTPS tunnel → this PC**. Players open registration on their own mobile data through the same public HTTPS address; only the ESP32 needs the hotspot. The PC needs Internet access but does not have to be on the hotspot. The hotspot phone can be Android or iPhone. The hardware follows the [ESP32 wiring guide](esp32-online.md#firmware-files-and-wiring): ESP32 DevKit, three 16×16 WS2812 panels on GPIO18 via a 74AHCT125, button GPIO27 to GND, 12 V strip MOSFET GPIO25, DFPlayer TX GPIO17.
+Updated 23 November 2026. This guide follows the user's network choice: **phone hotspot → ESP32 → mobile data → Cloudflare HTTPS tunnel → this PC**. Players open registration on their own mobile data through the same public HTTPS address; only the ESP32 needs the hotspot. The PC needs Internet access but does not have to be on the hotspot. The hotspot phone can be Android or iPhone. The hardware follows the [ESP32 wiring guide](esp32-online.md#firmware-files-and-wiring): ESP32 DevKit, an 8×32 WS2812 HUD followed by two 16×16 WS2812 block panels on one GPIO18 data chain via a 74AHCT125 (display changed 23 November 2026), button GPIO27 to GND, 12 V strip MOSFET GPIO25, DFPlayer TX GPIO17.
 
 **Status:** the tooling below compiles and its flash-layout check passes. **None of these steps has run on the physical cabinet yet.** Record each gate as passed only after it is actually observed.
 
@@ -34,13 +34,13 @@ Use a separate, adequately rated 5 V supply for the panels with a common ground 
 
 | Stage | Expected | If wrong |
 | --- | --- | --- |
-| 1 Panel chain | First panel from GPIO18 red (bottom), next green (middle), last blue (top). Uses raw chain order. | Colours out of order: check DOUT→DIN. Dark panel: check its 5 V, GND and data. |
-| 2 Orientation | White border; red top-left, green top-right, blue bottom-left, yellow bottom-right; an orange dot scans each row left→right, top→bottom. | Mirrored corners, zigzag or jumps: adjust `pixel()` in `stack_moko_baby.ino` (panel order, row direction, serpentine). |
+| 1 Panel chain | 8×32 HUD (first on GPIO18) red, bottom block panel green, upper block panel blue. Uses raw chain order. | Colours out of order: check DOUT→DIN. Dark display: check its 5 V, GND and data. |
+| 2 Orientation | On both the HUD and the block area: white border; red top-left, green top-right, blue bottom-left, yellow bottom-right; an orange dot scans each row left→right, top→bottom. | Mirrored corners, zigzag or jumps: change the flags in `display_layout.h` (HUD column/row order, zigzag, flips; block flips), not `stack_moko_baby.ino` (panel order, row direction, serpentine). |
 | 3 Button | Count on the top panel; bottom row lights while held; serial prints gap and raw interrupt edges. | Bottom row always lit: GPIO27 stuck to GND. Many edges per press: mechanical bounce (the game debounces 20 ms / 65 ms). |
 | 4 12 V strip | GPIO25 toggles every second; the strip follows the yellow block. | Check MOSFET gate, 12 V supply and common ground. |
 | 5 Audio | DFPlayer plays `/mp3/0001.mp3`, `0002`, `0003`, 4 s apart. | Check SD card folder/names, TX→RX via 1 kΩ, speaker and `STACK_DFPLAYER_VOLUME`. |
 
-If `pixel()` changes, re-run the self-test until stage 2 is correct. The game and the backend replay use logical x positions only, so a mapping fix does not change scoring.
+If a layout flag changes, re-run the self-test until stage 2 is correct on both displays. The game and the backend replay use logical x positions only, so a mapping fix does not change scoring.
 
 ## 3. Flash the game firmware for the hotspot
 

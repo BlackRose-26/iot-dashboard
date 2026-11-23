@@ -100,7 +100,10 @@ def main():
     if not Path(cli).is_file(): raise RuntimeError('Arduino CLI is missing; use the installed compiler path.')
     source=root/'firmware'/'stack_moko_baby'
     (source/'build'/'stack_moko_baby.ino.merged.bin').unlink(missing_ok=True)
-    subprocess.run([cli,'compile','--fqbn','esp32:esp32:esp32','--output-dir',str(source/'build'),str(source)],cwd=root,check=True)
+    # Wokwi's led-matrix part is row-serpentine only; the physical 8x32 HUD defaults to
+    # column-major (display_layout.h), so the simulator build overrides that one flag.
+    wokwi=['--build-property','compiler.cpp.extra_flags=-DSTACK_HUD_COLUMN_MAJOR=0']
+    subprocess.run([cli,'compile','--fqbn','esp32:esp32:esp32',*wokwi,'--output-dir',str(source/'build'),str(source)],cwd=root,check=True)
     merge_firmware(cli,source,root)
     print('Private firmware ready in firmware/stack_moko_baby/build/stack_moko_baby.ino.merged.bin.')
     print('Use this merged image only for a fresh unsaved/private Wokwi session. Never publish it or config.h.')

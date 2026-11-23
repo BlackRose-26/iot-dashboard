@@ -1,4 +1,5 @@
-// Stack Moko Baby: outbound protocol-v2 client, 3 x 16x16 WS2812 panels.
+// Stack Moko Baby: outbound protocol-v2 client. Display: 8x32 WS2812 HUD on top,
+// two 16x16 WS2812 block panels below (one data chain on GPIO18, HUD first).
 // Physical button gameplay only. No inbound /start or raw-score upload API.
 #include <Arduino.h>
 #include <WiFi.h>
@@ -16,6 +17,7 @@
 #else
 #include "config.example.h"
 #endif
+#include "display_layout.h"
 // Built with -DSTACK_HARDWARE_TEST=1 by scripts/flash-device.py --selftest.
 // That build never opens the NVS journal, Wi-Fi or the backend.
 #ifndef STACK_HARDWARE_TEST
@@ -24,7 +26,10 @@
 
 const char* RULES_HASH="f73ce2ee4d1f607b6ea97038a534c7521a9305ee9ada3e2d418029cf866a58a4";
 constexpr int LED_PIN=18, BUTTON_PIN=27, STRIP_PIN=25, PIEZO_PIN=26;
-Adafruit_NeoPixel leds(768,LED_PIN,NEO_GRB+NEO_KHZ800);
+// Chain order: HUD (256) -> bottom block panel (256) -> upper block panel (256).
+constexpr int HUD_W=32, HUD_H=8, HUD_LEDS=HUD_W*HUD_H, PANEL_LEDS=256;
+constexpr int BLOCK_W=16, BLOCK_H=32, LED_COUNT=HUD_LEDS+2*PANEL_LEDS;
+Adafruit_NeoPixel leds(LED_COUNT,LED_PIN,NEO_GRB+NEO_KHZ800);
 Preferences nvs;
 JsonDocument saved;
 StackGame game;
@@ -321,56 +326,106 @@ void synchronize() {
   }
 }
 
-// Panel chain is bottom -> middle -> top. Each 16x16 panel is row-serpentine.
-int pixel(int x,int y) {
-  int panel=2-y/16, row=y%16;
-  return panel*256+row*16+(row%2?15-x:x);
+// ---- Display mapping (flags in display_layout.h) ----
+// HUD: logical 32 x 8, chain indices 0..255. Block area: logical 16 x 32 (y 0 = top);
+// bottom block panel follows the HUD in the chain, the upper block panel comes last.
+int hudPixel(int x,int y) {
+  if (x<0||x>=HUD_W||y<0||y>=HUD_H) return -1;
+  if (STACK_HUD_FLIP_X) x=HUD_W-1-x;
+  if (STACK_HUD_FLIP_Y) y=HUD_H-1-y;
+#if STACK_HUD_COLUMN_MAJOR
+  return x*HUD_H+((STACK_HUD_SERPENTINE && x%2)?HUD_H-1-y:y);
+#else
+  return y*HUD_W+((STACK_HUD_SERPENTINE && y%2)?HUD_W-1-x:x);
+#endif
 }
+int blockPixel(int x,int y) {
+  if (x<0||x>=BLOCK_W||y<0||y>=BLOCK_H) return -1;
+  if (STACK_BLOCK_FLIP_X) x=BLOCK_W-1-x;
+  int panel=1-y/16, row=y%16;  // panel 0 = bottom block panel
+  if (STACK_BLOCK_FLIP_ROWS) row=15-row;
+  return HUD_LEDS+panel*PANEL_LEDS+row*16+(row%2?15-x:x);
+}
+void setHud(int x,int y,uint32_t c) { int i=hudPixel(x,y); if (i>=0) leds.setPixelColor(i,c); }
+void setBlock(int x,int y,uint32_t c) { int i=blockPixel(x,y); if (i>=0) leds.setPixelColor(i,c); }
 void block(int x,int y,int width,uint32_t color) {
-  for (int dy=0;dy<2;dy++) for (int i=0;i<width;i++) leds.setPixelColor(pixel(x+i,y+dy),color);
+  for (int dy=0;dy<2;dy++) for (int i=0;i<width;i++) setBlock(x+i,y+dy,color);
 }
-const uint16_t digits[10]={0x7b6f,0x2492,0x73e7,0x73cf,0x5bc9,0x79cf,0x79ef,0x7249,0x7bef,0x7bcf};
-void digit(int n,int left,int top,int scale,uint32_t color) {
-  for (int row=0;row<5;row++) for (int col=0;col<3;col++)
-    if (digits[n]&(1<<(14-row*3-col)))
-      for (int dy=0;dy<scale;dy++) for (int dx=0;dx<scale;dx++)
-        leds.setPixelColor(pixel(left+col*scale+dx,top+row*scale+dy),color);
+
+// 3x5 font: five rows top->bottom, each row 3 bits (4 = left, 2 = middle, 1 = right).
+#define GLYPH(a,b,c,d,e) uint16_t(((a)<<12)|((b)<<9)|((c)<<6)|((d)<<3)|(e))
+uint16_t glyph(char ch) {
+  static const uint16_t digitGlyphs[10]={GLYPH(7,5,5,5,7),GLYPH(2,6,2,2,7),GLYPH(7,1,7,4,7),GLYPH(7,1,7,1,7),
+    GLYPH(5,5,7,1,1),GLYPH(7,4,7,1,7),GLYPH(7,4,7,5,7),GLYPH(7,1,1,1,1),GLYPH(7,5,7,5,7),GLYPH(7,5,7,1,7)};
+  static const uint16_t letterGlyphs[26]={
+    GLYPH(2,5,7,5,5),GLYPH(6,5,6,5,6),GLYPH(3,4,4,4,3),GLYPH(6,5,5,5,6),GLYPH(7,4,6,4,7),GLYPH(7,4,6,4,4),
+    GLYPH(3,4,5,5,3),GLYPH(5,5,7,5,5),GLYPH(7,2,2,2,7),GLYPH(1,1,1,5,2),GLYPH(5,5,6,5,5),GLYPH(4,4,4,4,7),
+    GLYPH(5,7,7,5,5),GLYPH(6,5,5,5,5),GLYPH(2,5,5,5,2),GLYPH(6,5,6,4,4),GLYPH(2,5,5,6,3),GLYPH(6,5,6,5,5),
+    GLYPH(3,4,2,1,6),GLYPH(7,2,2,2,2),GLYPH(5,5,5,5,7),GLYPH(5,5,5,5,2),GLYPH(5,5,7,7,5),GLYPH(5,5,2,5,5),
+    GLYPH(5,5,2,2,2),GLYPH(7,1,2,4,7)};
+  if (ch>='a'&&ch<='z') ch-=32;
+  if (ch>='0'&&ch<='9') return digitGlyphs[ch-'0'];
+  if (ch>='A'&&ch<='Z') return letterGlyphs[ch-'A'];
+  if (ch=='-') return GLYPH(0,0,7,0,0);
+  if (ch=='!') return GLYPH(2,2,2,0,2);
+  if (ch==':') return GLYPH(0,2,0,2,0);
+  return 0;  // space and anything else
 }
-void word(const char* text,int top,uint32_t color) {
-  const char* alphabet="GAMEOVRT";
-  const uint8_t glyphs[8][5]={{7,4,5,5,7},{2,5,7,5,5},{5,7,7,5,5},{7,4,6,4,7},
-                             {7,5,5,5,7},{5,5,5,5,2},{6,5,6,5,5},{7,2,2,2,2}};
-  for (int i=0;text[i];i++) {
-    const char* found=strchr(alphabet,text[i]);
-    if (!found) continue;
-    for (int row=0;row<5;row++) for (int col=0;col<3;col++)
-      if (glyphs[found-alphabet][row]&(1<<(2-col))) leds.setPixelColor(pixel(i*4+col,top+row),color);
+int textWidth(const char* s) { int n=strlen(s); return n?n*4-1:0; }
+void hudText(const char* s,int left,int top,uint32_t color) {
+  for (int i=0;s[i];i++) {
+    int x0=left+i*4;
+    if (x0>=HUD_W || x0<-3) continue;
+    uint16_t g=glyph(s[i]);
+    for (int r=0;r<5;r++) for (int col=0;col<3;col++)
+      if (g&(1<<(14-r*3-col))) setHud(x0+col,top+r,color);
   }
 }
+void hudCentered(const char* s,uint32_t color) { hudText(s,(HUD_W-textWidth(s))/2,1,color); }
+void hudScroll(const char* s,uint32_t color,uint64_t since) {
+  int span=textWidth(s)+HUD_W;
+  hudText(s,HUD_W-int((since/45)%span),1,color);  // about 22 columns per second
+}
+
+constexpr uint32_t RESULT_HOLD_MS=8000;  // keep the result on screen after upload
 void draw() {
   leds.clear();
-  uint32_t base=leds.Color(35,90,25), active=leds.Color(120,35,5);
-  if (mode==PLAYING || mode==RESULT || mode==COUNTDOWN) {
-    block(5,46,6,base);
+  uint64_t t=uptime();
+  uint32_t base=leds.Color(35,90,25), active=leds.Color(120,35,5), info=leds.Color(25,45,110),
+           warm=leds.Color(110,60,0), alert=leds.Color(110,8,5);
+  char line[40];
+  // A finished round stays visible for a few seconds even after the cabinet is ready again.
+  bool showResult=finishedAt>countdownAt && t-finishedAt<RESULT_HOLD_MS && (mode==RESULT||mode==WAITING);
+  if (mode==PLAYING || mode==COUNTDOWN || showResult) {
+    block(5,BLOCK_H-2,6,base);  // foundation, bottom two rows
     int sx=5;
     for (int i=0;i<game.count;i++) {
       int left=max(sx,game.trace[i].x); sx=left;
-      if (game.trace[i].overlap) block(left,44-i*2,game.trace[i].overlap,base);
+      if (game.trace[i].overlap) block(left,BLOCK_H-4-i*2,game.trace[i].overlap,base);
     }
-    if (mode==PLAYING && !game.ended) block(game.x(uint32_t(uptime()-startAt)),44-game.score*2,game.width,active);
+    if (mode==PLAYING && !game.ended) block(game.x(uint32_t(t-startAt)),BLOCK_H-4-game.score*2,game.width,active);
     if (mode==COUNTDOWN) {
-      digit(3-min(2,int((uptime()-countdownAt)/STACK_COUNTDOWN_STEP_MS)),3,0,3,leds.Color(100,45,0));
-    } else if (mode==RESULT && !game.won && ((uptime()-finishedAt)/1800)%2==0) {
-      word("GAME",2,leds.Color(100,5,5)); word("OVER",9,leds.Color(100,5,5));
-    } else {
-      digit(game.score/10,1,0,2,base); digit(game.score%10,9,0,2,base);
-      uint32_t elapsed=mode==PLAYING?uint32_t(uptime()-startAt):game.duration;
+      snprintf(line,sizeof(line),"%d",3-min(2,int((t-countdownAt)/STACK_COUNTDOWN_STEP_MS)));
+      hudCentered(line,warm);
+    } else if (mode==PLAYING && t-startAt<600) {
+      hudCentered("GO!",base);
+    } else if (mode==PLAYING) {
+      uint32_t elapsed=uint32_t(t-startAt);
       int remaining=elapsed>=60000?0:(60000-elapsed+999)/1000;
-      word("T",11,active); digit(remaining/10,5,11,1,active); digit(remaining%10,9,11,1,active);
+      snprintf(line,sizeof(line),"SC%02d",game.score); hudText(line,0,1,base);
+      snprintf(line,sizeof(line),"T%02d",remaining); hudText(line,20,1,active);
+    } else {
+      snprintf(line,sizeof(line),game.won?"YOU WIN! SCORE %d":"GAME OVER - SCORE %d",game.score);
+      hudScroll(line,game.won?base:alert,t-finishedAt);
     }
   } else {
     uint32_t c=mode==ARMED?leds.Color(20,90,20):mode==WAITING?leds.Color(10,15,45):leds.Color(90,8,5);
-    for (int x=3;x<13;x++) leds.setPixelColor(pixel(x,24),c);
+    for (int y=15;y<17;y++) for (int x=3;x<13;x++) setBlock(x,y,c);
+    if (mode==WAITING) hudScroll("SCAN TO PLAY",info,t);
+    else if (mode==ARMED) hudScroll("NEXT PLAYER - PRESS THE BUTTON",base,t);
+    else if (mode==HELD) hudScroll("PLEASE WAIT - STAFF CHECK",warm,t);
+    else if (mode==FAULT) hudCentered("ERROR",alert);
+    else hudCentered("OFFLINE",alert);
   }
   leds.show();
 }
@@ -390,13 +445,14 @@ void testEnter(int stage) {
   testStrip=false; testTrack=0; digitalWrite(STRIP_PIN,LOW);
   Serial.printf("\n== Self-test %d/%d: %s ==\n",testStage+1,TEST_STAGES,testNames[testStage]);
   switch (testStage) {
-    case 0: Serial.println("Expect: panel wired to GPIO18 red (bottom), next green (middle), last blue (top).\n"
-                           "Wrong colour order = check the DOUT->DIN chain. Dark panel = check its 5 V, GND and data."); break;
-    case 1: Serial.println("Expect: white border; red top-left, green top-right, blue bottom-left, yellow bottom-right.\n"
-                           "An orange dot scans every row left->right, top->bottom. Jumps/zigzags = adjust pixel()."); break;
-    case 2: Serial.println("Press the cabinet button. Count shows on the top panel; bottom row lights while held.\n"
+    case 0: Serial.println("Expect: 8x32 HUD (first on GPIO18) red, bottom block panel green, upper block panel blue.\n"
+                           "Wrong colour order = check the DOUT->DIN chain. Dark display = check its 5 V, GND and data."); break;
+    case 1: Serial.println("Expect on BOTH displays: white border; red top-left, green top-right, blue bottom-left,\n"
+                           "yellow bottom-right; an orange dot scans each row left->right, top->bottom.\n"
+                           "Mirrored or scrambled = change the flags in display_layout.h and re-run the self-test."); break;
+    case 2: Serial.println("Press the cabinet button. Count shows on the HUD; bottom block row lights while held.\n"
                            "Many edges per press = bounce (the game debounces); always lit = GPIO27 stuck to GND."); break;
-    case 3: Serial.println("GPIO25 toggles every second. The 12 V strip should follow the yellow block."); break;
+    case 3: Serial.println("GPIO25 toggles every second. The 12 V strip should follow ON/OFF on the HUD."); break;
     case 4:
 #if STACK_USE_DFPLAYER
       Serial.println("DFPlayer plays /mp3/0001 (countdown), 0002 (loss), 0003 (win), 4 s apart, volume from config.");
@@ -406,29 +462,39 @@ void testEnter(int stage) {
       break;
   }
 }
+// Border, coloured corners and a scanning dot in logical order for one display.
+void orientationPattern(void (*set)(int,int,uint32_t),int w,int h,uint64_t since) {
+  uint32_t edge=leds.Color(30,30,30);
+  for (int x=0;x<w;x++) { set(x,0,edge); set(x,h-1,edge); }
+  for (int y=0;y<h;y++) { set(0,y,edge); set(w-1,y,edge); }
+  set(0,0,leds.Color(90,0,0)); set(w-1,0,leds.Color(0,90,0));
+  set(0,h-1,leds.Color(0,0,90)); set(w-1,h-1,leds.Color(90,90,0));
+  int dot=int((since/8)%(w*h));
+  set(dot%w,dot/w,leds.Color(120,40,0));
+}
 void testDraw() {
   leds.clear();
   uint64_t t=uptime(), since=t-testStageAt;
+  char line[16];
   if (testStage==0) {
-    // Raw chain index, not pixel(): proves physical data-chain order.
-    for (int i=0;i<768;i++) leds.setPixelColor(i,i<256?leds.Color(60,0,0):i<512?leds.Color(0,60,0):leds.Color(0,0,60));
+    // Raw chain index, not the layout mapping: proves physical data-chain order.
+    for (int i=0;i<LED_COUNT;i++)
+      leds.setPixelColor(i,i<HUD_LEDS?leds.Color(60,0,0):i<HUD_LEDS+PANEL_LEDS?leds.Color(0,60,0):leds.Color(0,0,60));
   } else if (testStage==1) {
-    uint32_t edge=leds.Color(30,30,30);
-    for (int x=0;x<16;x++) { leds.setPixelColor(pixel(x,0),edge); leds.setPixelColor(pixel(x,47),edge); }
-    for (int y=0;y<48;y++) { leds.setPixelColor(pixel(0,y),edge); leds.setPixelColor(pixel(15,y),edge); }
-    leds.setPixelColor(pixel(0,0),leds.Color(90,0,0)); leds.setPixelColor(pixel(15,0),leds.Color(0,90,0));
-    leds.setPixelColor(pixel(0,47),leds.Color(0,0,90)); leds.setPixelColor(pixel(15,47),leds.Color(90,90,0));
-    int dot=int((since/8)%768);
-    leds.setPixelColor(pixel(dot%16,dot/16),leds.Color(120,40,0));
+    orientationPattern(setHud,HUD_W,HUD_H,since);
+    orientationPattern(setBlock,BLOCK_W,BLOCK_H,since);
   } else if (testStage==2) {
     uint32_t c=t-testFlashAt<120?leds.Color(120,120,120):leds.Color(35,90,25);
-    digit((testPresses/10)%10,1,0,2,c); digit(testPresses%10,9,0,2,c);
-    if (digitalRead(BUTTON_PIN)==LOW) for (int x=0;x<16;x++) leds.setPixelColor(pixel(x,47),leds.Color(0,60,90));
+    snprintf(line,sizeof(line),"BTN %02lu",(unsigned long)(testPresses%100));
+    hudCentered(line,c);
+    if (digitalRead(BUTTON_PIN)==LOW) for (int x=0;x<BLOCK_W;x++) setBlock(x,BLOCK_H-1,leds.Color(0,60,90));
   } else if (testStage==3) {
-    if (testStrip) block(3,22,10,leds.Color(110,90,0));
-    else for (int x=3;x<13;x++) leds.setPixelColor(pixel(x,23),leds.Color(20,20,20));
+    hudCentered(testStrip?"ON":"OFF",leds.Color(110,90,0));
+    if (testStrip) block(3,15,10,leds.Color(110,90,0));
+    else for (int x=3;x<13;x++) setBlock(x,16,leds.Color(20,20,20));
   } else {
-    digit(testTrack,5,16,2,leds.Color(100,45,0));
+    snprintf(line,sizeof(line),"TRACK %u",testTrack);
+    hudCentered(line,leds.Color(100,45,0));
   }
   leds.show();
 }
@@ -512,7 +578,11 @@ void loop() {
 #if STACK_HARDWARE_TEST
   selfTestLoop(); return;
 #endif
-  if (mode==FAULT) { delay(100); return; }
+  if (mode==FAULT) {  // Storage/config fault: show ERROR, do nothing else.
+    static uint64_t faultFrame=0;
+    if (uptime()-faultFrame>=250) { faultFrame=uptime(); draw(); }
+    delay(20); return;
+  }
   static bool clockReported=false;
   if (!clockReported && time(nullptr)>1735689600) {
     clockReported=true; Serial.println("Network time synchronized; verified HTTPS can start.");

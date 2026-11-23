@@ -21,9 +21,10 @@ Migration `006_matrix_rules.sql` installs immutable `matrix-v1` and selects it f
 | Property | Matrix v1 |
 | --- | --- |
 | Logical display | 16 columns; 15 successful placements |
-| Physical display | Three 16×16 WS2812 panels, 16×48 total |
-| Upper panel | Score/countdown HUD |
-| Lower 32 physical rows | Two-pixel-high blocks, including a foundation |
+| Physical display | 8×32 WS2812 HUD on top + two 16×16 WS2812 block panels below (changed 23 November 2026; previously three 16×16 panels) |
+| HUD (8 rows × 32 columns) | Scrolling SCAN TO PLAY / NEXT PLAYER, countdown, GO!, score and time, result text |
+| Block area (16 × 32) | Two-pixel-high blocks, including a foundation |
+| Data chain (GPIO18) | HUD first → bottom block panel → upper block panel; 768 LEDs. Orientation flags in `display_layout.h` |
 | Foundation | x=5, width=6 |
 | Row movement | 60 ms first row, then 50 ms; integer elapsed-time bounce |
 | Time limit | 60 seconds, excluding countdown |
@@ -49,9 +50,9 @@ These values follow the selected sketch; speed, brightness and electrical behavi
 
 The [public Wokwi source bundle](device-artifacts/stack-moko-baby-wokwi.zip) is generated with `scripts/package-wokwi.py`; its explicit allowlist excludes credentials and binaries. It is ready for configuration after the Render origin/token exists. It does not modify the linked Wokwi project or include the ignored private `config.h`.
 
-The inspected wiring guide uses GPIO18 matrix data via a 74AHCT125 and 330 Ω resistor; GPIO27 button to ground with pull-up; GPIO25 MOSFET gate for the separate 12 V strip; GPIO17 TX through 1 kΩ to optional DFPlayer RX. The Wokwi diagram simplifies power/level shifting and substitutes a small indicator LED for the strip. It is **simulation wiring**, not a real power-distribution plan.
+The display layout changed on 23 November 2026 to an 8×32 HUD plus two 16×16 block panels; only the pixel mapping and HUD text changed, not the Matrix v1 rules or their hash. Wokwi's matrix part is row-serpentine only, so the Wokwi build and public bundle set `STACK_HUD_COLUMN_MAJOR=0`; the physical default is column-major. The inspected wiring guide uses GPIO18 matrix data via a 74AHCT125 and 330 Ω resistor; GPIO27 button to ground with pull-up; GPIO25 MOSFET gate for the separate 12 V strip; GPIO17 TX through 1 kΩ to optional DFPlayer RX. The Wokwi diagram simplifies power/level shifting and substitutes a small indicator LED for the strip. It is **simulation wiring**, not a real power-distribution plan.
 
-Defaults follow the linked newer sketch: `STACK_USE_PIEZO=0`, `STACK_USE_DFPLAYER=1`, initial volume 8/30 after a two-second initialization wait. TX-only DFPlayer commands select `/mp3/0001.mp3` for countdown, `0002.mp3` for loss and `0003.mp3` for win. For a separate simulated piezo, enable `STACK_USE_PIEZO`; GPIO26 does not drive a JBL speaker. Amplifier/speaker/volume verification remains physical work. Use the attached wiring guide for real power supplies, common grounds and speaker compatibility, after checking actual component ratings. Physical matrix orientation may need adjustment in `pixel()`.
+Defaults follow the linked newer sketch: `STACK_USE_PIEZO=0`, `STACK_USE_DFPLAYER=1`, initial volume 8/30 after a two-second initialization wait. TX-only DFPlayer commands select `/mp3/0001.mp3` for countdown, `0002.mp3` for loss and `0003.mp3` for win. For a separate simulated piezo, enable `STACK_USE_PIEZO`; GPIO26 does not drive a JBL speaker. Amplifier/speaker/volume verification remains physical work. Use the attached wiring guide for real power supplies, common grounds and speaker compatibility, after checking actual component ratings. Physical matrix orientation is adjusted with the flags in `display_layout.h` (checked by self-test stage 2).
 
 ## Wokwi connection choices
 
