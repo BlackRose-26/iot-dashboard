@@ -18,6 +18,7 @@
 #include "config.example.h"
 #endif
 #include "display_layout.h"
+#include "sounds.h"
 // Built with -DSTACK_HARDWARE_TEST=1 by scripts/flash-device.py --selftest.
 // That build never opens the NVS journal, Wi-Fi or the backend.
 #ifndef STACK_HARDWARE_TEST
@@ -189,9 +190,6 @@ void terminal() {
   mode=RESULT; finishedAt=uptime(); digitalWrite(STRIP_PIN,LOW);
   persist(); // Retain full trace before upload, even when WiFi is unavailable.
   audioTrack(game.won?3:2);
-#if STACK_USE_PIEZO
-  tone(PIEZO_PIN,game.won?1400:220,300);
-#endif
 }
 void audioCommand(uint8_t command, uint16_t argument) {
 #if STACK_USE_DFPLAYER
@@ -201,7 +199,29 @@ void audioCommand(uint8_t command, uint16_t argument) {
   Serial2.write(bytes,10);
 #endif
 }
-void audioTrack(uint16_t track) { pendingTrack=track; }
+// Speaker sounds on GPIO26 (definitions in sounds.h). Non-blocking: loop() advances
+// one note at a time, so sound never delays game timing.
+const Note* soundNotes=nullptr;
+int soundLen=0, soundPos=0;
+uint64_t soundNext=0;
+void playSound(const Note* notes,int len) { soundNotes=notes; soundLen=len; soundPos=0; soundNext=0; }
+void updateSound() {
+#if STACK_USE_PIEZO
+  if (!soundNotes || soundPos>=soundLen) return;
+  uint64_t t=uptime();
+  if (t<soundNext) return;
+  Note n=soundNotes[soundPos++];
+  if (n.hz) tone(PIEZO_PIN,n.hz,n.ms); else noTone(PIEZO_PIN);
+  soundNext=t+n.ms+10;
+#endif
+}
+// Track 1 = countdown, 2 = loss, 3 = win (speaker melody, or DFPlayer file if enabled).
+void audioTrack(uint16_t track) {
+  pendingTrack=track;
+  if (track==1) PLAY_SOUND(SOUND_COUNTDOWN);
+  else if (track==2) PLAY_SOUND(SOUND_LOSS);
+  else if (track==3) PLAY_SOUND(SOUND_WIN);
+}
 void updateAudio() {
 #if STACK_USE_DFPLAYER
   if (!volumeSet && uptime()>=2000) {
@@ -387,6 +407,19 @@ void hudScroll(const char* s,uint32_t color,uint64_t since) {
   hudText(s,HUD_W-int((since/45)%span),1,color);  // about 22 columns per second
 }
 
+// Laptop-USB power limit (STACK_LED_BUDGET_MA in display_layout.h). The pixel buffer
+// already holds brightness-scaled values; about 20 mA per fully lit colour channel.
+void limitPower() {
+#if STACK_LED_BUDGET_MA > 0
+  uint8_t* px=leds.getPixels();
+  uint32_t bytes=uint32_t(leds.numPixels())*3, sum=0;
+  for (uint32_t i=0;i<bytes;i++) sum+=px[i];
+  uint32_t ma=sum*20/255;
+  if (ma>STACK_LED_BUDGET_MA)
+    for (uint32_t i=0;i<bytes;i++) px[i]=uint8_t(uint32_t(px[i])*STACK_LED_BUDGET_MA/ma);
+#endif
+}
+
 constexpr uint32_t RESULT_HOLD_MS=8000;  // keep the result on screen after upload
 void draw() {
   leds.clear();
@@ -427,6 +460,7 @@ void draw() {
     else if (mode==FAULT) hudCentered("ERROR",alert);
     else hudCentered("OFFLINE",alert);
   }
+  limitPower();
   leds.show();
 }
 
@@ -454,10 +488,14 @@ void testEnter(int stage) {
                            "Many edges per press = bounce (the game debounces); always lit = GPIO27 stuck to GND."); break;
     case 3: Serial.println("GPIO25 toggles every second. The 12 V strip should follow ON/OFF on the HUD."); break;
     case 4:
+#if STACK_USE_PIEZO
+      Serial.println("Speaker on GPIO26 plays 1 countdown beeps, 2 loss sound, 3 win sound, 4 s apart.");
+#endif
 #if STACK_USE_DFPLAYER
       Serial.println("DFPlayer plays /mp3/0001 (countdown), 0002 (loss), 0003 (win), 4 s apart, volume from config.");
-#else
-      Serial.println("DFPlayer is disabled in config.h (STACK_USE_DFPLAYER=0).");
+#endif
+#if !STACK_USE_PIEZO && !STACK_USE_DFPLAYER
+      Serial.println("Sound is disabled in config.h (STACK_USE_PIEZO=0 and STACK_USE_DFPLAYER=0).");
 #endif
       break;
   }
@@ -496,6 +534,7 @@ void testDraw() {
     snprintf(line,sizeof(line),"TRACK %u",testTrack);
     hudCentered(line,leds.Color(100,45,0));
   }
+  limitPower();
   leds.show();
 }
 void selfTestSetup() {
@@ -528,15 +567,11 @@ void selfTestLoop() {
   }
   if (testStage==4 && t>=2500 && (!testTrack || t-testToggleAt>=4000)) {
     testToggleAt=t; testTrack=testTrack%3+1;
-#if STACK_USE_DFPLAYER
     audioTrack(testTrack);
-    Serial.printf("Playing /mp3/000%u.mp3\n",testTrack);
-#endif
-#if STACK_USE_PIEZO
-    tone(PIEZO_PIN,testTrack==3?1400:testTrack==2?220:880,300);
-#endif
+    Serial.printf("Sound %u: %s\n",testTrack,testTrack==1?"countdown":testTrack==2?"loss":"win");
   }
   updateAudio();
+  updateSound();
   if (t-frame>=33) { frame=t; testDraw(); }
   delay(1);
 }
@@ -589,6 +624,7 @@ void loop() {
   }
   synchronize();
   updateAudio();
+  updateSound();
   static bool wasDown=false, released=true;
   static uint64_t releaseAt=0, lastPress=0, frame=0, reconnectAt=0;
   uint64_t t=uptime();
@@ -611,7 +647,8 @@ void loop() {
   // Local timing starts after countdown and never waits for an HTTP receipt.
   if (mode==PLAYING && t>=startAt) {
     uint32_t elapsed=uint32_t(t-startAt);
-    if (press && edge>=startAt) game.press(uint32_t(edge-startAt));
+    // Short click for each kept block; the result sound comes from terminal().
+    if (press && edge>=startAt && game.press(uint32_t(edge-startAt)) && !game.ended) PLAY_SOUND(SOUND_PLACE);
     if (!game.ended && elapsed>=60000) game.timeout();
     if (game.ended) terminal();
   }

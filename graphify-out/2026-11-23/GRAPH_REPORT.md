@@ -1,17 +1,17 @@
 # Graph Report - iot-dashboard  (2026-11-23)
 
 ## Corpus Check
-- 219 files · ~144,405 words
+- 220 files · ~144,860 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 22 file(s) not represented in the graph (top: .css 8, (none) 6, .cmd 4)
 
 ## Summary
-- 1947 nodes · 5832 edges · 97 communities (81 shown, 16 thin omitted)
+- 1948 nodes · 5832 edges · 98 communities (81 shown, 17 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 269 edges (avg confidence: 0.88)
 - Token cost: 307,490 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1fca28ef`
+- Built from commit: `180a9e79`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -155,7 +155,7 @@
 - **NVS journal preservation safeguards** — docs_hardware_bringup_flash_device_script, docs_free_online_merged_image, docs_esp32_online_nvs_journal, docs_device_recovery_storage_lineage [INFERRED 0.85]
 - **Free HTTPS tunnel and phone-hotspot device operation path** — agents_free_hosting_decision, readme_online_firmware_launcher, agents_phone_hotspot_network_decision, readme_online_device, docs_readme_physical_cabinet_preparation [INFERRED 0.85]
 
-## Communities (97 total, 16 thin omitted)
+## Communities (98 total, 17 thin omitted)
 
 ### Community 0 - "test_device_recovery.py"
 Cohesion: 0.29
@@ -482,24 +482,24 @@ Cohesion: 0.50
 Nodes (4): DFPlayer audio cues, npm run device:selftest wiring self-test, pixel() matrix mapping, Self-test stages (panel chain, orientation, button, strip, audio)
 
 ## Knowledge Gaps
-- **302 isolated node(s):** `request_receipts`, `login_attempts`, `request_receipts`, `version`, `author` (+297 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 621 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **16 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **302 isolated node(s):** `version`, `author`, `editor`, `parts`, `connections` (+297 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 622 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Assistant` connect `Assistant Question Pipeline` to `Assistant Training and Learning`, `Context`, `normalize`, `FastAPI App and Locking`, `test_assistant_memory.py`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
+- **Why does `Cross-system quality audit (19 Nov 2026)` connect `Backend and Online Operation Docs` to `Assistant Question Pipeline`, `check_quality.py`, `Analytics-v1 runtime and development AI system rules`?**
+  _High betweenness centrality (0.004) - this node is a cross-community bridge._
 - **Are the 13 inferred relationships involving `create_app()` (e.g. with `Question` and `Proposal`) actually correct?**
   _`create_app()` has 13 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `request_receipts`, `login_attempts`, `request_receipts` to the rest of the system?**
+- **What connects `version`, `author`, `editor` to the rest of the system?**
   _302 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Assistant Training and Learning` be split into smaller, more focused modules?**
   _Cohesion score 0.06610259122157588 - nodes in this community are weakly interconnected._
-- **Why does `Verified remaining work` connect `Backend and Online Operation Docs` to `Offline Classifier Experiment`, `Analytics-v1 runtime and development AI system rules`, `Conservative review hold`, `npm run online:firmware launcher`, `Cloudflare Quick Tunnel`, `Stack Moko Baby step-by-step build plan`?**
-  _High betweenness centrality (0.002) - this node is a cross-community bridge._
+- **Why does `Stack Moko Baby backend` connect `Backend and Online Operation Docs` to `Analytics-v1 runtime and development AI system rules`, `Architecture and Graphify Docs`, `Assistant Training Datasets Doc`, `Schema, Live Updates, Setup Docs`?**
+  _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **Should `normalize` be split into smaller, more focused modules?**
   _Cohesion score 0.08234126984126984 - nodes in this community are weakly interconnected._
-- **Why does `First-use holdout v1 (20 Nov 2026)` connect `Analytics-v1 runtime and development AI system rules` to `evaluate_holdout.py`?**
-  _High betweenness centrality (0.001) - this node is a cross-community bridge._
+- **Why does `create_app()` connect `FastAPI App and Locking` to `Assistant Training and Learning`, `evaluation_review.py`, `Security and Command Emulator`, `pytest`, `Production Frontend Serving`, `Device Recovery Service`, `Assistant Question Pipeline`, `Device Protocol Models`, `test_assistant_generalization.py`, `check_quality.py`, `assistant.py`, `origin_allowed`, `Live Update Hub`, `now`, `context_version`?**
+  _High betweenness centrality (0.002) - this node is a cross-community bridge._

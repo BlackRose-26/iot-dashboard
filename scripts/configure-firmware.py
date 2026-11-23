@@ -55,7 +55,7 @@ def main():
     values={'STACK_WIFI_SSID':args.ssid,'STACK_WIFI_PASSWORD':password,'STACK_API_BASE':args.url.rstrip('/'),
             'STACK_DEVICE_TOKEN':token,'STACK_ROOT_CA':ca}
     content='#pragma once\n'+''.join(f'#define {key} {json.dumps(value)}\n' for key,value in values.items())
-    content+=f'#define STACK_ALLOW_LOCAL_HTTP {int(args.local_http)}\n#define STACK_USE_PIEZO 0\n#define STACK_USE_DFPLAYER 1\n#define STACK_DFPLAYER_VOLUME 8\n#define STACK_COUNTDOWN_STEP_MS 500\n'
+    content+=f'#define STACK_ALLOW_LOCAL_HTTP {int(args.local_http)}\n#define STACK_USE_PIEZO 1\n#define STACK_USE_DFPLAYER 0\n#define STACK_DFPLAYER_VOLUME 8\n#define STACK_COUNTDOWN_STEP_MS 500\n'
     target=ROOT/'firmware'/'stack_moko_baby'/'config.h'
     target.write_text(content,encoding='utf-8')
     print('Private firmware config saved locally. Keep it out of public Wokwi projects and Git.')

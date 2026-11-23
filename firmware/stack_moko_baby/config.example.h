@@ -8,7 +8,7 @@
 // PEM trust anchor for the HTTPS server. See docs/esp32-online.md.
 #define STACK_ROOT_CA ""
 #define STACK_ALLOW_LOCAL_HTTP 0
-#define STACK_USE_PIEZO 0
-#define STACK_USE_DFPLAYER 1
+#define STACK_USE_PIEZO 1     // simple speaker beeps on GPIO26 (no sound files)
+#define STACK_USE_DFPLAYER 0  // optional DFPlayer Mini on GPIO17; not used in the current build
 #define STACK_DFPLAYER_VOLUME 8
 #define STACK_COUNTDOWN_STEP_MS 500

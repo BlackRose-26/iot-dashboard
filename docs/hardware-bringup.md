@@ -1,6 +1,6 @@
 # Physical cabinet bring-up over a phone hotspot
 
-Updated 23 November 2026. This guide follows the user's network choice: **phone hotspot → ESP32 → mobile data → Cloudflare HTTPS tunnel → this PC**. Players open registration on their own mobile data through the same public HTTPS address; only the ESP32 needs the hotspot. The PC needs Internet access but does not have to be on the hotspot. The hotspot phone can be Android or iPhone. The hardware follows the [ESP32 wiring guide](esp32-online.md#firmware-files-and-wiring): ESP32 DevKit, an 8×32 WS2812 HUD followed by two 16×16 WS2812 block panels on one GPIO18 data chain via a 74AHCT125 (display changed 23 November 2026), button GPIO27 to GND, 12 V strip MOSFET GPIO25, DFPlayer TX GPIO17.
+Updated 23 November 2026. This guide follows the user's network choice: **phone hotspot → ESP32 → mobile data → Cloudflare HTTPS tunnel → this PC**. Players open registration on their own mobile data through the same public HTTPS address; only the ESP32 needs the hotspot. The PC needs Internet access but does not have to be on the hotspot. The hotspot phone can be Android or iPhone. Hardware (updated 23 November 2026): ESP32 DevKit **powered by the laptop USB**; an 8×32 WS2812 HUD followed by two 16×16 WS2812 block panels on one GPIO18 data line through a **330 Ω resistor (no level shifter)**; button GPIO27 to GND; a scrap speaker on GPIO26 through 220 Ω playing simple firmware beeps (no DFPlayer or sound files). The **laptop is the only power source**: USB port 1 powers the ESP32 and USB port 2 feeds the displays through a USB power lead (red 5 V, black GND), never through the ESP32 board. The firmware dims any frame whose estimated LED current exceeds `STACK_LED_BUDGET_MA` (default 400 mA, in `display_layout.h`). Do not use the team's 6 V regulator for the LEDs. The 12 V decoration strip is outside this guide.
 
 **Status:** the tooling below compiles and its flash-layout check passes. **None of these steps has run on the physical cabinet yet.** Record each gate as passed only after it is actually observed.
 
@@ -26,7 +26,7 @@ Pass a port when more than one USB serial board is attached: `npm run device:sel
 
 ## 2. Wiring self-test (do this as soon as the wiring is finished)
 
-Use a separate, adequately rated 5 V supply for the panels with a common ground to the ESP32. Do not power the panels from the ESP32 VIN/USB. The self-test uses the game's brightness cap (25/255); stage 1 lights all 768 pixels dimly. Check actual supply ratings before powering up.
+Power the displays from a second laptop USB port through the USB power lead; prefer a USB-C port rated 1.5 A or more, because a USB-A port gives only about 0.5–0.9 A. Join the power lead GND to the ESP32 GND, but never connect the lead's 5 V to the ESP32 VIN/5V pin. The 768 LEDs also draw idle current (estimated 0.25–0.8 A, unmeasured) and the ESP32 about 0.1–0.4 A. If the ESP32 restarts, LEDs flicker or the laptop warns about USB power, lower `STACK_LED_BUDGET_MA`, use a USB-C port, or add a 5 V phone charger for the displays. The self-test uses the game's brightness cap (25/255); stage 1 lights all 768 pixels dimly. Check actual supply ratings before powering up.
 
 1. Connect the ESP32 by a **data-capable** USB cable. Install the USB-serial driver (CP210x or CH340) if Windows shows no COM port. If upload reports a boot-mode error, hold the board's BOOT button while it starts connecting.
 2. Run `npm run device:selftest`, then open the serial monitor command it prints (115200 baud).
@@ -37,8 +37,8 @@ Use a separate, adequately rated 5 V supply for the panels with a common ground 
 | 1 Panel chain | 8×32 HUD (first on GPIO18) red, bottom block panel green, upper block panel blue. Uses raw chain order. | Colours out of order: check DOUT→DIN. Dark display: check its 5 V, GND and data. |
 | 2 Orientation | On both the HUD and the block area: white border; red top-left, green top-right, blue bottom-left, yellow bottom-right; an orange dot scans each row left→right, top→bottom. | Mirrored corners, zigzag or jumps: change the flags in `display_layout.h` (HUD column/row order, zigzag, flips; block flips), not `stack_moko_baby.ino` (panel order, row direction, serpentine). |
 | 3 Button | Count on the top panel; bottom row lights while held; serial prints gap and raw interrupt edges. | Bottom row always lit: GPIO27 stuck to GND. Many edges per press: mechanical bounce (the game debounces 20 ms / 65 ms). |
-| 4 12 V strip | GPIO25 toggles every second; the strip follows the yellow block. | Check MOSFET gate, 12 V supply and common ground. |
-| 5 Audio | DFPlayer plays `/mp3/0001.mp3`, `0002`, `0003`, 4 s apart. | Check SD card folder/names, TX→RX via 1 kΩ, speaker and `STACK_DFPLAYER_VOLUME`. |
+| 4 (skip) | GPIO25 decoration-strip output; HUD shows ON/OFF. Outside this guide. | Hold the button 1 s to continue. |
+| 5 Sound | Speaker plays countdown beeps, loss tune, win tune, 4 s apart (HUD shows TRACK 1–3). | Check GPIO26 → 220 Ω → speaker → GND. Never connect the speaker to a power supply. |
 
 If a layout flag changes, re-run the self-test until stage 2 is correct on both displays. The game and the backend replay use logical x positions only, so a mapping fix does not change scoring.
 

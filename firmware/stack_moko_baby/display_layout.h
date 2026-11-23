@@ -19,6 +19,15 @@
 #define STACK_HUD_FLIP_Y 0         // 1: mirror top/bottom.
 #endif
 
+// ---- Power limit for laptop-USB operation ----
+// Estimated LED drive current per frame (about 20 mA per fully lit colour channel,
+// after the 25/255 brightness cap). Frames above this are dimmed, so the displays stay
+// inside a laptop USB port's budget. This excludes the LEDs' own idle draw and the ESP32.
+// Raise it only for a USB-C port rated 1.5 A or more; lower it if the ESP32 resets.
+#ifndef STACK_LED_BUDGET_MA
+#define STACK_LED_BUDGET_MA 400    // 0 disables the limiter
+#endif
+
 // ---- Two 16x16 block panels below: logical 16 wide x 32 tall, y 0 = top ----
 #ifndef STACK_BLOCK_FLIP_X
 #define STACK_BLOCK_FLIP_X 0       // 1: mirror each block panel left/right.

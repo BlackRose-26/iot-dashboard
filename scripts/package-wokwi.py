@@ -8,7 +8,7 @@ def main():
     source=root/'firmware'/'stack_moko_baby'
     target=root/'docs'/'device-artifacts'/'stack-moko-baby-wokwi.zip'
     files={'stack_moko_baby.ino':'sketch.ino','game_engine.h':'game_engine.h',
-           'transport_job.hpp':'transport_job.hpp','config.example.h':'config.example.h',
+           'transport_job.hpp':'transport_job.hpp','sounds.h':'sounds.h','config.example.h':'config.example.h',
            'diagram.json':'diagram.json','libraries.txt':'libraries.txt'}
     target.parent.mkdir(parents=True,exist_ok=True)
     layout=(source/'display_layout.h').read_text(encoding='utf-8')
