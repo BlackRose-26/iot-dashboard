@@ -174,7 +174,8 @@ QUERY_FORMS = {'pangkalahatang':'overview','pakibuod':'summary','sumaling':'play
                'pagsamahin':'total','smallest':'lowest','ilarawan':'describe','pakibilang':'count',
                'pinakamatagal':'longest','saang':'which','kumpara':'compare','bagong':'new',
                'unang':'first','balita':'update','lider':'leading','partisipasyon':'participation',
-               'defeat':'loss','sinuman':'anyone'}
+               'defeat':'loss','sinuman':'anyone','kanino':'whose',
+               'napipili':'chosen','pinipili':'chosen','napili':'chosen'}
 
 
 def project_words(value, vocabulary):
@@ -188,6 +189,13 @@ def project_words(value, vocabulary):
         if word in METRIC_COMPOUNDS:
             projected.extend(METRIC_COMPOUNDS[word])
             continue
+        if '-' in word and word not in vocabulary:
+            # Compounds of known words: "hour-by-hour", "perfect-placement". A part that is
+            # unknown (a name) keeps the whole compound unknown.
+            parts = word.split('-')
+            if len(parts) <= 4 and all(part in vocabulary for part in parts):
+                projected.extend(ALIASES.get(part,part) for part in parts)
+                continue
         word = SHORTHAND.get(word,word)
         if word not in vocabulary and re.search(r'(.)\1\1',word):
             # Stretched chat spelling: "pleaseee" -> "please", "sooo" -> "so".

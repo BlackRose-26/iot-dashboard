@@ -1,0 +1,1745 @@
+{
+  "summary": {
+    "generic_reply": 11,
+    "correct": 95,
+    "wrong_topic": 7,
+    "held_supported": 7,
+    "held_correctly": 10
+  },
+  "cases": [
+    {
+      "id": "balanced-dev-001",
+      "expected": "overview",
+      "predicted": "knowledge:registration",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "generic_reply",
+      "question": "Bring me up to speed on how our carnival event is doing.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-002",
+      "expected": "overview",
+      "predicted": "knowledge:queue_flow",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "generic_reply",
+      "question": "Describe the present picture across participation, admissions and cabinet observations.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-003",
+      "expected": "overview",
+      "predicted": "overview",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary",
+        "get_queue_summary",
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "What event facts should the next operator know at handover?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-004",
+      "expected": "overview",
+      "predicted": "knowledge:dashboard",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "generic_reply",
+      "question": "Take the pulse of the whole Stack Moko Baby event.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-005",
+      "expected": "overview",
+      "predicted": "overview",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary",
+        "get_queue_summary",
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "I have no particular metric in mind; give a broad event update.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-006",
+      "expected": "overview",
+      "predicted": "overview",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary",
+        "get_queue_summary",
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Sum up the event so far in a few useful facts.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-007",
+      "expected": "overview",
+      "predicted": "overview",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary",
+        "get_queue_summary",
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Ano ang pangkalahatang balita sa buong carnival natin?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-008",
+      "expected": "overview",
+      "predicted": "overview",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary",
+        "get_queue_summary",
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Ilarawan ang kabuuang lagay ng event natin ngayon.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-009",
+      "expected": "overview",
+      "predicted": "overview",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary",
+        "get_queue_summary",
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Pakibuod ang event para sa susunod na operator.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-010",
+      "expected": "overview",
+      "predicted": "overview",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary",
+        "get_queue_summary",
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Kumusta na ang buong Stack Moko Baby event bilang kabuuan?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-011",
+      "expected": "players",
+      "predicted": "players",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "How large is the registered participant population at this event?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-012",
+      "expected": "players",
+      "predicted": "players",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "Distinguish the number enrolled from the number who finished playing.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-013",
+      "expected": "players",
+      "predicted": "players",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "Among completed games, what fraction ended in victory?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-014",
+      "expected": "players",
+      "predicted": "players",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "Tell me the recorded number of rounds ending in defeat.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-015",
+      "expected": "players",
+      "predicted": "players",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "How many completed rounds ran out of time?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-016",
+      "expected": "players",
+      "predicted": "players",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "Count distinct people who completed a game, rather than their attempts.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-017",
+      "expected": "players",
+      "predicted": "players",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "Ibigay ang bilang ng mga sumaling rehistrado sa ating event.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-018",
+      "expected": "players",
+      "predicted": "players",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "Ilang manlalaro ang may natapos nang laro?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-019",
+      "expected": "players",
+      "predicted": "players",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "Anong bahagi ng completed games ang mga panalo?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-020",
+      "expected": "players",
+      "predicted": "players",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "Pakibilang ang games na nagtapos dahil naubos ang oras.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-021",
+      "expected": "queue",
+      "predicted": "queue",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_queue_summary",
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Give the current tally of visitors awaiting their turn at our cabinet.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-022",
+      "expected": "queue",
+      "predicted": "queue",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_queue_summary"
+      ],
+      "kind": "correct",
+      "question": "Are new registrations being admitted into the waiting queue?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-023",
+      "expected": "queue",
+      "predicted": "queue",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_queue_summary"
+      ],
+      "kind": "correct",
+      "question": "Separate people still waiting from those already assigned a turn.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-024",
+      "expected": "queue",
+      "predicted": "definition:accuracy",
+      "status": "no_data",
+      "reason": null,
+      "tools": [],
+      "kind": "wrong_topic",
+      "question": "What is the age of the oldest current wait?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-025",
+      "expected": "queue",
+      "predicted": "queue",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_queue_summary"
+      ],
+      "kind": "correct",
+      "question": "Inspect the backlog of outstanding queue tickets.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-026",
+      "expected": "queue",
+      "predicted": "queue",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_queue_summary",
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Why might the event queue be held up right now?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-027",
+      "expected": "queue",
+      "predicted": "queue",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_queue_summary"
+      ],
+      "kind": "correct",
+      "question": "May naghihintay pa ba sa kasalukuyang pila ng booth?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-028",
+      "expected": "queue",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "tools": [],
+      "kind": "held_supported",
+      "question": "Tumatanggap pa ba ng bagong kasali ang admissions?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-029",
+      "expected": "queue",
+      "predicted": "queue",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_queue_summary"
+      ],
+      "kind": "correct",
+      "question": "Ilan ang may nakalaang turn kumpara sa naghihintay?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-030",
+      "expected": "queue",
+      "predicted": "queue",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_queue_summary"
+      ],
+      "kind": "correct",
+      "question": "Gaano katagal nang naghihintay ang pinakamatagal sa pila?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-031",
+      "expected": "machine",
+      "predicted": "machine",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "What was the cabinet's last observed operational state?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-032",
+      "expected": "machine",
+      "predicted": "knowledge:offline",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "generic_reply",
+      "question": "How recent is the last contact from the physical controller?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-033",
+      "expected": "machine",
+      "predicted": "machine",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Report the recorded Wi-Fi signal for the game cabinet.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-034",
+      "expected": "machine",
+      "predicted": "machine",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Which firmware version has the ESP32 reported?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-035",
+      "expected": "machine",
+      "predicted": "machine",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Is the cabinet observation fresh enough to call it connected?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-036",
+      "expected": "machine",
+      "predicted": "machine",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Check whether the machine is currently ready for a reservation.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-037",
+      "expected": "machine",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "tools": [],
+      "kind": "held_supported",
+      "question": "Kailan huling nakipag-ugnayan ang ESP32 sa server?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-038",
+      "expected": "machine",
+      "predicted": "machine",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Ano ang nakatalang Wi-Fi signal ng ating cabinet?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-039",
+      "expected": "machine",
+      "predicted": "knowledge:gameplay",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "generic_reply",
+      "question": "Ano ang kasalukuyang status ng physical controller natin?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-040",
+      "expected": "machine",
+      "predicted": "machine",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_machine_summary"
+      ],
+      "kind": "correct",
+      "question": "Handa na ba ang makina para sa susunod na reservation?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-041",
+      "expected": "scores",
+      "predicted": "scores",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Show the saved point values alongside each participant.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-042",
+      "expected": "scores",
+      "predicted": "scores",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Add the valid round scores within each result source.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-043",
+      "expected": "scores",
+      "predicted": "definition:average_score",
+      "status": "no_data",
+      "reason": null,
+      "tools": [],
+      "kind": "wrong_topic",
+      "question": "I want the observed average score, with no explanation of its formula.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-044",
+      "expected": "scores",
+      "predicted": "scores",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "What maximum score has been recorded, regardless of player identity?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-045",
+      "expected": "scores",
+      "predicted": "scores",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "Give the smallest valid score recorded in this event.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-046",
+      "expected": "scores",
+      "predicted": "scores",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_score_distribution"
+      ],
+      "kind": "correct",
+      "question": "How are completed-round scores spread across the score buckets?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-047",
+      "expected": "scores",
+      "predicted": "scores",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Ipakita ang naitalang puntos ng bawat kalahok.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-048",
+      "expected": "scores",
+      "predicted": "scores",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "Pagsamahin ang valid scores sa bawat result source.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-049",
+      "expected": "scores",
+      "predicted": "scores",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "correct",
+      "question": "Ano ang aktuwal na average score ng completed rounds?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-050",
+      "expected": "scores",
+      "predicted": "scores",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Paano nahahati ang scores sa mga score bucket?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-051",
+      "expected": "levels",
+      "predicted": "levels",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_level_statistics"
+      ],
+      "kind": "correct",
+      "question": "Break down failed attempts by LED row.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-052",
+      "expected": "levels",
+      "predicted": "levels",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_level_statistics"
+      ],
+      "kind": "correct",
+      "question": "Which stage has the greatest recorded failure rate?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-053",
+      "expected": "levels",
+      "predicted": "levels",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_level_statistics"
+      ],
+      "kind": "correct",
+      "question": "Show how many attempts support each level's difficulty statistics.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-054",
+      "expected": "levels",
+      "predicted": "levels",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_level_statistics"
+      ],
+      "kind": "correct",
+      "question": "Compare overlap accuracy across the levels.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-055",
+      "expected": "levels",
+      "predicted": "knowledge:gameplay",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "generic_reply",
+      "question": "Where in the stack do players most often miss?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-056",
+      "expected": "levels",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "tools": [],
+      "kind": "held_supported",
+      "question": "Show perfect-placement performance for the individual stages.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-057",
+      "expected": "levels",
+      "predicted": "levels",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_level_statistics"
+      ],
+      "kind": "correct",
+      "question": "Saang antas pinakamataas ang naitalang failure rate?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-058",
+      "expected": "levels",
+      "predicted": "knowledge:gameplay",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "generic_reply",
+      "question": "Aling LED row ang madalas hindi matapos ng players?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-059",
+      "expected": "levels",
+      "predicted": "levels",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_level_statistics"
+      ],
+      "kind": "correct",
+      "question": "Ilang attempts ang basehan ng statistics sa bawat level?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-060",
+      "expected": "levels",
+      "predicted": "levels",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_level_statistics"
+      ],
+      "kind": "correct",
+      "question": "Ihambing ang overlap accuracy ng bawat antas.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-061",
+      "expected": "trend",
+      "predicted": "trend",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_play_trend"
+      ],
+      "kind": "correct",
+      "question": "How does the number of games change across the event hours?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-062",
+      "expected": "trend",
+      "predicted": "trend",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_play_trend"
+      ],
+      "kind": "correct",
+      "question": "At what time is recorded gameplay most concentrated?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-063",
+      "expected": "trend",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "tools": [],
+      "kind": "held_supported",
+      "question": "Give an hour-by-hour account of completed game activity.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-064",
+      "expected": "trend",
+      "predicted": "trend",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_play_trend"
+      ],
+      "kind": "correct",
+      "question": "Compare daily gameplay activity over the supported period.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-065",
+      "expected": "trend",
+      "predicted": "trend",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_play_trend"
+      ],
+      "kind": "correct",
+      "question": "Which recorded time buckets were quiet and which were busy?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-066",
+      "expected": "trend",
+      "predicted": "trend",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_play_trend"
+      ],
+      "kind": "correct",
+      "question": "Describe the time pattern of participation at this event.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-067",
+      "expected": "trend",
+      "predicted": "trend",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_play_trend"
+      ],
+      "kind": "correct",
+      "question": "Paano nagbabago ang dami ng laro sa bawat oras?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-068",
+      "expected": "trend",
+      "predicted": "trend",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_play_trend"
+      ],
+      "kind": "correct",
+      "question": "Anong oras pinakamarami ang nakatalang gameplay?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-069",
+      "expected": "trend",
+      "predicted": "trend",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_play_trend"
+      ],
+      "kind": "correct",
+      "question": "Ihambing ang gameplay activity sa bawat araw ng supported period.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-070",
+      "expected": "trend",
+      "predicted": "definition:accuracy",
+      "status": "no_data",
+      "reason": null,
+      "tools": [],
+      "kind": "wrong_topic",
+      "question": "Ano ang takbo ng partisipasyon sa paglipas ng oras?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-071",
+      "expected": "top",
+      "predicted": "top",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_top_scores"
+      ],
+      "kind": "correct",
+      "question": "Which participant currently occupies first place by best score?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-072",
+      "expected": "top",
+      "predicted": "top",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_top_scores"
+      ],
+      "kind": "correct",
+      "question": "Put the leading players in leaderboard order.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-073",
+      "expected": "top",
+      "predicted": "knowledge:results",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "generic_reply",
+      "question": "Whose best valid round is ahead of the others?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-074",
+      "expected": "top",
+      "predicted": "top",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_top_scores"
+      ],
+      "kind": "correct",
+      "question": "Show the people at the head of the rankings.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-075",
+      "expected": "top",
+      "predicted": "top",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_top_scores"
+      ],
+      "kind": "correct",
+      "question": "Name the public player code leading on points, rather than only its score.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-076",
+      "expected": "top",
+      "predicted": "top",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_top_scores"
+      ],
+      "kind": "correct",
+      "question": "Which player owns the highest qualifying game score?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-077",
+      "expected": "top",
+      "predicted": "top",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_top_scores"
+      ],
+      "kind": "correct",
+      "question": "Sinong kalahok ang nasa unang puwesto sa leaderboard?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-078",
+      "expected": "top",
+      "predicted": "top",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_top_scores"
+      ],
+      "kind": "correct",
+      "question": "Isaayos ang nangungunang players ayon sa kanilang best score.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-079",
+      "expected": "top",
+      "predicted": "players",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_event_summary"
+      ],
+      "kind": "wrong_topic",
+      "question": "Kanino ang pinakamataas na valid game result?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-080",
+      "expected": "top",
+      "predicted": "top",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_top_scores"
+      ],
+      "kind": "correct",
+      "question": "Sino ang lider ng points ranking sa event natin?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-081",
+      "expected": "definition:accuracy",
+      "predicted": "definition:accuracy",
+      "status": "no_data",
+      "reason": null,
+      "tools": [],
+      "kind": "correct",
+      "question": "Explain what goes in the denominator of overlap accuracy.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-082",
+      "expected": "definition:win_rate",
+      "predicted": "definition:win_rate",
+      "status": "no_data",
+      "reason": null,
+      "tools": [],
+      "kind": "correct",
+      "question": "Describe the mathematics behind the displayed win rate.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-083",
+      "expected": "definition:scoring",
+      "predicted": "knowledge:gameplay",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "generic_reply",
+      "question": "How does successful LED alignment earn game points?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-084",
+      "expected": "definition:average_score",
+      "predicted": "definition:average_score",
+      "status": "no_data",
+      "reason": null,
+      "tools": [],
+      "kind": "correct",
+      "question": "Define the average-score calculation rather than its current value.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-085",
+      "expected": "definition:total_score",
+      "predicted": "definition:total_score",
+      "status": "no_data",
+      "reason": null,
+      "tools": [],
+      "kind": "correct",
+      "question": "Explain the meaning of the total-score statistic.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-086",
+      "expected": "definition:highest_score",
+      "predicted": "definition:highest_score",
+      "status": "no_data",
+      "reason": null,
+      "tools": [],
+      "kind": "correct",
+      "question": "What does the highest-score metric represent?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-087",
+      "expected": "definition:lowest_score",
+      "predicted": "definition:lowest_score",
+      "status": "no_data",
+      "reason": null,
+      "tools": [],
+      "kind": "correct",
+      "question": "What is meant by the lowest valid score?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-088",
+      "expected": "definition:accuracy",
+      "predicted": "definition:accuracy",
+      "status": "no_data",
+      "reason": null,
+      "tools": [],
+      "kind": "correct",
+      "question": "Paano kinukuwenta ang overlap accuracy ng laro?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-089",
+      "expected": "definition:win_rate",
+      "predicted": "definition:win_rate",
+      "status": "no_data",
+      "reason": null,
+      "tools": [],
+      "kind": "correct",
+      "question": "Ano ang ibig sabihin ng win rate na nasa dashboard?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-090",
+      "expected": "definition:scoring",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "tools": [],
+      "kind": "held_supported",
+      "question": "Ipaliwanag ang patakaran ng pagbibigay ng game points.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-091",
+      "expected": "knowledge:gameplay",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "tools": [],
+      "kind": "held_supported",
+      "question": "Walk a first-time visitor through playing the LED stacker.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-092",
+      "expected": "knowledge:registration",
+      "predicted": "knowledge:registration",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "correct",
+      "question": "Explain the route from the registration QR to a personal ticket.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-093",
+      "expected": "knowledge:queue_flow",
+      "predicted": "knowledge:queue_flow",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "correct",
+      "question": "Who is responsible for assigning the next player's turn?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-094",
+      "expected": "knowledge:architecture",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "tools": [],
+      "kind": "held_supported",
+      "question": "Describe the different jobs of React, FastAPI and XAMPP here.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-095",
+      "expected": "knowledge:dashboard",
+      "predicted": "knowledge:dashboard",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "correct",
+      "question": "What parts of the dashboard can players access?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-096",
+      "expected": "knowledge:privacy",
+      "predicted": "knowledge:privacy",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "correct",
+      "question": "Explain why registration identifiers are kept private.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-097",
+      "expected": "knowledge:offline",
+      "predicted": "knowledge:offline",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "correct",
+      "question": "Can a simulator observation establish that the physical ESP32 works?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-098",
+      "expected": "knowledge:results",
+      "predicted": "top",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_top_scores"
+      ],
+      "kind": "wrong_topic",
+      "question": "Paano napipili ang valid results na kasama sa leaderboard?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-099",
+      "expected": "knowledge:memory",
+      "predicted": "knowledge:privacy",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "generic_reply",
+      "question": "Anong uri ng impormasyon ang naaalala ng chat para sa admin?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-100",
+      "expected": "knowledge:training",
+      "predicted": "knowledge:training",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "correct",
+      "question": "Paano nakakatulong ang reviewed examples sa susunod na tanong?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-101",
+      "expected": "social:greeting",
+      "predicted": "social:help",
+      "status": "conversation",
+      "reason": "small_talk",
+      "tools": [],
+      "kind": "wrong_topic",
+      "question": "Good evening to you, Stack Intelligence.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-102",
+      "expected": "social:thanks",
+      "predicted": "social:thanks",
+      "status": "conversation",
+      "reason": "small_talk",
+      "tools": [],
+      "kind": "correct",
+      "question": "Your help is appreciated, thank you kindly.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-103",
+      "expected": "social:identity",
+      "predicted": "social:identity",
+      "status": "conversation",
+      "reason": "small_talk",
+      "tools": [],
+      "kind": "correct",
+      "question": "Please introduce yourself as our event assistant.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-104",
+      "expected": "social:help",
+      "predicted": "knowledge:assistant",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "generic_reply",
+      "question": "What sort of assistance can I ask you for here?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-105",
+      "expected": "social:acknowledge",
+      "predicted": "social:acknowledge",
+      "status": "conversation",
+      "reason": "small_talk",
+      "tools": [],
+      "kind": "correct",
+      "question": "Okay, that makes sense to me now.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-106",
+      "expected": "social:farewell",
+      "predicted": "social:farewell",
+      "status": "conversation",
+      "reason": "small_talk",
+      "tools": [],
+      "kind": "correct",
+      "question": "I'm heading off now; see you later.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-107",
+      "expected": "social:wellbeing",
+      "predicted": "social:wellbeing",
+      "status": "conversation",
+      "reason": "small_talk",
+      "tools": [],
+      "kind": "correct",
+      "question": "How are things with you this evening?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-108",
+      "expected": "social:greeting",
+      "predicted": "social:greeting",
+      "status": "conversation",
+      "reason": "small_talk",
+      "tools": [],
+      "kind": "correct",
+      "question": "Magandang umaga sa iyo, Stack Intelligence!",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-109",
+      "expected": "social:thanks",
+      "predicted": "social:help",
+      "status": "conversation",
+      "reason": "small_talk",
+      "tools": [],
+      "kind": "wrong_topic",
+      "question": "Salamat po sa inyong pagtulong sa akin.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-110",
+      "expected": "social:farewell",
+      "predicted": "social:farewell",
+      "status": "conversation",
+      "reason": "small_talk",
+      "tools": [],
+      "kind": "correct",
+      "question": "Paalam muna, babalik ako mamaya.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-111",
+      "expected": "follow_up",
+      "predicted": "follow_up",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Could we see that same score view for yesterday instead?",
+      "previous": {
+        "tools": [
+          "get_player_scores"
+        ],
+        "period": "today",
+        "source": "simulator",
+        "language": "en",
+        "definition": null,
+        "level": null,
+        "limit": 5,
+        "metrics": [],
+        "score_page": 1,
+        "detailed": false,
+        "knowledge": null
+      }
+    },
+    {
+      "id": "balanced-dev-112",
+      "expected": "follow_up",
+      "predicted": "follow_up",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Use today's window for those results, please.",
+      "previous": {
+        "tools": [
+          "get_player_scores"
+        ],
+        "period": "today",
+        "source": "simulator",
+        "language": "en",
+        "definition": null,
+        "level": null,
+        "limit": 5,
+        "metrics": [],
+        "score_page": 1,
+        "detailed": false,
+        "knowledge": null
+      }
+    },
+    {
+      "id": "balanced-dev-113",
+      "expected": "follow_up",
+      "predicted": "follow_up",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Keep the same request and use physical-device results.",
+      "previous": {
+        "tools": [
+          "get_player_scores"
+        ],
+        "period": "today",
+        "source": "simulator",
+        "language": "en",
+        "definition": null,
+        "level": null,
+        "limit": 5,
+        "metrics": [],
+        "score_page": 1,
+        "detailed": false,
+        "knowledge": null
+      }
+    },
+    {
+      "id": "balanced-dev-114",
+      "expected": "follow_up",
+      "predicted": "follow_up",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Repeat it for the simulator cohort.",
+      "previous": {
+        "tools": [
+          "get_player_scores"
+        ],
+        "period": "today",
+        "source": "simulator",
+        "language": "en",
+        "definition": null,
+        "level": null,
+        "limit": 5,
+        "metrics": [],
+        "score_page": 1,
+        "detailed": false,
+        "knowledge": null
+      }
+    },
+    {
+      "id": "balanced-dev-115",
+      "expected": "follow_up",
+      "predicted": "follow_up",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Show that for both result sources now.",
+      "previous": {
+        "tools": [
+          "get_player_scores"
+        ],
+        "period": "today",
+        "source": "simulator",
+        "language": "en",
+        "definition": null,
+        "level": null,
+        "limit": 5,
+        "metrics": [],
+        "score_page": 1,
+        "detailed": false,
+        "knowledge": null
+      }
+    },
+    {
+      "id": "balanced-dev-116",
+      "expected": "follow_up",
+      "predicted": "follow_up",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Continue onto the next score page.",
+      "previous": {
+        "tools": [
+          "get_player_scores"
+        ],
+        "period": "today",
+        "source": "simulator",
+        "language": "en",
+        "definition": null,
+        "level": null,
+        "limit": 5,
+        "metrics": [],
+        "score_page": 1,
+        "detailed": false,
+        "knowledge": null
+      }
+    },
+    {
+      "id": "balanced-dev-117",
+      "expected": "follow_up",
+      "predicted": "follow_up",
+      "status": "conversation",
+      "reason": "system_context",
+      "tools": [],
+      "kind": "correct",
+      "question": "Elaborate a little on that explanation.",
+      "previous": {
+        "tools": [],
+        "period": "event_to_date",
+        "source": "all",
+        "language": "en",
+        "definition": null,
+        "level": null,
+        "limit": 5,
+        "metrics": [],
+        "score_page": 1,
+        "detailed": false,
+        "knowledge": "privacy"
+      }
+    },
+    {
+      "id": "balanced-dev-118",
+      "expected": "follow_up",
+      "predicted": "follow_up",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Ganoon din ang tanong ko pero kahapon ang period.",
+      "previous": {
+        "tools": [
+          "get_player_scores"
+        ],
+        "period": "today",
+        "source": "simulator",
+        "language": "en",
+        "definition": null,
+        "level": null,
+        "limit": 5,
+        "metrics": [],
+        "score_page": 1,
+        "detailed": false,
+        "knowledge": null
+      }
+    },
+    {
+      "id": "balanced-dev-119",
+      "expected": "follow_up",
+      "predicted": "follow_up",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Ngayon naman para sa parehong scores.",
+      "previous": {
+        "tools": [
+          "get_player_scores"
+        ],
+        "period": "today",
+        "source": "simulator",
+        "language": "en",
+        "definition": null,
+        "level": null,
+        "limit": 5,
+        "metrics": [],
+        "score_page": 1,
+        "detailed": false,
+        "knowledge": null
+      }
+    },
+    {
+      "id": "balanced-dev-120",
+      "expected": "follow_up",
+      "predicted": "follow_up",
+      "status": "no_data",
+      "reason": null,
+      "tools": [
+        "get_player_scores"
+      ],
+      "kind": "correct",
+      "question": "Pareho pa rin pero simulator results naman.",
+      "previous": {
+        "tools": [
+          "get_player_scores"
+        ],
+        "period": "today",
+        "source": "simulator",
+        "language": "en",
+        "definition": null,
+        "level": null,
+        "limit": 5,
+        "metrics": [],
+        "score_page": 1,
+        "detailed": false,
+        "knowledge": null
+      }
+    },
+    {
+      "id": "balanced-dev-121",
+      "expected": "unsupported",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "tools": [],
+      "kind": "held_correctly",
+      "question": "Who leads the pinball tournament rankings?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-122",
+      "expected": "unsupported",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "tools": [],
+      "kind": "held_correctly",
+      "question": "What is the latest hockey score?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-123",
+      "expected": "unsupported",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "unrecognized_context",
+      "tools": [],
+      "kind": "held_correctly",
+      "question": "Are admissions open for the bank's waiting queue?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-124",
+      "expected": "unsupported",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "tools": [],
+      "kind": "held_correctly",
+      "question": "What illness could explain my fever?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-125",
+      "expected": "unsupported",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "tools": [],
+      "kind": "held_correctly",
+      "question": "Teach me to bake a cake for dinner.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-126",
+      "expected": "unsupported",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "tools": [],
+      "kind": "held_correctly",
+      "question": "How much power does my home refrigerator consume?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-127",
+      "expected": "unsupported",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "unsupported_measurement",
+      "tools": [],
+      "kind": "held_correctly",
+      "question": "Forecast next month's investment returns.",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-128",
+      "expected": "unsupported",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "tools": [],
+      "kind": "held_correctly",
+      "question": "Sino ang may pinakamataas na score sa darts tournament?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-129",
+      "expected": "unsupported",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "tools": [],
+      "kind": "held_correctly",
+      "question": "Ano ang firmware ng aking printer sa bahay?",
+      "previous": null
+    },
+    {
+      "id": "balanced-dev-130",
+      "expected": "unsupported",
+      "predicted": null,
+      "status": "needs_clarification",
+      "reason": "system_scope",
+      "tools": [],
+      "kind": "held_correctly",
+      "question": "Gaano kahaba ang pila ng pasahero sa airport?",
+      "previous": null
+    }
+  ]
+}

@@ -22,7 +22,7 @@ from .security import now
 from .assistant_memory import MemoryStore
 from .assistant_knowledge import KNOWLEDGE, RELATED_KNOWLEDGE, Knowledge, SOCIAL_QUESTIONS, Social
 from .assistant_interactions import COMMON_RESPONSES, composed_social, greeting_answer, interaction_social, interaction_text, interaction_words, strip_social_prefaces
-from .assistant_semantics import SCORE, QUEUE, MACHINE, REGISTRATION, COMPLETED, SEMANTIC_VOCAB, constraints, refers_to_previous, resolve_subject, semantic_words, reviewed_explanation, outside_event
+from .assistant_semantics import SCORE, QUEUE, MACHINE, REGISTRATION, COMPLETED, SEMANTIC_VOCAB, constraints, refers_to_previous, resolve_subject, semantic_words, reviewed_explanation, outside_event, explanation_declined
 from .assistant_continuation import continuation
 from .assistant_language import GRAMMAR, CONCEPTS, AMBIGUOUS_WORDS, PUBLIC_TAGALOG_ADDITIONS, linguistic_text, project_words, lexical_resource, tagalog_language_words
 
@@ -160,6 +160,23 @@ def contextual_follow_up(normalized, previous):
     return bool(previous is not None and not normalized['has_unrecognized_words'] and len(tokens) <= 8
                 and set(tokens) & CONTEXT_REFERENCES and not outside_event(' '.join(tokens))
                 and set(tokens) <= DOMAIN_VOCABULARY | FOLLOWUP_LANGUAGE | CONTEXT_REFERENCES)
+
+
+# Live-state wording (24 Nov 2026). When the model files a request about the current
+# state under an explanation card, routing is retried once among live-data topics only.
+# A genuine design cue ("why", "explain", "how does it work", "rules") keeps the card.
+LIVE_CUES = {'now','current','currently','present','recent','recently','latest','last','status','doing','going','today',
+             'yesterday','often','most','ahead','leading','best','whose','where','pulse','picture','speed','contact','miss',
+             'missed','fail','failed','kasalukuyan','kasalukuyang','ngayon','huli','huling','madalas','pinakamataas','saan'}
+DESIGN_CUES = {'why','bakit','explain','ipaliwanag','purpose','rules','rule','design','designed','work','works','workflow',
+               'gumagana','procedure','process','steps','architecture','role','roles','jobs','technology','technologies',
+               'privacy','private','encrypted','encryption','protect','protected','memory','remember','training','dataset'}
+
+
+def asks_live_state(normalized):
+    words = semantic_words(normalized)
+    if words & DESIGN_CUES or reviewed_explanation(normalized): return False
+    return bool(words & LIVE_CUES) or explanation_declined(normalized['safe_tokens'])
 
 
 TOPIC_TOOLS = {
@@ -1145,6 +1162,15 @@ class Assistant:
                                     measured=[v for v in (tokens[key],response.get(field)) if isinstance(v,int)]
                                     tokens[key]=sum(measured) if measured else None
                                 routing = RoutingPlan.model_validate_json(response['message']['content'])
+                                live_topics = [t for t in payload['format']['properties']['topic']['enum'] if t in TOPIC_TOOLS]
+                                if routing.topic in ('knowledge','definition') and live_topics and asks_live_state(normalized):
+                                    retry = json.loads(json.dumps(payload))
+                                    retry['format']['properties']['topic']['enum'] = live_topics+['unsupported']
+                                    response = await model_json(self.settings, retry)
+                                    for key,field in [('input_tokens','prompt_eval_count'),('output_tokens','eval_count')]:
+                                        measured=[v for v in (tokens[key],response.get(field)) if isinstance(v,int)]
+                                        tokens[key]=sum(measured) if measured else None
+                                    routing = RoutingPlan.model_validate_json(response['message']['content'])
                                 # After both topical checks accept a system request, apply the same
                                 # explicit metric/tool constraints as ordinary project language.
                                 if scope == 'system' and routing.topic not in ('unsupported','follow_up','social'):

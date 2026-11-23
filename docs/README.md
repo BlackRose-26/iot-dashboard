@@ -8,6 +8,8 @@
 
 **24 November 2026 — NLP admission repair:** most assistant failures were valid questions refused before understanding. [The repair](nlp-admission-repair.md) adds lexicon v2 (keeps everyday words that v1 over-excluded), Taglish linker and chat-shorthand handling, a follow-up shortcut, topic-check examples and one-tap topic choices. On development data, supported questions admitted rose from 99/120 to 112/120 while off-topic holds stayed at 69/70. The consumed 325-case replay rose from 135/325 to **191/325 (58.77%)**, with valid clarifications down from 135 to 73 but unsupported false acceptances up from 1 to 3. This is regression evidence; a fresh test set is still required.
 
+**24 November 2026 — wrong topics and generic replies:** [the topic repair](nlp-topic-repair.md) retries live-state questions that the model filed under an explanation card, honours declined explanations, and fixes leaderboard, social and compound-word cases. On development data, 95 → 109 of 120 supported questions are correct with no regressions. Consumed replays: v1 191 → **209/325 (64.3%)**, human-confirmed v2 173 → **198/325 (60.9%)**. Regression evidence only.
+
 **24 November 2026 — backups:** [encrypted database backups](backups.md) run automatically with `npm run online` (start, every 15 minutes, Ctrl+C), with `npm run db:backup` and a verified throwaway restore via `npm run db:verify`. They are stored outside the project.
 
 Player entry now uses the [camera and image scanner API](qr-scanner.md).

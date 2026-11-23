@@ -85,7 +85,12 @@ def composed_social(value):
             if words[index:end]==phrase:
                 rest=parse(end,count+1)
                 if rest is not None: return (act,)+rest
-        for phrase in (('po',),('please',),('assistant',),('stack','intelligence'),('stack','moko','baby'),('there',),('and',),('also',)):
+        # Courtesy endings never change the social act ("thank you for your help",
+        # "salamat po sa inyong pagtulong sa akin", "good evening to you").
+        for phrase in (('po',),('please',),('assistant',),('stack','intelligence'),('stack','moko','baby'),('there',),('and',),('also',),
+                       ('to','you'),('to','all'),('for','your','help'),('for','helping','me'),('for','helping'),('for','the','help'),
+                       ('sa','akin'),('sa','iyo'),('sa','inyo'),('sa','inyong','pagtulong'),('sa','iyong','tulong'),
+                       ('sa','tulong','mo'),('sa','tulong','ninyo')):
             end=index+len(phrase)
             if words[index:end]==phrase:
                 rest=parse(end,count)

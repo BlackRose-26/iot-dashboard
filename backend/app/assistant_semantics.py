@@ -26,9 +26,21 @@ OPERATORS={'average':{'average','avg','mean'},'total':{'total','sum','combined',
 SEMANTIC_VOCAB=SCORE|QUEUE|MACHINE|REGISTRATION|COMPLETED|set().union(*OPERATORS.values())|set('define definition meaning means calculate calculated kinukwenta ibig sabihin histogram distribution distributed spread buckets leaderboard top ranking rank leading nangunguna who sino bawat nila sila lahat next page everyone everybody anyone anybody altogether arithmetic reachable require requires kept privately font family typeface long'.split())
 
 
+# "with no explanation of its formula", "walang paliwanag": the person declines the
+# explanation, so those words must not turn a value request into a definition.
+NEGATORS = {'no','without','not','skip','walang','hindi','huwag'}
+EXPLANATION_WORDS = {'explanation','explanations','explain','formula','formulas','definition','define','meaning',
+                     'paliwanag','kahulugan','ipaliwanag'}
+
+
+def explanation_declined(tokens):
+    return any(token in NEGATORS and set(tokens[index+1:index+5]) & EXPLANATION_WORDS for index,token in enumerate(tokens))
+
+
 def semantic_words(normalized):
     words=set(normalized['safe_tokens']) | {word for hint in normalized.get('meaning_hints',[]) for word in hint.split()}
     tokens=normalized['safe_tokens']
+    if explanation_declined(tokens): words-=EXPLANATION_WORDS
     # "mean by the total score" uses a verb, whereas "mean score" and
     # "mean of the scores" name an arithmetic measure. Looking several words
     # ahead accidentally turned every definition containing "mean by" into average.
@@ -62,6 +74,11 @@ def reviewed_explanation(normalized):
         return 'queue_flow'
     if words & {'privacy','private','encrypted','encryption'} and words & {'why','how','explain','bakit','paano'} and words & {'identifiers','identity','registration','id','ids'}:
         return 'privacy'
+    # How results qualify for the leaderboard is a design question, not a ranking request.
+    if (words & {'chosen','selected','choose','select','qualify','qualifies','eligible','included','include'} and
+            words & {'how','why','paano','bakit','which','what'} and words & {'results','result','leaderboard','ranking','rankings','valid'} and
+            not words & {'many','count','number','top','highest','lowest','best'}):
+        return 'results'
     if topic=='privacy': return topic
     if topic=='architecture' and words & {'how','why','explain','describe','roles','architecture','uses','use'}:
         return topic
@@ -105,7 +122,7 @@ def constraints(normalized):
     # Explicit metric requests are authoritative even with generic player/pronoun words.
     tools=[]
     if words & SCORE:
-        if words & {'top','leaderboard','leading','nangunguna'} or (words & {'who','sino','which'} and words & {'highest','best','most'}):
+        if words & {'top','leaderboard','leading','nangunguna'} or (words & {'who','sino','which','whose'} and words & {'highest','best','most','pinakamataas'}):
             tools.append('get_top_scores')
         elif words & {'average','mean','total','sum','highest','lowest'}:
             tools.append('get_event_summary')
@@ -130,6 +147,10 @@ def constraints(normalized):
     if words & MACHINE and not explanation and (not words & SCORE or words & {'heartbeat','rssi','firmware','connection','connectivity','connected'}): tools.append('get_machine_summary')
     if not tools and words & (REGISTRATION|COMPLETED) and not explanation: tools.append('get_event_summary')
     if not tools and words & {'top','leaderboard','leading','nangunguna'} and not explanation: tools.append('get_top_scores')
+    # "Whose/Kanino ... highest result" asks for the leader, not a player count.
+    if (not tools and not explanation and words & {'whose','who','sino'} and words & {'highest','best','pinakamataas','ahead','leading'}
+            and words & (SCORE|{'result','results','round','rounds','game','games','laro'})):
+        tools.append('get_top_scores')
     if tools: return {'tools':list(dict.fromkeys(tools))[:5],'definition':None}
     if words & {'players','player','participants','students'} and words & {'many','count','number','total'} and not explanation:
         return {'tools':['get_event_summary'],'definition':None}

@@ -732,9 +732,9 @@
     "semantic_hash": "ddc84e60e03f95afc124466534474cec"
   },
   "docs/remaining-work.md": {
-    "mtime": 1795458075.4689019,
-    "seen": 1795458195.9155743,
-    "ast_hash": "105d7de827f71ef613001f8f2255d825",
+    "mtime": 1795459461.4988275,
+    "seen": 1795459475.333715,
+    "ast_hash": "d979b9ce5e370f1d27bccb8202823ff4",
     "semantic_hash": ""
   },
   "backend/app/device_protocol.py": {
@@ -1104,10 +1104,10 @@
     "semantic_hash": "4dfc127e02593b62f8ad51c8f1ba0131"
   },
   "docs/nlp-evaluation/candidate-v2-preparation.md": {
-    "mtime": 1795413525.260579,
-    "seen": 1795434921.61456,
-    "ast_hash": "da8a4f86607e676273989915b315b987",
-    "semantic_hash": "da8a4f86607e676273989915b315b987"
+    "mtime": 1795459461.4978273,
+    "seen": 1795459475.3336573,
+    "ast_hash": "cd07e2bdaf0e6a92ce2c6e7d5cde52d8",
+    "semantic_hash": ""
   },
   "backend/app/assistant_continuation.py": {
     "mtime": 1795413525.09432,
@@ -1368,9 +1368,9 @@
     "semantic_hash": ""
   },
   "docs/nlp-admission-repair.md": {
-    "mtime": 1795455481.9488742,
-    "seen": 1795455517.5514975,
-    "ast_hash": "e9d2c6e930d99104ea305d951e706381",
+    "mtime": 1795459461.4988275,
+    "seen": 1795459475.3336506,
+    "ast_hash": "72e4b926e5cc877d730a1e0a0f46f57a",
     "semantic_hash": ""
   },
   "scripts/set-device-url.py": {
