@@ -1,5 +1,14 @@
 # Candidate evaluation collection — authoring completed
 
+**Human review completed, 24 November 2026.** The project owner reviewed all 325 questions and labels in **Settings → Review questions** between 20 and 23 November, reading each one. The result was 325 confirm, 0 corrections and 0 marked unclear (reviewer code `admin-3`; decisions are stored append-only in `evaluation_case_reviews`). The review packet's labels match the AI gold case for case, so the gold labels are now **human-confirmed**. The set was already consumed on 20 November, so it remains a **regression set**, not an unseen test.
+
+The human-confirmed regression replay on the current assistant accepted **173/325 (53.23%)**. Compared with earlier runs on the same cases:
+
+- **First use (130):** 43 gained, 0 lost.
+- **Documented typed-context replay (146):** 27 gained, 0 lost.
+
+Unsupported cases correctly held rose from 19/25 to 22/25, and one unsupported case was answered. See the [result](results/human-reviewed-v2-regression-20261124.json) and [admission repair](../nlp-admission-repair.md). Any new accuracy claim still needs a fresh, never-run set.
+
 **Subsequent first use, 20 November 2026.** Codex reviewed all 325 questions blind to proposed labels and predictions. The review agreed with 323 proposals and adjudicated two differences before freezing the scoring rules. The [reviewed CSV](../../.tools/nlp-lab/review/holdout-v2-ai-reviewed.csv) records AI provenance. The live service met the frozen routing and behavior criteria on **130/325** in the disposable-database evaluation. The [case results and metrics](results/holdout-v2-ai-first-use.json) retain all failures and family-grouped uncertainty. Any future use of these questions is regression. The authoring record below describes the earlier preparation stage.
 
 20 November 2026. The previously empty collection now contains **325 AI-authored questions with proposed labels: 25 per primary intent**. Authoring and automated overlap checks are complete. Independent semantic/privacy review, final gold/scorer freezing and first-use evaluation remain pending. No accuracy is claimed for this packet and no experimental model was deployed.

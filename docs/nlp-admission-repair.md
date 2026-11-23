@@ -62,6 +62,26 @@ The Wilson interval is 53.35–63.99%, assuming independent cases; the cases are
 
 The first replay attempt finished all 325 cases but rejected itself. The runner's final integrity check hard-coded the v1 lexicon filename, so with v2 active it always failed, even though the frozen predictor and lexicon were unchanged. The check now uses the file the app actually loads. The invalidated attempt is kept outside the docs in `.tools/evaluations/invalidated/`.
 
+## Human-confirmed v2 replay (regression only)
+
+After the owner's complete human review of the v2 packet (325 confirm, 0 corrections), the current assistant was replayed once on it with the unchanged `score_v2` scorer. The runner is `.tools/nlp-lab/review/replay_human_reviewed_v2.py`. It requires every case to have a latest human decision that agrees with the scored gold, and freezes the predictor, lexicon, scorer and first-use artifacts.
+
+| v2 set | First use (20 Nov) | Typed-context (21 Nov) | Now (24 Nov) |
+|---|---:|---:|---:|
+| Accepted | 130 (40.0%) | 146 (44.9%) | **173 (53.2%)** |
+| Paired vs now | 43 gained / 0 lost | 27 gained / 0 lost | — |
+| Unsupported held | — | 19/25 | 22/25 |
+
+Per intent (of 25), typed-context → now:
+
+| Overview | Players | Queue | Cabinet | Scores | Levels | Trend | Top | Definition | Knowledge | Social | Follow-up | Unsupported |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 3→9 | 17→19 | 12→15 | 8→9 | 18→19 | 10→14 | 11→12 | 11→13 | 8→9 | 7→7 | 15→18 | 7→7 | 19→22 |
+
+English 106/176 and Taglish 67/149 were accepted.
+
+The remaining 152 failures are still mostly holds before understanding: 55 `unrecognized_context` and 29 `system_scope`. There are also 27 answered with the wrong label and 23 generic `system_context` replies. Knowledge and follow-up did not improve. Result: [human-reviewed-v2-regression-20261124.json](nlp-evaluation/results/human-reviewed-v2-regression-20261124.json). This is regression evidence on a consumed set, not unseen accuracy.
+
 ## Verification
 
 - Backend: **457 passed** (443 existing + 14 new in `tests/test_assistant_admission_v2.py`), against disposable XAMPP databases. One existing test now allows the fixed scope demonstrations, still forbidding retrieved or private examples.

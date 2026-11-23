@@ -6,7 +6,7 @@
 
 ## NLP admission repair — 24 November 2026
 
-See [the repair](nlp-admission-repair.md): lexicon v2 and admission changes; development admission 99/120 → 112/120 with off-topic holds kept; consumed replay 135/325 → 191/325 (unsupported false acceptances 1 → 3); 457 backend tests passed. Open: fresh independently reviewed test set, wrong-topic answers and generic system replies.
+See [the repair](nlp-admission-repair.md): lexicon v2 and admission changes; development admission 99/120 → 112/120 with off-topic holds kept; consumed replay 135/325 → 191/325 (unsupported false acceptances 1 → 3); the owner completed the human review of the v2 set (325/325 confirmed) and its replay rose 146/325 → 173/325 with no paired losses; 457 backend tests passed. Open: fresh independently reviewed test set, wrong-topic answers and generic system replies.
 
 ## Physical cabinet preparation — 23 November 2026
 
