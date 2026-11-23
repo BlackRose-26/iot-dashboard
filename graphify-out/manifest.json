@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "docs/README.md": {
-    "mtime": 1795455483.4504328,
-    "seen": 1795455517.5514486,
-    "ast_hash": "5aea3ab05cf5df56465b0d8818ede2f4",
+    "mtime": 1795458075.4668953,
+    "seen": 1795458195.9154525,
+    "ast_hash": "8c164b39428b7734ee8ffd87fbbdd6da",
     "semantic_hash": ""
   },
   "docs/ai-system-rules.md": {
@@ -72,9 +72,9 @@
     "semantic_hash": "48e2fd95886a91af0a575db19e4a115e"
   },
   "frontend/package.json": {
-    "mtime": 1795456687.92697,
-    "seen": 1795457105.2371573,
-    "ast_hash": "b7109468f80ea85b270ae6983a098985",
+    "mtime": 1795458018.8306062,
+    "seen": 1795458195.9151344,
+    "ast_hash": "fa96f1cfc7f2f828af37d9b12d742d0d",
     "semantic_hash": ""
   },
   "frontend/src/test-setup.js": {
@@ -450,9 +450,9 @@
     "semantic_hash": "fcf253b695b5aaec065c10dd55ad8d04"
   },
   "package.json": {
-    "mtime": 1795456687.913789,
-    "seen": 1795457105.237379,
-    "ast_hash": "335afcf405c5de96dabf2f13bbcce0d7",
+    "mtime": 1795458018.771521,
+    "seen": 1795458195.915359,
+    "ast_hash": "cd8fb6edb4322562a2886bb12ece8a55",
     "semantic_hash": ""
   },
   "scripts/dev.mjs": {
@@ -732,9 +732,9 @@
     "semantic_hash": "ddc84e60e03f95afc124466534474cec"
   },
   "docs/remaining-work.md": {
-    "mtime": 1795456927.7168546,
-    "seen": 1795457105.237622,
-    "ast_hash": "205e3526ba28845c8e3279cd930a52a7",
+    "mtime": 1795458075.4689019,
+    "seen": 1795458195.9155743,
+    "ast_hash": "105d7de827f71ef613001f8f2255d825",
     "semantic_hash": ""
   },
   "backend/app/device_protocol.py": {
@@ -1260,9 +1260,9 @@
     "semantic_hash": "5c21748d992b79efd6efa949b1b6ee3c"
   },
   "scripts/online.mjs": {
-    "mtime": 1795456700.7531686,
-    "seen": 1795457105.2374318,
-    "ast_hash": "73a0cee1d59d6f5a458078466a838e2a",
+    "mtime": 1795458017.6910338,
+    "seen": 1795458195.9153976,
+    "ast_hash": "96c83c35d5f1c5e3ef687e7f226044ae",
     "semantic_hash": ""
   },
   "scripts/package-wokwi.py": {
@@ -1290,9 +1290,9 @@
     "semantic_hash": "92827ed99c3023c35d79174a99ce749e"
   },
   "docs/free-online.md": {
-    "mtime": 1795456927.7158532,
-    "seen": 1795457105.2375407,
-    "ast_hash": "46bf144c60cb910f2386cd2b4ff5a873",
+    "mtime": 1795458075.4689019,
+    "seen": 1795458195.9154935,
+    "ast_hash": "abc16d94031230c1a1d82bd64d4384d7",
     "semantic_hash": ""
   },
   "firmware/stack_moko_baby/libraries.txt": {
@@ -1302,9 +1302,9 @@
     "semantic_hash": "f6c719ccd0007fc62780083257911c2e"
   },
   "scripts/device.mjs": {
-    "mtime": 1795456687.913789,
-    "seen": 1795457105.2374084,
-    "ast_hash": "218b6445726b88edf9586e13d1591a47",
+    "mtime": 1795458047.5718267,
+    "seen": 1795458195.915378,
+    "ast_hash": "4d7df496e441d79a61586471a0898921",
     "semantic_hash": ""
   },
   "scripts/flash-device.py": {
@@ -1344,9 +1344,9 @@
     "semantic_hash": ""
   },
   "docs/Stack-Moko-Baby-Wiring-and-Operation-Guide.pdf": {
-    "mtime": 1795456975.32263,
-    "seen": 1795457105.237655,
-    "ast_hash": "3d6d522e22422f4868835d6b49240412",
+    "mtime": 1795458168.9289865,
+    "seen": 1795458195.9156115,
+    "ast_hash": "a84b50c285ba9ab6c676847c1caa2c01",
     "semantic_hash": ""
   },
   "firmware/stack_moko_baby/sounds.h": {
@@ -1377,6 +1377,24 @@
     "mtime": 1795456892.4306455,
     "seen": 1795457105.237449,
     "ast_hash": "cab7c700065c879861545a2c4b1671b8",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_db_backup.py": {
+    "mtime": 1795457967.7200954,
+    "seen": 1795458195.9149623,
+    "ast_hash": "c13523ef93b036f11cd58bc5e31fbb3d",
+    "semantic_hash": ""
+  },
+  "scripts/db-backup.py": {
+    "mtime": 1795457902.695336,
+    "seen": 1795458195.9153705,
+    "ast_hash": "e6a4c8905a6d8ba6500b645d942f02c2",
+    "semantic_hash": ""
+  },
+  "docs/backups.md": {
+    "mtime": 1795458074.3952978,
+    "seen": 1795458195.9154744,
+    "ast_hash": "98943cc4dad6e32d0ba05c3326273965",
     "semantic_hash": ""
   },
   "frontend/package-lock.json": {

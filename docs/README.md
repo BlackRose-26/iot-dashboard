@@ -8,6 +8,8 @@
 
 **24 November 2026 — NLP admission repair:** most assistant failures were valid questions refused before understanding. [The repair](nlp-admission-repair.md) adds lexicon v2 (keeps everyday words that v1 over-excluded), Taglish linker and chat-shorthand handling, a follow-up shortcut, topic-check examples and one-tap topic choices. On development data, supported questions admitted rose from 99/120 to 112/120 while off-topic holds stayed at 69/70. The consumed 325-case replay rose from 135/325 to **191/325 (58.77%)**, with valid clarifications down from 135 to 73 but unsupported false acceptances up from 1 to 3. This is regression evidence; a fresh test set is still required.
 
+**24 November 2026 — backups:** [encrypted database backups](backups.md) run automatically with `npm run online` (start, every 15 minutes, Ctrl+C), with `npm run db:backup` and a verified throwaway restore via `npm run db:verify`. They are stored outside the project.
+
 Player entry now uses the [camera and image scanner API](qr-scanner.md).
 
 **22 November 2026 — firmware/online integration:** the user confirmed Wokwi first, online queue/dashboard and physical-button gameplay. They selected the sketch's 16 columns, 15 levels and one point per level. [ESP32 and online setup](esp32-online.md) describes the connected firmware, immutable Matrix v1 rules, current checks and hosting choices. Classic results remain separate. The temporary HTTPS dashboard is running; actual Wokwi protocol exchange and physical operation have separate acceptance gates.

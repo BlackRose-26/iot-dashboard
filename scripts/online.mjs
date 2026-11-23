@@ -1,4 +1,4 @@
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import {
   existsSync,
   mkdirSync,
@@ -23,6 +23,33 @@ const tunnelExe =
   join(tools, process.platform === "win32" ? "cloudflared.exe" : "cloudflared");
 const children = [];
 let stopping = false;
+let backupsReady = false;
+let backupRunning = false;
+const backupMinutes = Number(process.env.STACK_BACKUP_MINUTES ?? 15);
+
+// Encrypted database backup (scripts/db-backup.py). Never blocks the app; failures are reported.
+function backupNow(label) {
+  if (backupRunning) return;
+  backupRunning = true;
+  const child = spawn(
+    python,
+    ["scripts/db-backup.py", ...(label ? ["--label", label] : [])],
+    { cwd: root, windowsHide: true, stdio: ["ignore", "pipe", "pipe"] },
+  );
+  let output = "";
+  for (const stream of [child.stdout, child.stderr])
+    stream.on("data", (chunk) => (output += chunk));
+  child.once("exit", (code) => {
+    backupRunning = false;
+    const line = output.trim().split(/\r?\n/).pop() || "";
+    if (code === 0) console.log(`[online] ${line}`);
+    else
+      console.error(
+        `[online] Database backup failed: ${line} (retry with npm run db:backup)`,
+      );
+  });
+  child.once("error", () => (backupRunning = false));
+}
 
 function occupied(port) {
   return new Promise((resolvePort) => {
@@ -60,6 +87,23 @@ function completed(child, label) {
 async function stop(code = 0) {
   if (stopping) return;
   stopping = true;
+  if (backupsReady && backupMinutes > 0) {
+    // Final backup while MySQL is still running (it is not one of our children).
+    const final = spawnSync(
+      python,
+      ["scripts/db-backup.py", "--label", "shutdown"],
+      { cwd: root, windowsHide: true, encoding: "utf8", timeout: 60000 },
+    );
+    const line = `${final.stdout || ""}${final.stderr || ""}`
+      .trim()
+      .split(/\r?\n/)
+      .pop();
+    console.log(
+      final.status === 0
+        ? `[online] ${line}`
+        : `[online] Final backup failed: ${line}`,
+    );
+  }
   for (const child of children) {
     if (!child.pid || child.exitCode !== null || child.signalCode !== null)
       continue;
@@ -225,6 +269,14 @@ async function main() {
       "Backend/database readiness failed; run the documented database setup.",
     );
   writeFileSync(join(tools, "current-url.txt"), origin + "\n");
+  if (backupMinutes > 0) {
+    backupsReady = true;
+    backupNow();
+    setInterval(backupNow, backupMinutes * 60000).unref();
+    console.log(
+      `[online] Encrypted database backups every ${backupMinutes} min and on Ctrl+C (outside the project folder).`,
+    );
+  }
   console.log(
     `\n[online] Admin: ${origin}/admin/login\n[online] Player scanner: ${origin}/scan`,
   );

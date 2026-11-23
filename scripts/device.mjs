@@ -1,5 +1,5 @@
-// npm wrapper for scripts/flash-device.py (or set-device-url.py with "url") using the backend venv.
-// Examples: npm run device:selftest   npm run device:selftest -- --port COM5   npm run device:url
+// npm wrapper for the device and database helpers, using the backend venv.
+// Examples: npm run device:selftest -- --port COM5   npm run device:url   npm run db:backup
 import { spawn } from "node:child_process";
 import { existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
@@ -16,11 +16,13 @@ if (!existsSync(python)) {
   console.error("[device] Complete the local backend setup first.");
   process.exit(1);
 }
-const urlMode = process.argv[2] === "url";
-const script = urlMode ? "set-device-url.py" : "flash-device.py";
+// "url" -> set-device-url.py, "db" -> db-backup.py, otherwise flash-device.py.
+const mode = { url: "set-device-url.py", db: "db-backup.py" }[process.argv[2]];
+const script = mode || "flash-device.py";
+const subcommand = Boolean(mode);
 const child = spawn(
   python,
-  [join(root, "scripts", script), ...process.argv.slice(urlMode ? 3 : 2)],
+  [join(root, "scripts", script), ...process.argv.slice(subcommand ? 3 : 2)],
   { cwd: root, stdio: "inherit", windowsHide: true },
 );
 child.once("exit", (code) => process.exit(code ?? 1));

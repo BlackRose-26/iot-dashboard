@@ -12,7 +12,9 @@
     "online:device": "node scripts/online.mjs --device",
     "device:selftest": "node scripts/device.mjs --selftest",
     "device:flash": "node scripts/device.mjs",
-    "device:url": "node scripts/device.mjs url"
+    "device:url": "node scripts/device.mjs url",
+    "db:backup": "node scripts/device.mjs db --label manual",
+    "db:verify": "node scripts/device.mjs db --verify"
   },
   "engines": {
     "node": ">=22.12.0"

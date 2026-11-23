@@ -10,6 +10,8 @@
     "device:selftest": "node ../scripts/device.mjs --selftest",
     "device:flash": "node ../scripts/device.mjs",
     "device:url": "node ../scripts/device.mjs url",
+    "db:backup": "node ../scripts/device.mjs db --label manual",
+    "db:verify": "node ../scripts/device.mjs db --verify",
     "dev": "node ../scripts/dev.mjs",
     "dev:frontend": "vite --host 0.0.0.0 --port 5173 --strictPort",
     "build": "vite build",
