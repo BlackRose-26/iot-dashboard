@@ -110,7 +110,7 @@ export default function Ticket() {
             </h1>
             <p>
               {called
-                ? 'Head to Cabinet 01. The operator will help you start with the physical button.'
+                ? 'Head to Cabinet 01 now and press the big button to start. If you are not there within about 3 minutes, the operator may release your turn.'
                 : playing
                   ? 'Your game is running at the cabinet. Your result will arrive here automatically.'
                   : completed

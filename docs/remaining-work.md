@@ -4,6 +4,10 @@
 
 **Current connection blocker:** actual browser testing loaded the private firmware. Core 4.0.0 hit the TLS watchdog; the compatibility build and network scheduling/reuse fixes compile and boot, but Wokwi repeatedly fails to connect to `wss://netwi.wokwi.com/`. No authenticated fresh heartbeat or connected round was observed. Retest when the public gateway connects; the dashboard remains online. See [evidence and retry instructions](free-online.md).
 
+## No-show release — 24 November 2026
+
+**No-show release, 24 November 2026.** The Queue and Machine pages show **Player didn't come** while a called physical-device player has not started. One click (with an audited reason, pre-filled) requests the device stop and then releases the round with no score **only after** the cabinet confirms it never started (`fenced_unstarted`). The click uses the existing guarded `fence` and `resolve` endpoints; nothing is force-released. If the cabinet reports the round had started, nothing is released and the operator resolves it under Device recovery. If no confirmation arrives within 30 seconds, the stop request stays active and the page says so. The called player's ticket now states the 3-minute window. Checks: 4 component tests and a real-browser journey with a simulated cabinet. A physical cabinet has not run it yet. Still open: physical-cabinet run, re-entry QR after a tunnel restart (players lose their ticket on a new hostname).
+
 ## NLP topic repair — 24 November 2026
 
 See [the topic repair](nlp-topic-repair.md): live-state retry, declined explanations, leaderboard/social/compound fixes. Development 95 → 109/120 with 0 regressions; v1 replay 209/325 (+20/−2); human-confirmed v2 replay 198/325 (+25/−0); 477 backend tests passed. Open: wrong-label answers (33 on v2), follow-ups, overview, and a fresh test set.

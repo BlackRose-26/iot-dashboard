@@ -315,3 +315,88 @@ test('boot-bound device fence enables an audited unstarted release in the admin 
     await playerContext.close()
   }
 })
+
+test('Player didn’t come stops and releases an unstarted no-show in one click', async ({
+  page,
+  browser,
+}) => {
+  await login(page)
+  const playerContext = await browser.newContext({ viewport: { width: 390, height: 844 } })
+  try {
+    const player = await playerContext.newPage()
+    await join(player, 'No Show Guest', 'DUMMY-BROWSER-NOSHOW')
+    const bootId = randomUUID()
+    const deviceHeaders = {
+      'X-Device-Token': process.env.STACK_DEVICE_TOKEN,
+      'X-Device-Boot-Id': bootId,
+    }
+    // Like fresh firmware: continue the current lineage registered by earlier specs.
+    const { currentBootId } = await (
+      await page.request.get('/api/device/enrollment', { headers: deviceHeaders })
+    ).json()
+    expect(
+      (
+        await page.request.post('/api/device/boot', {
+          headers: deviceHeaders,
+          data: { bootId, storageId: randomUUID(), previousBootId: currentBootId, uptimeMs: 0 },
+        })
+      ).status(),
+    ).toBe(200)
+    expect(
+      (
+        await page.request.post('/api/device/heartbeat', {
+          headers: deviceHeaders,
+          data: { state: 'ready', firmware: 'synthetic-browser-noshow' },
+        })
+      ).status(),
+    ).toBe(200)
+    await page.goto('/admin/queue')
+    await page.getByRole('button', { name: 'Call next player' }).click()
+    await expect(player.getByText(/within about 3 minutes/)).toBeVisible()
+    const reserve = (
+      await (await page.request.get('/api/device/commands', { headers: deviceHeaders })).json()
+    ).commands[0]
+    const journal = (sequence, command, phase) =>
+      page.request.post('/api/device/journal', {
+        headers: deviceHeaders,
+        data: {
+          eventId: randomUUID(),
+          sequence,
+          uptimeMs: sequence * 100,
+          sessionId: command.sessionId,
+          commandId: command.id,
+          expectedRevision: command.expectedRevision,
+          phase,
+        },
+      })
+    expect((await journal(1, reserve, 'reserved')).status()).toBe(200)
+
+    await page.getByRole('button', { name: /Player didn.t come/ }).click()
+    await page.getByRole('button', { name: 'Stop and release' }).click()
+    await expect(page.getByText(/Waiting for the cabinet to confirm/)).toBeVisible()
+    // The simulated cabinet confirms the round never started; the UI then releases on its own.
+    let fence
+    await expect
+      .poll(async () => {
+        fence = (
+          await (await page.request.get('/api/device/commands', { headers: deviceHeaders })).json()
+        ).commands[0]
+        return fence?.type
+      })
+      .toBe('fence')
+    expect((await journal(2, fence, 'fenced_unstarted')).status()).toBe(200)
+    await expect(page.locator('.toast')).toContainText('no score')
+    await expect
+      .poll(
+        async () => (await (await player.request.get('/api/player/context')).json()).ticket.status,
+      )
+      .toBe('expired')
+    const snapshot = await (await page.request.get('/api/admin/snapshot')).json()
+    expect(snapshot.currentPlayer).toBeNull()
+    expect(
+      (await (await player.request.get('/api/player/context')).json()).notifications,
+    ).toHaveLength(0)
+  } finally {
+    await playerContext.close()
+  }
+})

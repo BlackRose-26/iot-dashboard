@@ -1,5 +1,8 @@
 # QR entry, queue, results and administrator access
 
+**No-show release, 24 November 2026.** The Queue and Machine pages show **Player didn't come** while a called physical-device player has not started. One click (with an audited reason, pre-filled) requests the device stop and then releases the round with no score **only after** the cabinet confirms it never started (`fenced_unstarted`). The click uses the existing guarded `fence` and `resolve` endpoints; nothing is force-released. If the cabinet reports the round had started, nothing is released and the operator resolves it under Device recovery. If no confirmation arrives within 30 seconds, the stop request stays active and the page says so. The called player's ticket now states the 3-minute window. Checks: 4 component tests and a real-browser journey with a simulated cabinet. A physical cabinet has not run it yet.
+
+
 Implementation update: 15 November 2026. This document supersedes older preview-only descriptions and public-dashboard/public-leaderboard assumptions. The user's latest decisions require player-only QR entry, admin login and neutral admin light/dark themes. The colorful Sourcio-derived player experience remains.
 
 ## Implemented journey

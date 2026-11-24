@@ -156,10 +156,10 @@
     "semantic_hash": "ca125a895d0fdeaf7a933db5a7482a02"
   },
   "frontend/src/pages/Queue.jsx": {
-    "mtime": 1794766196.415151,
-    "seen": 1794766325.3673422,
-    "ast_hash": "38817330b1c99ea4015c57033de60434",
-    "semantic_hash": "38817330b1c99ea4015c57033de60434"
+    "mtime": 1795498301.526301,
+    "seen": 1795498678.4930634,
+    "ast_hash": "8c418044bed2c0f99743b68e7c9b8b2a",
+    "semantic_hash": ""
   },
   "frontend/src/pages/Leaderboard.jsx": {
     "mtime": 1795413525.5463605,
@@ -168,10 +168,10 @@
     "semantic_hash": "1b6855c43071c0dbfe65429d1b7f53b1"
   },
   "frontend/src/pages/Machines.jsx": {
-    "mtime": 1795413525.5473607,
-    "seen": 1795434921.6144128,
-    "ast_hash": "033f8af3022380e7c0d560055cb8befa",
-    "semantic_hash": "033f8af3022380e7c0d560055cb8befa"
+    "mtime": 1795498301.5273018,
+    "seen": 1795498678.4930499,
+    "ast_hash": "985e49ece4d80bca1ae19a9271287eb6",
+    "semantic_hash": ""
   },
   "frontend/src/pages/Sessions.jsx": {
     "mtime": 1795413525.5533614,
@@ -192,10 +192,10 @@
     "semantic_hash": "e17f63ce27ffb58e19889f0d369368b5"
   },
   "frontend/src/pages/Ticket.jsx": {
-    "mtime": 1795413525.5583591,
-    "seen": 1795434921.614446,
-    "ast_hash": "938c0cd26f7b7c2d127613188c3dea2e",
-    "semantic_hash": "938c0cd26f7b7c2d127613188c3dea2e"
+    "mtime": 1795498312.1919732,
+    "seen": 1795498678.4930825,
+    "ast_hash": "21f4f861f37289db60070b11d7b183ad",
+    "semantic_hash": ""
   },
   "frontend/scripts/review-pages.mjs": {
     "mtime": 1794739350.011029,
@@ -216,10 +216,10 @@
     "semantic_hash": "750ce84081defe5f9708436f0e7e2396"
   },
   "frontend/e2e/flows.spec.js": {
-    "mtime": 1795413525.524362,
-    "seen": 1795434921.6143253,
-    "ast_hash": "a0d2d5483dc07671ca1cc0e5bd52a3dd",
-    "semantic_hash": "a0d2d5483dc07671ca1cc0e5bd52a3dd"
+    "mtime": 1795498422.6106932,
+    "seen": 1795498678.492956,
+    "ast_hash": "742adfbdb051c5109c712c770fb74328",
+    "semantic_hash": ""
   },
   "frontend/playwright.config.js": {
     "mtime": 1795098178.306601,
@@ -378,10 +378,10 @@
     "semantic_hash": "4f08c0e7d1903791abcf003f325929b7"
   },
   "docs/player-flow-and-access.md": {
-    "mtime": 1795093761.383929,
-    "seen": 1795094117.5803256,
-    "ast_hash": "857ed728d2d220db19bdff1f5be712bb",
-    "semantic_hash": "857ed728d2d220db19bdff1f5be712bb"
+    "mtime": 1795498547.855489,
+    "seen": 1795498678.4932706,
+    "ast_hash": "e8784d44c22a26e0aca01a489221cb12",
+    "semantic_hash": ""
   },
   "backend/tests/test_scoring.py": {
     "mtime": 1794745076.705977,
@@ -726,15 +726,15 @@
     "semantic_hash": "ea2ec83d5e973378334d7fe9166a43ac"
   },
   "docs/device-command-delivery.md": {
-    "mtime": 1795413525.2140567,
-    "seen": 1795434921.6145444,
-    "ast_hash": "ddc84e60e03f95afc124466534474cec",
-    "semantic_hash": "ddc84e60e03f95afc124466534474cec"
+    "mtime": 1795498547.8764892,
+    "seen": 1795498678.4932117,
+    "ast_hash": "943a15f6e126bc73ada75d9317a217b1",
+    "semantic_hash": ""
   },
   "docs/remaining-work.md": {
-    "mtime": 1795462319.4667218,
-    "seen": 1795462333.7805078,
-    "ast_hash": "ce5fc9dcc6c02aef5d0e0d1437efccf6",
+    "mtime": 1795498547.8564923,
+    "seen": 1795498678.4932787,
+    "ast_hash": "06eb0a926785c97b19d8cfb7ab34d72f",
     "semantic_hash": ""
   },
   "backend/app/device_protocol.py": {
@@ -840,10 +840,10 @@
     "semantic_hash": "af55ab9e45cb3a1288b64dfdc1b9433e"
   },
   "docs/device-recovery.md": {
-    "mtime": 1795413525.2150593,
-    "seen": 1795434921.614547,
-    "ast_hash": "b1206483d47d1365af3892fc34f5ca39",
-    "semantic_hash": "b1206483d47d1365af3892fc34f5ca39"
+    "mtime": 1795498547.855489,
+    "seen": 1795498678.4932141,
+    "ast_hash": "a047287cf1292a175ee61fa9ed71316d",
+    "semantic_hash": ""
   },
   "docs/quality-audit.md": {
     "mtime": 1795435083.435047,
@@ -1344,9 +1344,9 @@
     "semantic_hash": ""
   },
   "docs/Stack-Moko-Baby-Wiring-and-Operation-Guide.pdf": {
-    "mtime": 1795458168.9289865,
-    "seen": 1795458195.9156115,
-    "ast_hash": "a84b50c285ba9ab6c676847c1caa2c01",
+    "mtime": 1795498660.7757156,
+    "seen": 1795498678.4933062,
+    "ast_hash": "d956bfa877e0c7fa39b75b2f1854d550",
     "semantic_hash": ""
   },
   "firmware/stack_moko_baby/sounds.h": {
@@ -1407,6 +1407,18 @@
     "mtime": 1795462318.0528543,
     "seen": 1795462333.7804961,
     "ast_hash": "6596781025dde79122d7f2199fcd51ce",
+    "semantic_hash": ""
+  },
+  "frontend/src/components/NoShowRelease.jsx": {
+    "mtime": 1795498290.996439,
+    "seen": 1795498678.493005,
+    "ast_hash": "a99a5133cdedb4d078c328019da66a65",
+    "semantic_hash": ""
+  },
+  "frontend/src/components/NoShowRelease.test.jsx": {
+    "mtime": 1795498332.4568377,
+    "seen": 1795498678.493008,
+    "ast_hash": "80172a8cf736ccb9b9a2ecaa3e95ed4e",
     "semantic_hash": ""
   },
   "frontend/package-lock.json": {

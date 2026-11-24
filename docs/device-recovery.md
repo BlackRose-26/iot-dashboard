@@ -1,5 +1,8 @@
 # Boot-bound device recovery
 
+**No-show release, 24 November 2026.** The Queue and Machine pages show **Player didn't come** while a called physical-device player has not started. One click (with an audited reason, pre-filled) requests the device stop and then releases the round with no score **only after** the cabinet confirms it never started (`fenced_unstarted`). The click uses the existing guarded `fence` and `resolve` endpoints; nothing is force-released. If the cabinet reports the round had started, nothing is released and the operator resolves it under Device recovery. If no confirmation arrives within 30 seconds, the stop request stays active and the page says so. The called player's ticket now states the 3-minute window. Checks: 4 component tests and a real-browser journey with a simulated cabinet. A physical cabinet has not run it yet.
+
+
 Development resumed on 20 November 2026 at the user's request. This milestone extends [command delivery](device-command-delivery.md); the next progress report is not being generated yet.
 
 ## Authority and limits

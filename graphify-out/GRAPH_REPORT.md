@@ -1,17 +1,17 @@
 # Graph Report - iot-dashboard  (2026-11-24)
 
 ## Corpus Check
-- 230 files · ~153,551 words
+- 232 files · ~155,406 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 23 file(s) not represented in the graph (top: .css 8, (none) 7, .cmd 4)
 
 ## Summary
-- 2060 nodes · 6135 edges · 96 communities (79 shown, 17 thin omitted)
+- 2067 nodes · 6173 edges · 107 communities (89 shown, 18 thin omitted)
 - Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 281 edges (avg confidence: 0.88)
 - Token cost: 307,490 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `e618c170`
+- Built from commit: `82c4fa1d`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -19,7 +19,7 @@
 - test_device_recovery.py
 - evaluate_holdout.py
 - evaluation_review.py
-- constraints
+- assistant.py
 - create_app
 - Dashboard UI Primitives
 - Project Rules and Index
@@ -28,7 +28,7 @@
 - Assistant Question Pipeline
 - recovery_emulator.py
 - device_recovery.py
-- Context
+- test_assistant_continuation.py
 - one
 - assistant.py
 - Conservative review hold
@@ -44,26 +44,26 @@
 - os
 - review-pages.mjs
 - Assistant Training Datasets Doc
-- run.py
+- experiment_history.py
 - test_assistant.py
 - Cross-system quality audit (19 Nov 2026)
 - Render Blueprint
 - Stack Moko Baby — MySQL data model
 - security.py
-- RoutingPlan
-- assistant_learning.py
+- normalize
+- assistant_training.py
 - execute
 - Offline Classifier Experiment
 - Candidate MySQL Schema
 - test_player_flow.py
 - Device Command Tests
-- re
+- Stack Moko Baby step-by-step build plan
 - Architecture and Graphify Docs
 - analytics.py
 - NLP Grounding Research
 - Vite and Tailwind Build
 - Initial Database Migration
-- test_assistant_language.py
+- api
 - Functional Spec and Matrix Rules
 - Playwright Browser Tests
 - QR Scanner Components
@@ -79,31 +79,42 @@
 - Frontend Package Scripts
 - NLP lab offline requirements
 - Online Tunnel Launcher
-- quality-checks.mjs
-- Demo Data Summaries
+- main.py
+- AppContext.jsx
 - Firmware Transport Job
 - dev.mjs
-- main.py
+- fastapi
 - NLP admission repair — 24 November 2026
 - Player Flow Migration
 - Step 8: constrained AI analytics
 - stack_moko_baby connected firmware (protocol v2)
 - Boot registration (POST /api/device/boot)
 - Wokwi Wiring Diagram
+- database.py
 - test_db_backup.py
+- run.py
 - Assistant Memory Migrations
 - Read-only command polling (GET /api/device/commands)
 - Firmware Game Engine
 - Prettier Config
+- test_nlp_lab.py
 - Cloudflare Quick Tunnel
 - Backend Dependency Pins
 - Persist-before-ACK reservation receipt
 - Game and Firmware Steps
 - Frontend HTML Entry
+- prepare-online-firmware.py
 - Repository Scaffold Step
 - Self-test stages (panel chain, orientation, button, strip, audio)
-- test_scope_rejection_stops_before_router_and_analytics
-- test_api_keeps_real_summary_and_design_explanations_despite_wrong_model
+- check_quality.py
+- pathlib
+- text
+- configure-firmware.py
+- test_routing_quality.py
+- TrainingStore
+- predict
+- FakeSocket
+- Public language projection (contractions, reviewed synonyms, bounded inflections)
 
 ## God Nodes (most connected - your core abstractions)
 1. `create_app()` - 126 edges
@@ -113,21 +124,21 @@
 5. `Context` - 72 edges
 6. `Assistant` - 67 edges
 7. `now()` - 59 edges
-8. `Project documentation index (canonical internal guide)` - 48 edges
-9. `useApp()` - 47 edges
-10. `Question` - 42 edges
+8. `useApp()` - 49 edges
+9. `Project documentation index (canonical internal guide)` - 48 edges
+10. `api()` - 46 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `Changes` --references--> `project_words()`  [INFERRED]
-  docs/nlp-topic-repair.md → backend/app/assistant_language.py
-- `Changes` --references--> `asks_live_state()`  [INFERRED]
-  docs/nlp-topic-repair.md → backend/app/assistant.py
 - `Changes` --references--> `composed_social()`  [INFERRED]
   docs/nlp-topic-repair.md → backend/app/assistant_interactions.py
-- `Changes` --references--> `constraints()`  [INFERRED]
-  docs/nlp-topic-repair.md → backend/app/assistant_semantics.py
-- `Changes` --references--> `explanation_declined()`  [INFERRED]
-  docs/nlp-topic-repair.md → backend/app/assistant_semantics.py
+- `Changes` --references--> `project_words()`  [INFERRED]
+  docs/nlp-topic-repair.md → backend/app/assistant_language.py
+- `Changes` --references--> `contextual_follow_up()`  [INFERRED]
+  docs/nlp-admission-repair.md → backend/app/assistant.py
+- `Changes` --references--> `project_words()`  [INFERRED]
+  docs/nlp-admission-repair.md → backend/app/assistant_language.py
+- `Changes` --references--> `topic_choices()`  [INFERRED]
+  docs/nlp-admission-repair.md → backend/app/assistant_learning.py
 
 ## Import Cycles
 - None detected.
@@ -153,99 +164,99 @@
 - **NVS journal preservation safeguards** — docs_hardware_bringup_flash_device_script, docs_free_online_merged_image, docs_esp32_online_nvs_journal, docs_device_recovery_storage_lineage [INFERRED 0.85]
 - **Free HTTPS tunnel and phone-hotspot device operation path** — agents_free_hosting_decision, readme_online_firmware_launcher, agents_phone_hotspot_network_decision, readme_online_device, docs_readme_physical_cabinet_preparation [INFERRED 0.85]
 
-## Communities (96 total, 17 thin omitted)
+## Communities (107 total, 18 thin omitted)
 
 ### Community 0 - "test_device_recovery.py"
-Cohesion: 0.25
-Nodes (25): emulator_setup(), fence(), fence_receipt(), resolution(), setup(), start_event(), test_a_new_boot_invalidates_an_old_fence_and_changed_storage_blocks_never_started(), test_boot_lineage_retries_retirement_and_legacy_bypass() (+17 more)
+Cohesion: 0.29
+Nodes (23): fence(), fence_receipt(), resolution(), setup(), start_event(), test_a_new_boot_invalidates_an_old_fence_and_changed_storage_blocks_never_started(), test_boot_lineage_retries_retirement_and_legacy_bypass(), test_conflicting_replay_is_durable_quarantine_not_rollback() (+15 more)
 
 ### Community 1 - "evaluate_holdout.py"
-Cohesion: 0.12
-Nodes (27): check(), evaluate(), ObservedAssistant, score(), build_rows(), evaluator_fingerprint(), feature_key(), freeze() (+19 more)
+Cohesion: 0.09
+Nodes (35): check(), evaluate(), ObservedAssistant, score(), build_rows(), canonical(), evaluator_fingerprint(), feature_key() (+27 more)
 
 ### Community 2 - "evaluation_review.py"
-Cohesion: 0.18
-Nodes (3): Annotation, packet(), proposed()
+Cohesion: 0.20
+Nodes (9): Annotation, CaseReview, packet(), proposed(), read_reviews(), save_review(), evaluation_decision(), evaluation_questions() (+1 more)
 
-### Community 3 - "constraints"
-Cohesion: 0.14
-Nodes (19): asks_live_state(), composed_social(), parse(), routing_input(), compatible(), constraints(), explanation_declined(), refers_to_previous() (+11 more)
+### Community 3 - "assistant.py"
+Cohesion: 0.10
+Nodes (30): asks_live_state(), inspect(), automatic_scope(), basic_response(), intent_payload(), knowledge_response(), MemoryPreferences, model_json() (+22 more)
 
 ### Community 4 - "create_app"
-Cohesion: 0.10
-Nodes (25): read_reviews(), save_review(), create_app(), admin_session(), analytics(), assistant_forget_memory(), assistant_memory(), assistant_prepare() (+17 more)
+Cohesion: 0.09
+Nodes (33): require_boot(), create_app(), admin_session(), analytics(), assistant_forget_memory(), assistant_memory(), assistant_prepare(), assistant_query() (+25 more)
 
 ### Community 5 - "Dashboard UI Primitives"
-Cohesion: 0.07
-Nodes (49): axis, ArrowLeft, ArrowRight, CheckCircle2, CircuitBoard, Clock3, Cpu, Eye (+41 more)
+Cohesion: 0.09
+Nodes (59): ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, CheckCircle2, ChevronDown, ChevronRight, CircuitBoard (+51 more)
 
 ### Community 6 - "Project Rules and Index"
-Cohesion: 0.07
-Nodes (33): .claude/CLAUDE.md graphify skill pointer, graphify skill (/graphify trigger), AGENTS.md project instructions, Confirmed stack: React/JSX, Vite, Tailwind, FastAPI, XAMPP MariaDB 10.11.16, Free PC + XAMPP + HTTPS tunnel hosting decision, Frontend conventions (Tailwind v4 tw: prefix, Font Awesome webfonts, Open Sans Variable), html5-qrcode scanner rule, Matrix v1 device decision (16 columns, 15 levels, 1 point per level) (+25 more)
+Cohesion: 0.06
+Nodes (34): .claude/CLAUDE.md graphify skill pointer, graphify skill (/graphify trigger), AGENTS.md project instructions, Confirmed stack: React/JSX, Vite, Tailwind, FastAPI, XAMPP MariaDB 10.11.16, Free PC + XAMPP + HTTPS tunnel hosting decision, Frontend conventions (Tailwind v4 tw: prefix, Font Awesome webfonts, Open Sans Variable), html5-qrcode scanner rule, Matrix v1 device decision (16 columns, 15 levels, 1 point per level) (+26 more)
 
 ### Community 7 - "test_assistant_memory.py"
-Cohesion: 0.13
-Nodes (8): MemoryStore, MemoryPreferences, SavedMemory, routing(), test_explaining_privacy_does_not_allow_identity_retrieval(), test_forget_has_csrf_and_prevents_old_inflight_memory_from_returning(), test_memory_schema_has_no_place_for_raw_text_or_invented_metrics(), test_preferences_are_private_and_memory_can_be_disabled()
+Cohesion: 0.15
+Nodes (6): MemoryStore, SavedMemory, routing(), test_explaining_privacy_does_not_allow_identity_retrieval(), test_forget_has_csrf_and_prevents_old_inflight_memory_from_returning(), test_memory_schema_has_no_place_for_raw_text_or_invented_metrics()
 
 ### Community 8 - "Admin Assistant Frontend"
-Cohesion: 0.06
-Nodes (48): AdminAssistant(), send(), submit(), answerLabels, Evidence(), suggestions, mocks, openChat() (+40 more)
+Cohesion: 0.10
+Nodes (21): AdminAssistant(), send(), submit(), answerLabels, Evidence(), suggestions, mocks, openChat() (+13 more)
 
 ### Community 9 - "Assistant Question Pipeline"
 Cohesion: 0.12
-Nodes (26): Assistant, inspect(), Question, run(), test_unknown_name_gets_one_tap_choices_but_no_answer(), test_new_social_turns_work_with_ollama_disabled_and_preserve_context(), scenario(), test_specific_reported_greeting_through_the_service_without_ollama() (+18 more)
+Nodes (25): Assistant, Question, run(), test_new_social_turns_work_with_ollama_disabled_and_preserve_context(), scenario(), test_specific_reported_greeting_through_the_service_without_ollama(), scenario(), test_explicit_request_bypasses_a_busy_inference_gate() (+17 more)
 
 ### Community 10 - "recovery_emulator.py"
-Cohesion: 0.11
-Nodes (15): APIInput, BootRegistration, JournalEvent, Placement, RecoveryReason, RecoveryResolution, Result, Admissions (+7 more)
+Cohesion: 0.19
+Nodes (7): BootRegistration, JournalEvent, RecoveryEmulator, SavedJournal, SavedRound, emulator_setup(), test_emulator_lost_journal_receipt_survives_disk_reload()
 
 ### Community 11 - "device_recovery.py"
-Cohesion: 0.20
-Nodes (12): acknowledge(), CommandAcknowledgement, hold_for_review(), journal(), quarantine(), register_boot(), canonical(), replay() (+4 more)
+Cohesion: 0.16
+Nodes (14): acknowledge(), CommandAcknowledgement, hold_for_review(), journal(), quarantine(), register_boot(), request_fence(), canonical() (+6 more)
 
-### Community 12 - "Context"
-Cohesion: 0.13
-Nodes (16): automatic_scope(), basic_response(), Context, continuation(), knowledge_response(), linguistic_text(), preference_reply(), frame() (+8 more)
+### Community 12 - "test_assistant_continuation.py"
+Cohesion: 0.26
+Nodes (5): continuation(), test_edit_preserves_every_unmentioned_field(), test_new_subject_or_unresolved_content_does_not_reuse_previous_tools(), test_real_query_carries_metric_and_clarifies_missing_subject(), test_underdefined_or_incompatible_edits_clarify()
 
 ### Community 13 - "one"
-Cohesion: 0.19
-Nodes (22): all_rows(), one(), poll_commands(), requires_review(), current_boot(), recovery_view(), request_fence(), resolve() (+14 more)
+Cohesion: 0.18
+Nodes (22): all_rows(), one(), poll_commands(), requires_review(), current_boot(), recovery_view(), resolve(), terminal_start() (+14 more)
 
 ### Community 14 - "assistant.py"
-Cohesion: 0.08
-Nodes (32): contextual_follow_up(), conversational_reply(), endpoint(), greeting_answer(), interaction_rows(), interaction_social(), interaction_text(), interaction_words() (+24 more)
+Cohesion: 0.09
+Nodes (29): conversational_reply(), composed_social(), parse(), greeting_answer(), interaction_rows(), interaction_social(), interaction_text(), interaction_words() (+21 more)
 
 ### Community 15 - "Conservative review hold"
 Cohesion: 0.29
 Nodes (6): Flag round for review (admin review endpoint), Machine page command diagnostics, Operator recovery workflow (stop, release, void, recover result), Scan-register-assign-play-result flow, First real round and resilience gates, Accessibility and full event rehearsal
 
 ### Community 16 - "useApp"
-Cohesion: 0.18
-Nodes (22): AdminOnly(), App(), PlayerOnly(), X, Shell(), tabs, IconButton(), Logo() (+14 more)
+Cohesion: 0.17
+Nodes (23): AdminOnly(), App(), PlayerOnly(), Check, Menu, QrCode, X, Shell() (+15 more)
 
 ### Community 17 - "test_quality_audit.py"
-Cohesion: 0.14
-Nodes (8): replace(), test_ai_machine_readiness_agrees_with_dashboard_when_cabinet_is_unavailable(), test_chunked_body_limit_cannot_be_bypassed_without_content_length(), test_fresh_disabled_simulator_cannot_accept_a_new_assignment(), test_malformed_login_text_or_unknown_fields_fail_without_server_errors(), test_readiness_requires_applied_migrations_and_schema(), test_terminal_duration_cannot_extend_beyond_the_ending_placement(), test_unknown_subject_cannot_be_replaced_with_event_data()
+Cohesion: 0.16
+Nodes (6): test_ai_machine_readiness_agrees_with_dashboard_when_cabinet_is_unavailable(), test_chunked_body_limit_cannot_be_bypassed_without_content_length(), test_malformed_login_text_or_unknown_fields_fail_without_server_errors(), test_readiness_requires_applied_migrations_and_schema(), test_terminal_duration_cannot_extend_beyond_the_ending_placement(), test_unknown_subject_cannot_be_replaced_with_event_data()
 
 ### Community 18 - "Backend and Online Operation Docs"
-Cohesion: 0.05
-Nodes (39): Applied typed-memory and reviewed-example migrations, Matrix rules and active free same-origin HTTPS backend, Stack Moko Baby backend, Private player journey, live channels and phone HTTPS, Commands, Database backups and restore, Keys and privacy, Verification record (24 November 2026) (+31 more)
+Cohesion: 0.09
+Nodes (23): Commands, Database backups and restore, Keys and privacy, Verification record (24 November 2026), What runs automatically, Where and how backups are stored, Local Ollama retained via PC tunnel, Render option (+15 more)
 
 ### Community 19 - "npm run online:firmware launcher"
 Cohesion: 0.25
 Nodes (9): start-online-preview.ps1 manual tunnel preview, ESP32 core 4.0.0 TLS watchdog reboot, ESP32 core 2.0.17 compatibility build, Merged Wokwi firmware image, npm run online:firmware launcher, Wokwi public IoT gateway connection blocker, npm run device:flash re-upload, flash-device.py NVS-guarded flasher (+1 more)
 
 ### Community 20 - "Dashboard visual contract with Tailwind integration"
-Cohesion: 0.11
-Nodes (15): Dashboard visual contract with Tailwind integration, Step 6: reference-matched web views, React.js and Tailwind UI conventions, Selector-controlled dark variant (html[data-admin-theme='dark']), Tailwind 4.3.5 Vite plugin build and layer cascade (tw prefix, no Preflight), Semantic color tokens via @theme inline (ink, muted, note, surface, canvas, line, danger), Access flow contrast mobile and verification refinement passes, Documented current Edge accessibility unit and production checks (+7 more)
+Cohesion: 0.16
+Nodes (14): Step 6: reference-matched web views, React.js and Tailwind UI conventions, Selector-controlled dark variant (html[data-admin-theme='dark']), Tailwind 4.3.5 Vite plugin build and layer cascade (tw prefix, no Preflight), Semantic color tokens via @theme inline (ink, muted, note, surface, canvas, line, danger), Access flow contrast mobile and verification refinement passes, Documented current Edge accessibility unit and production checks, Historical eight-page sample review evidence (+6 more)
 
 ### Community 21 - "Question Review Pages"
-Cohesion: 0.15
-Nodes (17): kinds, topics, actions, Correction(), changeTopic(), subtypesFor(), decisions, describeContext() (+9 more)
+Cohesion: 0.14
+Nodes (18): freshTarget(), kinds, topics, actions, Correction(), changeTopic(), subtypesFor(), decisions (+10 more)
 
 ### Community 22 - "Card"
-Cohesion: 0.13
-Nodes (50): ActivityChart(), ChartTip(), LevelChart(), OutcomesChart(), ScoreChart(), actions, DeviceRecovery(), ArrowUpRight (+42 more)
+Cohesion: 0.20
+Nodes (24): ActivityChart(), axis, ChartTip(), LevelChart(), OutcomesChart(), ScoreChart(), ChevronLeft, Clock3 (+16 more)
 
 ### Community 23 - "QR Player Flow Docs"
 Cohesion: 0.15
@@ -253,83 +264,83 @@ Nodes (17): Authenticated synthetic-tested device integration boundary, Complete
 
 ### Community 24 - "Frontend Dependencies"
 Cohesion: 0.09
-Nodes (29): dependencies, @fontsource-variable/open-sans@5.3.0, @fortawesome/fontawesome-free@7.3.1, html5-qrcode@2.3.8, qr-scanner@1.4.2, qrcode.react@4.2.0, @radix-ui/react-dialog@1.3.1, @radix-ui/react-dropdown-menu@2.2.1 (+21 more)
+Nodes (28): dependencies, @fontsource-variable/open-sans@5.3.0, @fortawesome/fontawesome-free@7.3.1, html5-qrcode@2.3.8, qr-scanner@1.4.2, qrcode.react@4.2.0, @radix-ui/react-dialog@1.3.1, @radix-ui/react-dropdown-menu@2.2.1 (+20 more)
 
 ### Community 25 - "os"
-Cohesion: 0.10
-Nodes (27): api_running(), app_login(), backup_dir(), backup_key(), client_args(), client_env(), env_values(), latest() (+19 more)
+Cohesion: 0.21
+Nodes (19): api_running(), app_login(), backup_dir(), backup_key(), client_args(), client_env(), env_values(), latest() (+11 more)
 
 ### Community 26 - "review-pages.mjs"
-Cohesion: 0.12
-Nodes (10): directory, errors, height, results, routes, width, child, python (+2 more)
+Cohesion: 0.25
+Nodes (6): directory, errors, height, results, routes, width
 
 ### Community 27 - "Assistant Training Datasets Doc"
 Cohesion: 0.07
 Nodes (26): Optimistic revision current public context confirmation and409staleapproval, 1000recordsperowner25perpage bounded parameterized statement-deadline queries, Future evaluation UI confirm correct reject versioneddecisions navigation progressfilters, Predictions hidden during pre-evaluation label review, Future evaluation UI question proposedlabel typedprior expectedstate explanations notes, Post-consumption corrections preserve originalresult new annotationversion, No player identities private chats or credentials in future review UI, Planned21November dedicated admin evaluationcase review page not implemented (+18 more)
 
-### Community 28 - "run.py"
-Cohesion: 0.05
-Nodes (55): manifest(), prepare(), question_only(), QuestionOnly, run(), training_variants(), Observer, predict() (+47 more)
+### Community 28 - "experiment_history.py"
+Cohesion: 0.16
+Nodes (11): run(), DenseModel, fit_temperature(), loss(), Heads, policy(), scaled(), evaluate_model() (+3 more)
 
 ### Community 29 - "test_assistant.py"
-Cohesion: 0.09
-Nodes (31): compose(), Intent, normalize(), test_everyday_wording_is_no_longer_unknown(), test_possible_names_stay_unknown(), empty_summary(), fixture_data(), test_clear_questions_do_not_get_two_options() (+23 more)
+Cohesion: 0.11
+Nodes (25): compose(), compose_all(), Context, endpoint(), Intent, frame(), empty_summary(), fixture_data() (+17 more)
 
 ### Community 30 - "Cross-system quality audit (19 Nov 2026)"
-Cohesion: 0.12
-Nodes (12): Step 7: durable live updates, Step 9: event readiness and release rehearsal, Player QR scanner, Cross-system quality audit (19 Nov 2026), 23 confirmed defects fixed (CSRF, origin, identity switching, QR, readiness, NLP scope), Audit coverage ledger, CSRF and configured-origin trust hardening, Loopback load (50 browsers) and actual API kill/restart (+4 more)
+Cohesion: 0.18
+Nodes (11): Step 7: durable live updates, Step 9: event readiness and release rehearsal, Cross-system quality audit (19 Nov 2026), 23 confirmed defects fixed (CSRF, origin, identity switching, QR, readiness, NLP scope), Audit coverage ledger, CSRF and configured-origin trust hardening, Loopback load (50 browsers) and actual API kill/restart, Outstanding feature/release boundaries (+3 more)
 
 ### Community 31 - "Render Blueprint"
 Cohesion: 0.08
 Nodes (24): mountPath, name, sizeGB, fromService, generateValue, key, sync, value (+16 more)
 
 ### Community 32 - "Stack Moko Baby — MySQL data model"
-Cohesion: 0.09
-Nodes (7): Device command delivery and review holds, Boot-bound device recovery, Durable browser updates, Local React and backend setup, Working software foundation, Stack Moko Baby — MySQL data model, React JavaScript frontend with Tailwind conventions
+Cohesion: 0.06
+Nodes (11): Applied typed-memory and reviewed-example migrations, Stack Moko Baby backend, Private player journey, live channels and phone HTTPS, Student identity raw questions and private values excluded from model context, Device command delivery and review holds, Boot-bound device recovery, Durable browser updates, Local React and backend setup (+3 more)
 
 ### Community 33 - "security.py"
 Cohesion: 0.22
-Nodes (9): entry(), login(), register(), session(), csrf_for(), encrypt_identity(), identity_lookup(), set_cookie() (+1 more)
+Nodes (7): login(), session(), csrf_for(), encrypt_identity(), identity_lookup(), set_cookie(), verify_csrf()
 
-### Community 34 - "RoutingPlan"
-Cohesion: 0.15
-Nodes (20): requested_metrics(), resolve_routing(), RoutingPlan, resolve_subject(), test_definition_and_ellipsis_are_distinct_from_a_new_data_subject(), test_directional_changes_select_the_requested_operation(), test_explicit_subject_is_invariant_to_old_history_and_wrong_model_label(), test_player_score_sql_is_paginated_and_keeps_source_evidence() (+12 more)
+### Community 34 - "normalize"
+Cohesion: 0.10
+Nodes (33): linguistic_text(), normalize(), requested_metrics(), resolve_routing(), RoutingPlan, test_definition_and_ellipsis_are_distinct_from_a_new_data_subject(), test_directional_changes_select_the_requested_operation(), test_explicit_subject_is_invariant_to_old_history_and_wrong_model_label() (+25 more)
 
-### Community 35 - "assistant_learning.py"
-Cohesion: 0.09
-Nodes (23): constrained_route(), intent_payload(), corpus_digest(), retrieve(), seed_examples(), _seed_examples(), semantic_features(), signature() (+15 more)
+### Community 35 - "assistant_training.py"
+Cohesion: 0.08
+Nodes (23): contextual_follow_up(), lexical_resource(), project_words(), tagalog_language_words(), tagalog_words(), corpus_digest(), retrieve(), semantic_features() (+15 more)
 
 ### Community 36 - "execute"
-Cohesion: 0.20
-Nodes (26): execute(), require_boot(), record_change(), admissions(), audit(), call_next(), cancel(), device() (+18 more)
+Cohesion: 0.32
+Nodes (19): execute(), record_change(), admissions(), audit(), call_next(), cancel(), device_journal(), event_lock() (+11 more)
 
 ### Community 37 - "Offline Classifier Experiment"
-Cohesion: 0.03
-Nodes (68): Stack Moko Baby step-by-step build plan, Current device/hosting milestone: Wokwi, Matrix v1 and free HTTPS tunnel (22 Nov 2026), Matrix v1 game (16 columns, 15 levels, max 15 points), Admin question review (/admin/question-review, migration 006), Candidate evaluation collection v2 (325 AI-authored questions), Holdout v2 AI-reviewed first use: 130/325, Declared language/semantic families per intent, 40of120supported blocked upstream;84of130admitted31unknown14scope1measurement (+60 more)
+Cohesion: 0.06
+Nodes (38): 40of120supported blocked upstream;84of130admitted31unknown14scope1measurement, 285originaltraining plus792historyvariants1077rows zero new independent questions, Synthetic variants add no missing subtypes language diversity or independent families, Augmentedpolicy answerszero question-onlypolicy answersone of120supported, Collection was empty at history run;later325AI candidates filled independentreviewpending, Frozen multilingual E5 hierarchical heads history and question-only ablations, Retained protocol variants heads predictions and14offlinechecks, AugmentedE5 ordinary61of130 stress47of120 vsoriginal63and14 (+30 more)
 
 ### Community 38 - "Candidate MySQL Schema"
 Cohesion: 0.25
 Nodes (18): ai_admin_memory, ai_requests, ai_training_examples, audit_logs, auth_sessions, device_commands, device_events, events (+10 more)
 
 ### Community 39 - "test_player_flow.py"
-Cohesion: 0.12
-Nodes (27): compose_all(), test_absent_device_results_are_not_inferred_from_registrations(), test_all_sources_are_separate_and_players_are_deduplicated(), test_review_round_trip_access_and_versioning(), revision(), test_global_revisions_and_idempotent_operations(), test_live_rejects_missing_or_foreign_origin(), test_live_requires_the_right_authenticated_role() (+19 more)
+Cohesion: 0.13
+Nodes (25): test_absent_device_results_are_not_inferred_from_registrations(), test_all_sources_are_separate_and_players_are_deduplicated(), revision(), test_global_revisions_and_idempotent_operations(), test_live_rejects_missing_or_foreign_origin(), test_live_requires_the_right_authenticated_role(), test_logout_revokes_existing_socket_and_commands_are_rejected(), test_outbox_is_atomic_and_recovers_after_dispatcher_restart() (+17 more)
 
 ### Community 40 - "Device Command Tests"
-Cohesion: 0.23
+Cohesion: 0.26
 Nodes (13): command_row(), reserve(), test_emulator_refuses_corrupt_journal_before_contacting_device(), test_expired_unknown_start_never_becomes_an_automatic_no_show(), test_invalid_or_stale_receipts_cannot_change_the_command(), test_other_machine_commands_and_maintenance_cannot_be_bypassed(), test_polling_is_authorized_repeatable_and_contains_no_player_identity(), test_receipt_survives_application_recreation_and_emulator_lost_ack() (+5 more)
 
-### Community 41 - "re"
-Cohesion: 0.22
-Nodes (10): reference_questions(), audit(), build(), followup(), main(), references(), test_candidate_internal_duplicates_are_flagged_without_predictions(), test_followup_annotation_keeps_subject_and_validates_changed_filters() (+2 more)
+### Community 41 - "Stack Moko Baby step-by-step build plan"
+Cohesion: 0.05
+Nodes (47): Stack Moko Baby step-by-step build plan, Current device/hosting milestone: Wokwi, Matrix v1 and free HTTPS tunnel (22 Nov 2026), Matrix v1 game (16 columns, 15 levels, max 15 points), Admin question review (/admin/question-review, migration 006), Candidate evaluation collection v2 (325 AI-authored questions), Holdout v2 AI-reviewed first use: 130/325, Lexical overlap audit (Jaccard >= .70 and char similarity >= .84), Declared language/semantic families per intent (+39 more)
 
 ### Community 42 - "Architecture and Graphify Docs"
-Cohesion: 0.10
-Nodes (9): Local Graphify setup and freshness guide, Stack Moko Baby technology and ownership architecture, Authenticated revision-only invalidation and coherent REST snapshots, Tailwind 4.3.5 semantic utilities Open Sans and Font Awesome webfonts, Bundled public lexicon then projection topical scope and intent routing, Active free PC HTTPS origin with private local database and Ollama, Matrix ownership, active free HTTPS and inactive Render topology, Quality hardening and local recovery/load/restore evidence (+1 more)
+Cohesion: 0.09
+Nodes (14): Address and availability, Daily startup, Free online operation with XAMPP, Verification and remaining checks, Wokwi firmware, Local Graphify setup and freshness guide, Stack Moko Baby technology and ownership architecture, Authenticated revision-only invalidation and coherent REST snapshots (+6 more)
 
 ### Community 43 - "analytics.py"
-Cohesion: 0.18
-Nodes (14): clean(), collect(), collect_all(), _collect_snapshot(), _operations(), select(), stamp(), simulated_result() (+6 more)
+Cohesion: 0.21
+Nodes (13): clean(), collect(), collect_all(), _collect_snapshot(), _operations(), select(), stamp(), simulated_result() (+5 more)
 
 ### Community 45 - "Vite and Tailwind Build"
 Cohesion: 0.12
@@ -339,45 +350,45 @@ Nodes (16): devDependencies, jsdom@31.0.1, prettier@3.10.1, tailwindcss@4.3.5, @
 Cohesion: 0.28
 Nodes (16): ai_requests, audit_logs, auth_sessions, device_commands, device_events, events, game_sessions, machines (+8 more)
 
-### Community 47 - "test_assistant_language.py"
-Cohesion: 0.27
-Nodes (6): test_explicit_semantics_and_public_context_do_not_wait_for_ollama(), test_linguistic_variation_keeps_the_requested_operation(), test_normalization_never_admits_private_values_or_control(), test_only_reviewed_contractions_expand_not_arbitrary_possessive_names(), test_projection_does_not_erase_an_unknown_subject_or_name(), test_public_design_questions_are_not_live_measurements()
+### Community 47 - "api"
+Cohesion: 0.11
+Nodes (37): AssistantTrainingReview(), choose(), exportApproved(), load(), remove(), review(), save(), DeviceRecovery() (+29 more)
 
 ### Community 48 - "Functional Spec and Matrix Rules"
-Cohesion: 0.12
-Nodes (7): Classic v1 ruleset (preserved), Matrix v1 ruleset, 006_matrix_rules.sql migration, Selected Matrix v1 supersedes Classic-only proposals, Stack Moko Baby — functional specification, Pending physical, identity and network release decisions, Migration 006 Matrix rules and authenticated command ordering
+Cohesion: 0.08
+Nodes (15): Matrix rules and active free same-origin HTTPS backend, Classic v1 ruleset (preserved), ESP32, Wokwi and online operation, Firmware files and wiring, Journal and operational limits, Keeping XAMPP and local Ollama online, Matrix v1 ruleset, 006_matrix_rules.sql migration (+7 more)
 
 ### Community 49 - "Playwright Browser Tests"
-Cohesion: 0.14
-Nodes (5): errors, @axe-core/playwright@4.14.0, @playwright/test@1.65.1, @axe-core/playwright, @playwright/test
+Cohesion: 0.09
+Nodes (7): errors, iterator, lines, @axe-core/playwright@4.14.0, @playwright/test@1.65.1, @axe-core/playwright, @playwright/test
 
 ### Community 50 - "QR Scanner Components"
-Cohesion: 0.30
-Nodes (9): PublicHeader(), loadScannerApi(), release(), Scanner(), detected(), startCamera(), stopCamera(), upload() (+1 more)
+Cohesion: 0.32
+Nodes (8): loadScannerApi(), release(), Scanner(), detected(), startCamera(), stopCamera(), upload(), registrationQrContent()
 
 ### Community 51 - "Root Package Scripts"
 Cohesion: 0.11
 Nodes (18): engines, node, name, private, scripts, db:backup, db:verify, dev (+10 more)
 
 ### Community 52 - "json"
-Cohesion: 0.07
-Nodes (21): model_json(), scope_payload(), ScopePlan, measure(), fetch(), main(), canonical(), main() (+13 more)
+Cohesion: 0.13
+Nodes (7): fetch(), main(), main(), plot(), main(), measured(), main()
 
 ### Community 53 - "test_assistant_training.py"
 Cohesion: 0.13
-Nodes (14): interpretation_choices(), test_ambiguous_query_does_not_query_live_data_until_choice(), ready(), test_exact_correction_routes_without_model_but_reads_fresh_data(), test_learning_is_owner_scoped_approved_current_and_disableable(), approve(), candidate(), test_duplicate_does_not_overwrite_reviewed_label_and_context_change_needs_review() (+6 more)
+Nodes (15): interpretation_choices(), test_ambiguous_query_does_not_query_live_data_until_choice(), ready(), test_ambiguous_question_gets_exactly_two_safe_scoped_interpretations(), test_clear_questions_do_not_get_two_options(), test_exact_correction_routes_without_model_but_reads_fresh_data(), test_learning_is_owner_scoped_approved_current_and_disableable(), approve() (+7 more)
 
 ### Community 56 - "setup_local.py"
-Cohesion: 0.12
-Nodes (20): Settings, make_engine(), main(), start_api(), percentile(), serve(), test_database(), main() (+12 more)
+Cohesion: 0.16
+Nodes (12): Settings, make_engine(), main(), migrate(), seed(), main(), environment(), cloud_env() (+4 more)
 
 ### Community 57 - "build_language_lexicon.py"
-Cohesion: 0.15
+Cohesion: 0.20
 Nodes (5): build(), build_v2(), digest(), Links, wordnet_rows()
 
 ### Community 58 - "Analytics-v1 runtime and development AI system rules"
-Cohesion: 0.06
-Nodes (26): Stack Intelligence local administrator analytics guide, Explicit owner-reviewed current-version routing examples, Dashboard Settings houses model memory and training controls, Analytics-v1 runtime and development AI system rules, Explicit current measures override history and contradictory model labels, Matrix-aware analytics and cloud AI disabled, Student identity raw questions and private values excluded from model context, Eight bounded allowlisted read-only analytics operations (+18 more)
+Cohesion: 0.07
+Nodes (10): Stack Intelligence local administrator analytics guide, Explicit owner-reviewed current-version routing examples, Dashboard Settings houses model memory and training controls, Analytics-v1 runtime and development AI system rules, Explicit current measures override history and contradictory model labels, Matrix-aware analytics and cloud AI disabled, Eight bounded allowlisted read-only analytics operations, System grounded learning retrieval and development corpora (+2 more)
 
 ### Community 59 - "LiveHub"
 Cohesion: 0.27
@@ -395,21 +406,25 @@ Nodes (9): NLP lab offline requirements, datasets 3.6.0, scikit-learn 1.9.1, sen
 Cohesion: 0.22
 Nodes (12): backend, backupMinutes, backupNow(), children, completed(), main(), occupied(), python (+4 more)
 
-### Community 64 - "Demo Data Summaries"
-Cohesion: 0.24
-Nodes (9): activity, EVENT, initialQueue, levelStatistics(), names, players, rounds, scoreBuckets() (+1 more)
+### Community 63 - "main.py"
+Cohesion: 0.11
+Nodes (14): APIInput, Placement, RecoveryReason, RecoveryResolution, Result, cabinet_state(), health_data(), Admissions (+6 more)
+
+### Community 64 - "AppContext.jsx"
+Cohesion: 0.13
+Nodes (18): actions, activity, EVENT, initialQueue, names, players, rounds, summarize() (+10 more)
 
 ### Community 65 - "Firmware Transport Job"
 Cohesion: 0.20
 Nodes (7): RequestJob, body, boot, kind, path, response, status
 
 ### Community 66 - "dev.mjs"
-Cohesion: 0.21
-Nodes (10): backend, backendOnly, frontend, health(), main(), owned, portInUse(), root (+2 more)
+Cohesion: 0.13
+Nodes (14): backend, backendOnly, frontend, health(), main(), owned, portInUse(), root (+6 more)
 
-### Community 67 - "main.py"
-Cohesion: 0.07
-Nodes (14): CaseReview, cabinet_state(), health_data(), boundaries(), Reason, ReviewRound, canonical_origin(), origin_allowed() (+6 more)
+### Community 67 - "fastapi"
+Cohesion: 0.17
+Nodes (4): RequestSizeLimit, mount_frontend(), test_missing_production_build_fails_at_startup(), test_production_spa_preserves_api_and_private_file_boundaries()
 
 ### Community 68 - "NLP admission repair — 24 November 2026"
 Cohesion: 0.14
@@ -435,9 +450,13 @@ Nodes (7): Boot registration (POST /api/device/boot), ESP-IDF esp_timer restarts
 Cohesion: 0.29
 Nodes (6): author, connections, dependencies, editor, parts, version
 
-### Community 76 - "test_db_backup.py"
+### Community 75 - "database.py"
 Cohesion: 0.15
-Nodes (4): scratch(), flash_helpers(), main(), send()
+Nodes (7): main(), Consumption ledger (consumed set becomes regression), Audit NLP method and limits (44/44 regressions), main(), flash_helpers(), main(), send()
+
+### Community 77 - "run.py"
+Cohesion: 0.19
+Nodes (15): manifest(), prepare(), sha(), SparseModel, code_hashes(), freeze(), load(), main() (+7 more)
 
 ### Community 78 - "Assistant Memory Migrations"
 Cohesion: 0.29
@@ -455,6 +474,10 @@ Nodes (3): press(), timeout(), x()
 Cohesion: 0.40
 Nodes (4): printWidth, semi, singleQuote, trailingComma
 
+### Community 82 - "test_nlp_lab.py"
+Cohesion: 0.15
+Nodes (16): balanced_cases(), partitions(), find(), union(), prepare(), sources(), Frame, collection() (+8 more)
+
 ### Community 83 - "Cloudflare Quick Tunnel"
 Cohesion: 0.33
 Nodes (6): Prepare and run locally, Wokwi connection choices, install-cloudflared.py verified installer, Cloudflare Quick Tunnel, Phone hotspot to ESP32 to HTTPS tunnel topology, Phone/network deployment
@@ -467,29 +490,57 @@ Nodes (3): Pinned Argon2 and cryptography security dependencies, Pinned backend 
 Cohesion: 0.40
 Nodes (4): device_emulator.py file-journal emulator, MariaDB FOR UPDATE row locks, Receipt-required session start, recovery_emulator.py protocol-v2 emulator
 
+### Community 89 - "prepare-online-firmware.py"
+Cohesion: 0.18
+Nodes (8): arduino_cli(), check_layout(), detect_port(), main(), partitions(), main(), merge_firmware(), trust_bundle()
+
 ### Community 96 - "Self-test stages (panel chain, orientation, button, strip, audio)"
 Cohesion: 0.50
 Nodes (4): DFPlayer audio cues, npm run device:selftest wiring self-test, pixel() matrix mapping, Self-test stages (panel chain, orientation, button, strip, audio)
 
+### Community 98 - "check_quality.py"
+Cohesion: 0.18
+Nodes (9): bounded_receive(), main(), receive(), start_api(), percentile(), serve(), test_database(), executable() (+1 more)
+
+### Community 99 - "pathlib"
+Cohesion: 0.17
+Nodes (5): measure(), publish(), metrics(), primary(), publish()
+
+### Community 100 - "text"
+Cohesion: 0.25
+Nodes (9): question_only(), QuestionOnly, training_variants(), text(), test_augmentation_cannot_ingest_calibration_comparison_or_blocked_rows(), test_existing_contextual_examples_are_never_relabelled_or_given_wrong_subject(), test_history_variants_keep_original_question_target_and_family(), test_question_only_features_do_not_change_with_any_validated_prior_subject() (+1 more)
+
+### Community 101 - "configure-firmware.py"
+Cohesion: 0.22
+Nodes (4): canonical_origin(), main(), private_lan(), wifi_problem()
+
+### Community 102 - "test_routing_quality.py"
+Cohesion: 0.14
+Nodes (8): constrained_route(), route_label(), test_api_keeps_real_summary_and_design_explanations_despite_wrong_model(), test_generated_learning_labels_match_the_requested_measure(), test_measurement_requests_are_not_replaced_by_workflow_explanations(), test_public_explanations_do_not_enable_assignments_identifiers_or_unknown_subjects(), test_reviewed_function_and_memory_words_survive_the_runtime_guard(), test_role_separated_demonstrations_leave_current_request_last()
+
+### Community 104 - "predict"
+Cohesion: 0.32
+Nodes (3): Observer, predict(), test_offline_ollama_adapter_can_route_explicit_question_without_model_or_database()
+
 ## Knowledge Gaps
-- **325 isolated node(s):** `Problem`, `Measured results`, `Still open`, `Verification`, `tabs` (+320 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 667 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **17 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **326 isolated node(s):** `errors`, `mocks`, `titles`, `waitingMessages`, `tabs` (+321 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 669 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **18 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Verified remaining work` connect `Backend and Online Operation Docs` to `Stack Moko Baby — MySQL data model`, `NLP admission repair — 24 November 2026`, `Offline Classifier Experiment`, `Conservative review hold`, `npm run online:firmware launcher`, `Cloudflare Quick Tunnel`, `Analytics-v1 runtime and development AI system rules`?**
-  _High betweenness centrality (0.007) - this node is a cross-community bridge._
+- **Why does `Assistant` connect `Assistant Question Pipeline` to `test_assistant.py`, `assistant.py`, `one`, `test_assistant_memory.py`?**
+  _High betweenness centrality (0.003) - this node is a cross-community bridge._
 - **Are the 13 inferred relationships involving `create_app()` (e.g. with `Question` and `Proposal`) actually correct?**
   _`create_app()` has 13 INFERRED edges - model-reasoned connections that need verification._
-- **What connects `Problem`, `Measured results`, `Still open` to the rest of the system?**
-  _325 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `errors`, `mocks`, `titles` to the rest of the system?**
+  _326 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `evaluate_holdout.py` be split into smaller, more focused modules?**
-  _Cohesion score 0.11702127659574468 - nodes in this community are weakly interconnected._
-- **Why does `create_app()` connect `create_app` to `security.py`, `assistant_learning.py`, `execute`, `main.py`, `Assistant Question Pipeline`, `recovery_emulator.py`, `analytics.py`, `Context`, `one`, `device_recovery.py`, `assistant.py`, `setup_local.py`, `LiveHub`?**
-  _High betweenness centrality (0.004) - this node is a cross-community bridge._
-- **Should `constraints` be split into smaller, more focused modules?**
-  _Cohesion score 0.1354679802955665 - nodes in this community are weakly interconnected._
-- **Why does `Device command delivery and review holds` connect `Stack Moko Baby — MySQL data model` to `Analytics-v1 runtime and development AI system rules`, `Backend and Online Operation Docs`, `Conservative review hold`, `Read-only command polling (GET /api/device/commands)`?**
-  _High betweenness centrality (0.003) - this node is a cross-community bridge._
+  _Cohesion score 0.09411764705882353 - nodes in this community are weakly interconnected._
+- **Why does `Cross-system quality audit (19 Nov 2026)` connect `Cross-system quality audit (19 Nov 2026)` to `Stack Moko Baby — MySQL data model`, `check_quality.py`, `database.py`, `Backend and Online Operation Docs`, `setup_local.py`?**
+  _High betweenness centrality (0.002) - this node is a cross-community bridge._
+- **Should `assistant.py` be split into smaller, more focused modules?**
+  _Cohesion score 0.09898242368177614 - nodes in this community are weakly interconnected._
+- **Why does `Stack Moko Baby backend` connect `Stack Moko Baby — MySQL data model` to `Architecture and Graphify Docs`, `Functional Spec and Matrix Rules`, `Backend and Online Operation Docs`, `Analytics-v1 runtime and development AI system rules`, `Assistant Training Datasets Doc`, `Cross-system quality audit (19 Nov 2026)`?**
+  _High betweenness centrality (0.002) - this node is a cross-community bridge._

@@ -6,6 +6,7 @@ import { Card, CardHeader, PageHeading, Badge, Button, InfoNote, Modal } from '.
 import { Matrix, stateLabels } from '../components/LiveRound'
 import { Radio, Layers3 } from '../components/icons'
 import DeviceRecovery from '../components/DeviceRecovery'
+import NoShowRelease from '../components/NoShowRelease'
 
 export function DeviceCommands() {
   const { deviceCommands = [], currentPlayer, admin, refresh, notify, busy } = useApp()
@@ -236,6 +237,7 @@ export default function Machines() {
           : 'A fresh device heartbeat is required before calling a player. Missing readings remain unknown.'}
       </InfoNote>
       <DeviceCommands />
+      <NoShowRelease />
       <DeviceRecovery />
       <SimulatorControls />
     </>

@@ -25,7 +25,7 @@ Polling reports `reviewRequired` when a reserved session's deadline has elapsed 
 
 Administrators can use **Machine → Flag round for review**, supplying a reason. `POST /api/admin/sessions/{sessionUuid}/review` checks the staff cookie, CSRF, current revision and device source. The reason is audited; stale requests fail. This stops further reservation delivery and new server starts, but does not remotely stop an already running physical game. The original command receipt and any recorded start remain evidence. The player sees a private review ticket and has no dashboard or leaderboard access.
 
-**There is no force-release button or automatic no-show resolution.** A trusted boot/session/terminal reconciliation protocol and audited operator resolution remain the next milestone. A result received before a valid start, a reboot with uncertain local state, or a review-held started round is not automatically reconstructed/released by this change. Physical power-cut tests and durable NVS markers must accompany that later implementation.
+**There is no force-release button or timeout-based no-show resolution.** (Since 24 November a one-click "Player didn't come" action exists, but it releases only after the device confirms an unstarted fence; see [device recovery](device-recovery.md).) A trusted boot/session/terminal reconciliation protocol and audited operator resolution remain the next milestone. A result received before a valid start, a reboot with uncertain local state, or a review-held started round is not automatically reconstructed/released by this change. Physical power-cut tests and durable NVS markers must accompany that later implementation.
 
 ## UI and storage
 
