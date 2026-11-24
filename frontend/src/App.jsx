@@ -13,6 +13,7 @@ import Leaderboard from './pages/Leaderboard'
 import Ticket from './pages/Ticket'
 import AdminLogin from './pages/AdminLogin'
 import Entry, { ScanGate } from './pages/Entry'
+import Reenter from './pages/Reenter'
 import { useApp } from './state/AppContext'
 
 function AdminOnly() {
@@ -78,6 +79,7 @@ export default function App() {
         </Route>
         <Route path="/join/:token" element={<Entry />} />
         <Route path="/register" element={<Registration />} />
+        <Route path="/reenter" element={<Reenter />} />
         <Route path="/register/:eventCode/:machineCode" element={<ScanGate />} />
         <Route element={<PlayerOnly />}>
           <Route path="/ticket" element={<Ticket />} />

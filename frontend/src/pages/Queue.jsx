@@ -26,6 +26,7 @@ import {
 import { RegistrationQR } from '../components/Shell'
 import { SimulatorControls } from './Machines'
 import NoShowRelease from '../components/NoShowRelease'
+import PlayerReentry from '../components/PlayerReentry'
 
 export default function Queue() {
   const { queue, skipPlayer, machineState, callNext, admissionsOpen, setAdmissionsOpen, busy } =
@@ -146,6 +147,7 @@ export default function Queue() {
             <p className="field-help">{nextReason}</p>
           </Card>
           <NoShowRelease />
+          <PlayerReentry />
           <div className="mini-metrics">
             <Metric label="In the queue" value={queue.length} detail="Players waiting" />
             <Metric label="Order" value="FIFO" detail="First come, first served" />

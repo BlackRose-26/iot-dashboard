@@ -400,3 +400,56 @@ test('Player didn’t come stops and releases an unstarted no-show in one click'
     await playerContext.close()
   }
 })
+
+test('operator re-entry QR restores a lost ticket on a new phone exactly once', async ({
+  page,
+  browser,
+}) => {
+  await login(page)
+  const oldContext = await browser.newContext({ viewport: { width: 390, height: 844 } })
+  const newContext = await browser.newContext({ viewport: { width: 390, height: 844 } })
+  try {
+    const oldPhone = await oldContext.newPage()
+    await join(oldPhone, 'Lost Phone Guest', 'DUMMY-BROWSER-REENTRY')
+    const before = (await (await oldPhone.request.get('/api/player/context')).json()).ticket
+
+    await page.goto('/admin/queue')
+    await page.getByLabel('Find a player to restore').fill('Lost Phone')
+    const issued = page.waitForResponse(
+      (r) =>
+        /\/api\/admin\/players\/[^/]+\/reentry$/.test(r.url()) && r.request().method() === 'POST',
+    )
+    await page.getByRole('button', { name: 'Show re-entry QR for Lost Phone Guest' }).click()
+    const { path } = await (await issued).json()
+    const dialog = page.getByRole('dialog')
+    await expect(dialog.locator('canvas')).toBeVisible()
+    await expect(dialog).toContainText('works once')
+    expect(await dialog.textContent()).not.toContain(path.split('#')[1])
+
+    // The new phone has no cookie for this player; the code rides in the fragment only.
+    const newPhone = await newContext.newPage()
+    const sent = []
+    newPhone.on('request', (request) => sent.push(request.url()))
+    await newPhone.goto(path)
+    await expect(newPhone).toHaveURL(/\/ticket$/)
+    const after = (await (await newPhone.request.get('/api/player/context')).json()).ticket
+    expect(after.nickname).toBe('Lost Phone Guest')
+    expect(after.status).toBe(before.status)
+    expect(sent.some((url) => url.includes(path.split('#')[1]))).toBe(false)
+    expect(
+      (await (await oldPhone.request.get('/api/player/context')).json()).ticket ?? null,
+    ).toBeNull()
+
+    // A second scan of the same QR is refused with a clear message.
+    const again = await (await browser.newContext()).newPage()
+    await again.goto(path)
+    await expect(again.getByText(/expired or was already used/)).toBeVisible()
+    await again.context().close()
+    await page.getByRole('button', { name: 'Done' }).click()
+    await expect(dialog).toBeHidden()
+    expect(errors).toEqual([])
+  } finally {
+    await oldContext.close()
+    await newContext.close()
+  }
+})

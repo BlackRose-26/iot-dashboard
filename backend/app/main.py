@@ -481,6 +481,51 @@ def create_app(settings=None):
             record_change(c,'queue.changed')
         return {'ok':True}
 
+    # ---- Operator-assisted ticket re-entry (24 Nov 2026) ----
+    # After a lost phone, cleared browser or a new tunnel hostname, a player's cookie is gone
+    # and re-registering is refused (the student ID already exists). The operator, who can see
+    # the person, issues a one-time QR that restores that player's own session.
+    @app.get('/api/admin/players')
+    def find_players(request:Request, search:str=''):
+        term=search.strip()[:40]
+        like='%'+re.sub(r'([\\%_])',r'\\\1',term)+'%'
+        with engine.connect() as c:
+            subject(c,request,'admin')
+            rows=all_rows(c,'''SELECT p.public_id,p.nickname,p.public_code,
+                (SELECT q.status FROM queue_entries q WHERE q.player_id=p.id ORDER BY q.id DESC LIMIT 1) AS ticket,
+                (SELECT MAX(q.joined_at) FROM queue_entries q WHERE q.player_id=p.id) AS joined
+              FROM players p WHERE (:term='' OR p.nickname LIKE :like OR p.public_code LIKE :like)
+              ORDER BY joined DESC, p.id DESC LIMIT 20''',term=term,like=like)
+        return {'players':[{'id':r['public_id'],'nickname':r['nickname'],'code':r['public_code'],'ticket':r['ticket']} for r in rows]}
+
+    @app.post('/api/admin/players/{public}/reentry')
+    def issue_reentry(public:str,request:Request):
+        with engine.begin() as c:
+            p=subject(c,request,'admin',write=True)
+            player=one(c,'SELECT id,public_id FROM players WHERE public_id=:id FOR UPDATE',id=public)
+            if not player: raise HTTPException(404,'Player not found.')
+            # Only the newest code works; an older unused one is cancelled.
+            execute(c,'UPDATE player_reentry_tokens SET used_at=:now WHERE player_id=:id AND used_at IS NULL',now=now(),id=player['id'])
+            raw=secrets.token_urlsafe(32); expires=now()+timedelta(minutes=REENTRY_MINUTES)
+            execute(c,'''INSERT INTO player_reentry_tokens(token_hash,player_id,issued_by,expires_at)
+              VALUES(:hash,:player,:staff,:expires)''',hash=digest(raw),player=player['id'],staff=p['staff_user_id'],expires=expires)
+            audit(c,p['staff_user_id'],'player_reentry_issued',public,entity_type='player')
+        # The token rides in the URL fragment, which browsers never send to the server or tunnel.
+        return {'path':'/reenter#'+raw,'expiresAt':expires.isoformat()+'Z','minutes':REENTRY_MINUTES}
+
+    @app.post('/api/player/reenter')
+    def reenter(body:Reentry,response:Response):
+        with engine.begin() as c:
+            token=one(c,'''SELECT * FROM player_reentry_tokens WHERE token_hash=:hash
+              AND used_at IS NULL AND expires_at>:now FOR UPDATE''',hash=digest(body.token),now=now())
+            if not token:
+                raise HTTPException(410,'This re-entry code has expired or was already used. Ask the operator for a new one.')
+            execute(c,'UPDATE player_reentry_tokens SET used_at=:now WHERE id=:id',now=now(),id=token['id'])
+            # One active device per player: the restored phone replaces any older session.
+            execute(c,'UPDATE auth_sessions SET revoked_at=:now WHERE player_id=:id AND revoked_at IS NULL',now=now(),id=token['player_id'])
+            session(c,response,'player',player_id=token['player_id'])
+        return {'ok':True}
+
     @app.post('/api/player/cancel')
     def cancel(request:Request):
         with engine.begin() as c:
@@ -741,6 +786,10 @@ class Registration(APIInput):
     nickname:str=Field(min_length=2,max_length=24)
     studentId:str=Field(min_length=4,max_length=32)
     acknowledged:bool=Field(strict=True)
+REENTRY_MINUTES=10
+class Reentry(APIInput):
+    model_config={'extra':'forbid'}
+    token:str=Field(min_length=40,max_length=64,pattern=r'^[A-Za-z0-9_-]+$')
 class Admissions(APIInput):
     open:bool=Field(strict=True)
 class Reason(APIInput):
