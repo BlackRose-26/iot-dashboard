@@ -16,6 +16,8 @@ npm run dev                   # http://localhost:5173/admin/login
 
 `npm run setup` needs only Node.js to start. It reports each item as `[ok]`, `[!!]` (needs you; the line says how to fix it) or `[--]` (optional or skipped). It is safe to run again at any time: finished steps are skipped, and existing data and passwords are kept.
 
+**Printable version:** section 0 of the [Wiring and Operation Guide (PDF)](docs/Stack-Moko-Baby-Wiring-and-Operation-Guide.pdf) has the two-laptop wiring diagram, these setup steps and the event-day checklist.
+
 ## Which laptop are you setting up?
 
 | Role | What it is | Command |

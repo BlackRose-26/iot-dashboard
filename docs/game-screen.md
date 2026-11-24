@@ -27,6 +27,8 @@ It was judged a good idea, with the conditions below.
 
 ## Button wiring
 
+A drawn two-laptop wiring diagram (laptops, ESP32 pins and the button's terminals) is in section 0 of the [PDF guide](Stack-Moko-Baby-Wiring-and-Operation-Guide.pdf).
+
 The only wiring now:
 
 | From | To |
