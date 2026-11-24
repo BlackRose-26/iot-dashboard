@@ -453,3 +453,50 @@ test('operator re-entry QR restores a lost ticket on a new phone exactly once', 
     await newContext.close()
   }
 })
+
+test('administrator creates an operator who runs the line without admin-only tools', async ({
+  page,
+  browser,
+}) => {
+  await login(page)
+  await page.goto('/admin/settings')
+  await page.getByLabel('New operator username').fill('booth-e2e')
+  await page.getByRole('button', { name: 'Add operator' }).click()
+  const dialog = page.getByRole('dialog')
+  await expect(dialog).toContainText('Password for booth-e2e')
+  const password = (await dialog.getByText(/^[a-z2-9]{4}(-[a-z2-9]{4}){3}$/).textContent()).trim()
+  expect(password).toMatch(/^[a-z2-9]{4}(-[a-z2-9]{4}){3}$/)
+  await dialog.getByRole('button', { name: 'Done' }).click()
+  await expect(page.getByRole('list', { name: 'Staff accounts' })).toContainText('booth-e2e')
+
+  const operatorContext = await browser.newContext()
+  try {
+    const operator = await operatorContext.newPage()
+    operator.on('pageerror', (e) => errors.push(e.message))
+    await operator.goto('/admin/login')
+    await operator.getByLabel('Username', { exact: true }).fill('booth-e2e')
+    await operator.getByLabel('Password', { exact: true }).fill(password)
+    await operator.getByRole('button', { name: 'Sign in', exact: true }).click()
+    await expect(operator).toHaveURL(/\/admin\/overview$/)
+    await expect(operator.getByLabel('Signed in as booth-e2e, operator')).toHaveText('OP')
+
+    await operator.goto('/admin/queue')
+    await expect(operator.getByRole('button', { name: 'Call next player' })).toBeVisible()
+    await expect(operator.getByText('Player lost their ticket?')).toBeVisible()
+    await expect(operator.getByRole('heading', { name: 'Development simulator' })).toHaveCount(0)
+    await operator.goto('/admin/settings')
+    await expect(operator.getByText('Staff accounts')).toHaveCount(0)
+    await expect(operator.getByRole('link', { name: 'Review questions' })).toHaveCount(0)
+    await operator.goto('/admin/question-review')
+    await expect(operator.getByRole('heading', { name: 'Administrators only' })).toBeVisible()
+    expect((await operator.request.get('/api/admin/staff')).status()).toBe(403)
+
+    // Switching the account off signs the operator out.
+    await page.getByRole('button', { name: 'Switch off booth-e2e' }).click()
+    await expect(page.locator('.toast')).toContainText('booth-e2e is switched off')
+    expect((await operator.request.get('/api/admin/snapshot')).status()).toBe(401)
+    expect(errors).toEqual([])
+  } finally {
+    await operatorContext.close()
+  }
+})

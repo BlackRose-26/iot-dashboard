@@ -15,6 +15,7 @@ import AdminLogin from './pages/AdminLogin'
 import Entry, { ScanGate } from './pages/Entry'
 import Reenter from './pages/Reenter'
 import { useApp } from './state/AppContext'
+import { EmptyState } from './components/ui'
 
 function AdminOnly() {
   const { admin, ready } = useApp()
@@ -34,6 +35,17 @@ function AdminOnly() {
       />
     )
   return <Shell />
+}
+function AdministratorsOnly({ children }) {
+  const { isAdmin } = useApp()
+  if (isAdmin) return children
+  return (
+    <EmptyState
+      headingAs="h1"
+      title="Administrators only"
+      description="Practice-question review is done by the event administrator. Your operator account runs the queue and the cabinet."
+    />
+  )
 }
 function PlayerOnly({ completed = false }) {
   const { player, ready } = useApp()
@@ -75,7 +87,14 @@ export default function App() {
           <Route path="sessions" element={<Sessions />} />
           <Route path="machines" element={<Machines />} />
           <Route path="settings" element={<Settings />} />
-          <Route path="question-review" element={<QuestionReview />} />
+          <Route
+            path="question-review"
+            element={
+              <AdministratorsOnly>
+                <QuestionReview />
+              </AdministratorsOnly>
+            }
+          />
         </Route>
         <Route path="/join/:token" element={<Entry />} />
         <Route path="/register" element={<Registration />} />

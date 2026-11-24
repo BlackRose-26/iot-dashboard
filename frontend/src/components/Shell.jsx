@@ -127,8 +127,12 @@ export default function Shell() {
           </nav>
           <div className="header-actions">
             <ThemeSwitch />
-            <span className="operator-avatar" aria-label={`Signed in as ${admin.username}`}>
-              AD
+            <span
+              className="operator-avatar"
+              title={`${admin.username} · ${admin.role === 'admin' ? 'Administrator' : 'Operator'}`}
+              aria-label={`Signed in as ${admin.username}, ${admin.role === 'admin' ? 'administrator' : 'operator'}`}
+            >
+              {admin.role === 'admin' ? 'AD' : 'OP'}
             </span>
             <IconButton label="Sign out" onClick={() => logout().catch((e) => setToast(e.message))}>
               <i className="fa-solid fa-right-from-bracket" aria-hidden="true" />

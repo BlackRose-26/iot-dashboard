@@ -122,7 +122,7 @@ function Symbol({ name }) {
 }
 
 export default function AdminAssistant({ onReviewPage = false }) {
-  const { admin, refresh } = useApp()
+  const { admin, isAdmin, refresh } = useApp()
   const {
     useMemory,
     memoryBusy,
@@ -138,7 +138,7 @@ export default function AdminAssistant({ onReviewPage = false }) {
   } = useAssistant()
   const [open, setOpen] = useState(false)
   const [reviewMode, setReviewing] = useState(false)
-  const reviewing = reviewMode && !onReviewPage
+  const reviewing = isAdmin && reviewMode && !onReviewPage
   const [replyForReview, setReplyForReview] = useState(null)
   const [draft, setDraft] = useState('')
   const [messages, setMessages] = useState([])
@@ -332,14 +332,16 @@ export default function AdminAssistant({ onReviewPage = false }) {
           </span>
           <div className="assistant-heading">
             <h2 id="assistant-title">Stack Intelligence</h2>
-            <button
-              type="button"
-              className="text-button tw:mt-1 tw:min-h-8 tw:text-sm"
-              aria-pressed={reviewing}
-              onClick={() => (onReviewPage ? minimize() : setReviewing(!reviewing))}
-            >
-              {reviewing ? 'Back to chat' : 'Review practice questions'}
-            </button>
+            {isAdmin && (
+              <button
+                type="button"
+                className="text-button tw:mt-1 tw:min-h-8 tw:text-sm"
+                aria-pressed={reviewing}
+                onClick={() => (onReviewPage ? minimize() : setReviewing(!reviewing))}
+              >
+                {reviewing ? 'Back to chat' : 'Review practice questions'}
+              </button>
+            )}
           </div>
           {!reviewing && (
             <button
@@ -454,7 +456,7 @@ export default function AdminAssistant({ onReviewPage = false }) {
                     {message.response?.as_of && (
                       <small className="assistant-caveat">{message.response.scope_label}</small>
                     )}
-                    {message.response?.review_candidate && (
+                    {isAdmin && message.response?.review_candidate && (
                       <button
                         type="button"
                         className="text-button tw:mt-2 tw:min-h-8"

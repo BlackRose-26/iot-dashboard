@@ -85,3 +85,23 @@ it('shows quarantine and legacy-device holds without a recovery action', () => {
   rerender(<DeviceRecovery />)
   expect(screen.getByText(/legacy heartbeats cannot authorize recovery/)).toBeVisible()
 })
+
+it('leaves score decisions to an administrator when an operator is signed in', () => {
+  const evidence = {
+    allowedActions: ['void_interrupted'],
+    canFence: false,
+    evidenceId: 'synthetic-evidence',
+  }
+  mocks.state = {
+    ...mocks.state,
+    isAdmin: false,
+    deviceRecovery: { ...mocks.state.deviceRecovery, ...evidence },
+  }
+  const { rerender } = render(<DeviceRecovery />)
+  expect(screen.queryByRole('button', { name: /void/i })).not.toBeInTheDocument()
+  expect(screen.getByText(/must be decided by an administrator/)).toBeInTheDocument()
+  mocks.state = { ...mocks.state, isAdmin: true }
+  rerender(<DeviceRecovery />)
+  expect(screen.getByRole('button', { name: /void/i })).toBeInTheDocument()
+  expect(screen.queryByText(/must be decided by an administrator/)).not.toBeInTheDocument()
+})

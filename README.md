@@ -63,7 +63,7 @@ python -m venv backend\.venv
 
 The setup script provisions the project database, applies migrations and creates local configuration and administrator credentials. It preserves existing data and passwords on reruns. For an existing password-protected XAMPP root account, follow [backend setup](backend/README.md); do not change your database root password to match this project.
 
-Local administrator credentials are written to `backend/.admin-credentials.txt`. Keep that file and `backend/.env` private. Neither belongs in Git, screenshots or chat.
+Local administrator credentials are written to `backend/.admin-credentials.txt`. Keep that file and `backend/.env` private. Neither belongs in Git, screenshots or chat. Booth helpers get their own **operator** accounts from Settings → Staff accounts; operators run the line but cannot change scores, accounts or assistant training.
 
 ## Run after each restart
 

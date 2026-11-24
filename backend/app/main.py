@@ -87,7 +87,7 @@ def create_app(settings=None):
 
     def subject(c, request, kind, write=False, required=True):
         raw = request.cookies.get('sm_admin' if kind=='admin' else 'sm_player', '')
-        row = one(c, '''SELECT a.*,s.username,s.enabled AS staff_enabled FROM auth_sessions a
+        row = one(c, '''SELECT a.*,s.username,s.role,s.enabled AS staff_enabled FROM auth_sessions a
           LEFT JOIN staff_users s ON s.id=a.staff_user_id WHERE a.token_hash=:hash
           AND a.expires_at>:now AND a.revoked_at IS NULL''', hash=digest(raw), now=now()) if raw else None
         valid = row and (row['staff_user_id'] and row['staff_enabled'] if kind=='admin' else row['player_id'])
@@ -96,6 +96,11 @@ def create_app(settings=None):
             return None
         if write: verify_csrf(request, raw)
         return dict(row, csrf=csrf_for(settings, raw))
+
+    def require_admin(p):
+        # Operators run the line; only administrators change scores, accounts, training and the simulator.
+        if p['role']!='admin': raise HTTPException(403,'Only an administrator can do this.')
+        return p
 
     def session(c, response, kind, player_id=None, staff_id=None):
         raw=secrets.token_urlsafe(40)
@@ -275,13 +280,13 @@ def create_app(settings=None):
             execute(c,'DELETE FROM login_attempts WHERE key_hash=:key',key=key)
             old=request.cookies.get('sm_admin')
             if old: execute(c,'UPDATE auth_sessions SET revoked_at=:now WHERE token_hash=:hash',now=now(),hash=digest(old))
-            return {'username':user['username'],'csrf':session(c,response,'admin',staff_id=user['id'])}
+            return {'username':user['username'],'role':user['role'],'csrf':session(c,response,'admin',staff_id=user['id'])}
 
     @app.get('/api/admin/session')
     def admin_session(request:Request):
         with engine.connect() as c:
             p=subject(c,request,'admin')
-            return {'username':p['username'],'csrf':p['csrf']}
+            return {'username':p['username'],'role':p['role'],'csrf':p['csrf']}
 
     @app.post('/api/admin/logout')
     def logout(request:Request,response:Response):
@@ -317,9 +322,10 @@ def create_app(settings=None):
                   ('createdAt','created_at'),('acknowledgedAt','acknowledged_at'),('appliedAt','applied_at'),('expiresAt','expires_at'))}} for d in commands],
               'rounds':rounds(c),'qrPath':'/join/'+qr['token'] if qr else None,'simulatorEnabled':settings.simulator_enabled}
 
-    def assistant_staff(request,write=False):
+    def assistant_staff(request,write=False,admin=False):
         with engine.connect() as c:
-            return subject(c,request,'admin',write=write)['staff_user_id']
+            p=subject(c,request,'admin',write=write)
+            return (require_admin(p) if admin else p)['staff_user_id']
 
     @app.get('/api/admin/assistant/status')
     async def assistant_status(request:Request):
@@ -350,43 +356,43 @@ def create_app(settings=None):
     def evaluation_questions(request:Request,response:Response):
         response.headers['Cache-Control']='private, no-store'
         with engine.connect() as c:
-            owner=subject(c,request,'admin')['staff_user_id']
+            owner=require_admin(subject(c,request,'admin'))['staff_user_id']
             return read_reviews(c,owner)
 
     @app.put('/api/admin/evaluation-review/{case_id}')
     def evaluation_decision(case_id:str,body:CaseReview,request:Request):
         with engine.begin() as c:
-            owner=subject(c,request,'admin',write=True)['staff_user_id']
+            owner=require_admin(subject(c,request,'admin',write=True))['staff_user_id']
             return save_review(c,owner,case_id,body)
 
     @app.get('/api/admin/assistant/training/options')
     def assistant_training_options(request:Request):
-        assistant_staff(request)
+        assistant_staff(request,admin=True)
         return training.options()
 
     @app.get('/api/admin/assistant/training')
     def assistant_training_list(request:Request,before:int|None=None):
-        staff_id=assistant_staff(request)
+        staff_id=assistant_staff(request,admin=True)
         return training.list(staff_id,before)
 
     @app.post('/api/admin/assistant/training')
     def assistant_training_propose(body:Proposal,request:Request):
-        staff_id=assistant_staff(request,True)
+        staff_id=assistant_staff(request,True,admin=True)
         return training.propose(staff_id,body)
 
     @app.patch('/api/admin/assistant/training/{example_id}')
     def assistant_training_review(example_id:uuid.UUID,body:Review,request:Request):
-        staff_id=assistant_staff(request,True)
+        staff_id=assistant_staff(request,True,admin=True)
         return training.review(staff_id,str(example_id),body)
 
     @app.delete('/api/admin/assistant/training/{example_id}')
     def assistant_training_remove(example_id:uuid.UUID,request:Request):
-        staff_id=assistant_staff(request,True)
+        staff_id=assistant_staff(request,True,admin=True)
         return training.remove(staff_id,str(example_id))
 
     @app.post('/api/admin/assistant/training/export')
     def assistant_training_export(request:Request):
-        staff_id=assistant_staff(request,True)
+        staff_id=assistant_staff(request,True,admin=True)
         return training.export(staff_id)
 
     @app.post('/api/admin/assistant/query')
@@ -485,6 +491,69 @@ def create_app(settings=None):
     # After a lost phone, cleared browser or a new tunnel hostname, a player's cookie is gone
     # and re-registering is refused (the student ID already exists). The operator, who can see
     # the person, issues a one-time QR that restores that player's own session.
+    def staff_view(r):
+        return {'id':r['id'],'username':r['username'],'role':r['role'],'enabled':bool(r['enabled']),
+                'createdAt':r['created_at'].isoformat()+'Z'}
+
+    def one_time_password():
+        alphabet='abcdefghjkmnpqrstuvwxyz23456789'  # no look-alike characters; easy to read out
+        return '-'.join(''.join(secrets.choice(alphabet) for _ in range(4)) for _ in range(4))
+
+    def operator_account(c,staff_id):
+        row=one(c,'SELECT * FROM staff_users WHERE id=:id FOR UPDATE',id=staff_id)
+        if not row: raise HTTPException(404,'Staff account not found.')
+        if row['role']!='operator': raise HTTPException(403,'Administrator accounts are managed on the laptop, not here.')
+        return row
+
+    @app.get('/api/admin/staff')
+    def list_staff(request:Request,response:Response):
+        response.headers['Cache-Control']='private, no-store'
+        with engine.connect() as c:
+            require_admin(subject(c,request,'admin'))
+            rows=all_rows(c,"SELECT id,username,role,enabled,created_at FROM staff_users ORDER BY role='operator',username")
+        return {'staff':[staff_view(r) for r in rows]}
+
+    @app.post('/api/admin/staff')
+    def add_operator(body:NewOperator,request:Request,response:Response):
+        response.headers['Cache-Control']='private, no-store'
+        name=body.username.strip().lower()
+        if not re.fullmatch(r'[a-z0-9][a-z0-9._-]{2,39}',name):
+            raise HTTPException(422,'Use 3-40 letters, numbers, dots, dashes or underscores.')
+        password=one_time_password()
+        with engine.begin() as c:
+            p=require_admin(subject(c,request,'admin',write=True))
+            if one(c,'SELECT id FROM staff_users WHERE username=:name',name=name):
+                raise HTTPException(409,'That username is already taken.')
+            staff_id=execute(c,"INSERT INTO staff_users(username,password_hash,role) VALUES(:name,:hash,'operator')",
+                             name=name,hash=passwords.hash(password)).lastrowid
+            audit(c,p['staff_user_id'],'staff_created',str(staff_id),entity_type='staff',details={'username':name,'role':'operator'})
+            row=one(c,'SELECT * FROM staff_users WHERE id=:id',id=staff_id)
+        return {'staff':staff_view(row),'password':password}
+
+    @app.post('/api/admin/staff/{staff_id}/password')
+    def reset_operator_password(staff_id:int,request:Request,response:Response):
+        response.headers['Cache-Control']='private, no-store'
+        password=one_time_password()
+        with engine.begin() as c:
+            p=require_admin(subject(c,request,'admin',write=True))
+            row=operator_account(c,staff_id)
+            execute(c,'UPDATE staff_users SET password_hash=:hash WHERE id=:id',hash=passwords.hash(password),id=row['id'])
+            execute(c,'UPDATE auth_sessions SET revoked_at=:now WHERE staff_user_id=:id AND revoked_at IS NULL',now=now(),id=row['id'])
+            audit(c,p['staff_user_id'],'staff_password_reset',str(row['id']),entity_type='staff',details={'username':row['username']})
+        return {'staff':staff_view(row),'password':password}
+
+    @app.post('/api/admin/staff/{staff_id}/enabled')
+    def set_operator_enabled(staff_id:int,body:StaffEnabled,request:Request):
+        with engine.begin() as c:
+            p=require_admin(subject(c,request,'admin',write=True))
+            row=operator_account(c,staff_id)
+            execute(c,'UPDATE staff_users SET enabled=:on WHERE id=:id',on=body.enabled,id=row['id'])
+            if not body.enabled:
+                execute(c,'UPDATE auth_sessions SET revoked_at=:now WHERE staff_user_id=:id AND revoked_at IS NULL',now=now(),id=row['id'])
+            audit(c,p['staff_user_id'],'staff_enabled' if body.enabled else 'staff_disabled',str(row['id']),entity_type='staff',details={'username':row['username']})
+            row=one(c,'SELECT * FROM staff_users WHERE id=:id',id=row['id'])
+        return {'staff':staff_view(row)}
+
     @app.get('/api/admin/players')
     def find_players(request:Request, search:str=''):
         term=search.strip()[:40]
@@ -642,7 +711,7 @@ def create_app(settings=None):
     def simulator(action:str,request:Request):
         if not settings.simulator_enabled: raise HTTPException(404,'Simulator disabled.')
         with engine.begin() as c:
-            p=subject(c,request,'admin',write=True);event_lock(c);machine(c,True);g=active(c)
+            p=require_admin(subject(c,request,'admin',write=True));event_lock(c);machine(c,True);g=active(c)
             if action=='ready':
                 if g: raise HTTPException(409,'Finish or release the active round first.')
                 execute(c,"UPDATE machines SET observed_state='ready',last_seen_at=:now,health=:health WHERE id=1",now=now(),health='{"source":"simulator"}')
@@ -735,7 +804,10 @@ def create_app(settings=None):
 
     def recovery_action(public,body,request,operation):
         with engine.begin() as c:
-            p=subject(c,request,'admin',write=True);event_lock(c);m=machine(c,True)
+            p=subject(c,request,'admin',write=True)
+            # Releasing a no-show keeps no score, so operators may do it; voiding or recovering a score is admin-only.
+            if operation=='resolve' and body.action!='release_unstarted': require_admin(p)
+            event_lock(c);m=machine(c,True)
             key=request.headers.get('Idempotency-Key','')
             if not re.fullmatch(r'[a-f0-9-]{36}',key): raise HTTPException(422,'A request key is required.')
             actor='staff:'+str(p['staff_user_id']);op='device-'+operation
@@ -787,6 +859,12 @@ class Registration(APIInput):
     studentId:str=Field(min_length=4,max_length=32)
     acknowledged:bool=Field(strict=True)
 REENTRY_MINUTES=10
+class NewOperator(APIInput):
+    model_config={'extra':'forbid'}
+    username:str=Field(min_length=3,max_length=40)
+class StaffEnabled(APIInput):
+    model_config={'extra':'forbid'}
+    enabled:bool=Field(strict=True)
 class Reentry(APIInput):
     model_config={'extra':'forbid'}
     token:str=Field(min_length=40,max_length=64,pattern=r'^[A-Za-z0-9_-]+$')

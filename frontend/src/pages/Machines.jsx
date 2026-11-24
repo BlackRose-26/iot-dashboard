@@ -119,8 +119,9 @@ export function DeviceCommands() {
 }
 
 export function SimulatorControls() {
-  const { simulatorEnabled, simulate, busy, currentPlayer, machineState, machine } = useApp()
-  if (!simulatorEnabled) return null
+  const { simulatorEnabled, simulate, busy, currentPlayer, machineState, machine, isAdmin } =
+    useApp()
+  if (!simulatorEnabled || !isAdmin) return null
   const simulated = machine.health?.source === 'simulator'
   return (
     <Card className="simulator-card">

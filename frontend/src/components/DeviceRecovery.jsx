@@ -23,7 +23,11 @@ const actions = {
 }
 
 export default function DeviceRecovery() {
-  const { currentPlayer, deviceRecovery, admin, refresh, notify, busy } = useApp()
+  const { currentPlayer, deviceRecovery, admin, isAdmin, refresh, notify, busy } = useApp()
+  // Operators may release a no-show (no score is kept); voiding or recovering a score is admin-only.
+  const allowed = deviceRecovery?.allowedActions || []
+  const visibleActions = isAdmin ? allowed : allowed.filter((a) => a === 'release_unstarted')
+  const needsAdministrator = visibleActions.length < allowed.length
   const [target, setTarget] = useState(null)
   const [reason, setReason] = useState('')
   const [saving, setSaving] = useState(false)
@@ -125,7 +129,7 @@ export default function DeviceRecovery() {
                 Request device stop
               </Button>
             )}
-            {(deviceRecovery.allowedActions || []).map((action) => (
+            {visibleActions.map((action) => (
               <Button
                 key={action}
                 className="tw:max-[700px]:flex-[1_1_44%]"
@@ -137,6 +141,12 @@ export default function DeviceRecovery() {
               </Button>
             ))}
           </div>
+          {needsAdministrator && (
+            <InfoNote>
+              This round&apos;s score must be decided by an administrator. Ask them to sign in and
+              resolve it here.
+            </InfoNote>
+          )}
           <p className="field-help">
             A timeout cannot release the cabinet. Device receipts are software evidence; physical
             ESP32 recovery has not yet been tested.

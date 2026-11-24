@@ -156,6 +156,7 @@ export function AppProvider({ children }) {
         ...snapshot,
         game: (admin ? snapshot.game : player.game) || CLASSIC_GAME,
         admin,
+        isAdmin: admin?.role === 'admin',
         ready,
         player,
         ticket: player.ticket,
