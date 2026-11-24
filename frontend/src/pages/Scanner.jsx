@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Badge, Button, Card } from '../components/ui'
 import { PublicHeader } from './Leaderboard'
 import PlayerAssistant, { LobbyStatus } from '../components/PlayerAssistant'
+import '../styles/scan-page.css'
 import { useApp } from '../state/AppContext'
 import { api } from '../state/api'
 import { registrationQrContent } from '../state/qr-entry'
@@ -235,8 +236,8 @@ export default function Scanner({ message }) {
   return (
     <div className="public-shell scanner-shell">
       <PublicHeader />
-      <main id="main-content" className="scanner-layout">
-        <section className="scanner-story">
+      <main id="main-content" className="sp-layout">
+        <section className="sp-head">
           <Badge tone="lime">
             <i className="fa-solid fa-qrcode" aria-hidden="true" />
             START HERE
@@ -248,29 +249,15 @@ export default function Scanner({ message }) {
           </h1>
           <p>
             {message ||
-              'One code. Your place in line. Scan the QR at Cabinet 01 to join the carnival.'}
+              'Point your camera at the QR on the screen beside Cabinet 01 to save your place in line.'}
           </p>
-          <LobbyStatus />
-          <div className="scan-journey" role="list" aria-label="Player journey">
-            <span role="listitem">
-              <b>01</b>Scan the code
-            </span>
-            <span role="listitem">
-              <b>02</b>Save your spot
-            </span>
-            <span role="listitem">
-              <b>03</b>Play when called
-            </span>
-          </div>
         </section>
-        <Card className="scanner-card">
-          <div className="scanner-card-heading">
-            <span className="eyebrow">YOUR WAY INTO THE GAME</span>
+        <Card className="sp-card">
+          <div className="sp-card-top">
+            <span className="sp-eyebrow">Scan to join</span>
             <Badge tone="soft">Cabinet 01</Badge>
           </div>
-          <h2>Ready when you are.</h2>
-          <p>Use your camera or choose a saved QR image.</p>
-          <div className={`scanner-view ${mode === 'camera' ? 'active' : ''}`}>
+          <div className={`sp-view ${mode === 'camera' ? 'active' : ''}`}>
             <div
               id={cameraId}
               className="camera-reader"
@@ -280,15 +267,20 @@ export default function Scanner({ message }) {
             {!['camera', 'requesting', 'verifying'].includes(mode) && (
               <button
                 type="button"
-                className="scan-placeholder scan-tap"
+                className="sp-tap"
                 onClick={startCamera}
                 disabled={busy}
+                aria-label="Use camera"
               >
-                <span>
-                  <i className="fa-solid fa-camera" aria-hidden="true" />
+                <span className="sp-corner tl" aria-hidden="true" />
+                <span className="sp-corner tr" aria-hidden="true" />
+                <span className="sp-corner bl" aria-hidden="true" />
+                <span className="sp-corner br" aria-hidden="true" />
+                <i className="fa-solid fa-qrcode sp-glyph" aria-hidden="true" />
+                <span className="sp-pill" aria-hidden="true">
+                  <i className="fa-solid fa-camera" />
+                  Tap to scan
                 </span>
-                <strong>Tap to scan</strong>
-                <p>Point at the QR beside Cabinet 01. Keep the whole code in view.</p>
               </button>
             )}
             {mode === 'requesting' && (
@@ -316,20 +308,12 @@ export default function Scanner({ message }) {
               {error}
             </p>
           )}
-          {['camera', 'requesting'].includes(mode) ? (
+          {['camera', 'requesting'].includes(mode) && (
             <Button tone="light" className="full-width" onClick={stopCamera}>
               <i className="fa-solid fa-stop" aria-hidden="true" />
               {mode === 'requesting' ? 'Cancel camera' : 'Stop camera'}
             </Button>
-          ) : (
-            <Button tone="lime" className="full-width" onClick={startCamera} disabled={busy}>
-              <i className="fa-solid fa-camera" aria-hidden="true" />
-              Use camera
-            </Button>
           )}
-          <div className="scan-divider">
-            <span>or use an image</span>
-          </div>
           <input
             ref={fileInput}
             type="file"
@@ -342,22 +326,18 @@ export default function Scanner({ message }) {
           />
           <Button
             tone="light"
-            className="full-width scan-upload"
+            className="full-width sp-upload"
             onClick={() => fileInput.current?.click()}
             disabled={busy}
           >
             <i className="fa-solid fa-image" aria-hidden="true" />
             Upload QR image
           </Button>
-          <p className="field-help scan-file-help">PNG, JPG or WebP · up to 8 MB</p>
-          <div id={fileId} className="file-reader" aria-hidden="true" />
-          <div className="scan-privacy">
+          <p className="sp-help">
             <i className="fa-solid fa-shield-halved" aria-hidden="true" />
-            <p>
-              Your images stay on this device. Only the detected game code is checked by the event
-              server.
-            </p>
-          </div>
+            PNG, JPG or WebP up to 8 MB. Images stay on this device; only the game code is checked.
+          </p>
+          <div id={fileId} className="file-reader" aria-hidden="true" />
           {ticket && (
             <Link to="/ticket" className="text-button scan-ticket-link">
               Already joined? Open my ticket
@@ -365,7 +345,10 @@ export default function Scanner({ message }) {
             </Link>
           )}
         </Card>
-        <div className="scanner-assistant">
+        <div className="sp-lobby">
+          <LobbyStatus />
+        </div>
+        <div className="sp-assist">
           <PlayerAssistant
             intro="How to play, the line and today’s top score. No sign-up needed."
             greeting="Hi! Not ready to scan yet? Ask me how the game works, how long the line is, or the top score today."
@@ -381,6 +364,26 @@ export default function Scanner({ message }) {
             }
           />
         </div>
+        <ol className="sp-steps" aria-label="How it works">
+          <li>
+            <b>01</b>
+            <span>
+              <strong>Scan the code</strong>Use the QR on the screen beside Cabinet 01.
+            </span>
+          </li>
+          <li>
+            <b>02</b>
+            <span>
+              <strong>Save your spot</strong>Pick a nickname. Your ticket keeps your place.
+            </span>
+          </li>
+          <li>
+            <b>03</b>
+            <span>
+              <strong>Play when called</strong>Your phone tells you when it’s your turn.
+            </span>
+          </li>
+        </ol>
       </main>
       <footer className="public-footer">Stack Moko Baby · Scan. Register. Stack.</footer>
     </div>

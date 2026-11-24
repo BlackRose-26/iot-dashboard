@@ -1,0 +1,281 @@
+/* Scan page, 24 November 2026 redesign (design canvas "Player Scan & Queue Assistant").
+   Desktop: heading, live line and Stack Intelligence on the left; the scanner on the right.
+   Phone: heading, scanner, live line, Stack Intelligence, steps. */
+.sp-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 500px);
+  grid-template-areas:
+    'head card'
+    'lobby card'
+    'assist card'
+    'steps card';
+  grid-template-rows: auto auto auto 1fr;
+  column-gap: 64px;
+  row-gap: 20px;
+  align-items: start;
+  padding: 40px 0 64px;
+}
+.sp-head {
+  grid-area: head;
+}
+.sp-card {
+  grid-area: card;
+  padding: 28px;
+  min-width: 0;
+  position: sticky;
+  top: 24px;
+}
+.sp-lobby {
+  grid-area: lobby;
+}
+.sp-assist {
+  grid-area: assist;
+  min-width: 0;
+}
+.sp-steps {
+  grid-area: steps;
+}
+
+.sp-head > .badge {
+  gap: 8px;
+  padding: 9px 15px;
+}
+.sp-head h1 {
+  font-size: clamp(40px, 4.6vw, 64px);
+  font-weight: 800;
+  letter-spacing: -2.4px;
+  line-height: 1.02;
+  margin: 22px 0 16px;
+}
+.sp-head p {
+  margin: 0;
+  max-width: 460px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--note-ink);
+}
+.sp-lobby .lobby-strip {
+  max-width: none;
+  margin: 0;
+}
+
+/* Scanner card */
+.sp-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.sp-eyebrow {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.sp-view {
+  position: relative;
+  min-height: 300px;
+  border-radius: 30px;
+  background: var(--ink);
+  overflow: hidden;
+}
+.sp-view .camera-reader video {
+  border-radius: 30px;
+}
+.sp-view .scan-overlay {
+  border-radius: 30px;
+}
+.sp-tap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+}
+.sp-tap:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+.sp-tap:focus-visible {
+  outline: 4px solid var(--lime);
+  outline-offset: -8px;
+  border-radius: 30px;
+}
+.sp-glyph {
+  font-size: 64px;
+  opacity: 0.9;
+  margin-top: -44px;
+}
+.sp-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 0 solid var(--lime);
+}
+.sp-corner.tl {
+  left: 22%;
+  top: 34px;
+  border-left-width: 4px;
+  border-top-width: 4px;
+  border-top-left-radius: 12px;
+}
+.sp-corner.tr {
+  right: 22%;
+  top: 34px;
+  border-right-width: 4px;
+  border-top-width: 4px;
+  border-top-right-radius: 12px;
+}
+.sp-corner.bl {
+  left: 22%;
+  bottom: 96px;
+  border-left-width: 4px;
+  border-bottom-width: 4px;
+  border-bottom-left-radius: 12px;
+}
+.sp-corner.br {
+  right: 22%;
+  bottom: 96px;
+  border-right-width: 4px;
+  border-bottom-width: 4px;
+  border-bottom-right-radius: 12px;
+}
+.sp-pill {
+  position: absolute;
+  bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--lime);
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 13px 26px;
+  font-size: 16px;
+  font-weight: 800;
+}
+.sp-tap:hover .sp-pill {
+  background: #fff;
+}
+.sp-card .scanner-status {
+  font-size: 13px;
+  color: var(--note-ink);
+  min-height: 0;
+  margin: 14px 4px 16px;
+}
+.sp-upload {
+  background: var(--surface);
+  border: 2px solid #8a9194;
+  min-height: 52px;
+  font-size: 15px;
+}
+.sp-help {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 14px 4px 0;
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--note-ink);
+}
+.sp-help i {
+  padding-top: 2px;
+}
+.sp-card .scan-ticket-link {
+  font-size: 14px;
+}
+
+/* How it works */
+.sp-steps {
+  list-style: none;
+  margin: 0;
+  padding: 20px 22px;
+  background: var(--surface);
+  border-radius: 28px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.sp-steps li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.sp-steps b {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 17px;
+  background: var(--surface-soft);
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 800;
+}
+.sp-steps span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.sp-steps strong {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+@media (max-width: 1000px) {
+  .sp-layout {
+    column-gap: 36px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+  }
+  .sp-steps {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 760px) {
+  .sp-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'head'
+      'card'
+      'lobby'
+      'assist'
+      'steps';
+    grid-template-rows: none;
+    row-gap: 14px;
+    padding: 20px 0 40px;
+  }
+  .sp-card {
+    position: static;
+    padding: 22px;
+  }
+  .sp-head h1 {
+    font-size: 36px;
+    letter-spacing: -1.4px;
+    margin: 16px 0 10px;
+  }
+  .sp-head p {
+    font-size: 15px;
+  }
+  .sp-view {
+    min-height: 260px;
+  }
+  .sp-corner.tl,
+  .sp-corner.bl {
+    left: 18%;
+  }
+  .sp-corner.tr,
+  .sp-corner.br {
+    right: 18%;
+  }
+}

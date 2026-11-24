@@ -504,6 +504,15 @@ test('administrator creates an operator who runs the line without admin-only too
 test('players can ask Stack Intelligence before joining and while they wait', async ({
   browser,
 }) => {
+  const desktop = await browser.newContext({ viewport: { width: 1440, height: 900 } })
+  const wide = await desktop.newPage()
+  await wide.goto('/scan')
+  // On desktop the live line and the assistant sit beside the scanner, above the fold.
+  await expect(wide.getByText(/in line$/)).toBeInViewport()
+  await expect(wide.getByRole('heading', { name: 'Ask Stack Intelligence' })).toBeInViewport()
+  await expect(wide.getByRole('button', { name: 'Use camera', exact: true })).toBeInViewport()
+  await wide.screenshot({ path: '../docs/ui-review/player-assistant-scan-desktop.png' })
+  await desktop.close()
   const phone = await browser.newContext({ viewport: { width: 390, height: 844 } })
   try {
     const page = await phone.newPage()
