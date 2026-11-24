@@ -19,7 +19,6 @@ import Contact from './pages/Contact'
 import ChatWidget from './components/ChatWidget'
 import { useApp } from './state/AppContext'
 import { EmptyState } from './components/ui'
-import './styles/site.css'
 
 function AdminOnly() {
   const { admin, ready } = useApp()
@@ -70,7 +69,7 @@ export default function App() {
   useLayoutEffect(() => {
     if (isAdmin) document.documentElement.dataset.adminTheme = theme
     else delete document.documentElement.dataset.adminTheme
-    // The player website uses its own three-colour theme (styles/site.css).
+    // The player website uses its own three-colour theme (Tailwind tokens in styles/tailwind.css).
     if (isAdmin) delete document.documentElement.dataset.site
     else document.documentElement.dataset.site = 'player'
     document.title = `${isAdmin ? 'Admin' : 'Play'} · Stack Moko Baby`

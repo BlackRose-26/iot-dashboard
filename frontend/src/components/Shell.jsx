@@ -159,7 +159,11 @@ export default function Shell() {
               : 'Database connected · hardware status below'}
           </Badge>
         </div>
-        <main id="main-content" className="main-content">
+        <main
+          id="main-content"
+          key={pathname}
+          className="main-content tw:motion-safe:animate-fade-in"
+        >
           <Outlet />
         </main>
         <footer className="app-footer">
@@ -169,7 +173,7 @@ export default function Shell() {
         </footer>
         <AdminAssistant onReviewPage={pathname === '/admin/question-review'} />
         {toast && (
-          <div className="toast" role="status">
+          <div key={toast} className="toast tw:motion-safe:animate-toast-in" role="status">
             <Check size={19} />
             <span>{toast}</span>
             <button aria-label="Dismiss notification" onClick={() => setToast('')}>

@@ -69,6 +69,8 @@ e2e/                   Playwright journeys (flows, scanner, matrix, question rev
 ## Design system
 
 - Tailwind CSS 4 with the `tw:` prefix and shared semantic tokens; see [Tailwind UI conventions](../docs/tailwind-ui.md).
+- The player website is fully on Tailwind utilities (`components/siteStyles.js` holds its shared class strings). Motion tokens (`animate-fade-up`, `animate-panel-in`, …) live in `styles/tailwind.css` and are always used with `motion-safe:`.
+- Visual check for styling changes: `e2e/visual.spec.js` (run with `VISUAL_LABEL`) and `scripts/compare-visual.py`; see the Tailwind guide.
 - Shared primitives in `components/ui.jsx`, with Radix dialogs, menus and tooltips for accessibility.
 - Neutral light and dark staff themes. The player website uses three colours only (Cloud `#f4f5f5`, Ink `#111313`, Lime `#dfff00`), set in `styles/site.css` for player pages.
 - Open Sans Variable and Font Awesome Free are bundled locally (no SVG icon library, no external font requests). The robot mascot is the one inline SVG on player pages.

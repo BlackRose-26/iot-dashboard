@@ -17,7 +17,6 @@
 .scope-bar,
 .overview-heading p,
 .page-heading > div > p,
-.preview-control,
 .app-footer,
 .public-footer,
 .info-note,
@@ -42,9 +41,6 @@ th {
 }
 .registration-footnote {
   color: #637176;
-}
-.cabinet-card-top .eyebrow {
-  color: #53614d;
 }
 .next-card > p:not(.field-help),
 .next-card .field-help {
@@ -74,23 +70,6 @@ th {
   position: relative;
 }
 @media (max-width: 767px) {
-  .public-header {
-    gap: 12px;
-  }
-  .public-header > div {
-    gap: 10px;
-    flex-shrink: 0;
-  }
-  .public-dashboard-link {
-    font-size: 0;
-    gap: 0;
-    min-width: 32px;
-    min-height: 40px;
-    justify-content: center;
-  }
-  .public-dashboard-link .fa-symbol {
-    font-size: 17px !important;
-  }
   .registration-story > .stack-artwork {
     display: none;
   }
@@ -128,10 +107,6 @@ th {
   letter-spacing: 0;
   font-size: 20px;
 }
-.cabinet-logo {
-  margin-top: 10px;
-  color: #17281d;
-}
 .qr-wrap > canvas {
   max-width: 100%;
   height: auto !important;
@@ -150,13 +125,6 @@ th {
 }
 .overview-bottom > span:last-child {
   font-size: 9px;
-}
-.preview-control {
-  font-size: 10px;
-}
-.preview-control .select-button {
-  font-size: 10px;
-  min-height: 33px;
 }
 .operation-tile > span:last-child,
 .tray-footer > div > span {
@@ -178,19 +146,10 @@ th {
 .scope-bar {
   font-size: 12px;
 }
-.scope-date {
-  font-size: 11px;
-}
 .badge {
   font-size: 11px;
 }
-.badge.sample {
-  font-size: 11px;
-}
 .primary-nav a {
-  font-size: 13px;
-}
-.register-link {
   font-size: 13px;
 }
 .player-info > strong {
@@ -262,9 +221,6 @@ th {
 .registration-footnote > a {
   font-size: 11px;
 }
-.demo-form-note {
-  font-size: 11px;
-}
 .registration-intro {
   font-size: 13px;
 }
@@ -297,30 +253,6 @@ th {
 .device-facts > div {
   font-size: 12px;
 }
-.connection-overview p {
-  font-size: 12px;
-}
-.readiness-grid strong {
-  font-size: 11px;
-}
-.readiness-grid .badge {
-  font-size: 10px;
-}
-.device-controls .button {
-  font-size: 11px;
-}
-.insight-status {
-  font-size: 10px;
-}
-.question-pills button {
-  font-size: 11px;
-}
-.insight-placeholder {
-  font-size: 12px;
-}
-.insight-answer > small {
-  font-size: 10px;
-}
 .leaderboard-table-heading p {
   font-size: 12px;
 }
@@ -330,9 +262,6 @@ th {
 .podium-card > .subtle,
 .podium-card > p {
   font-size: 11px;
-}
-.public-header .badge {
-  font-size: 10px;
 }
 .public-footer {
   font-size: 11px;
@@ -349,12 +278,6 @@ th {
 @media (max-width: 1100px) {
   .scope-bar {
     font-size: 10px;
-  }
-  .scope-date {
-    font-size: 10px;
-  }
-  .badge.sample {
-    font-size: 9px;
   }
   .primary-nav a {
     font-size: 11px;
@@ -408,19 +331,10 @@ th {
   .form-group > label > span {
     font-size: 9px;
   }
-  .demo-form-note {
-    font-size: 10px;
-  }
   .game-facts > span {
     font-size: 8px;
   }
   .game-facts strong {
-    font-size: 10px;
-  }
-  .readiness-grid .badge {
-    font-size: 9px;
-  }
-  .readiness-grid strong {
     font-size: 10px;
   }
 }
@@ -428,14 +342,8 @@ th {
   .scope-bar {
     font-size: 10px;
   }
-  .badge.sample {
-    font-size: 8px;
-  }
   .primary-nav a {
     font-size: 14px;
-  }
-  .register-link {
-    font-size: 12px;
   }
   .card h2 {
     font-size: 20px;
@@ -533,9 +441,6 @@ th {
   .game-facts strong {
     font-size: 11px;
   }
-  .public-header .badge {
-    font-size: 8px;
-  }
   .public-footer {
     font-size: 10px;
   }
@@ -551,12 +456,6 @@ th {
   }
   .player-ticket .info-note {
     font-size: 10px;
-  }
-  .connection-overview p {
-    font-size: 11px;
-  }
-  .readiness-grid .badge {
-    font-size: 9px;
   }
   .queue-full-row .player-info > span {
     font-size: 9px;

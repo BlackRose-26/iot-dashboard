@@ -32,7 +32,30 @@ Example:
 
 ## Current migration scope
 
-Tailwind is active in shared card/button/icon-button/header/page-action/note primitives, admin login inputs, the registration form boundary, and the device-recovery layout and facts. Shared primitives reach existing admin/player pages. Specialized CSS for reference artwork, charts, scanner states, tables, chat and remaining page-specific layouts is retained; this is an incremental migration, not a claim that every existing CSS declaration has been rewritten.
+Updated 24 November 2026. The frontend CSS went from 8,035 to about 5,630 lines.
+
+- **Player website: fully on Tailwind.** Header, Home (scan page), About, Contact, the ticket's robot prompt, the sticky robot chat and the player assistant use utilities only; `site.css`, `chat-widget.css`, `scan-page.css` and `player-assistant.css` were deleted. Shared class strings live in `components/siteStyles.js` (literal strings, so Tailwind finds them). The three-colour player theme (Cloud `#f4f5f5`, Ink `#111313`, Lime `#dfff00`, available as `cloud`, `night`/`ink`, `lime`) re-maps the shared tokens on player pages in `tailwind.css` (utilities layer, so it overrides the legacy component styles it adjusts).
+- **Admin:** Settings and Staff accounts moved to utilities (`settings.css` deleted). Shared primitives (cards, buttons, badges, dialogs, toasts, header, notes) carry utilities and motion. 255 selectors that no component used any more (the old scanner layout, the old player header, unused prototype pieces) were removed from `app.css`, `refinements.css`, `access-and-themes.css`, `scanner.css` and `admin-assistant.css`.
+- **Still in CSS, on purpose:** the established admin page layouts in `app.css`, the admin assistant chat, theme scoping in `access-and-themes.css`, and third-party overrides (charts, the QR camera video). Move a page to utilities when it is next changed, using the visual check below.
+
+## Motion system
+
+Tokens in `tailwind.css` `@theme` (design canvas "Stack Moko Baby Motion System"): one ease-out curve (`ease-snappy`, `cubic-bezier(0.2, 0.8, 0.2, 1)`), 120 ms for hover and press, about 220 ms for panels, dialogs and toasts, 320–360 ms for entrances, nothing over 500 ms except the slow scanner line. Animations: `fade-up` (staggered page entrances, `ui.delays`), `fade-in` (admin page changes, dialog backdrop, chat messages), `pop-in` (robot launcher), `panel-in` (chat panel from the bottom-right corner, greeting bubble), `toast-in`, `modal-in`, `scan-line` (viewfinder), `ready-ring` (cabinet ready dot), `blink` (robot eyes), `typing` (thinking dots). Always apply them with `motion-safe:` (and `motion-reduce:` where something must hide), so the device's reduce-motion setting turns them off. A browser test checks both cases.
+
+Sources used: [Colorado DCS motion tokens](https://dcs.colorado.gov/ids/digital-guidelines/design-tokens/motion-interaction), [U-M Library motion](https://design-system.lib.umich.edu/visual-elements/motion), [Toyota CDS animations](https://dx-playbook.toyota-europe.com/cds/foundations/animations/), [Smashing: accessible UI animations](https://smashingmagazine.com/2023/11/creating-accessible-ui-animations), [Tailwind theme variables](https://tailwindcss.com/docs/theme).
+
+## Visual regression check
+
+`frontend/e2e/visual.spec.js` captures 39 full-page screenshots (player pages at desktop and phone size; admin pages in light, dark and phone) from a throwaway database, with animations frozen. It runs only when `VISUAL_LABEL` is set:
+
+```powershell
+cd backend
+$env:VISUAL_LABEL = "before"; .\.venv\Scripts\python.exe run_browser_tests.py e2e/visual.spec.js
+# make the change, then capture "after" the same way, and compare (needs Pillow):
+python ..\scripts\compare-visual.py before after
+```
+
+Two captures of unchanged code differ by at most 0.45% on pages with live data (player codes, times); everything else matches exactly. On 24 November the conversion above was compared with captures taken before it: all 39 pages matched within that noise.
 
 When updating a page, move its relevant layout to utilities, verify variants and responsive states, and remove obsolete CSS only after checking all consumers. Keep state-dependent combinations as explicit class strings. Do not replace validated queue/auth/QR/NLP behavior as part of styling work.
 

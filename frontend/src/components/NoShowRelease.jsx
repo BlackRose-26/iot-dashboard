@@ -126,8 +126,8 @@ export default function NoShowRelease() {
       {status && <p className="field-help">{status}</p>}
       {phase === 'started' && (
         <InfoNote>
-          The cabinet reports this round had already started, so nothing was released. Resolve it
-          on the Machine page under Device recovery.
+          The cabinet reports this round had already started, so nothing was released. Resolve it on
+          the Machine page under Device recovery.
         </InfoNote>
       )}
       {phase === 'timeout' && (

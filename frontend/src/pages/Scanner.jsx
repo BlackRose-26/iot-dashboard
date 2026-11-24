@@ -4,7 +4,7 @@ import { Badge, Button, Card } from '../components/ui'
 import { PublicHeader } from './Leaderboard'
 import RobotIcon from '../components/RobotIcon'
 import { GameBand, LiveTiles, TodayStrip, openRobotChat, steps } from '../components/SiteSections'
-import '../styles/scan-page.css'
+import * as ui from '../components/siteStyles'
 import { useApp } from '../state/AppContext'
 import { api } from '../state/api'
 import { registrationQrContent } from '../state/qr-entry'
@@ -238,38 +238,51 @@ export default function Scanner({ message }) {
     <div className="public-shell scanner-shell">
       <PublicHeader />
       <main id="main-content">
-        <div className="sp-layout">
-          <section className="sp-head">
-            <span className="site-pill">ACS CARNIVAL · CABINET 01</span>
-            <h1 className="site-h1" aria-label="Your game starts with a scan.">
+        <div className="tw:grid tw:grid-cols-[minmax(0,1fr)_minmax(0,500px)] tw:max-[1000px]:grid-cols-[minmax(0,1fr)_minmax(0,420px)] tw:max-[760px]:grid-cols-1 tw:gap-x-16 tw:max-[1000px]:gap-x-9 tw:gap-y-5 tw:max-[760px]:gap-y-3.5 tw:items-center tw:pt-12 tw:pb-8 tw:max-[760px]:pt-5 tw:max-[760px]:pb-4">
+          <section className="tw:flex tw:flex-col tw:gap-5">
+            <span className={`${ui.pill} ${ui.enter}`}>ACS CARNIVAL · CABINET 01</span>
+            <h1
+              className={`tw:mt-[22px] tw:mb-4 tw:max-[760px]:mt-4 tw:max-[760px]:mb-2.5 tw:text-[clamp(40px,4.6vw,64px)] tw:max-[760px]:text-[36px] tw:font-extrabold tw:tracking-[-2.4px] tw:max-[760px]:tracking-[-1.4px] tw:leading-[1.02] ${ui.enter} ${ui.delays[1]}`}
+              aria-label="Your game starts with a scan."
+            >
               Your game starts
               <br />
               with a scan.
             </h1>
-            <p className="site-lead">
+            <p
+              className={`tw:m-0 tw:max-w-[460px] tw:text-[16px] tw:max-[760px]:text-[15px] tw:leading-[1.6] tw:text-note ${ui.enter} ${ui.delays[2]}`}
+            >
               {message ||
                 'Scan the QR beside the cabinet, pick a nickname and keep your place in line. Your phone tells you when it’s your turn.'}
             </p>
             <LiveTiles />
-            <div className="sp-actions">
-              <a href="#how" className="site-button">
+            <div className={`tw:flex tw:flex-wrap tw:gap-3 ${ui.enter} ${ui.delays[4]}`}>
+              <a href="#how" className={ui.button}>
                 How it works
                 <i className="fa-solid fa-arrow-down" aria-hidden="true" />
               </a>
-              <button type="button" className="site-button dark" onClick={openRobotChat}>
-                <span className="robot-chip">
+              <button type="button" className={ui.buttonDark} onClick={openRobotChat}>
+                <span className={ui.robotChip}>
                   <RobotIcon size={26} tone="ink" />
                 </span>
                 Ask the robot
               </button>
             </div>
           </section>
-          <Card className="sp-card">
-            <div className="sp-card-top">
-              <span className="sp-eyebrow">Scan to join</span>
-              <Badge tone="soft">Cabinet 01</Badge>
+          <Card
+            className={`sp-card tw:bg-night tw:text-cloud tw:border-0 tw:rounded-[40px] tw:p-7 tw:max-[760px]:p-[22px] ${ui.enter} ${ui.delays[2]}`}
+          >
+            <div className="tw:flex tw:items-center tw:justify-between tw:gap-3 tw:mb-[18px]">
+              <span className="tw:text-[13px] tw:font-extrabold tw:tracking-[1px] tw:uppercase tw:text-cloud">
+                Scan to join
+              </span>
+              <Badge tone="soft" className="tw:bg-cloud/12 tw:text-cloud">
+                Cabinet 01
+              </Badge>
             </div>
-            <div className={`sp-view ${mode === 'camera' ? 'active' : ''}`}>
+            <div
+              className={`tw:relative tw:min-h-[300px] tw:max-[760px]:min-h-[260px] tw:rounded-[30px] tw:bg-cloud/4 tw:border-[1.5px] tw:border-solid tw:border-cloud/18 tw:overflow-hidden tw:[&_.camera-reader_video]:rounded-[30px] tw:[&_.scan-overlay]:rounded-[30px] tw:[&_.scan-overlay]:bg-night/88 tw:[&_.scan-overlay]:text-cloud ${mode === 'camera' ? 'active' : ''}`}
+            >
               <div
                 id={cameraId}
                 className="camera-reader"
@@ -279,17 +292,39 @@ export default function Scanner({ message }) {
               {!['camera', 'requesting', 'verifying'].includes(mode) && (
                 <button
                   type="button"
-                  className="sp-tap"
+                  className="tw:group tw:absolute tw:inset-0 tw:w-full tw:border-0 tw:p-0 tw:bg-transparent tw:text-white tw:cursor-pointer tw:flex tw:items-center tw:justify-center tw:disabled:cursor-default tw:disabled:opacity-70 tw:focus-visible:outline-4 tw:focus-visible:outline-solid tw:focus-visible:outline-lime tw:focus-visible:-outline-offset-8 tw:focus-visible:rounded-[30px]"
                   onClick={startCamera}
                   disabled={busy}
                   aria-label="Use camera"
                 >
-                  <span className="sp-corner tl" aria-hidden="true" />
-                  <span className="sp-corner tr" aria-hidden="true" />
-                  <span className="sp-corner bl" aria-hidden="true" />
-                  <span className="sp-corner br" aria-hidden="true" />
-                  <i className="fa-solid fa-qrcode sp-glyph" aria-hidden="true" />
-                  <span className="sp-pill" aria-hidden="true">
+                  <span
+                    className="tw:absolute tw:w-10 tw:h-10 tw:border-0 tw:border-solid tw:border-lime tw:left-[22%] tw:max-[760px]:left-[18%] tw:top-[34px] tw:border-l-4 tw:border-t-4 tw:rounded-tl-[12px]"
+                    aria-hidden="true"
+                  />
+                  <span
+                    className="tw:absolute tw:w-10 tw:h-10 tw:border-0 tw:border-solid tw:border-lime tw:right-[22%] tw:max-[760px]:right-[18%] tw:top-[34px] tw:border-r-4 tw:border-t-4 tw:rounded-tr-[12px]"
+                    aria-hidden="true"
+                  />
+                  <span
+                    className="tw:absolute tw:w-10 tw:h-10 tw:border-0 tw:border-solid tw:border-lime tw:left-[22%] tw:max-[760px]:left-[18%] tw:bottom-24 tw:border-l-4 tw:border-b-4 tw:rounded-bl-[12px]"
+                    aria-hidden="true"
+                  />
+                  <span
+                    className="tw:absolute tw:w-10 tw:h-10 tw:border-0 tw:border-solid tw:border-lime tw:right-[22%] tw:max-[760px]:right-[18%] tw:bottom-24 tw:border-r-4 tw:border-b-4 tw:rounded-br-[12px]"
+                    aria-hidden="true"
+                  />
+                  <span
+                    className="tw:absolute tw:left-[24%] tw:right-[24%] tw:top-[22%] tw:h-[3px] tw:rounded-full tw:bg-lime tw:shadow-[0_0_12px_#dfff00] tw:motion-safe:animate-scan-line tw:motion-reduce:hidden"
+                    aria-hidden="true"
+                  />
+                  <i
+                    className="fa-solid fa-qrcode tw:text-[64px] tw:opacity-90 tw:-mt-11"
+                    aria-hidden="true"
+                  />
+                  <span
+                    className="tw:absolute tw:bottom-6 tw:flex tw:items-center tw:gap-2.5 tw:bg-lime tw:text-night tw:rounded-full tw:px-[26px] tw:py-[13px] tw:text-[16px] tw:font-extrabold tw:group-hover:bg-white tw:motion-safe:transition-colors tw:motion-safe:duration-[120ms]"
+                    aria-hidden="true"
+                  >
                     <i className="fa-solid fa-camera" />
                     Tap to scan
                   </span>
@@ -308,7 +343,11 @@ export default function Scanner({ message }) {
                 </div>
               )}
             </div>
-            <div className="scanner-status" role="status" aria-live="polite">
+            <div
+              className="scanner-status tw:text-[13px] tw:text-cloud/75 tw:min-h-0 tw:mt-[14px] tw:mx-1 tw:mb-4"
+              role="status"
+              aria-live="polite"
+            >
               {mode === 'camera'
                 ? 'Camera is on. Looking for the cabinet QR code…'
                 : mode === 'image'
@@ -316,7 +355,7 @@ export default function Scanner({ message }) {
                   : 'Your camera stays off until you choose to use it.'}
             </div>
             {error && (
-              <p className="field-error scan-error" role="alert">
+              <p className="field-error scan-error tw:bg-lime tw:text-night" role="alert">
                 {error}
               </p>
             )}
@@ -338,45 +377,48 @@ export default function Scanner({ message }) {
             />
             <Button
               tone="light"
-              className="full-width sp-upload"
+              className="full-width tw:bg-transparent tw:text-cloud tw:border-[1.5px] tw:border-solid tw:border-cloud/55 tw:min-h-[52px] tw:text-[15px] tw:hover:bg-cloud/10"
               onClick={() => fileInput.current?.click()}
               disabled={busy}
             >
               <i className="fa-solid fa-image" aria-hidden="true" />
               Upload QR image
             </Button>
-            <p className="sp-help">
-              <i className="fa-solid fa-shield-halved" aria-hidden="true" />
+            <p className="tw:flex tw:gap-2.5 tw:items-start tw:mt-[14px] tw:mx-1 tw:mb-0 tw:text-[12px] tw:leading-[1.55] tw:text-cloud/75">
+              <i className="fa-solid fa-shield-halved tw:pt-0.5" aria-hidden="true" />
               PNG, JPG or WebP up to 8 MB. Images stay on this device; only the game code is
               checked.
             </p>
             <div id={fileId} className="file-reader" aria-hidden="true" />
             {ticket && (
-              <Link to="/ticket" className="text-button scan-ticket-link">
+              <Link
+                to="/ticket"
+                className="text-button scan-ticket-link tw:text-lime tw:text-[14px]"
+              >
                 Already joined? Open my ticket
                 <i className="fa-solid fa-arrow-right" aria-hidden="true" />
               </Link>
             )}
           </Card>
         </div>
-        <section className="site-section" aria-labelledby="how">
-          <h2 id="how" className="site-h2">
+        <section className={ui.section} aria-labelledby="how">
+          <h2 id="how" className={ui.h2}>
             How it works
           </h2>
-          <ol className="site-grid" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+          <ol className={ui.grid}>
             {steps.map(([title, text], index) => (
-              <li key={title} className="site-box">
-                <span className="site-num">{index + 1}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
+              <li key={title} className={`${ui.box} ${ui.enter} ${ui.delays[index]}`}>
+                <span className={ui.num}>{index + 1}</span>
+                <h3 className={ui.boxTitle}>{title}</h3>
+                <p className={ui.boxText}>{text}</p>
               </li>
             ))}
           </ol>
         </section>
-        <section className="site-section" aria-label="Today at the cabinet">
+        <section className={ui.section} aria-label="Today at the cabinet">
           <TodayStrip />
         </section>
-        <section className="site-section" aria-labelledby="rules">
+        <section className={ui.section} aria-labelledby="rules">
           <GameBand />
         </section>
       </main>

@@ -5,7 +5,6 @@ import { useAssistant, assistantStatus } from '../state/AssistantContext'
 import { Card, CardHeader, PageHeading } from '../components/ui'
 import AssistantTrainingReview from '../components/AssistantTrainingReview'
 import StaffAccounts from '../components/StaffAccounts'
-import '../styles/settings.css'
 import { gameLabel } from '../state/game'
 
 export default function Settings() {
@@ -24,10 +23,10 @@ export default function Settings() {
         title="Dashboard settings"
         description="Appearance and Stack Intelligence preferences for your staff account."
       />
-      <div className="settings-grid">
+      <div className="tw:grid tw:grid-cols-2 tw:max-[760px]:grid-cols-1 tw:gap-6 tw:[&_.card]:p-6">
         <Card>
           <CardHeader title="Appearance" subtitle="Choose your dashboard theme." />
-          <label className="settings-field">
+          <label className="tw:grid tw:gap-2 tw:text-muted tw:text-[13px] tw:[&_select]:p-3 tw:[&_select]:rounded-xl tw:[&_select]:border tw:[&_select]:border-solid tw:[&_select]:border-line tw:[&_select]:bg-surface tw:[&_select]:text-ink">
             Color mode
             <select value={theme} onChange={(event) => setTheme(event.target.value)}>
               <option value="light">Light</option>
@@ -37,7 +36,7 @@ export default function Settings() {
         </Card>
         <Card>
           <CardHeader title="Stack Intelligence" subtitle="Local analysis and connection status." />
-          <div className="settings-row">
+          <div className="tw:flex tw:gap-3 tw:items-center tw:flex-wrap tw:justify-between">
             <span>{assistantStatus[ai.service.reason] || 'Local analysis unavailable'}</span>
             <button
               className="button light"
@@ -47,18 +46,18 @@ export default function Settings() {
               Check connection
             </button>
           </div>
-          <p className="settings-help">
+          <p className="tw:text-muted tw:text-[13px] tw:leading-[1.7] tw:my-4">
             All available system information is considered automatically. You can ask for a specific
             date or result source in your message.
           </p>
-          <p className="settings-help">
+          <p className="tw:text-muted tw:text-[13px] tw:leading-[1.7] tw:my-4">
             ACS Carnival · {gameLabel(game)} · Local Ollama. Simulator and physical-device results
             are labelled separately.
           </p>
         </Card>
         <Card>
           <CardHeader title="Conversation memory" subtitle="Private to your staff account." />
-          <label className="settings-toggle">
+          <label className="tw:flex tw:items-center tw:gap-2.5 tw:text-[14px]">
             <input
               type="checkbox"
               checked={ai.useMemory}
@@ -67,7 +66,7 @@ export default function Settings() {
             />
             Use private memory
           </label>
-          <p className="settings-help">
+          <p className="tw:text-muted tw:text-[13px] tw:leading-[1.7] tw:my-4">
             Applies to this session.{' '}
             {ai.memory?.available
               ? `${ai.memory.remembered} saved context updates.`
@@ -100,11 +99,11 @@ export default function Settings() {
                 title="Reviewed examples"
                 subtitle="Review interpretation labels separately from your conversation."
               />
-              <p className="settings-help">
+              <p className="tw:text-muted tw:text-[13px] tw:leading-[1.7] tw:my-4">
                 Only approved, current examples from your account can guide future questions. Model
                 weights remain unchanged.
               </p>
-              <div className="settings-actions">
+              <div className="tw:flex tw:gap-3 tw:items-center tw:flex-wrap">
                 <button
                   className="button light"
                   onClick={() => {

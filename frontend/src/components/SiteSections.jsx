@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { api } from '../state/api'
+import * as ui from './siteStyles'
 
 // Shared pieces of the player website (Home, About). Live numbers come from the public,
 // aggregate-only /api/player/lobby endpoint; nothing here shows another player's data.
@@ -48,29 +49,48 @@ export function useLobby() {
 
 const cabinetLabels = { ready: 'Ready', busy: 'Busy', offline: 'Offline' }
 
+const tile =
+  'tw:border-[1.5px] tw:border-solid tw:border-night/16 tw:rounded-[22px] tw:px-4 tw:py-[14px] tw:max-[600px]:p-3 tw:flex tw:flex-col tw:gap-0.5 tw:min-w-0'
+const tileLabel = 'tw:text-[13px] tw:font-semibold tw:text-night/68'
+const tileValue =
+  'tw:text-[24px] tw:max-[600px]:text-[20px] tw:font-extrabold tw:flex tw:items-center tw:gap-2'
+
 export function LiveTiles() {
   const lobby = useLobby()
   if (!lobby) return null
   const paused = !lobby.admissionsOpen
+  const ready = lobby.cabinet === 'ready'
   return (
-    <div className="live-tiles" role="status" aria-live="polite" aria-label="Live line status">
-      <div>
-        <small>In line</small>
-        <strong>{lobby.inLine}</strong>
+    <div
+      className={`tw:grid tw:grid-cols-3 tw:gap-2.5 tw:max-w-[540px] ${ui.enter} ${ui.delays[3]}`}
+      role="status"
+      aria-live="polite"
+      aria-label="Live line status"
+    >
+      <div className={tile}>
+        <small className={tileLabel}>In line</small>
+        <strong className={tileValue}>{lobby.inLine}</strong>
       </div>
-      <div>
-        <small>Wait</small>
-        <strong>
+      <div className={tile}>
+        <small className={tileLabel}>Wait</small>
+        <strong className={tileValue}>
           {paused ? 'Paused' : lobby.inLine ? `~${Math.max(1, lobby.waitMinutes)} min` : 'None'}
         </strong>
       </div>
-      <div>
-        <small>Cabinet</small>
-        <strong className="state">
-          <span
-            className={`live-dot ${lobby.cabinet === 'ready' ? '' : 'off'}`}
-            aria-hidden="true"
-          />
+      <div className={tile}>
+        <small className={tileLabel}>Cabinet</small>
+        <strong className="tw:text-[17px] tw:max-[430px]:text-[15px] tw:pt-[5px] tw:font-extrabold tw:flex tw:items-center tw:gap-2">
+          {ready ? (
+            <span
+              className="tw:w-2.5 tw:h-2.5 tw:flex-none tw:rounded-[5px] tw:bg-night tw:outline-[3px] tw:outline-solid tw:outline-lime tw:motion-safe:animate-ready-ring"
+              aria-hidden="true"
+            />
+          ) : (
+            <span
+              className="tw:w-2.5 tw:h-2.5 tw:flex-none tw:rounded-[5px] tw:border-2 tw:border-solid tw:border-night"
+              aria-hidden="true"
+            />
+          )}
           {cabinetLabels[lobby.cabinet] || 'Checking'}
         </strong>
       </div>
@@ -81,24 +101,27 @@ export function LiveTiles() {
 export function TodayStrip() {
   const lobby = useLobby()
   if (!lobby) return null
+  const stat = 'tw:m-0 tw:flex tw:items-baseline tw:gap-2 tw:text-[15px]'
   return (
-    <div className="today-strip">
-      <h2>Today at the cabinet</h2>
+    <div className="tw:border-[1.5px] tw:border-solid tw:border-night tw:rounded-[28px] tw:px-6 tw:py-[18px] tw:flex tw:flex-wrap tw:gap-x-8 tw:gap-y-3 tw:items-center tw:justify-between">
+      <h2 className="tw:m-0 tw:text-[20px] tw:font-extrabold">Today at the cabinet</h2>
       {lobby.bestToday == null ? (
-        <p>No rounds finished yet today. The first score could be yours.</p>
+        <p className={stat}>No rounds finished yet today. The first score could be yours.</p>
       ) : (
         <>
-          <p>
-            <strong>{lobby.bestToday}</strong>
+          <p className={stat}>
+            <strong className="tw:text-[26px]">{lobby.bestToday}</strong>
             best score so far
           </p>
-          <p>
-            <strong>{lobby.topCount}</strong>
+          <p className={stat}>
+            <strong className="tw:text-[26px]">{lobby.topCount}</strong>
             {lobby.topCount === 1 ? 'player' : 'players'} reached all {lobby.levels} levels
           </p>
         </>
       )}
-      <span className="tag">Leaderboard unlocks after your round</span>
+      <span className="tw:text-[14px] tw:font-bold tw:bg-lime tw:rounded-full tw:px-3.5 tw:py-2">
+        Leaderboard unlocks after your round
+      </span>
     </div>
   )
 }
@@ -108,19 +131,21 @@ export function GameBand() {
   const levels = lobby?.levels ?? 15
   const seconds = lobby?.roundSeconds ?? 60
   return (
-    <div className="site-band">
-      <h2 id="rules">Stack it to the top.</h2>
+    <div className={ui.band}>
+      <h2 id="rules" className={ui.bandTitle}>
+        Stack it to the top.
+      </h2>
       <div>
-        <b>{levels}</b>
-        <span>levels to the top</span>
+        <b className={ui.bandValue}>{levels}</b>
+        <span className={ui.bandLabel}>levels to the top</span>
       </div>
       <div>
-        <b>{seconds}s</b>
-        <span>on the clock</span>
+        <b className={ui.bandValue}>{seconds}s</b>
+        <span className={ui.bandLabel}>on the clock</span>
       </div>
       <div>
-        <b>1</b>
-        <span>point per level kept</span>
+        <b className={ui.bandValue}>1</b>
+        <span className={ui.bandLabel}>point per level kept</span>
       </div>
     </div>
   )

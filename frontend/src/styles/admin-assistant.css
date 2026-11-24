@@ -59,36 +59,6 @@
   flex-wrap: wrap;
   gap: 14px;
 }
-.assistant-review-example {
-  font-size: 10px;
-  margin-top: 10px;
-}
-.assistant-memory-controls {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px 14px;
-  padding: 8px 24px;
-  border-bottom: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 10px;
-}
-.assistant-memory-controls label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--ink);
-}
-.assistant-memory-controls input {
-  accent-color: var(--ink);
-}
-.assistant-memory-controls button {
-  margin-left: auto;
-  font-size: 10px;
-}
-.assistant-memory-controls small {
-  font-size: 10px;
-}
 .assistant-loading-note {
   padding: 10px 24px;
   background: var(--surface-soft);
@@ -96,25 +66,6 @@
   border-bottom: 1px solid var(--border);
   font-size: 11px;
   line-height: 1.6;
-}
-.assistant-context {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 10px 24px;
-  border-bottom: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.5;
-}
-.assistant-context span {
-  flex: 1 1 220px;
-}
-.assistant-context button {
-  margin-left: auto;
-  font-size: 10px;
-  min-height: 36px;
 }
 .assistant-evidence {
   margin-top: 12px;
@@ -284,17 +235,6 @@
   color: var(--muted);
   line-height: 1.5;
 }
-.assistant-preview {
-  display: inline-block;
-  padding: 3px 7px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  font-size: 9px;
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: 0.2px;
-  color: var(--muted);
-}
 .assistant-launcher-action {
   display: flex;
   align-items: center;
@@ -342,23 +282,6 @@
 .assistant-tool:hover {
   color: var(--ink);
   background: var(--tray);
-}
-.assistant-scope {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px 16px;
-  padding: 10px 24px;
-  background: var(--surface-soft);
-  border-block: 1px solid var(--border);
-  font-size: 10px;
-  line-height: 1.5;
-  color: var(--muted);
-}
-.assistant-scope > span:first-child {
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 .assistant-transcript {
   flex: 1;
@@ -580,10 +503,6 @@
     flex-basis: 36px;
     width: 36px;
     height: 40px;
-  }
-  .assistant-scope {
-    padding: 10px 16px;
-    font-size: 9px;
   }
   .assistant-transcript {
     padding: 24px 16px;

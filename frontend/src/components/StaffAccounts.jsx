@@ -91,12 +91,12 @@ export default function StaffAccounts() {
         title="Staff accounts"
         subtitle="Operators run the line: queue, no-shows, re-entry QR and holding a round for review."
       />
-      <p className="settings-help">
+      <p className="tw:text-muted tw:text-[13px] tw:leading-[1.7] tw:my-4">
         Only administrators can void or recover a round&apos;s score, train Stack Intelligence, use
         the simulator or manage accounts.
       </p>
       <form className="tw:mt-3 tw:flex tw:flex-wrap tw:items-end tw:gap-2.5" onSubmit={add}>
-        <label className="settings-field tw:min-w-0 tw:flex-1">
+        <label className="tw:grid tw:gap-2 tw:text-muted tw:text-[13px] tw:[&_select]:p-3 tw:[&_select]:rounded-xl tw:[&_select]:border tw:[&_select]:border-solid tw:[&_select]:border-line tw:[&_select]:bg-surface tw:[&_select]:text-ink tw:min-w-0 tw:flex-1">
           New operator username
           <input
             className="text-input"

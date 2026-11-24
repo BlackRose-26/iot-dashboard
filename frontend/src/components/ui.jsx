@@ -44,9 +44,9 @@ export function IconButton({ children, label, className = '', ...props }) {
     </Tooltip.Root>
   )
 }
-export function Badge({ children, tone = 'neutral', dot = false, ...props }) {
+export function Badge({ children, tone = 'neutral', dot = false, className = '', ...props }) {
   return (
-    <span className={`badge ${tone}`} {...props}>
+    <span className={`badge ${tone} ${className}`.trim()} {...props}>
       {dot && <span className="status-dot" />}
       {children}
     </span>
@@ -88,7 +88,7 @@ export function Button({ children, tone = 'dark', className = '', ...props }) {
   return (
     <button
       type="button"
-      className={`button ${tone} tw:inline-flex tw:items-center tw:justify-center tw:font-sans tw:disabled:cursor-not-allowed ${className}`}
+      className={`button ${tone} tw:inline-flex tw:items-center tw:justify-center tw:font-sans tw:disabled:cursor-not-allowed tw:motion-safe:transition-[transform,background-color,color,box-shadow] tw:motion-safe:duration-[120ms] tw:motion-safe:ease-snappy tw:motion-safe:enabled:active:scale-[0.98] ${className}`}
       {...props}
     >
       {children}
@@ -145,8 +145,8 @@ export function Modal({ title, description, trigger, children, open, onOpenChang
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       {trigger && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
       <Dialog.Portal>
-        <Dialog.Overlay className="modal-overlay" />
-        <Dialog.Content className="modal">
+        <Dialog.Overlay className="modal-overlay tw:motion-safe:animate-fade-in" />
+        <Dialog.Content className="modal tw:motion-safe:animate-modal-in">
           <Dialog.Close className="modal-close" aria-label="Close dialog">
             <X size={22} />
           </Dialog.Close>

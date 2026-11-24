@@ -1,7 +1,8 @@
 import { beforeEach, expect, it, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import PlayerAssistant, { LobbyStatus } from './PlayerAssistant'
+import PlayerAssistant from './PlayerAssistant'
+import { LiveTiles, TodayStrip } from './SiteSections'
 
 const mocks = vi.hoisted(() => ({ api: vi.fn() }))
 vi.mock('../state/api', () => ({ api: (...args) => mocks.api(...args) }))
@@ -69,18 +70,18 @@ it('compact mode shows only the latest exchange', async () => {
   expect(screen.queryByText('Answer to: One?')).not.toBeInTheDocument()
 })
 
-it('shows the live line, and says when joining is paused', async () => {
-  const { unmount } = render(<LobbyStatus />)
-  expect(await screen.findByText('4 in line')).toBeInTheDocument()
-  expect(screen.getByText('Cabinet ready')).toBeInTheDocument()
-  expect(screen.getByText('About 6 min wait')).toBeInTheDocument()
-  unmount()
-  mocks.api.mockResolvedValueOnce({
-    inLine: 2,
-    cabinet: 'ready',
-    admissionsOpen: false,
-    waitMinutes: 3,
-  })
-  render(<LobbyStatus />)
-  await waitFor(() => expect(screen.getByText('Line paused')).toBeInTheDocument())
+it('Home tiles show the live line and today’s best score', async () => {
+  render(
+    <>
+      <LiveTiles />
+      <TodayStrip />
+    </>,
+  )
+  const tiles = await screen.findByRole('status', { name: 'Live line status' })
+  expect(tiles).toHaveTextContent('In line4')
+  expect(tiles).toHaveTextContent('Wait~6 min')
+  expect(tiles).toHaveTextContent('CabinetReady')
+  expect(
+    screen.getByText('No rounds finished yet today. The first score could be yours.'),
+  ).toBeInTheDocument()
 })

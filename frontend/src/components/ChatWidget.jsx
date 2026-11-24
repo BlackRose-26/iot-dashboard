@@ -4,7 +4,6 @@ import { useApp } from '../state/AppContext'
 import PlayerAssistant from './PlayerAssistant'
 import RobotIcon from './RobotIcon'
 import { OPEN_CHAT_EVENT } from './SiteSections'
-import '../styles/chat-widget.css'
 
 // Stack Intelligence as a sticky robot in the corner of every player page. Closed, it is a
 // small robot button (with a one-time greeting); open, a panel with the player assistant.
@@ -105,11 +104,11 @@ export default function ChatWidget() {
   }, [])
 
   return (
-    <div className="chat-widget">
+    <div className="tw:fixed tw:z-[60] tw:right-[max(20px,env(safe-area-inset-right))] tw:bottom-[max(20px,env(safe-area-inset-bottom))] tw:max-[600px]:right-[max(12px,env(safe-area-inset-right))] tw:max-[600px]:bottom-[max(12px,env(safe-area-inset-bottom))] tw:flex tw:flex-col tw:items-end tw:gap-3 tw:font-sans tw:text-ink">
       {open && (
         <section
           ref={panel}
-          className="chat-panel"
+          className="tw:w-[384px] tw:max-w-[calc(100vw-24px)] tw:h-[560px] tw:max-h-[calc(100dvh-120px)] tw:max-[600px]:h-[min(560px,calc(100dvh-100px))] tw:bg-cloud tw:border-2 tw:border-solid tw:border-ink tw:rounded-[28px] tw:flex tw:flex-col tw:overflow-hidden tw:shadow-[0_18px_40px_rgb(17_19_19/0.22)] tw:origin-bottom-right tw:motion-safe:animate-panel-in"
           role="dialog"
           aria-modal="false"
           aria-labelledby="chat-panel-title"
@@ -117,15 +116,19 @@ export default function ChatWidget() {
             if (event.key === 'Escape') closeChat()
           }}
         >
-          <header className="chat-panel-head">
+          <header className="tw:bg-ink tw:text-cloud tw:flex tw:items-center tw:gap-3 tw:py-3 tw:pr-3 tw:pl-4">
             <RobotIcon size={36} />
-            <span>
-              <strong id="chat-panel-title">Stack Intelligence</strong>
-              <small>About the game · English or Taglish</small>
+            <span className="tw:flex-1 tw:flex tw:flex-col tw:min-w-0">
+              <strong id="chat-panel-title" className="tw:text-[16px] tw:font-extrabold">
+                Stack Intelligence
+              </strong>
+              <small className="tw:text-[12px] tw:text-cloud/78">
+                About the game · English or Taglish
+              </small>
             </span>
             <button
               type="button"
-              className="chat-close"
+              className="tw:w-11 tw:h-11 tw:flex-none tw:border-0 tw:rounded-[22px] tw:bg-cloud/14 tw:text-cloud tw:cursor-pointer tw:text-[17px] tw:hover:bg-cloud/24 tw:motion-safe:transition-colors tw:focus-visible:outline-[3px] tw:focus-visible:outline-solid tw:focus-visible:outline-lime tw:focus-visible:outline-offset-[3px]"
               aria-label="Close chat"
               onClick={closeChat}
             >
@@ -141,13 +144,17 @@ export default function ChatWidget() {
         </section>
       )}
       {!open && nudge && !quiet && (
-        <div className="chat-nudge">
-          <button type="button" className="chat-nudge-text" onClick={openChat}>
+        <div className="tw:max-w-[260px] tw:max-[600px]:hidden tw:bg-cloud tw:border-2 tw:border-solid tw:border-ink tw:rounded-[22px_22px_6px_22px] tw:py-2.5 tw:pr-1.5 tw:pl-3.5 tw:flex tw:gap-1 tw:items-start tw:shadow-[0_10px_24px_rgb(17_19_19/0.16)] tw:origin-bottom-right tw:motion-safe:animate-panel-in tw:[animation-delay:600ms]">
+          <button
+            type="button"
+            className="tw:border-0 tw:bg-transparent tw:py-0.5 tw:px-0 tw:text-left tw:cursor-pointer tw:text-[14px] tw:font-semibold tw:leading-[1.45] tw:text-ink tw:focus-visible:outline-[3px] tw:focus-visible:outline-solid tw:focus-visible:outline-lime tw:focus-visible:outline-offset-[3px]"
+            onClick={openChat}
+          >
             Hi! Questions while you wait? <strong>Ask me.</strong>
           </button>
           <button
             type="button"
-            className="chat-nudge-close"
+            className="tw:w-8 tw:h-8 tw:flex-none tw:border-0 tw:rounded-2xl tw:bg-transparent tw:cursor-pointer tw:text-ink tw:focus-visible:outline-[3px] tw:focus-visible:outline-solid tw:focus-visible:outline-lime tw:focus-visible:outline-offset-[3px]"
             aria-label="Dismiss greeting"
             onClick={dismissNudge}
           >
@@ -155,16 +162,19 @@ export default function ChatWidget() {
           </button>
         </div>
       )}
-      <div className="chat-launcher-row">
+      <div className="tw:flex tw:items-center tw:gap-2.5">
         {!open && (
-          <span className="chat-label" aria-hidden="true">
+          <span
+            className="tw:bg-ink tw:text-cloud tw:font-bold tw:text-[14px] tw:px-3.5 tw:py-2 tw:rounded-full tw:max-[600px]:hidden tw:motion-safe:animate-fade-in tw:[animation-delay:400ms]"
+            aria-hidden="true"
+          >
             Ask me
           </span>
         )}
         <button
           ref={launcher}
           type="button"
-          className="chat-launcher"
+          className="tw:relative tw:w-[68px] tw:h-[68px] tw:max-[600px]:w-[60px] tw:max-[600px]:h-[60px] tw:border-2 tw:border-solid tw:border-ink tw:rounded-full tw:bg-ink tw:text-lime tw:cursor-pointer tw:grid tw:place-items-center tw:text-[22px] tw:shadow-[0_10px_24px_rgb(17_19_19/0.25)] tw:motion-safe:animate-pop-in tw:motion-safe:transition-transform tw:motion-safe:duration-150 tw:motion-safe:hover:-translate-y-0.5 tw:motion-safe:active:scale-95 tw:focus-visible:outline-[3px] tw:focus-visible:outline-solid tw:focus-visible:outline-lime tw:focus-visible:outline-offset-[3px]"
           aria-label={open ? 'Close Stack Intelligence' : 'Open Stack Intelligence'}
           aria-expanded={open}
           onClick={() => (open ? closeChat() : openChat())}
@@ -174,7 +184,12 @@ export default function ChatWidget() {
           ) : (
             <RobotIcon size={42} blink />
           )}
-          {!open && nudge && !quiet && <span className="chat-dot" aria-hidden="true" />}
+          {!open && nudge && !quiet && (
+            <span
+              className="tw:absolute tw:-top-0.5 tw:-right-0.5 tw:w-4 tw:h-4 tw:rounded-lg tw:bg-lime tw:border-2 tw:border-solid tw:border-ink"
+              aria-hidden="true"
+            />
+          )}
         </button>
       </div>
     </div>

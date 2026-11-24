@@ -4,7 +4,9 @@
 export default function RobotIcon({ size = 40, tone = 'lime', blink = false, className = '' }) {
   const face = tone === 'lime' ? '#dfff00' : '#111313'
   const ink = tone === 'lime' ? '#111313' : '#dfff00'
-  const eye = blink ? 'robot-eye' : undefined
+  const eye = blink
+    ? 'tw:origin-center tw:[transform-box:fill-box] tw:motion-safe:animate-blink'
+    : undefined
   return (
     <svg
       width={size}

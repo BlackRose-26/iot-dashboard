@@ -47,9 +47,7 @@ html[data-admin-theme] .metric,
 html[data-admin-theme] .metric.accent,
 html[data-admin-theme] .select-button,
 html[data-admin-theme] .search-field,
-html[data-admin-theme] .round-link,
 html[data-admin-theme] .round-detail-metrics .metric,
-html[data-admin-theme] .insight-intro > .badge,
 html[data-admin-theme] .level-track i {
   background: var(--surface-soft);
   color: var(--ink);
@@ -78,17 +76,10 @@ html[data-admin-theme] th {
 }
 html[data-admin-theme] .dropdown,
 html[data-admin-theme] .dropdown-item[data-highlighted],
-html[data-admin-theme] .insight-intro,
-html[data-admin-theme] .insight-placeholder,
-html[data-admin-theme] .insight-answer,
-html[data-admin-theme] .insight-spark,
-html[data-admin-theme] .question-pills button,
 html[data-admin-theme] .primary-nav a:hover:not(.active) {
   background: var(--surface-soft);
   color: var(--ink);
 }
-html[data-admin-theme] .insight-intro p,
-html[data-admin-theme] .insight-status,
 html[data-admin-theme] .next-card > p:not(.field-help),
 html[data-admin-theme] .next-card .field-help,
 html[data-admin-theme] th,
@@ -100,8 +91,6 @@ html[data-admin-theme] .card,
 html[data-admin-theme] .operation-tile.white,
 html[data-admin-theme] .tray-footer,
 html[data-admin-theme] .modal,
-html[data-admin-theme] .modal-content,
-html[data-admin-theme] .dropdown-content,
 html[data-admin-theme] .chart-tooltip,
 html[data-admin-theme] .primary-nav.open {
   background: var(--surface);
@@ -119,9 +108,6 @@ html[data-admin-theme] .operator-avatar,
 html[data-admin-theme] .queue-number,
 html[data-admin-theme] .next-avatar,
 html[data-admin-theme] .badge,
-html[data-admin-theme] .metric-icon,
-html[data-admin-theme] .insight-card,
-html[data-admin-theme] .insight-icon,
 html[data-admin-theme] .podium-card {
   background: var(--surface-soft);
   color: var(--ink);
@@ -134,7 +120,6 @@ html[data-admin-theme] .tile-icon,
 html[data-admin-theme] .tile-icon.lime,
 html[data-admin-theme] .heading-icon,
 html[data-admin-theme] .metric-row-icon,
-html[data-admin-theme] .round-link,
 html[data-admin-theme] .tray-plus,
 html[data-admin-theme] .live-player .player-icon,
 html[data-admin-theme] .icon-button,
@@ -146,12 +131,7 @@ html[data-admin-theme] .brand-mark {
   border-color: var(--border);
 }
 html[data-admin-theme] .button.light,
-html[data-admin-theme] .search-input,
-html[data-admin-theme] .search-wrap,
 html[data-admin-theme] .text-input,
-html[data-admin-theme] .menu-trigger,
-html[data-admin-theme] .filter-chip,
-html[data-admin-theme] .query-input,
 html[data-admin-theme] .primary-nav a.active {
   background: var(--surface-soft);
   color: var(--ink);
@@ -200,7 +180,6 @@ html[data-admin-theme] .scope-bar,
 html[data-admin-theme] .app-footer,
 html[data-admin-theme] .queue-full-row,
 html[data-admin-theme] .device-facts > div,
-html[data-admin-theme] .table-row,
 html[data-admin-theme] .card-bottom-link {
   border-color: var(--border);
 }

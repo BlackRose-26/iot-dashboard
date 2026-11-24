@@ -10,6 +10,7 @@ import { ScanGate } from './Entry'
 import UpdateStatus from '../components/UpdateStatus'
 import RobotIcon from '../components/RobotIcon'
 import { openRobotChat } from '../components/SiteSections'
+import * as ui from '../components/siteStyles'
 
 const titles = {
   waiting: 'You’re on the list.',
@@ -263,17 +264,19 @@ export default function Ticket() {
             </InfoNote>
           </Card>
         </div>
-        <div className="ticket-assistant ticket-robot">
-          <span className="ticket-robot-face">
+        <div className="tw:max-w-[1050px] tw:mx-auto tw:mt-10 tw:max-[650px]:mt-6 tw:flex tw:flex-wrap tw:items-center tw:gap-4 tw:border-[1.5px] tw:border-solid tw:border-night tw:rounded-[28px] tw:px-[22px] tw:py-[18px] tw:motion-safe:animate-fade-up tw:[animation-delay:160ms]">
+          <span className="tw:w-14 tw:h-14 tw:flex-none tw:rounded-[28px] tw:bg-night tw:grid tw:place-items-center">
             <RobotIcon size={40} />
           </span>
-          <span className="ticket-robot-text">
-            <strong>{completed ? 'How did that go?' : 'Questions while you wait?'}</strong>
+          <span className="tw:flex-[1_1_220px] tw:flex tw:flex-col tw:gap-0.5 tw:text-[15px] tw:text-night/72">
+            <strong className="tw:text-night tw:text-[18px]">
+              {completed ? 'How did that go?' : 'Questions while you wait?'}
+            </strong>
             {completed
               ? 'Stack Intelligence can break down your round.'
               : 'Stack Intelligence knows your place in line and the rules.'}
           </span>
-          <button type="button" className="site-button dark" onClick={openRobotChat}>
+          <button type="button" className={ui.buttonDark} onClick={openRobotChat}>
             Ask the robot
           </button>
         </div>

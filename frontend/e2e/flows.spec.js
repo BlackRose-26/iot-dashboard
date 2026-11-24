@@ -568,3 +568,35 @@ test('player site: header, About, Contact and the sticky robot chat', async ({ b
     await phone.close()
   }
 })
+
+test('motion: animations play by default and switch off with reduce motion', async ({
+  browser,
+}) => {
+  const animation = (locator) =>
+    locator.evaluate((element) => getComputedStyle(element).animationName)
+  const moving = await browser.newContext({ reducedMotion: 'no-preference' })
+  try {
+    const page = await moving.newPage()
+    await page.goto('/')
+    const launcher = page.getByRole('button', { name: 'Open Stack Intelligence' })
+    expect(await animation(launcher)).toBe('pop-in')
+    expect(await animation(page.getByRole('heading', { level: 1 }))).toBe('fade-up')
+    await launcher.click()
+    expect(await animation(page.getByRole('dialog', { name: 'Stack Intelligence' }))).toBe(
+      'panel-in',
+    )
+  } finally {
+    await moving.close()
+  }
+  const still = await browser.newContext({ reducedMotion: 'reduce' })
+  try {
+    const page = await still.newPage()
+    await page.goto('/')
+    expect(await animation(page.getByRole('button', { name: 'Open Stack Intelligence' }))).toBe(
+      'none',
+    )
+    expect(await animation(page.getByRole('heading', { level: 1 }))).toBe('none')
+  } finally {
+    await still.close()
+  }
+})
