@@ -48,6 +48,7 @@ Local verification: `C:\xampp\mysql\bin\mysqld.exe --version` returned **10.11.1
 | D-008 | Read-only aggregate AI tools | Recommended. Natural-language explanation without database write/control authority. |
 | D-009 | Local LAN-first deployment | Recommended. Internet optional for gameplay after local services are reachable; cloud AI may be unavailable offline. |
 | D-010 | Sourcio visual composition, game-specific content | User requested. Attached image is sufficient to specify the visual hierarchy; implementation still requires screenshot review. |
+| D-012 | Web game screen is the default display; LED cabinet stays supported | User decided, 25 November 2026, after the LED panels failed. Same protocol, rules, replay and leaderboard; switch in Settings → Game screen. See [game-screen.md](game-screen.md). |
 | D-011 | Graphify is development context | User requested install. Graph freshness is a workflow, not automatic knowledge of hardware or live database state. |
 
 ## 4. Open decisions and release gates

@@ -75,12 +75,12 @@ export default function Leaderboard() {
         )}
         {source === 'simulator' && (
           <InfoNote>
-            Dashboard simulator leaderboard · development rounds only. Cabinet / Wokwi scores are
-            separate.
+            Dashboard simulator leaderboard · development rounds only. Game screen / cabinet scores
+            are separate.
           </InfoNote>
         )}
         {source === 'device' && (
-          <InfoNote>Cabinet / Wokwi leaderboard · includes connected simulator rounds.</InfoNote>
+          <InfoNote>Game screen / cabinet leaderboard · ranked event rounds.</InfoNote>
         )}
         <div className="podium">
           {[ranked[1], ranked[0], ranked[2]].filter(Boolean).map((p) => (

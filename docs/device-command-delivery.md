@@ -1,5 +1,7 @@
 # Device command delivery and review holds
 
+**Display migration, 25 November 2026:** the game moved from the LED-matrix cabinet to a **web game screen** (a second laptop at `/screen`, played with the same arcade button through an ESP32 USB button bridge). The LED cabinet stays supported: it uses the same device protocol, Matrix v1 rules and leaderboard, and an administrator switches between the two in Settings → Game screen. See [the web game screen](game-screen.md).
+
 **22 November 2026:** authenticated reserve/fence envelopes additionally return integer `deliverySequence`, monotonically increasing for commands from this database. Connected Matrix firmware persists the greatest accepted/stopped delivery sequence before acknowledging, rejecting all older reservations even after round details change. Preserve the database and device storage epoch together; replacing either requires explicit lineage recovery. This is delivery ordering, not player identity. See [ESP32 integration](esp32-online.md).
 
 > Extended on 20 November 2026 by [boot-bound device recovery](device-recovery.md), including migration 005, protocol-v2 journals, terminal recovery and guarded review resolution. Original v1 claims below describe the pre-enrollment protocol. Once a cabinet registers a boot, legacy mutation endpoints cannot bypass its journal.

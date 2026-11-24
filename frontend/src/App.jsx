@@ -16,6 +16,7 @@ import Entry, { ScanGate } from './pages/Entry'
 import Reenter from './pages/Reenter'
 import About from './pages/About'
 import Contact from './pages/Contact'
+import GameScreen from './pages/GameScreen'
 import ChatWidget from './components/ChatWidget'
 import { useApp } from './state/AppContext'
 import { EmptyState } from './components/ui'
@@ -66,17 +67,19 @@ export default function App() {
   const { pathname } = useLocation()
   const { theme, connectionError } = useApp()
   const isAdmin = pathname.startsWith('/admin')
+  // The game screen (Plan B) is a full-screen kiosk page: no chat robot or connection banner.
+  const isScreen = pathname === '/screen'
   useLayoutEffect(() => {
     if (isAdmin) document.documentElement.dataset.adminTheme = theme
     else delete document.documentElement.dataset.adminTheme
     // The player website uses its own three-colour theme (Tailwind tokens in styles/tailwind.css).
     if (isAdmin) delete document.documentElement.dataset.site
     else document.documentElement.dataset.site = 'player'
-    document.title = `${isAdmin ? 'Admin' : 'Play'} · Stack Moko Baby`
-  }, [isAdmin, theme])
+    document.title = `${isAdmin ? 'Admin' : isScreen ? 'Game screen' : 'Play'} · Stack Moko Baby`
+  }, [isAdmin, isScreen, theme])
   return (
     <>
-      {connectionError && (
+      {connectionError && !isScreen && (
         <div className="connection-banner" role="alert">
           {connectionError}
         </div>
@@ -107,6 +110,7 @@ export default function App() {
         <Route path="/reenter" element={<Reenter />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/screen" element={<GameScreen />} />
         <Route path="/register/:eventCode/:machineCode" element={<ScanGate />} />
         <Route element={<PlayerOnly />}>
           <Route path="/ticket" element={<Ticket />} />
@@ -121,7 +125,7 @@ export default function App() {
           }
         />
       </Routes>
-      {!isAdmin && <ChatWidget />}
+      {!isAdmin && !isScreen && <ChatWidget />}
     </>
   )
 }

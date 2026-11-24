@@ -37,13 +37,14 @@ Environment: `VITE_PUBLIC_BASE_URL` (optional) is the public address used in QR 
 | `/ticket` | Registered player | Place in line, turn alert, result, "Ask the robot" |
 | `/leaderboard/acs-day` | Player after a finished round | Leaderboard |
 | `/reenter#code` | Player with a re-entry QR | Restores their ticket once, then opens it |
+| `/screen` | Paired game screen (device token in browser storage) | Full-screen stacking game played with the arcade button via Web Serial; see [game-screen.md](../docs/game-screen.md) |
 | `/admin/login` | Staff | Sign in |
 | `/admin/overview` | Staff | Live summary, Registration QR |
 | `/admin/analytics` | Staff | Charts by period and result source |
 | `/admin/queue` | Staff | Call next, skip, admissions, Player didn't come, Player lost their ticket? |
 | `/admin/sessions` | Staff | Round history |
 | `/admin/machines` | Staff | Cabinet status, command delivery, device recovery |
-| `/admin/settings` | Staff | Theme, Stack Intelligence, memory; Staff accounts and training (administrators) |
+| `/admin/settings` | Staff | Theme, Stack Intelligence, memory; Game screen pairing or LED cabinet, Staff accounts and training (administrators) |
 | `/admin/question-review` | Administrators | Practice-question review |
 
 Pages check access on the server, not only in the browser: hidden buttons are also refused by the API. Operators see no simulator, staff accounts, training or question review, and only the no-show release among the recovery actions.
@@ -59,11 +60,13 @@ src/
                        SiteHeader, ChatWidget (sticky robot), RobotIcon, SiteSections,
                        PlayerAssistant (player Stack Intelligence),
                        AdminAssistant, charts, icons (Font Awesome)
+  screen/              web game screen: engine.js (Matrix v1 port), deviceClient.js (protocol-v2
+                       journal), button.js (Web Serial), sound.js
   state/               AppContext (session, snapshot, actions), api.js (fetch + CSRF),
                        useLiveUpdates (WebSocket hints with polling fallback),
                        AssistantContext, qr-entry, game
   styles/              tailwind.css entry, foundation tokens, admin themes, page styles
-e2e/                   Playwright journeys (flows, scanner, matrix, question review)
+e2e/                   Playwright journeys (flows, scanner, matrix, screen-game, question review)
 ```
 
 ## Design system

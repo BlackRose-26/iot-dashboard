@@ -98,7 +98,7 @@ def collect_all(engine, period: Period = 'event_to_date', tools=None, simulator_
             counts=select(c,'SELECT COUNT(*) AS completed_games,COUNT(DISTINCT g.player_id) AS completed_players'+all_results,params)[0]
             counts['registrations']=simulator['summary']['registrations']
             bundle['global_counts']=counts
-        bundle['caveats'].append('All sources were checked in one read-only snapshot. Dashboard-simulator and device-protocol competitive metrics stay separate. Device protocol can include Wokwi simulation; it does not prove physical hardware play.')
+        bundle['caveats'].append('All sources were checked in one read-only snapshot. Dashboard-simulator and device-protocol competitive metrics stay separate. Device-protocol rounds come from the web game screen (the default) or the LED cabinet, plus earlier Wokwi tests.')
         bundle['caveats']=list(dict.fromkeys(bundle['caveats']))
         return clean(bundle)
 

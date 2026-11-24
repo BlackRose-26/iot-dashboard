@@ -8,6 +8,8 @@ The following sections are historical milestone evidence, not cumulative current
 
 # Current QR/queue/authentication verification
 
+**Display migration, 25 November 2026:** the game moved from the LED-matrix cabinet to a **web game screen** (a second laptop at `/screen`, played with the same arcade button through an ESP32 USB button bridge). The LED cabinet stays supported: it uses the same device protocol, Matrix v1 rules and leaderboard, and an administrator switches between the two in Settings → Game screen. See [the web game screen](game-screen.md).
+
 15 November 2026 · Canonical source: D:\iot-dashboard
 
 - Applied both versioned migrations to the local application database on XAMPP MariaDB 10.11.16. The running API uses a restricted project account, not root. No real identities were used.

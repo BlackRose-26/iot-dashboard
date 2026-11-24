@@ -1,4 +1,8 @@
-# Stack Moko Baby — cabinet firmware
+# Stack Moko Baby — firmware
+
+**Display migration (25 November 2026):** the game now runs on the web game screen by default ([docs/game-screen.md](../docs/game-screen.md)), and the ESP32 runs [`button_bridge/`](button_bridge): GPIO27 button (COM → GND, NO → GPIO27), same 65 ms / 20 ms debounce as the game sketch, serial 115200, `READY` every 5 s and `PRESS <millis>` per press (the falling-edge time). No Wi-Fi, token or `config.h`. Flash it with `npm run device:bridge -- --port COM5`; like the other builds it never erases NVS.
+
+The rest of this file describes the LED cabinet firmware, which **stays supported**: flash it with `npm run online:device`, then choose Settings → Game screen → Use the LED cabinet instead.
 
 Arduino sketch for the ESP32 inside the cabinet: [`stack_moko_baby/`](stack_moko_baby). The ESP32 runs the game itself (button timing, row movement, scoring trace, display and sounds). It only talks to the dashboard to learn "this player is next" and to upload the finished round, which the server replays before saving the score. Firmware version reported to the dashboard: `matrix-v1-journal-0.1`.
 

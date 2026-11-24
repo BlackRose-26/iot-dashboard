@@ -6,6 +6,7 @@ over the NVS partition, so the cabinet's recovery journal is preserved.
 Never use the Wokwi merged image on real hardware.
 
   --selftest   wiring self-test build (no Wi-Fi, token, journal or backend)
+  --bridge     button bridge for the web game screen (Plan B): prints PRESS lines over USB
   (default)    game firmware using the private firmware/stack_moko_baby/config.h
 """
 import argparse
@@ -19,6 +20,7 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 SOURCE=ROOT/'firmware'/'stack_moko_baby'
+BRIDGE=ROOT/'firmware'/'button_bridge'
 FQBN='esp32:esp32:esp32'
 SELFTEST_FLAGS=['--build-property','compiler.cpp.extra_flags=-DSTACK_HARDWARE_TEST=1']
 
@@ -70,27 +72,31 @@ def detect_port(cli):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__,formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument('--selftest',action='store_true')
+    mode=parser.add_mutually_exclusive_group()
+    mode.add_argument('--selftest',action='store_true')
+    mode.add_argument('--bridge',action='store_true',help='Button bridge for the web game screen.')
     parser.add_argument('--port',default=os.getenv('STACK_ESP32_PORT'))
     parser.add_argument('--compile-only',action='store_true',help='Build and check the flash layout without uploading.')
     args=parser.parse_args()
-    if not args.selftest:
+    if not args.selftest and not args.bridge:
         config=SOURCE/'config.h'
         if not config.is_file(): raise SystemExit('Missing private config.h. Run npm run online:device to build it for the hotspot.')
         if '"Wokwi-GUEST"' in config.read_text(encoding='utf-8'):
             raise SystemExit('config.h targets the Wokwi network. Run npm run online:device with STACK_FIRMWARE_WIFI_SSID set.')
     cli=arduino_cli()
     flags=SELFTEST_FLAGS if args.selftest else []
-    build=SOURCE/'build'/('selftest' if args.selftest else 'device')
-    subprocess.run([cli,'compile','--fqbn',FQBN,*flags,'--output-dir',str(build),str(SOURCE)],cwd=ROOT,check=True)
-    shown=subprocess.run([cli,'compile','--fqbn',FQBN,*flags,'--show-properties',str(SOURCE)],
+    source=BRIDGE if args.bridge else SOURCE
+    name=source.name+'.ino'
+    build=source/'build'/('bridge' if args.bridge else 'selftest' if args.selftest else 'device')
+    subprocess.run([cli,'compile','--fqbn',FQBN,*flags,'--output-dir',str(build),str(source)],cwd=ROOT,check=True)
+    shown=subprocess.run([cli,'compile','--fqbn',FQBN,*flags,'--show-properties',str(source)],
                          cwd=ROOT,check=True,capture_output=True,text=True)
     properties=dict(line.split('=',1) for line in shown.stdout.splitlines() if '=' in line)
     platform=Path(properties['runtime.platform.path'])
-    components=[('0x1000',build/'stack_moko_baby.ino.bootloader.bin'),
-                ('0x8000',build/'stack_moko_baby.ino.partitions.bin'),
+    components=[('0x1000',build/f'{name}.bootloader.bin'),
+                ('0x8000',build/f'{name}.partitions.bin'),
                 ('0xe000',platform/'tools'/'partitions'/'boot_app0.bin'),
-                ('0x10000',build/'stack_moko_baby.ino.bin')]
+                ('0x10000',build/f'{name}.bin')]
     missing=[path.name for _,path in components if not path.is_file()]
     if missing: raise SystemExit('Build is missing: '+', '.join(missing))
     nvs=check_layout(components,components[1][1].read_bytes())
@@ -107,9 +113,11 @@ def main():
               '--flash_mode',properties['build.flash_mode'],'--flash_freq',properties['build.flash_freq'],
               '--flash_size',properties['build.flash_size']]
     for offset,path in components: command+=[offset,str(path)]
-    print(f'Uploading {"self-test" if args.selftest else "game"} firmware to {port}…')
+    kind='button bridge' if args.bridge else 'self-test' if args.selftest else 'game'
+    print(f'Uploading {kind} firmware to {port}…')
     subprocess.run(command,cwd=ROOT,check=True)
     print(f'Done. Open the serial monitor: {cli} monitor -p {port} -c baudrate=115200')
+    if args.bridge: print('Button bridge ready: press the button and watch for PRESS lines, then close the monitor and connect it on /screen.')
     if args.selftest: print('Self-test only: reflash the game firmware (npm run online:device) before players use the cabinet.')
 
 

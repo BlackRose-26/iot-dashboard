@@ -1,5 +1,7 @@
 # Durable browser updates
 
+**Display migration, 25 November 2026:** the game moved from the LED-matrix cabinet to a **web game screen** (a second laptop at `/screen`, played with the same arcade button through an ESP32 USB button bridge). The LED cabinet stays supported: it uses the same device protocol, Matrix v1 rules and leaderboard, and an administrator switches between the two in Settings → Game screen. See [the web game screen](game-screen.md).
+
 Implemented 19 November 2026. This completes the software foundation of build-plan step 7; LAN load and physical-cabinet acceptance gates remain open.
 
 ## Behavior and access

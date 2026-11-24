@@ -49,7 +49,7 @@ def test_all_sources_are_separate_and_players_are_deduplicated(environment,monke
     result=compose_all(data,Context(tools=data['tools'],detailed=True))
     assert '1 distinct players completed 2 valid rounds' in result['answer']
     assert result['answer'].count('players joined the event')==1
-    assert 'Dashboard simulator: Rank 1:' in result['answer'] and 'Cabinet / Wokwi: Rank 1:' in result['answer']
+    assert 'Dashboard simulator: Rank 1:' in result['answer'] and 'Game screen / cabinet: Rank 1:' in result['answer']
     assert '100%' in result['answer'] and '0%' in result['answer'] and '50%' not in result['answer']
     assert len(set(result['source_snapshots']))==3
     assert all('registrations' not in c['evidence']['summary'] for c in result['cohorts'])
@@ -81,5 +81,5 @@ def test_absent_device_results_are_not_inferred_from_registrations(environment):
     physical=result['cohorts'][1]
     assert physical['status']=='no_data'
     assert physical['evidence']['summary']['win_rate'] is None
-    assert 'Cabinet / Wokwi: No matching recorded results' in physical['answer']
+    assert 'Game screen / cabinet: No matching recorded results' in physical['answer']
     assert 'does not confirm a physical ESP32 connection' in result['answer']

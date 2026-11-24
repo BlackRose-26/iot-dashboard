@@ -4,6 +4,20 @@
 
 **Current connection blocker:** actual browser testing loaded the private firmware. Core 4.0.0 hit the TLS watchdog; the compatibility build and network scheduling/reuse fixes compile and boot, but Wokwi repeatedly fails to connect to `wss://netwi.wokwi.com/`. No authenticated fresh heartbeat or connected round was observed. Retest when the public gateway connects; the dashboard remains online. See [evidence and retry instructions](free-online.md).
 
+## Display migration: web game screen — 25 November 2026 (latest)
+
+The LED panels failed, so the game migrated to a web game screen on a second laptop, played with the arcade button through an ESP32 USB button bridge; the LED cabinet stays supported and can be switched back in Settings → Game screen. See [game-screen.md](game-screen.md). Built and tested in software: the Matrix v1 engine port (18 shared vectors, also replayed by the server), the browser device-journal client, Web Serial input, pairing and switching back (administrator-only, audited, refused during a round), the `/screen` page, and a browser journey that pairs, plays a round whose score matches the player's ticket, and holds a round interrupted by a reload. The bridge sketch compiles.
+
+**Next, on the organiser (not yet run):**
+
+1. Flash the bridge to the real ESP32 and confirm one `PRESS` line per press (no doubles).
+2. On laptop 2 (Chrome or Edge, tunnel address): pair, Connect button (USB), Full screen; confirm the Machine page on laptop 1 shows Web game screen, ready.
+3. A real phone joins, is called and plays with the arcade button; the phone, Sessions and the leaderboard show the screen's score.
+4. Unplug and replug the ESP32 while waiting; reload the screen while a player is called (the round should stay playable) and during a round (it should be held; practise fence then release/void).
+5. Ten rounds back to back on the phone hotspot, with laptop 2's power settings set to never sleep.
+
+The LED cabinet rows in the risk table below (wiring, LED power, level shifter) apply only if the LED cabinet is used.
+
 ## Motion and Tailwind conversion — 24 November 2026
 
 A research-based motion system (one ease-out curve, 120/220/320 ms, all behind `motion-safe:`) now animates page entrances, the robot launcher and chat panel, the scanner line, the ready dot, admin page changes, dialogs and toasts. The player website moved fully to Tailwind utilities, Settings and Staff accounts moved too, and 255 unused selectors were removed; frontend CSS went from 8,035 to about 5,630 lines. A 39-page before/after screenshot comparison matched within live-data noise, the browser suite passed, and a new test confirms animations play normally and stop with reduce motion. Still in CSS: the established admin page layouts (`app.css`), the admin assistant chat and theme scoping; see [Tailwind UI conventions](tailwind-ui.md).

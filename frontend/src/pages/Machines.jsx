@@ -177,6 +177,7 @@ export function SimulatorControls() {
 export default function Machines() {
   const { machineState, machine, currentPlayer, game } = useApp()
   const simulated = machine.health?.source === 'simulator'
+  const screen = (machine.firmware || '').startsWith('web-screen')
   return (
     <>
       <PageHeading
@@ -187,11 +188,18 @@ export default function Machines() {
         <Card className="cabinet-card">
           <CardHeader
             title="Cabinet 01"
-            subtitle="ESP32 · LED matrix · physical button"
+            subtitle={
+              screen
+                ? 'Web game screen · arcade button through the ESP32 USB bridge'
+                : 'ESP32 · physical button'
+            }
             icon={Layers3}
           />
           <Matrix large level={0} columns={game?.columns} levels={game?.levels} />
-          <p className="field-help">Board illustration. Live row telemetry is not connected.</p>
+          <p className="field-help">
+            Board illustration. The game plays on the paired web game screen (/screen on the second
+            laptop) by default; the LED cabinet can be switched back in Settings → Game screen.
+          </p>
         </Card>
         <Card>
           <CardHeader
@@ -203,7 +211,13 @@ export default function Machines() {
           <dl className="device-facts">
             <div>
               <dt>Source</dt>
-              <dd>{simulated ? 'Development simulator' : 'Physical device'}</dd>
+              <dd>
+                {simulated
+                  ? 'Development simulator'
+                  : screen
+                    ? 'Web game screen'
+                    : 'Physical device'}
+              </dd>
             </div>
             <div>
               <dt>Wi-Fi signal</dt>

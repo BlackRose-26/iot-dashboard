@@ -13,6 +13,10 @@
 
 Implementation update: 15 November 2026. This document supersedes older preview-only descriptions and public-dashboard/public-leaderboard assumptions. The user's latest decisions require player-only QR entry, admin login and neutral admin light/dark themes. The colorful Sourcio-derived player experience remains.
 
+## Web game screen — 25 November 2026
+
+The player journey is unchanged; only where the game is played changed (the LED cabinet remains a supported alternative). After **Call next player**, the web game screen (`/screen` on a second laptop) shows *Your turn! Press the button to start*; the player plays with the arcade button and the result reaches the ticket and leaderboard as before. The screen authenticates as the cabinet device with a token issued by `POST /api/admin/screen/pair` (administrator only, CSRF, audited as `screen_paired`, refused while a round is reserved or playing, returned once with `Cache-Control: no-store`). `POST /api/admin/screen/use-led-cabinet` (same guards, audited as `led_cabinet_restored`) switches back to the LED cabinet by restoring the configured cabinet token. It holds no staff or player session and shows no player identity; device commands still carry none. Operators keep running the line from laptop 1. Details: [game-screen.md](game-screen.md).
+
 ## Implemented journey
 
 | Route | Who can use it | Behavior |

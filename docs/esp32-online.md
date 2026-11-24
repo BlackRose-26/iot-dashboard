@@ -1,4 +1,6 @@
-# ESP32, Wokwi and online operation
+# ESP32, Wokwi and online operation (LED cabinet)
+
+**Display migration, 25 November 2026:** the game moved from the LED-matrix cabinet to a **web game screen** (a second laptop at `/screen`, played with the same arcade button through an ESP32 USB button bridge). The LED cabinet stays supported: it uses the same device protocol, Matrix v1 rules and leaderboard, and an administrator switches between the two in Settings → Game screen. See [the web game screen](game-screen.md). This page covers the LED cabinet firmware and protocol, which remain supported; the web screen uses the same protocol from the browser.
 
 **Latest choice:** the user selected the completely free [PC + XAMPP + HTTPS tunnel](free-online.md) after reviewing Render costs. `npm run online:firmware` now launches that setup and builds a private image. Local/public HTTPS health and private compilation passed. Render preparation below is retained as an inactive alternative; no paid deployment is authorized.
 

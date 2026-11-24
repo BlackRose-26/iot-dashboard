@@ -2,6 +2,8 @@
 
 # Stack Moko Baby — MySQL data model
 
+**Display migration, 25 November 2026:** the game moved from the LED-matrix cabinet to a **web game screen** (a second laptop at `/screen`, played with the same arcade button through an ESP32 USB button bridge). The LED cabinet stays supported: it uses the same device protocol, Matrix v1 rules and leaderboard, and an administrator switches between the two in Settings → Game screen. See [the web game screen](game-screen.md).
+
 ## Matrix rules extension — 22 November 2026
 
 `006_matrix_rules.sql` adds immutable `matrix-v1` to `rulesets` and selects it through `events.settings.active_ruleset`. No identity, placement or score columns are replaced. Each new `game_sessions.ruleset_id` is chosen at assignment; completion/recovery loads that exact stored configuration/hash. Classic v1 results retain their earlier scoring, and competitive reads filter by ruleset/source. `device_commands.id` is also exposed to its authenticated cabinet as monotonic `deliverySequence`, enabling a durable firmware rejection watermark without exposing player identity. See [ESP32/online operation](esp32-online.md).

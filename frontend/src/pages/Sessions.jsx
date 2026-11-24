@@ -158,7 +158,7 @@ export default function Sessions() {
                         <span className="mono">{r.id}</span>
                         <div>
                           <Badge tone="soft">
-                            {r.source === 'simulator' ? 'Simulator' : 'Cabinet / Wokwi'}
+                            {r.source === 'simulator' ? 'Simulator' : 'Game screen / cabinet'}
                           </Badge>
                         </div>
                       </td>

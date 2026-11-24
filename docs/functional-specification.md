@@ -2,6 +2,10 @@
 
 # Stack Moko Baby — functional specification
 
+## Display migration — 25 November 2026
+
+**Display migration, 25 November 2026:** the game moved from the LED-matrix cabinet to a **web game screen** (a second laptop at `/screen`, played with the same arcade button through an ESP32 USB button bridge). The LED cabinet stays supported: it uses the same device protocol, Matrix v1 rules and leaderboard, and an administrator switches between the two in Settings → Game screen. See [the web game screen](game-screen.md). Where this specification says "ESP32", "LED" or "cabinet display", read "the active game device": the web game screen by default, or the LED cabinet. The game rules, journal, replay and queue requirements are unchanged.
+
 ## Confirmed integration update — 22 November 2026
 
 The user selected the uploaded sketch's **16-column, 15-level stacker**, six-cell starting width and **one point per successful placement, maximum 15**, with no perfect bonus. These Matrix v1 settings supersede older Classic-only proposals below for subsequent assignments. Existing Classic records keep their original ruleset. Players register/queue online, then use the cabinet's physical button; no remote browser gameplay is requested. First integration is Wokwi, followed by physical verification. The current Wokwi link uses a three-step 500 ms countdown, readable score/time HUD, GAME/OVER and DFPlayer tracks; the connected firmware preserves those functions. Timing, power and difficulty still need physical play-testing. Render hosts game/dashboard services; local AI connection is a later phase. See [the current integration contract and gates](esp32-online.md).
@@ -12,7 +16,7 @@ Current browser synchronization uses authenticated revision-only hints and autho
 
 ## 1. Product and scope
 
-Stack Moko Baby is a carnival cabinet with an ESP32, LED matrix, arcade button and sound/light feedback. A player scans a QR code, registers privately, joins the queue, then times button presses to align moving rows. The device runs the round locally; the server assigns turns, validates results and updates a web dashboard. Authorized staff can ask a read-only AI assistant about recorded game statistics.
+Stack Moko Baby is a carnival stacking game played with an arcade button: by default on a web game screen (a laptop browser fed by an ESP32 button bridge), or on the original ESP32 LED-matrix cabinet. A player scans a QR code, registers privately, joins the queue, then times button presses to align moving rows. The game device runs the round locally; the server authorizes the round, replays the placement evidence and keeps the ranking.
 
 The final project name, LED/button gameplay, private required student ID, React JavaScript, XAMPP database and dashboard reference are confirmed. Remaining feature choices below are recommended requirements derived from provisional plans. They are reviewable implementation decisions, not claims that the attached plans were finalized.
 
@@ -24,7 +28,7 @@ The final project name, LED/button gameplay, private required student ID, React 
 | FR-02 | Identity | Recognize returning players using a keyed student-ID lookup; assign an unrelated random public code. Student ID is never a public identifier or a login secret. |
 | FR-03 | Queue | Admit one live queue entry per player per event; assign the oldest eligible entry to an idle machine transactionally. |
 | FR-04 | Start | Only a server-authorized session can start a ranked round; the physical button confirms readiness. |
-| FR-05 | Game | ESP32 moves rows, resolves button placement, countdown, timeout, sound and LEDs without waiting for network responses. |
+| FR-05 | Game | The game device (web game screen, or the ESP32 LED cabinet) moves rows, resolves button placement, countdown, timeout, sound and display without waiting for network responses. |
 | FR-06 | Results | Device retains final placement evidence until server acknowledgment; server recomputes score and deduplicates retries. |
 | FR-07 | Leaderboard | Only players whose latest round is completed can access it; updates after committed results and shows nickname/code, best score and rank for their source cohort, without private identity/history. |
 | FR-08 | Dashboard | Staff see machine freshness, queue, current round, session history, event metrics and read-only analytics. |
@@ -91,7 +95,7 @@ Placement accuracy is a game-derived overlap metric, not a sensor measurement of
 
 - One ranked session occupies a machine from reservation through result acknowledgment or explicit reconciliation.
 - Button before reservation only shows “Scan QR / wait for turn”; no anonymous ranked game.
-- LED/audio feedback: countdown ticks, successful placement, perfect placement, miss, timeout and win. Sound may be muted; visual information remains complete.
+- Display/audio feedback (game screen or LEDs): countdown ticks, successful placement, perfect placement, miss, timeout and win. Sound may be muted; visual information remains complete.
 - Completed game shows score/result for a proposed 5 seconds; a new reservation can arrive but cannot bypass the result screen or its reset readiness check.
 - Abort commands carry command ID, session ID and expected revision. An in-play abort is queued for the game loop; it does not block rendering. If a completed result won the race, record abort as stale and preserve that result.
 - Reset clears transient board state only after terminal evidence is persisted. A long press cannot erase a pending upload.
@@ -143,7 +147,7 @@ Targets are proposed acceptance thresholds, not measured performance claims.
 
 ## 7. Decisions still needed before hardware/event release
 
-Confirm actual ESP32 and panel model/scan driver, power supply/current budget, pin map, student-ID format and operator identity recovery process. Play-test proposed rules and absence timeout. Confirm event LAN, stable hostname/certificate trust, AI provider/budget and identity retention owner. Baseline retention proposal is 30 days after event close for identity linkage and 90 days for redacted diagnostics; make these explicit settings and validate with the institution before collecting real IDs.
+For the web game screen: confirm the screen laptop, Chrome or Edge, the ESP32 bridge and real-button feel. For the optional LED cabinet: confirm actual ESP32 and panel model/scan driver, power supply/current budget, pin map. For both: student-ID format and operator identity recovery process. Play-test proposed rules and absence timeout. Confirm event LAN, stable hostname/certificate trust, AI provider/budget and identity retention owner. Baseline retention proposal is 30 days after event close for identity linkage and 90 days for redacted diagnostics; make these explicit settings and validate with the institution before collecting real IDs.
 
 
 ## Current quality hardening — 19 November 2026

@@ -11,7 +11,10 @@ const periods = {
   yesterday: 'Yesterday',
   last_7_days: 'Last seven days',
 }
-const sources = { simulator: 'Dashboard simulator results', device: 'Cabinet / Wokwi results' }
+const sources = {
+  simulator: 'Dashboard simulator results',
+  device: 'Game screen / cabinet results',
+}
 const value = (number, suffix = '') =>
   number == null
     ? 'N/A'

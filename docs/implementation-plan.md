@@ -2,6 +2,8 @@
 
 # Stack Moko Baby — step-by-step build plan
 
+**Display migration, 25 November 2026:** the game moved from the LED-matrix cabinet to a **web game screen** (a second laptop at `/screen`, played with the same arcade button through an ESP32 USB button bridge). The LED cabinet stays supported: it uses the same device protocol, Matrix v1 rules and leaderboard, and an administrator switches between the two in Settings → Game screen. See [the web game screen](game-screen.md).
+
 **Latest hosting choice, 22 November:** use the [free PC + XAMPP + HTTPS tunnel](free-online.md) selected after the Render cost discussion. Public health and private image compilation passed. Next run the configured image in Wokwi with the user's approved upload path, verify the cabinet heartbeat and assigned game journey, then retain the separate physical/NVS gates. Keep the prepared Render option inactive.
 
 ## Current device/hosting milestone — 22 November 2026

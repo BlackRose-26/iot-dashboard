@@ -845,7 +845,7 @@ def compose_all(data, context):
                 cohort = {**cohort, 'summary':{key:value for key,value in cohort['summary'].items() if key!='registrations'}}
             cohort_context = context.model_copy(update={'source':source,'tools':cohort['tools'],'definition':None})
             answer = compose(cohort, cohort_context, include_registrations=False)
-            label = 'Dashboard simulator' if source=='simulator' else 'Cabinet / Wokwi'
+            label = 'Dashboard simulator' if source=='simulator' else 'Game screen / cabinet'
             if answer['status']=='no_data':
                 if cohort.get('player_scores',{}).get('total_players'):
                     scores=cohort['player_scores']

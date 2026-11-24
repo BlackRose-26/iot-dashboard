@@ -5,6 +5,7 @@ import { useAssistant, assistantStatus } from '../state/AssistantContext'
 import { Card, CardHeader, PageHeading } from '../components/ui'
 import AssistantTrainingReview from '../components/AssistantTrainingReview'
 import StaffAccounts from '../components/StaffAccounts'
+import GameScreenPairing from '../components/GameScreenPairing'
 import { gameLabel } from '../state/game'
 
 export default function Settings() {
@@ -82,6 +83,7 @@ export default function Settings() {
           </button>
           {ai.memoryError && <p role="status">{ai.memoryError}</p>}
         </Card>
+        {isAdmin && <GameScreenPairing />}
         {isAdmin && <StaffAccounts />}
         {isAdmin && (
           <>

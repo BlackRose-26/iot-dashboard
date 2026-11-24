@@ -141,10 +141,10 @@ export default function Overview() {
             action={
               <Menu
                 label="Leaderboard result source"
-                value={rankingSource === 'simulator' ? 'Simulator' : 'Cabinet / Wokwi'}
+                value={rankingSource === 'simulator' ? 'Simulator' : 'Game screen / cabinet'}
                 options={[
                   { value: 'simulator', label: 'Simulator' },
-                  { value: 'device', label: 'Cabinet / Wokwi' },
+                  { value: 'device', label: 'Game screen / cabinet' },
                 ]}
                 onChange={setRankingSource}
               />

@@ -11,6 +11,7 @@
     "online:firmware": "node scripts/online.mjs --firmware",
     "online:device": "node scripts/online.mjs --device",
     "device:selftest": "node scripts/device.mjs --selftest",
+    "device:bridge": "node scripts/device.mjs --bridge",
     "device:flash": "node scripts/device.mjs",
     "device:url": "node scripts/device.mjs url",
     "db:backup": "node scripts/device.mjs db --label manual",

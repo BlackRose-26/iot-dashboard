@@ -7,7 +7,7 @@ Development resumed on 20 November 2026 at the user's request. This milestone ex
 
 ## Authority and limits
 
-The ESP32 owns local timing, button input and the durable game journal. The backend owns queue assignment, validated scores and transactional recovery decisions. Administrators request a stop and review evidence; neither the browser nor Stack Intelligence may fabricate a device receipt. These are authenticated device assertions, not independent proof that physical NVS or the panel works.
+The game device owns local timing, button input and the durable game journal: the web game screen (journal in browser storage, `frontend/src/screen/deviceClient.js`) by default, or the ESP32 LED cabinet (journal in NVS). A reload of the web screen during a round registers a new boot, exactly like an ESP32 reboot. The backend owns queue assignment, validated scores and transactional recovery decisions. Administrators request a stop and review evidence; neither the browser nor Stack Intelligence may fabricate a device receipt. These are authenticated device assertions, not independent proof that physical NVS or the panel works.
 
 `005_device_recovery.sql` adds boot lineage, immutable journal events, command-to-boot bindings and a quarantine flag. Existing score replay and ticket/session uniqueness remain unchanged. Legacy unregistered cabinets retain the original protocol. Once a cabinet registers a boot, ordinary ACK/start/result endpoints cannot bypass the journal protocol. Registration is deliberately not reversible through a browser toggle.
 

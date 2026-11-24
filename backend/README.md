@@ -2,7 +2,7 @@
 
 FastAPI service that owns the player queue, staff sessions, validated scores, the cabinet protocol, live updates and the optional Stack Intelligence assistant. It runs on Python 3.13 with SQLAlchemy Core against the local XAMPP MariaDB 10.11 database.
 
-Scope: one event (`acs-day`) and one cabinet (`cabinet-01`). Current rules are **Matrix v1** (16 columns, 15 levels, one point per kept row, 60-second limit; see [`contracts/matrix-v1.rules.json`](../contracts/matrix-v1.rules.json)). Earlier Classic v1 results are kept and ranked separately.
+Scope: one event (`acs-day`) and one cabinet (`cabinet-01`), played by one game device at a time: the web game screen (default since 25 November 2026) or the optional LED cabinet; both use the same device protocol. Current rules are **Matrix v1** (16 columns, 15 levels, one point per kept row, 60-second limit; see [`contracts/matrix-v1.rules.json`](../contracts/matrix-v1.rules.json)). Earlier Classic v1 results are kept and ranked separately.
 
 ## Setup
 
@@ -68,6 +68,7 @@ All routes are under `/api`. Staff and player sessions are separate cookies; eve
 | Players | `GET /admin/players?search=` (nickname or code), `POST /admin/players/{id}/reentry` (one-time code, 10 minutes) |
 | Rounds | `POST /admin/sessions/{id}/review`, `…/fence`, `…/resolve` (release, void or recover; void and recover are admin-only) |
 | Staff accounts (admin) | `GET`/`POST /admin/staff`, `POST /admin/staff/{id}/password`, `POST /admin/staff/{id}/enabled` |
+| Game device (admin) | `POST /admin/screen/pair` (new token for the web game screen, returned once), `POST /admin/screen/use-led-cabinet` (restore the configured LED cabinet token) |
 | Simulator (admin) | `POST /admin/simulator/{ready,start,win,loss,release}` |
 | Assistant | `/admin/assistant/{status,prepare,query,memory}`, training review (admin) under `/admin/assistant/training`, `/admin/evaluation-review` (admin) |
 | Cabinet (device token) | `GET /device/enrollment`, `POST /device/boot`, `POST /device/heartbeat`, `GET /device/commands`, `POST /device/commands/{id}/ack`, `POST /device/journal`, `POST /device/sessions/{id}/start`, `POST /device/sessions/{id}/result` |

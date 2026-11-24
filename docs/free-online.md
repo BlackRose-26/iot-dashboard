@@ -1,5 +1,7 @@
 # Free online operation with XAMPP
 
+**Game display, 25 November 2026:** after `npm run online`, open the printed address on the screen laptop and pair the [web game screen](game-screen.md) (pair again after every new tunnel address). The Wokwi and physical-cabinet sections below apply to the optional LED cabinet.
+
 Current choice, 22 November 2026: the user declined paid Render activation and selected **PC + XAMPP + HTTPS tunnel** for the Wokwi stage. Render files remain an optional prepared alternative. No paid service was created.
 
 ## Daily startup

@@ -4,6 +4,10 @@
 
 **Latest hosting choice, 22 November:** [free PC/XAMPP + HTTPS tunnel](free-online.md) supersedes the earlier Render activation choice. React/API share the temporary HTTPS origin while MariaDB and Ollama stay on loopback/local services. `npm run online:firmware` builds a private image for the new hostname. Render files remain inactive; actual connected Wokwi and physical acceptance require their own evidence.
 
+## Display migration — 25 November 2026
+
+**Display migration, 25 November 2026:** the game moved from the LED-matrix cabinet to a **web game screen** (a second laptop at `/screen`, played with the same arcade button through an ESP32 USB button bridge). The LED cabinet stays supported: it uses the same device protocol, Matrix v1 rules and leaderboard, and an administrator switches between the two in Settings → Game screen. See [the web game screen](game-screen.md). The web screen is a browser **protocol-v2 device client** (`frontend/src/screen/`), so the server, journal and replay below apply unchanged.
+
 ## Current device and hosting decision — 22 November 2026
 
 The user selected **Matrix v1** (16 columns, 15 levels, one point per successful level, maximum 15) from the supplied ESP32 sketch, currently in Wokwi. [Connected firmware and online operation](esp32-online.md) supersedes older Classic-only/panel proposals below. FastAPI binds each assignment to an immutable stored ruleset and validates the terminal trace against that version; dashboard/AI analytics and leaderboards keep ruleset cohorts separate. Local timing and physical input remain on ESP32; queue assignment and accepted scores remain transactional backend work.
@@ -56,7 +60,9 @@ Use exact lockfiles, a recorded Python/Node version and the recorded XAMPP/Maria
 flowchart LR
   Phone[Player phone] -->|HTTPS registration and ticket| Proxy[Reverse proxy]
   Screen[Staff dashboard and public display] -->|HTTPS and WSS| Proxy
-  ESP[ESP32 local game engine] -->|HTTPS polling heartbeat results| Proxy
+  GameScreen[Web game screen: browser game engine] -->|HTTPS polling heartbeat results| Proxy
+  Bridge[ESP32 button bridge] -->|USB serial PRESS lines| GameScreen
+  ESP[Optional ESP32 LED cabinet] -.->|same device protocol| Proxy
   Proxy --> API[FastAPI modular monolith]
   API --> DB[(MySQL)]
   API --> Tools[Allowlisted aggregate analytics]
@@ -66,7 +72,7 @@ flowchart LR
   Outbox -->|Refresh notifications| Screen
 ```
 
-Firmware owns immediate timing, row movement, button input, LEDs, audio and durable terminal evidence. Server owns identity, queue fairness, session authorization, immutable rules, validation, ranking and audit history. Browser is a view/controller for permitted staff actions; it cannot grant a device turn or author a score. MySQL is the committed system of record. AI explains server-calculated data and has no place in the control loop.
+The game device owns immediate timing, row movement, button input, display, audio and durable terminal evidence: by default the web game screen (with ESP32 press timestamps), or the ESP32 LED cabinet. Server owns identity, queue fairness, session authorization, immutable rules, validation, ranking and audit history. The staff browser is a view/controller for authorized server actions.
 
 Start as a modular monolith: `identity`, `auth`, `events`, `machines`, `queue`, `sessions`, `rules`, `leaderboard`, `analytics`, `ai`, `audit`, `outbox`. One API process/worker plus an in-process outbox polling task is adequate for the initial LAN workload. FastAPI's in-memory connection list is process-local; before multiple workers, add a shared notification transport or separate broadcaster. Do not increase worker count without addressing this.
 

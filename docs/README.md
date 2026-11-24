@@ -2,7 +2,7 @@
 
 # Stack Moko Baby — documentation
 
-Updated 24 November 2026 (Asia/Manila).
+Updated 25 November 2026 (Asia/Manila).
 
 ## Current status
 
@@ -11,13 +11,15 @@ Updated 24 November 2026 (Asia/Manila).
 | Player flow | QR scan → private registration → FIFO ticket → turn alert → result → leaderboard. Re-entry QR for lost tickets. Implemented and browser-tested. |
 | Operation | Staff dashboard with operator and administrator roles, no-show release, device recovery, live updates, encrypted backups, student-ID purge. Implemented and tested. |
 | Hosting | Chosen: this PC + XAMPP + free Cloudflare Quick Tunnel (`npm run online`). Render files are an inactive alternative. A 60-phone rehearsal passed on loopback and through a real tunnel. |
-| Cabinet | Matrix v1 firmware for an ESP32 with an 8×32 HUD, two 16×16 panels, a 60 mm arcade button and a speaker, all on laptop USB power. Compiles and passes emulator checks. **Not yet run on the physical cabinet.** |
+| Game | Migrated on 25 November 2026 from the LED cabinet to a **web game screen** (second laptop, `/screen`) played with the arcade button through an ESP32 USB bridge; same queue, Matrix v1 rules and server replay. Automated and browser tests pass. **Real button, two laptops and real phones not yet run together.** See [game-screen.md](game-screen.md). |
+| LED cabinet (optional) | Still supported (switch in Settings → Game screen). Firmware compiles and passes emulator checks; **never run on the physical cabinet**. See [hardware-bringup.md](hardware-bringup.md). |
 | Stack Intelligence | Local, read-only English/Taglish assistant. On consumed 325-question replays it routes 209/325 (v1) and 198/325 (human-confirmed v2) correctly; regression evidence only, a fresh test set is still needed. |
 | Before the event | Ranked risks and the real-phone checklist: [remaining-work.md](remaining-work.md). |
 
 ## Start here
 
 1. [Remaining work, ranked by event risk](remaining-work.md) — what is done, what is not, and the checklists.
+1. [The web game screen](game-screen.md) — the default game setup: two laptops, button bridge, pairing, switching back to the LED cabinet, fixes.
 2. [Wiring and Operation Guide (PDF)](Stack-Moko-Baby-Wiring-and-Operation-Guide.pdf) — printable: parts, wiring, self-test, startup, queue, troubleshooting, after the event.
 3. [Player flow and access](player-flow-and-access.md) — current behaviour, roles, re-entry, no-show, API and limits.
 4. [Local setup](local-setup.md) — daily development startup and troubleshooting.
@@ -33,8 +35,9 @@ Updated 24 November 2026 (Asia/Manila).
 - [Build plan](implementation-plan.md) — ordered deliverables and exit gates
 
 **Event operation**
+- [The web game screen](game-screen.md) — default display: two-laptop setup, ESP32 button bridge, pairing, switching to the LED cabinet
 - [Free online operation](free-online.md) — the launcher, tunnel limits, hostname recommendation, MySQL auto-start, `event:check`
-- [Physical cabinet bring-up](hardware-bringup.md) — hotspot, self-test, flashing, acceptance gates
+- [LED cabinet bring-up (optional)](hardware-bringup.md) — hotspot, self-test, flashing, acceptance gates
 - [Backups, restore and student-ID purge](backups.md)
 - [QR scanner](qr-scanner.md) — entry contract and its limits
 - [Live updates](live-updates.md) — WebSocket hints, snapshots, fallback polling
