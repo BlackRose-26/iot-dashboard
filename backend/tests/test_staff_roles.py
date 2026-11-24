@@ -112,3 +112,20 @@ def test_staff_changes_need_csrf(environment):
     no_csrf.cookies = admin.cookies
     assert no_csrf.post('/api/admin/staff', json={'username': 'nocsrf'}).status_code in (401, 403)
     assert TestClient(app).get('/api/admin/staff').status_code == 401
+
+
+def test_one_strangers_wrong_guesses_through_the_tunnel_do_not_lock_out_staff(environment):
+    app, admin, token, engine, settings = environment
+    tunnel = TestClient(app, client=('127.0.0.1', 50000))  # cloudflared connects from this PC
+    stranger = {'CF-Connecting-IP': '203.0.113.7'}
+    for _ in range(8):
+        assert tunnel.post('/api/admin/login', json={'username': 'admin', 'password': 'wrong'}, headers=stranger).status_code == 401
+    assert tunnel.post('/api/admin/login', json={'username': 'admin', 'password': 'wrong'}, headers=stranger).status_code == 429
+    staff_phone = {'CF-Connecting-IP': '198.51.100.20'}
+    ok = tunnel.post('/api/admin/login', json={'username': 'admin', 'password': 'Only-a-disposable-test-password'}, headers=staff_phone)
+    assert ok.status_code == 200, 'the stranger is limited, not every staff member'
+    # The header is ignored from anyone but a loopback peer, so it cannot be used to dodge the limit.
+    remote = TestClient(app, client=('192.0.2.50', 50000))
+    for index in range(8):
+        remote.post('/api/admin/login', json={'username': 'admin', 'password': 'wrong'}, headers={'CF-Connecting-IP': f'10.0.0.{index}'})
+    assert remote.post('/api/admin/login', json={'username': 'admin', 'password': 'wrong'}, headers={'CF-Connecting-IP': '10.0.0.99'}).status_code == 429

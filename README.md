@@ -4,6 +4,8 @@ For free Wokwi-stage online operation, start XAMPP MySQL and run `npm run online
 
 For the physical cabinet on a phone hotspot, `npm run device:selftest` checks the wiring and `npm run online:device` uploads hotspot-configured firmware over USB without erasing the device journal. See [physical bring-up](docs/hardware-bringup.md).
 
+Event day: run `npm run event:check` on the event laptop the day before (`-- --fix-power` fixes sleep, lid and USB power-saving); `npm run online` starts XAMPP MySQL itself if needed. After the event, `npm run db:purge-ids` (dry run first, then `-- --all --apply`) deletes stored student IDs. Risks ranked for the event: [remaining work](docs/remaining-work.md).
+
 ![Status: local development](https://img.shields.io/badge/status-local_development-64748b)
 ![React 19](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)
 ![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-38bdf8?logo=tailwindcss&logoColor=white)

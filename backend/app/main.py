@@ -263,9 +263,19 @@ def create_app(settings=None):
             except ValueError: raise HTTPException(503,'The game rules configuration is incomplete.') from None
         return {'status':'ok','application':'stack-moko-baby','database':'MariaDB'}
 
+    def visitor_address(request):
+        # Behind the Cloudflare tunnel every request arrives from cloudflared on this PC, so one
+        # stranger's failed guesses would lock out every staff member. Cloudflare replaces
+        # CF-Connecting-IP with the real visitor address; trust it only from a loopback peer.
+        peer=request.client.host if request.client else ''
+        forwarded=request.headers.get('cf-connecting-ip','').strip()
+        if peer in ('127.0.0.1','::1') and forwarded and len(forwarded)<=45 and re.fullmatch(r'[0-9A-Fa-f:.]+',forwarded):
+            return 'cf:'+forwarded
+        return peer
+
     @app.post('/api/admin/login')
     def login(body:Login, request:Request,response:Response):
-        key=digest((request.client.host if request.client else '')+'\0'+body.username.lower())
+        key=digest(visitor_address(request)+'\0'+body.username.lower())
         with engine.begin() as c:
             execute(c, 'INSERT IGNORE INTO login_attempts(key_hash,attempts,window_start) VALUES(:key,0,:now)',key=key,now=now())
             a=one(c,'SELECT * FROM login_attempts WHERE key_hash=:key FOR UPDATE',key=key)

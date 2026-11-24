@@ -15,6 +15,19 @@ Added 24 November 2026. Tool: `scripts/db-backup.py`. Tests: `backend/tests/test
 | `backend\.venv\Scripts\python.exe scripts\db-backup.py --verify FILE` | Same check for a specific backup |
 | `backend\.venv\Scripts\python.exe scripts\db-backup.py --restore FILE --replace-live` | **Disaster recovery.** Replaces all current data. Refuses while the API is running on port 8000, and takes a `prerestore` safety backup first. |
 
+## Deleting student IDs after the event
+
+`npm run db:purge-ids` (tool `scripts/purge-student-ids.py`, logic `backend/app/identity_retention.py`, tests `backend/tests/test_identity_retention.py`) deletes each player's encrypted student ID **and** its keyed lookup together; nicknames, tickets, scores and the leaderboard stay. It is a **dry run by default** and prints only counts.
+
+| Command | What it does |
+|---|---|
+| `npm run db:purge-ids` | Shows how many IDs are stored and how many are past their retention date (event end + 30 days) |
+| `npm run db:purge-ids -- --apply` | Deletes only the IDs past their retention date |
+| `npm run db:purge-ids -- --all --apply` | **After the event:** deletes every stored student ID now |
+| add `--delete-older-backups` | After the post-purge backup is written, deletes older backups (they still hold the deleted IDs) |
+
+Each purge is one audited transaction (`identity_purge`, counts only) followed by a fresh backup labelled `purged`. Once IDs are gone the same student could register again, so use `--all` only after the event. On 24 November the live database held 6 IDs, none due before 14 January 2027; only the dry run was used on it.
+
 ## Where and how backups are stored
 
 - **Folder:** `%USERPROFILE%\StackMokoBaby-backups`, or `STACK_BACKUP_DIR`. The tool refuses any folder inside the project, so backups cannot reach Git or the knowledge graph.

@@ -16,8 +16,12 @@ if (!existsSync(python)) {
   console.error("[device] Complete the local backend setup first.");
   process.exit(1);
 }
-// "url" -> set-device-url.py, "db" -> db-backup.py, otherwise flash-device.py.
-const mode = { url: "set-device-url.py", db: "db-backup.py" }[process.argv[2]];
+// "url" -> set-device-url.py, "db" -> db-backup.py, "purge" -> purge-student-ids.py, "check" -> event-check.py, otherwise flash-device.py.
+const mode = { url: "set-device-url.py", db: "db-backup.py", purge: "purge-student-ids.py",
+  check: "event-check.py",
+}[
+  process.argv[2]
+];
 const script = mode || "flash-device.py";
 const subcommand = Boolean(mode);
 const child = spawn(

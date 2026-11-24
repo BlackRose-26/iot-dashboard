@@ -4,6 +4,37 @@
 
 **Current connection blocker:** actual browser testing loaded the private firmware. Core 4.0.0 hit the TLS watchdog; the compatibility build and network scheduling/reuse fixes compile and boot, but Wokwi repeatedly fails to connect to `wss://netwi.wokwi.com/`. No authenticated fresh heartbeat or connected round was observed. Retest when the public gateway connects; the dashboard remains online. See [evidence and retry instructions](free-online.md).
 
+## Event risk review — 24 November 2026 (latest)
+
+Ranked by how badly each could hurt the event day. "Done" means built and tested in software; nothing here replaces a physical run.
+
+| # | Risk | Status after 24 November |
+|---|---|---|
+| 1 | **Cabinet never run on real hardware** (wiring, laptop-USB power for 768 LEDs, 330 Ω data line without a level shifter, 60 mm button, speaker) | Open, on the organiser. Tools ready: `npm run device:selftest` stages 1–5 and the PDF's acceptance checklist. Run a full game on laptop power before anything else. |
+| 2 | **Event laptop sleeps, restarts for updates, or MySQL stops** | Mostly done. `npm run online` now starts XAMPP MySQL and restarts it if it stops (tested: clean shutdown, start with the launcher's command, data intact). `npm run event:check` reports charger, sleep, hibernate, lid, USB power-saving, pending restart and disk space; `--fix-power` fixes the power items. Open: run it on the **actual event laptop** (this PC reports as a desktop) and pause Windows updates. |
+| 3 | **Quick Tunnel drops, restarts or hits its cap** (no uptime guarantee; 200 in-flight requests) | Mitigated, decision pending. A restart is survivable (cabinet follows over USB, QR from the dashboard, re-entry QR). Rehearsed 60 phones through a real Quick Tunnel with no errors. A named tunnel needs a paid domain plus a firmware change. |
+| 4 | **Real phones not yet tried** (camera scan, HTTPS cookies on mobile data, background tabs, iPhone/Android) | Open, on the organiser. Use the 10-minute real-phone checklist below. |
+| 5 | **Load on the single API worker** | Done for 60 phones. Loopback: 60 phones, 30 rounds, p95 559 ms, results on phones p95 646 ms, 0 errors. Through a real tunnel: 60 phones, 27 rounds, p95 648 ms, results p95 690 ms, 0 errors, FIFO kept, no duplicates. Rerun: `backend\.venv\Scripts\python.exe backend\rehearse_event.py [--tunnel]`. Not measured: real mobile networks, more than 60 phones. |
+| 6 | **A stranger locks staff out of the admin login** (all tunnel traffic looked like one address) | Done: the limit now counts Cloudflare's visitor address (`CF-Connecting-IP`), trusted only from loopback. Tested. |
+| 7 | **Helpers with full admin power** | Done: operator accounts (previous section). Rehearse once with a real helper. |
+| 8 | **Players lose tickets** (new phone, cleared browser, launcher restart) | Done: operator re-entry QR. |
+| 9 | **Called player never comes** | Done: one-click "Player didn't come". |
+| 10 | **Lost data or a lost key** | Done in software (encrypted backups every 15 min, verified restore). Open: copy `backend/.env` to a USB drive kept apart from the laptop. |
+| 11 | **Student IDs kept after the event** | Done: `npm run db:purge-ids` (dry run by default; `--all --apply` after the event). |
+| 12 | **Players are not alerted when the tab is closed** (no push notifications) | Accepted for this event: the HUD shows NEXT PLAYER, the operator calls out names, and "Player didn't come" frees the cabinet after about 3 minutes. |
+| 13 | Stack Intelligence answer quality, full accessibility review | Low event impact; unchanged. |
+
+### Real-phone checklist (10 minutes, two phones on mobile data)
+
+1. With `npm run online` running, scan the dashboard's Registration QR with an Android phone and an iPhone camera; both reach the registration page.
+2. Register both; each ticket shows its place in line.
+3. Lock one phone for 2 minutes, unlock it; the ticket is current without reloading (or after one pull-to-refresh).
+4. Call the first player; that phone shows "your turn" within a few seconds.
+5. Finish a simulator round; the result and leaderboard appear on that phone.
+6. Close the browser on the second phone, give it a re-entry QR from the Queue page, scan it; the ticket comes back.
+7. Sign in on a third phone with an operator account; it sees the Queue page but not Staff accounts.
+8. Note the hotspot phone's data use after 30 minutes.
+
 ## Operator roles — 24 November 2026
 
 **Operator and administrator roles, 24 November 2026.** Staff accounts now have enforced roles. An **operator** (a booth helper) runs the line: Overview, Queue (call next, skip, pause or open admissions, Player didn't come, re-entry QR), Sessions, Analytics, the Machine page (request a device stop, hold a round for review, release an unstarted no-show) and Stack Intelligence chat with their own private memory. Only an **administrator** can void or recover an interrupted round's score, use the development simulator, review practice questions or training examples, and manage staff accounts. The server enforces every rule (403 "Only an administrator can do this."); the dashboard also hides what an operator cannot use and shows "This round's score must be decided by an administrator" on the Machine page. In **Settings → Staff accounts** an administrator adds an operator (3-40 lowercase letters, numbers, dots, dashes or underscores), receives a server-generated one-time password (xxxx-xxxx-xxxx-xxxx, no look-alike characters) to hand over in person, and can reset it or switch the account off; both sign the operator out at once. Administrator accounts cannot be changed from the dashboard; the local administrator password stays in `backend/.admin-credentials.txt`. Creating, resetting, switching off and on are audited (`staff_created`, `staff_password_reset`, `staff_disabled`, `staff_enabled`) with the username only, never the password. No migration was needed: `staff_users.role` already existed. Checks: 3 backend tests, 3 new component tests and a real-browser journey (admin creates an operator, operator signs in and sees only line tools, switching the account off signs them out). Still open: rehearse with a real helper on a phone over the tunnel.
@@ -67,8 +98,8 @@ Current audit checks: **283 backend tests**, **45 frontend tests**, production b
 | Software implemented; hardware gate open | Reordered events and interrupted rounds | Exact journal retries, missing-start/reboot terminal review, immutable start/result evidence, conservative conflict quarantine and persistent emulator receipt recovery are implemented. Run the same fixtures against firmware/NVS when hardware arrives; quarantined conflicts deliberately remain held for investigation. |
 | Hardware dependent | ESP32 local firmware and panel integration | Confirm board/panel/pins/power, implement button/debounce/game engine, rendering/audio, immutable rule fixtures and NVS journal; measure latency and playability. Numeric settings remain proposed. |
 | Security/operations | Role separation | **Done 24 November 2026:** operator/admin capabilities are enforced server-side and tested; administrators provision operators in Settings. Not yet rehearsed with a real helper. |
-| Security/operations | Identity lifecycle | Staff-assisted lost-browser recovery now exists (re-entry QR); automated retention/anonymization, key rotation and audited exceptional identity operations remain incomplete. Student ID must never become a login secret or model input. |
-| Release | Process failure and load | Actual process-kill recovery and 50 independent browser clients were exercised on loopback, with bounded API requests and no duplicated terminal result/notification. Event-LAN p95 targets, Wi-Fi contention and a prolonged mixed-load soak remain unrun. Keep one API worker until shared routing exists. |
+| Security/operations | Identity lifecycle | Staff-assisted lost-browser recovery (re-entry QR) and a student-ID purge (`npm run db:purge-ids`) now exist; scheduled retention, nickname anonymization, key rotation and audited exceptional identity operations remain incomplete. Student ID must never become a login secret or model input. |
+| Release | Process failure and load | Process-kill recovery and 50 browser clients on loopback, plus a 5-minute mixed rehearsal of 60 phones and back-to-back rounds both on loopback and through a real Quick Tunnel (0 errors, p95 under 650 ms). Real mobile networks, Wi-Fi contention and more than 60 phones remain unmeasured. Keep one API worker. |
 | Release | Phone/network deployment | Trusted HTTPS/WSS and cookies on actual phones, camera/notification support, background throttling, firewall/router reachability and real event access checks remain. Closed-tab push is not implemented. |
 | Release | Backups and observability | Since 24 November: [encrypted automatic backups](backups.md) (launcher start, every 15 min, Ctrl+C; manual `npm run db:backup`), outside the project, with a verified throwaway restore (`npm run db:verify`, real database 27 tables/238 rows matched) and a guarded live restore tested on a generated database. Still open: a real live restore rehearsal, restore on a second PC, off-laptop key custody, lag alerting and observability. Do not commit real dumps/exports. |
 | AI quality | Held-out evaluation and optional actual fine-tuning | The audit includes 44 actual local-model regressions, language families, misleading histories and scope/privacy checks. Broader independent English/Taglish and real-user evaluations remain. Synthetic dataset volume and memory do not prove model improvement. Training/import/activation must remain a reviewed separate stage with held-out comparisons. |

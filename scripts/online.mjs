@@ -64,6 +64,41 @@ function occupied(port) {
     socket.once("timeout", () => finish(false));
   });
 }
+// XAMPP MySQL is not a Windows service on the event laptop. Start it ourselves (detached, so
+// it keeps running after Ctrl+C like a normal XAMPP start) and restart it if it stops.
+const xampp = process.env.STACK_XAMPP_DIR || "C:\\xampp";
+const mysqld = join(xampp, "mysql", "bin", process.platform === "win32" ? "mysqld.exe" : "mysqld");
+let mysqlStartedAt = 0;
+async function ensureMysql(reason) {
+  if (await occupied(3306)) return true;
+  if (!existsSync(mysqld)) return false;
+  if (Date.now() - mysqlStartedAt < 60000) return false; // one start attempt per minute
+  mysqlStartedAt = Date.now();
+  console.log(`[online] ${reason}: starting XAMPP MySQL…`);
+  const server = spawn(
+    mysqld,
+    [`--defaults-file=${join(xampp, "mysql", "bin", "my.ini")}`, "--standalone"],
+    { cwd: join(xampp, "mysql"), detached: true, stdio: "ignore", windowsHide: true },
+  );
+  server.on("error", () => {});
+  server.unref();
+  for (let attempt = 0; attempt < 60; attempt++) {
+    if (await occupied(3306)) {
+      console.log("[online] MySQL is running.");
+      return true;
+    }
+    await delay(500);
+  }
+  console.error("[online] MySQL did not start. Open the XAMPP Control Panel and start MySQL.");
+  return false;
+}
+function watchMysql() {
+  setInterval(async () => {
+    if (stopping || (await occupied(3306))) return;
+    console.error("[online] MySQL stopped. Players and the dashboard cannot save until it is back.");
+    await ensureMysql("MySQL stopped");
+  }, 15000).unref();
+}
 function start(command, args, options = {}) {
   const child = spawn(command, args, {
     cwd: root,
@@ -127,7 +162,7 @@ process.once("SIGTERM", () => void stop());
 async function main() {
   if (!existsSync(python) || !existsSync(join(backend, ".env")))
     throw new Error("Complete the local backend setup first.");
-  if (!(await occupied(3306)))
+  if (!(await ensureMysql("MySQL is not running")))
     throw new Error("Start MySQL in XAMPP, then run npm run online again.");
   if (await occupied(8000))
     throw new Error(
@@ -269,6 +304,7 @@ async function main() {
       "Backend/database readiness failed; run the documented database setup.",
     );
   writeFileSync(join(tools, "current-url.txt"), origin + "\n");
+  watchMysql();
   if (backupMinutes > 0) {
     backupsReady = true;
     backupNow();

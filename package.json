@@ -14,7 +14,9 @@
     "device:flash": "node scripts/device.mjs",
     "device:url": "node scripts/device.mjs url",
     "db:backup": "node scripts/device.mjs db --label manual",
-    "db:verify": "node scripts/device.mjs db --verify"
+    "db:verify": "node scripts/device.mjs db --verify",
+    "db:purge-ids": "node scripts/device.mjs purge",
+    "event:check": "node scripts/device.mjs check"
   },
   "engines": {
     "node": ">=22.12.0"
