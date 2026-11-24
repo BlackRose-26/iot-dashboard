@@ -1,5 +1,7 @@
 # Local React and backend setup
 
+**New laptop or fresh clone?** Use [SETUP.md](../SETUP.md) and `npm run setup`; it installs and configures everything below. This page keeps the details and the history of the original machine.
+
 Node.js **24.22.3**, npm **11.19.1** and Python **3.13.17** are installed for the local Windows user. The backend has a regular virtual environment at `D:\iot-dashboard\backend\.venv` with the pinned requirements installed. The frontend uses its package.json scripts and an npm lockfile. React and Vite dependencies are project dependencies, not global commands.
 
 After this first setup, close and reopen the terminal application (including VS Code/Codex if using its integrated terminals) so it receives the updated user PATH. Check with `node --version`, `npm --version` and `python --version`.

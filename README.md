@@ -131,26 +131,16 @@ The laptop is the only power source, so the firmware caps LED current (`STACK_LE
 
 ## Getting started
 
-### Prerequisites (Windows)
+### Set up (one command)
 
-- [Node.js](https://nodejs.org/) 22.12 or newer
-- [Python 3.13](https://www.python.org/downloads/windows/)
-- [XAMPP](https://www.apachefriends.org/) (for MySQL/MariaDB)
-- Optional: [Ollama](https://ollama.com/) for Stack Intelligence; [arduino-cli](https://arduino.github.io/arduino-cli/) is used by the flashing scripts
-
-### Install once
-
-Start **MySQL** in the XAMPP Control Panel, then:
+After cloning, from the project folder:
 
 ```powershell
-cd D:\iot-dashboard
-npm --prefix frontend ci
-python -m venv backend\.venv
-.\backend\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
-.\backend\.venv\Scripts\python.exe backend\setup_local.py
+npm run setup -- --check   # read-only report of what is missing
+npm run setup              # installs and configures the operator/server laptop
 ```
 
-`setup_local.py` creates the project database, applies the migrations, creates a restricted application account and generates local secrets in `backend/.env`. Re-running it applies new migrations and keeps existing data and passwords. The administrator login is written to `backend/.admin-credentials.txt`. Keep both files private. If your XAMPP `root` account has a password, see [backend setup](backend/README.md).
+It needs Node.js 22.12+ to start. It checks Python 3.13 and XAMPP MySQL and prints the `winget` command for anything missing (or installs it with `--yes`). Then it installs the frontend and backend packages, creates the database, migrations and private secrets (`backend/.env`, `backend/.admin-credentials.txt`), downloads the tunnel helper and checks the API health. Use `--role developer` for the project map and test tools, or `--role bridge` for the ESP32 toolchain. The game screen laptop needs only Chrome or Edge. Roles, manual configuration, rules for coding agents and troubleshooting: **[SETUP.md](SETUP.md)**.
 
 ### Run locally
 

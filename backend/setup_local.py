@@ -50,15 +50,19 @@ def seed(engine, settings, password):
 
 if __name__ == '__main__':
     env = ROOT / '.env'
+    # STACK_SETUP_DATABASE lets the fresh-clone check (scripts/setup.mjs) use a throwaway
+    # stack_moko_test_* database; migrate() refuses any other name.
+    database = os.getenv('STACK_SETUP_DATABASE', 'stack_moko_baby')
+    app_user = 'stack_moko_app' if database == 'stack_moko_baby' else f'{database}_app'
     root = pymysql.connect(host='127.0.0.1', user='root', password=os.getenv('STACK_DB_ROOT_PASSWORD', ''), autocommit=True)
-    migrate(root, 'stack_moko_baby')
+    migrate(root, database)
     if not env.exists():
         password = secrets.token_urlsafe(30)
         with root.cursor() as cur:
-            cur.execute("CREATE USER IF NOT EXISTS 'stack_moko_app'@'127.0.0.1' IDENTIFIED BY %s", (password,))
-            cur.execute("GRANT SELECT, INSERT, UPDATE, DELETE ON stack_moko_baby.* TO 'stack_moko_app'@'127.0.0.1'")
+            cur.execute(f"CREATE USER IF NOT EXISTS '{app_user}'@'127.0.0.1' IDENTIFIED BY %s", (password,))
+            cur.execute(f"GRANT SELECT, INSERT, UPDATE, DELETE ON `{database}`.* TO '{app_user}'@'127.0.0.1'")
         values = {
-            'STACK_DATABASE_URL': f'mysql+pymysql://stack_moko_app:{password}@127.0.0.1:3306/stack_moko_baby?charset=utf8mb4',
+            'STACK_DATABASE_URL': f'mysql+pymysql://{app_user}:{password}@127.0.0.1:3306/{database}?charset=utf8mb4',
             **{f'STACK_{key}_KEY':base64.urlsafe_b64encode(secrets.token_bytes(32)).decode() for key in ['IDENTITY','LOOKUP','CSRF']},
             'STACK_DEVICE_TOKEN':secrets.token_urlsafe(40), 'STACK_PUBLIC_URL':'http://127.0.0.1:5173',
             'STACK_COOKIE_SECURE':'false', 'STACK_SIMULATOR_ENABLED':'true', 'STACK_ENV':'development',

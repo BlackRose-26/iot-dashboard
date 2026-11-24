@@ -18,6 +18,7 @@ Updated 25 November 2026 (Asia/Manila).
 
 ## Start here
 
+0. [Set up a new laptop or fresh clone](../SETUP.md) — `npm run setup`: what to install, run and configure, by role.
 1. [Remaining work, ranked by event risk](remaining-work.md) — what is done, what is not, and the checklists.
 1. [The web game screen](game-screen.md) — the default game setup: two laptops, button bridge, pairing, switching back to the LED cabinet, fixes.
 2. [Wiring and Operation Guide (PDF)](Stack-Moko-Baby-Wiring-and-Operation-Guide.pdf) — printable: parts, wiring, self-test, startup, queue, troubleshooting, after the event.

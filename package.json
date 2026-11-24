@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "setup": "node scripts/setup.mjs",
     "dev": "node scripts/dev.mjs",
     "dev:backend": "node scripts/dev.mjs --backend-only",
     "dev:frontend": "npm --prefix frontend run dev:frontend",
