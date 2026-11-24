@@ -13,6 +13,7 @@ export default function PlayerAssistant({
   greeting,
   suggestions: initialSuggestions = [],
   compact = false,
+  embedded = false,
 }) {
   const [messages, setMessages] = useState(() =>
     greeting ? [{ id: 'greeting', role: 'bot', text: greeting }] : [],
@@ -65,16 +66,21 @@ export default function PlayerAssistant({
   const shown = compact ? messages.slice(-2) : messages
 
   return (
-    <section className="pa-card" aria-labelledby={`${inputId}-title`}>
-      <div className="pa-head">
-        <span className="pa-emblem" aria-hidden="true">
-          <i className="fa-solid fa-comment-dots" />
-        </span>
-        <div>
-          <h2 id={`${inputId}-title`}>{title}</h2>
-          {intro && <p>{intro}</p>}
+    <section
+      className={`pa-card ${embedded ? 'pa-embedded' : ''}`}
+      {...(embedded ? { 'aria-label': title } : { 'aria-labelledby': `${inputId}-title` })}
+    >
+      {!embedded && (
+        <div className="pa-head">
+          <span className="pa-emblem" aria-hidden="true">
+            <i className="fa-solid fa-comment-dots" />
+          </span>
+          <div>
+            <h2 id={`${inputId}-title`}>{title}</h2>
+            {intro && <p>{intro}</p>}
+          </div>
         </div>
-      </div>
+      )}
       <div
         className="pa-log"
         ref={log}

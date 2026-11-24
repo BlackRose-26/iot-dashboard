@@ -134,9 +134,12 @@ def answer(question, facts):
         best = facts.get('bestToday')
         if best is None:
             return reply('No rounds have finished today yet. You could set the first score!', 'Today’s scores')
+        # Scores are points (Matrix v1: one per level; Classic v1 scored differently), so "the top"
+        # is counted by the highest level reached, never by comparing a score with the level count.
         top = facts.get('topCount', 0)
-        tail = f' {top} player{"" if top == 1 else "s"} reached the top so far.' if best == levels and top else ''
-        return reply(f'The best score today is {best} of {levels}.{tail}', 'Today’s scores')
+        tail = (f' {top} player{"" if top == 1 else "s"} reached all {levels} levels so far.' if top
+                else f' Nobody has reached all {levels} levels yet today.')
+        return reply(f'The best score today is {best} point{"" if best == 1 else "s"}.{tail}', 'Today’s scores')
     if intent in ('my_turn', 'wait') and ticket and where == 'waiting':
         position = ticket.get('position') or 1
         ahead = position - 1

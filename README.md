@@ -69,7 +69,8 @@ All cabinet traffic is outgoing HTTPS, so neither the phone hotspot nor the rout
 - Camera or photo QR scanning; registration needs a code the server has just checked, so a copied link alone is not enough.
 - A private ticket that survives refreshes, live position updates, a "your turn" alert and the result with leaderboard access.
 - If the ticket is lost (new phone, cleared browser, or a restart that changed the address), the operator can give a one-time **re-entry QR**.
-- **Stack Intelligence for players:** ask how to play, how long the line is, today's top score, "When is my turn?" or "How did I do?" in English or Taglish, before joining and while waiting. Answers come from checked templates and live data (no AI model), show their source, and never expose other players or student IDs.
+- **A small player website:** Home (scan), About and Contact behind one header, in three colours (Cloud, Ink, Lime).
+- **Stack Intelligence for players** (a sticky robot in the corner of every player page that opens and closes): ask how to play, how long the line is, today's top score, "When is my turn?" or "How did I do?" in English or Taglish, before joining and while waiting. Answers come from checked templates and live data (no AI model), show their source, and never expose other players or student IDs.
 - A live line strip on the scan page: people in line, cabinet status and the estimated wait.
 
 **For operators and administrators**

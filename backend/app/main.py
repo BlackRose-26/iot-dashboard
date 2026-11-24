@@ -623,7 +623,7 @@ def create_app(settings=None):
         start=manila_day_start()
         source='device' if one(c,'''SELECT id FROM game_sessions WHERE status='completed' AND result_source='device'
           AND ruleset_id=:rules AND completed_at>=:start LIMIT 1''',rules=rules_row['id'],start=start) or not settings.simulator_enabled else 'simulator'
-        best=one(c,'''SELECT MAX(score) AS best, COUNT(DISTINCT CASE WHEN score=:top THEN player_id END) AS top FROM game_sessions
+        best=one(c,'''SELECT MAX(score) AS best, COUNT(DISTINCT CASE WHEN highest_level>=:top THEN player_id END) AS top FROM game_sessions
           WHERE status='completed' AND invalidated_at IS NULL AND ruleset_id=:rules AND result_source=:source AND completed_at>=:start''',
           top=rules['levels'],rules=rules_row['id'],source=source,start=start)
         facts={'rules':rules,'admissionsOpen':event['status']=='open','inLine':int(in_line),
@@ -650,8 +650,11 @@ def create_app(settings=None):
     def lobby():
         with engine.connect() as c:
             f=player_facts(c)
+        # Aggregates only: no nicknames before a player has finished their own round.
         return {'inLine':f['inLine'],'cabinet':f['cabinet'],'admissionsOpen':f['admissionsOpen'],
-                'waitMinutes':round(f['roundSeconds']*f['inLine']/60)}
+                'waitMinutes':round(f['roundSeconds']*f['inLine']/60),
+                'bestToday':f['bestToday'],'topCount':f['topCount'],'levels':f['rules']['levels'],
+                'roundSeconds':f['rules']['round_limit_ms']//1000}
 
     @app.post('/api/player/assistant')
     def player_assistant(body:PlayerQuestion,request:Request):

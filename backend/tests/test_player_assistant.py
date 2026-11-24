@@ -13,6 +13,10 @@ def facts(**extra):
     return base | extra
 
 
+def mine_score(player):
+    return player.get('/api/player/context').json()['ticket']['score']
+
+
 def test_rules_line_and_scores_for_a_visitor():
     play = answer('How do I play?', facts())
     assert play['intent'] == 'how_to_play' and '15 levels within 60 seconds' in play['answer'] and play['source'] == 'Game rules'
@@ -22,7 +26,10 @@ def test_rules_line_and_scores_for_a_visitor():
     assert 'paused' in answer('how long is the line', facts(admissionsOpen=False))['answer']
     assert 'reconnecting' in answer('is the cabinet ready', facts(cabinet='offline'))['answer']
     top = answer('Top score today?', facts())
-    assert top['answer'] == 'The best score today is 15 of 15. 3 players reached the top so far.'
+    assert top['answer'] == 'The best score today is 15 points. 3 players reached all 15 levels so far.'
+    # Classic v1 scores are not level counts: never "1500 of 12".
+    classic = answer('top score?', facts(rules={'levels': 12, 'round_limit_ms': 60000}, bestToday=1500, topCount=0))
+    assert classic['answer'] == 'The best score today is 1500 points. Nobody has reached all 12 levels yet today.'
     assert 'No rounds have finished today' in answer('best score?', facts(bestToday=None))['answer']
     assert 'not in line yet' in answer('When is my turn?', facts())['answer']
 
@@ -69,7 +76,10 @@ def test_endpoints_use_live_data_and_are_limited(environment):
     visitor = TestClient(app)
     play = visitor.post('/api/player/assistant', json={'question': 'How do I play?'})
     assert play.status_code == 200 and f'{levels} levels' in play.json()['answer']
-    assert visitor.get('/api/player/lobby').json() == {'inLine': 0, 'cabinet': 'offline', 'admissionsOpen': True, 'waitMinutes': 0}
+    empty = visitor.get('/api/player/lobby').json()
+    assert empty | {'roundSeconds': None} == {'inLine': 0, 'cabinet': 'offline', 'admissionsOpen': True, 'waitMinutes': 0,
+                                              'bestToday': None, 'topCount': 0, 'levels': levels, 'roundSeconds': None}
+    assert set(empty) == {'inLine', 'cabinet', 'admissionsOpen', 'waitMinutes', 'bestToday', 'topCount', 'levels', 'roundSeconds'}, 'aggregates only'
 
     first, second = join(app, token, 1), join(app, token, 2)
     lobby = visitor.get('/api/player/lobby').json()
@@ -86,6 +96,7 @@ def test_endpoints_use_live_data_and_are_limited(environment):
     assert mine['intent'] == 'my_result' and f'of {levels} rows' in mine['answer'] and 'best score of 1 rounds today' in mine['answer']
     assert 'The round ended at level' in first.post('/api/player/assistant', json={'question': 'Where did I lose it?'}).json()['answer']
     assert visitor.post('/api/player/assistant', json={'question': 'top score?'}).json()['source'] == 'Today’s scores'
+    assert visitor.get('/api/player/lobby').json()['bestToday'] == mine_score(first)
 
     # Bad input, foreign sites and floods are refused.
     assert visitor.post('/api/player/assistant', json={'question': ''}).status_code == 422

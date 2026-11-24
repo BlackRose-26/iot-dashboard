@@ -107,7 +107,8 @@ test('scanner uses real image decoding, rejects unrelated images, and does not t
   await expect(page.getByRole('button', { name: 'Upload QR image', exact: true })).toBeVisible()
   expect((await (await page.request.get('/api/player/context')).json()).canRegister).toBe(false)
   await page.screenshot({ path: '../docs/ui-review/scanner-phone.png', fullPage: true })
-  expect(await page.locator('svg').count()).toBe(0)
+  // Symbols are Font Awesome webfonts; the robot mascot is the only inline SVG allowed.
+  expect(await page.locator('svg:not([data-mascot])').count()).toBe(0)
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(390)
   expect(
     (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze())

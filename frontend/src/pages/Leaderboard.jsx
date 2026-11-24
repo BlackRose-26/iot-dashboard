@@ -14,21 +14,12 @@ import { useApp } from '../state/AppContext'
 import { CLASSIC_GAME, gameLabel } from '../state/game'
 import { api } from '../state/api'
 import PlayerList from '../components/PlayerList'
-import { Logo, Badge, SearchInput, Card, EmptyState, Button, InfoNote } from '../components/ui'
+import SiteHeader from '../components/SiteHeader'
+import { Badge, SearchInput, Card, EmptyState, Button, InfoNote } from '../components/ui'
 
+// Every player page shares the site header (Home, About, Contact) with its skip link.
 export function PublicHeader() {
-  const { ticket } = useApp()
-  return (
-    <>
-      <a className="skip-link" href="#main-content">
-        Skip to content
-      </a>
-      <header className="public-header">
-        <Logo destination={ticket ? '/ticket' : '/'} />
-        <Badge tone="soft">ACS Carnival · Player portal</Badge>
-      </header>
-    </>
-  )
+  return <SiteHeader />
 }
 export default function Leaderboard() {
   const { revision } = useApp()

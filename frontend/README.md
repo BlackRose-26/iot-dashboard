@@ -30,10 +30,11 @@ Environment: `VITE_PUBLIC_BASE_URL` (optional) is the public address used in QR 
 
 | Path | Who | Page |
 |---|---|---|
-| `/`, `/scan` | Anyone | QR scanner (tap the camera view or upload a photo), live line strip, Stack Intelligence |
+| `/`, `/scan` | Anyone | Home: QR scanner (tap the camera view or upload a photo), live tiles, how it works, today's best, rules |
+| `/about`, `/contact` | Anyone | About the game, privacy and FAQ; how to get help at the booth |
 | `/join/:token` | Anyone | Entry from the printed or on-screen QR; still requires a scan check |
 | `/register` | Player with an entry grant | Nickname, student ID, privacy notice |
-| `/ticket` | Registered player | Place in line, turn alert, result, Stack Intelligence ("While you wait" / "How did that go?") |
+| `/ticket` | Registered player | Place in line, turn alert, result, "Ask the robot" |
 | `/leaderboard/acs-day` | Player after a finished round | Leaderboard |
 | `/reenter#code` | Player with a re-entry QR | Restores their ticket once, then opens it |
 | `/admin/login` | Staff | Sign in |
@@ -55,7 +56,8 @@ src/
   pages/               one component per route
   components/          Shell (navigation, Registration QR), ui.jsx (Card, Button, Modal, …),
                        NoShowRelease, PlayerReentry, StaffAccounts, DeviceRecovery,
-                       PlayerAssistant (player Stack Intelligence + LobbyStatus),
+                       SiteHeader, ChatWidget (sticky robot), RobotIcon, SiteSections,
+                       PlayerAssistant (player Stack Intelligence),
                        AdminAssistant, charts, icons (Font Awesome)
   state/               AppContext (session, snapshot, actions), api.js (fetch + CSRF),
                        useLiveUpdates (WebSocket hints with polling fallback),
@@ -68,8 +70,8 @@ e2e/                   Playwright journeys (flows, scanner, matrix, question rev
 
 - Tailwind CSS 4 with the `tw:` prefix and shared semantic tokens; see [Tailwind UI conventions](../docs/tailwind-ui.md).
 - Shared primitives in `components/ui.jsx`, with Radix dialogs, menus and tooltips for accessibility.
-- Neutral light and dark staff themes; the player portal keeps its own colourful palette.
-- Open Sans Variable and Font Awesome Free are bundled locally (no SVG icon library, no external font requests).
+- Neutral light and dark staff themes. The player website uses three colours only (Cloud `#f4f5f5`, Ink `#111313`, Lime `#dfff00`), set in `styles/site.css` for player pages.
+- Open Sans Variable and Font Awesome Free are bundled locally (no SVG icon library, no external font requests). The robot mascot is the one inline SVG on player pages.
 - Charts use Recharts; QR codes render to canvas with `qrcode.react`; scanning uses `html5-qrcode`.
 
 ## Privacy rules in the browser

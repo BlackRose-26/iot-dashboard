@@ -216,9 +216,9 @@
     "semantic_hash": "750ce84081defe5f9708436f0e7e2396"
   },
   "frontend/e2e/flows.spec.js": {
-    "mtime": 1795522689.954377,
-    "seen": 1795522943.1759136,
-    "ast_hash": "1d23c41fe19980fcbf3265ac17d6153d",
+    "mtime": 1795523546.3490543,
+    "seen": 1795523810.3121097,
+    "ast_hash": "0373506e01409679b16de93be5e2ba86",
     "semantic_hash": ""
   },
   "frontend/playwright.config.js": {
@@ -396,9 +396,9 @@
     "semantic_hash": "ef1f17c84a631b0dcab50e959ced1abd"
   },
   "frontend/src/pages/Scanner.jsx": {
-    "mtime": 1795522535.7547178,
-    "seen": 1795522943.1761074,
-    "ast_hash": "36aa71177531decd0fde6629f9b76046",
+    "mtime": 1795523502.6316125,
+    "seen": 1795523810.3122475,
+    "ast_hash": "f15db33aee7b51d3505c9c206ac4f743",
     "semantic_hash": ""
   },
   "frontend/src/state/qr-entry.js": {

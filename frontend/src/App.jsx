@@ -14,8 +14,12 @@ import Ticket from './pages/Ticket'
 import AdminLogin from './pages/AdminLogin'
 import Entry, { ScanGate } from './pages/Entry'
 import Reenter from './pages/Reenter'
+import About from './pages/About'
+import Contact from './pages/Contact'
+import ChatWidget from './components/ChatWidget'
 import { useApp } from './state/AppContext'
 import { EmptyState } from './components/ui'
+import './styles/site.css'
 
 function AdminOnly() {
   const { admin, ready } = useApp()
@@ -66,6 +70,9 @@ export default function App() {
   useLayoutEffect(() => {
     if (isAdmin) document.documentElement.dataset.adminTheme = theme
     else delete document.documentElement.dataset.adminTheme
+    // The player website uses its own three-colour theme (styles/site.css).
+    if (isAdmin) delete document.documentElement.dataset.site
+    else document.documentElement.dataset.site = 'player'
     document.title = `${isAdmin ? 'Admin' : 'Play'} · Stack Moko Baby`
   }, [isAdmin, theme])
   return (
@@ -99,6 +106,8 @@ export default function App() {
         <Route path="/join/:token" element={<Entry />} />
         <Route path="/register" element={<Registration />} />
         <Route path="/reenter" element={<Reenter />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/register/:eventCode/:machineCode" element={<ScanGate />} />
         <Route element={<PlayerOnly />}>
           <Route path="/ticket" element={<Ticket />} />
@@ -113,6 +122,7 @@ export default function App() {
           }
         />
       </Routes>
+      {!isAdmin && <ChatWidget />}
     </>
   )
 }
