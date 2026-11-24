@@ -24,6 +24,18 @@ Pass a port when more than one USB serial board is attached: `npm run device:sel
 - Android: turn off "turn off hotspot automatically" / idle timeout. iPhone: keep the Personal Hotspot screen open while the ESP32 first joins.
 - Mobile data must be on. The cabinet sends about two small HTTPS requests per second; actual data use is **not measured yet**. Check the phone's data counter during the rehearsal.
 
+### LED panel connectors (added 24 November 2026)
+
+The panels in use (WS2812 "RGBIC" 8×32 and two 16×16) each have three wire groups on the back. "RGBIC" is a marketing name for individually addressable WS2812 LEDs; the firmware drives them unchanged.
+
+| Connector | What it is | Connect it to |
+|---|---|---|
+| **DIN · 5V · GND** (3 wires) | Data input | 8×32 HUD: DIN ← 330 Ω ← GPIO18, GND → ESP32 GND, 5V **taped off** (never to the ESP32's 5V or VIN). Block panels: the previous panel's DOUT plug. |
+| **5V · GND** (2 thicker wires) | Power input | The USB power lead (red → 5 V, black → GND), one pair per panel. |
+| **DOUT · 5V · GND** (3 wires) | Data output | The next panel's DIN plug: HUD → bottom block → upper block. The upper block's DOUT stays unconnected and taped. |
+
+Wire colours vary between batches; go by the printed labels or the arrow on the panel (data flows DIN → DOUT). With a multimeter, the GND wires of all three groups beep together, and so do the 5V wires; DIN and DOUT do not. Data fed into DOUT lights nothing but does no harm.
+
 ## 2. Wiring self-test (do this as soon as the wiring is finished)
 
 Power the displays from a second laptop USB port through the USB power lead; prefer a USB-C port rated 1.5 A or more, because a USB-A port gives only about 0.5–0.9 A. Join the power lead GND to the ESP32 GND, but never connect the lead's 5 V to the ESP32 VIN/5V pin. The 768 LEDs also draw idle current (estimated 0.25–0.8 A, unmeasured) and the ESP32 about 0.1–0.4 A. If the ESP32 restarts, LEDs flicker or the laptop warns about USB power, lower `STACK_LED_BUDGET_MA`, use a USB-C port, or add a 5 V phone charger for the displays. The self-test uses the game's brightness cap (25/255); stage 1 lights all 768 pixels dimly. Check actual supply ratings before powering up.
