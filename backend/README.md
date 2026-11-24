@@ -49,6 +49,7 @@ Manual start: `backend\.venv\Scripts\python.exe -m uvicorn app.main:app --app-di
 | `app/assistant*.py` | Stack Intelligence: language handling, routing, memory, learning, training review |
 | `app/evaluation_review.py` | Private human review of practice questions |
 | `app/identity_retention.py` | Student-ID purge (used by `npm run db:purge-ids`) |
+| `app/player_assistant.py` | Player Stack Intelligence: deterministic English/Taglish answers from rules, the line, today's scores and the player's own ticket |
 | `app/origins.py`, `request_limits.py`, `web_frontend.py` | Origin checks, 64 KiB body limit, serving the built frontend |
 | `migrations/` | Versioned SQL (`001`–`007`) applied by `setup_local.py` |
 | `tests/` | pytest suites, each on a generated throwaway database |
@@ -60,7 +61,7 @@ All routes are under `/api`. Staff and player sessions are separate cookies; eve
 | Area | Routes |
 |---|---|
 | Health | `GET /health` (schema, migrations and configuration readiness) |
-| Player | `POST /player/entry` (checked QR → entry grant), `POST /player/register`, `GET /player/context`, `POST /player/cancel`, `GET /player/leaderboard`, `POST /player/reenter` |
+| Player | `POST /player/entry` (checked QR → entry grant), `POST /player/register`, `GET /player/context`, `POST /player/cancel`, `GET /player/leaderboard`, `POST /player/reenter`, `GET /player/lobby` (public line status), `POST /player/assistant` (player Stack Intelligence, 20 questions/min per visitor) |
 | Staff session | `POST /admin/login`, `GET /admin/session` (includes role), `POST /admin/logout` |
 | Dashboard | `GET /admin/snapshot`, `GET /admin/analytics` |
 | Queue | `POST /admin/queue/call-next` (idempotent), `POST /admin/queue/{ticket}/skip`, `POST /admin/admissions` |

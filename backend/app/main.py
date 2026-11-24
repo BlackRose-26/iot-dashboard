@@ -25,6 +25,7 @@ from .analytics import collect, Period, Source
 from .assistant_training import TrainingStore, Proposal, Review
 from .evaluation_review import CaseReview, read_reviews, save_review
 from .origins import origin_allowed
+from .player_assistant import answer as player_answer
 from .database import make_engine, one, all_rows, execute
 from .live import LiveHub, record_change
 from .request_limits import RequestSizeLimit
@@ -605,6 +606,66 @@ def create_app(settings=None):
             session(c,response,'player',player_id=token['player_id'])
         return {'ok':True}
 
+    # ---------- Stack Intelligence for players (read-only, deterministic, nothing stored) ----------
+    asked = {}  # visitor -> recent question times (single API worker)
+    ASK_LIMIT, ASK_WINDOW = 20, 60
+
+    def manila_day_start():
+        return (now()+timedelta(hours=8)).replace(hour=0,minute=0,second=0,microsecond=0)-timedelta(hours=8)
+
+    def player_facts(c, request=None):
+        rules_row,rules=active_rules(c)
+        event=one(c,"SELECT status FROM events WHERE code='acs-day'")
+        state=machine_state(machine(c),active(c))
+        in_line=one(c,"SELECT COUNT(*) AS n FROM queue_entries WHERE event_id=1 AND status='waiting'")['n']
+        recent=one(c,'''SELECT AVG(TIMESTAMPDIFF(SECOND,reserved_at,completed_at)) AS s FROM (SELECT reserved_at,completed_at
+          FROM game_sessions WHERE status='completed' AND completed_at IS NOT NULL ORDER BY completed_at DESC LIMIT 10) r''')['s']
+        start=manila_day_start()
+        source='device' if one(c,'''SELECT id FROM game_sessions WHERE status='completed' AND result_source='device'
+          AND ruleset_id=:rules AND completed_at>=:start LIMIT 1''',rules=rules_row['id'],start=start) or not settings.simulator_enabled else 'simulator'
+        best=one(c,'''SELECT MAX(score) AS best, COUNT(DISTINCT CASE WHEN score=:top THEN player_id END) AS top FROM game_sessions
+          WHERE status='completed' AND invalidated_at IS NULL AND ruleset_id=:rules AND result_source=:source AND completed_at>=:start''',
+          top=rules['levels'],rules=rules_row['id'],source=source,start=start)
+        facts={'rules':rules,'admissionsOpen':event['status']=='open','inLine':int(in_line),
+               'cabinet':'ready' if state=='ready' else 'offline' if state=='offline' else 'busy',
+               'roundSeconds':min(300.0,max(45.0,float(recent))) if recent else 90.0,
+               'bestToday':best['best'],'topCount':int(best['top'] or 0),'ticket':None,'round':None}
+        if request is None: return facts
+        ticket=player_context(c,request).get('ticket')
+        facts['ticket']=ticket
+        if ticket and ticket['status']=='completed' and ticket.get('sessionId'):
+            g=one(c,'SELECT * FROM game_sessions WHERE public_id=:id',id=ticket['sessionId'])
+            if g and g['score'] is not None:
+                same='''FROM game_sessions WHERE status='completed' AND invalidated_at IS NULL AND ruleset_id=:rules
+                  AND result_source=:source AND completed_at>=:start'''
+                first=one(c,'''SELECT level_no,overlap_width,candidate_width FROM placements WHERE session_id=:id
+                  AND overlap_width<candidate_width ORDER BY sequence_no LIMIT 1''',id=g['id'])
+                facts['round']={'won':g['outcome']=='win','score':g['score'],'level':g['highest_level'],'reason':g['end_reason'],
+                  'higherToday':int(one(c,'SELECT COUNT(*) AS n '+same+' AND score>:score',rules=g['ruleset_id'],source=g['result_source'],start=start,score=g['score'])['n']),
+                  'roundsToday':int(one(c,'SELECT COUNT(*) AS n '+same,rules=g['ruleset_id'],source=g['result_source'],start=start)['n']),
+                  'firstLoss':{'level':first['level_no'],'kept':first['overlap_width'],'width':first['candidate_width']} if first else None}
+        return facts
+
+    @app.get('/api/player/lobby')
+    def lobby():
+        with engine.connect() as c:
+            f=player_facts(c)
+        return {'inLine':f['inLine'],'cabinet':f['cabinet'],'admissionsOpen':f['admissionsOpen'],
+                'waitMinutes':round(f['roundSeconds']*f['inLine']/60)}
+
+    @app.post('/api/player/assistant')
+    def player_assistant(body:PlayerQuestion,request:Request):
+        key=visitor_address(request); moment=monotonic()
+        recent=[t for t in asked.get(key,[]) if moment-t<ASK_WINDOW]
+        if len(recent)>=ASK_LIMIT:
+            raise HTTPException(429,'That’s a lot of questions! Try again in a minute.')
+        asked[key]=recent+[moment]
+        if len(asked)>5000:  # forget idle visitors
+            for stale in [k for k,v in asked.items() if moment-v[-1]>=ASK_WINDOW]: asked.pop(stale,None)
+        with engine.connect() as c:
+            facts=player_facts(c,request)
+        return player_answer(body.question,facts)
+
     @app.post('/api/player/cancel')
     def cancel(request:Request):
         with engine.begin() as c:
@@ -869,6 +930,9 @@ class Registration(APIInput):
     studentId:str=Field(min_length=4,max_length=32)
     acknowledged:bool=Field(strict=True)
 REENTRY_MINUTES=10
+class PlayerQuestion(APIInput):
+    model_config={'extra':'forbid'}
+    question:str=Field(min_length=1,max_length=300)
 class NewOperator(APIInput):
     model_config={'extra':'forbid'}
     username:str=Field(min_length=3,max_length=40)

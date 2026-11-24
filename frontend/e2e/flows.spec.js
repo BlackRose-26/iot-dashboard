@@ -500,3 +500,42 @@ test('administrator creates an operator who runs the line without admin-only too
     await operatorContext.close()
   }
 })
+
+test('players can ask Stack Intelligence before joining and while they wait', async ({
+  browser,
+}) => {
+  const phone = await browser.newContext({ viewport: { width: 390, height: 844 } })
+  try {
+    const page = await phone.newPage()
+    page.on('pageerror', (e) => errors.push(e.message))
+    await page.goto('/scan')
+    await expect(page.getByText(/in line$/)).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Use camera', exact: true })).toBeVisible()
+    await page.getByRole('button', { name: 'How do I play?' }).click()
+    const log = page.getByRole('log', { name: 'Conversation with Stack Intelligence' })
+    await expect(log).toContainText('Press the big button')
+    await expect(log).toContainText('Game rules')
+    await page.getByLabel('Ask Stack Intelligence a question').fill('my id is 2021-12345')
+    await page.getByRole('button', { name: 'Send question' }).click()
+    await expect(log).toContainText('Please don’t share your student ID here')
+    expect(await log.textContent()).not.toContain('12345 ')
+    const scan = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+      .analyze()
+    expect(scan.violations).toEqual([])
+    await page.screenshot({ path: '../docs/ui-review/player-assistant-scan.png', fullPage: true })
+
+    await join(page, 'Assistant Guest', 'DUMMY-BROWSER-ASSIST')
+    await expect(page.getByRole('heading', { name: 'While you wait' })).toBeVisible()
+    await page.getByRole('button', { name: 'When is my turn?' }).click()
+    await expect(page.getByRole('log')).toContainText(/You’re (#\d+|next)/)
+    const ticket = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21aa'])
+      .analyze()
+    expect(ticket.violations).toEqual([])
+    await page.screenshot({ path: '../docs/ui-review/player-assistant-ticket.png', fullPage: true })
+    expect(errors).toEqual([])
+  } finally {
+    await phone.close()
+  }
+})

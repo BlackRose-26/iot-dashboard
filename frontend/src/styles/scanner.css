@@ -353,3 +353,43 @@
     min-height: 17px;
   }
 }
+
+/* 24 Nov 2026: tappable camera view, live line strip and Stack Intelligence below. */
+.scan-tap {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.scan-tap:hover > span {
+  background: var(--lime);
+}
+.scan-tap:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: -6px;
+  border-radius: 24px;
+}
+.scan-tap:disabled {
+  cursor: default;
+}
+.scan-tap strong {
+  font-size: 16px;
+  font-weight: 750;
+}
+.scan-tap p {
+  font-size: 12px;
+}
+.scanner-assistant {
+  grid-column: 1 / -1;
+  max-width: 760px;
+  width: 100%;
+  justify-self: center;
+}
+@media (max-width: 650px) {
+  .lobby-strip {
+    max-width: 100%;
+    margin-bottom: 0;
+  }
+}

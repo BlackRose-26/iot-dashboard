@@ -8,6 +8,21 @@ import { Card, Badge, Button, Modal, InfoNote } from '../components/ui'
 import { StackArtwork } from './Registration'
 import { ScanGate } from './Entry'
 import UpdateStatus from '../components/UpdateStatus'
+import PlayerAssistant from '../components/PlayerAssistant'
+
+const assistantSuggestions = {
+  waiting: [
+    'When is my turn?',
+    'Tips for my first game',
+    'What if I miss my turn?',
+    'Top score today?',
+  ],
+  called: ['What do I do now?', 'Tips for my first game', 'What if I miss my turn?'],
+  playing: ['How do I play?', 'Tips for my first game'],
+  review: ['How do I play?', 'Top score today?'],
+  completed: ['How did I do?', 'Where did I lose it?', 'Tips for next time', 'Play again?'],
+  closed: ['Play again?', 'How do I play?', 'Top score today?'],
+}
 
 const titles = {
   waiting: 'You’re on the list.',
@@ -260,6 +275,27 @@ export default function Ticket() {
               reconnect automatically.
             </InfoNote>
           </Card>
+        </div>
+        <div className="ticket-assistant">
+          <PlayerAssistant
+            key={completed ? 'after' : 'before'}
+            title={completed ? 'How did that go?' : 'While you wait'}
+            intro={
+              completed
+                ? 'Stack Intelligence can break down your round.'
+                : 'Ask Stack Intelligence anything about the game.'
+            }
+            greeting={
+              completed
+                ? 'Nice run! Ask me how you did, or how to climb higher next time.'
+                : waiting
+                  ? `You’re #${ticket.position ?? 1} in line. Want a quick tip for your first stack?`
+                  : called
+                    ? 'It’s your turn! Head to Cabinet 01 and press the big button. Good luck!'
+                    : 'Ask me anything about the game while you’re here.'
+            }
+            suggestions={assistantSuggestions[ticket.status] || assistantSuggestions.closed}
+          />
         </div>
       </main>
       <footer className="public-footer">Stack Moko Baby · A little timing. A lot of fun.</footer>

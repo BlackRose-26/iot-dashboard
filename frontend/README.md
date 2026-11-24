@@ -30,10 +30,10 @@ Environment: `VITE_PUBLIC_BASE_URL` (optional) is the public address used in QR 
 
 | Path | Who | Page |
 |---|---|---|
-| `/`, `/scan` | Anyone | QR scanner (camera or photo upload) |
+| `/`, `/scan` | Anyone | QR scanner (tap the camera view or upload a photo), live line strip, Stack Intelligence |
 | `/join/:token` | Anyone | Entry from the printed or on-screen QR; still requires a scan check |
 | `/register` | Player with an entry grant | Nickname, student ID, privacy notice |
-| `/ticket` | Registered player | Place in line, turn alert, result |
+| `/ticket` | Registered player | Place in line, turn alert, result, Stack Intelligence ("While you wait" / "How did that go?") |
 | `/leaderboard/acs-day` | Player after a finished round | Leaderboard |
 | `/reenter#code` | Player with a re-entry QR | Restores their ticket once, then opens it |
 | `/admin/login` | Staff | Sign in |
@@ -55,6 +55,7 @@ src/
   pages/               one component per route
   components/          Shell (navigation, Registration QR), ui.jsx (Card, Button, Modal, …),
                        NoShowRelease, PlayerReentry, StaffAccounts, DeviceRecovery,
+                       PlayerAssistant (player Stack Intelligence + LobbyStatus),
                        AdminAssistant, charts, icons (Font Awesome)
   state/               AppContext (session, snapshot, actions), api.js (fetch + CSRF),
                        useLiveUpdates (WebSocket hints with polling fallback),

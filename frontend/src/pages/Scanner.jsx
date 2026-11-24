@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Badge, Button, Card } from '../components/ui'
 import { PublicHeader } from './Leaderboard'
+import PlayerAssistant, { LobbyStatus } from '../components/PlayerAssistant'
 import { useApp } from '../state/AppContext'
 import { api } from '../state/api'
 import { registrationQrContent } from '../state/qr-entry'
@@ -249,6 +250,7 @@ export default function Scanner({ message }) {
             {message ||
               'One code. Your place in line. Scan the QR at Cabinet 01 to join the carnival.'}
           </p>
+          <LobbyStatus />
           <div className="scan-journey" role="list" aria-label="Player journey">
             <span role="listitem">
               <b>01</b>Scan the code
@@ -257,18 +259,7 @@ export default function Scanner({ message }) {
               <b>02</b>Save your spot
             </span>
             <span role="listitem">
-              <b>03</b>Make your stack
-            </span>
-          </div>
-          <div className="scan-art" aria-hidden="true">
-            <i className="fa-solid fa-qrcode" />
-            <span className="scan-corner tl" />
-            <span className="scan-corner tr" />
-            <span className="scan-corner bl" />
-            <span className="scan-corner br" />
-            <span className="scan-art-pill">
-              <i className="fa-solid fa-layer-group" />
-              ONE MORE LEVEL.
+              <b>03</b>Play when called
             </span>
           </div>
         </section>
@@ -287,13 +278,18 @@ export default function Scanner({ message }) {
               aria-label="Camera QR scanner"
             />
             {!['camera', 'requesting', 'verifying'].includes(mode) && (
-              <div className="scan-placeholder">
+              <button
+                type="button"
+                className="scan-placeholder scan-tap"
+                onClick={startCamera}
+                disabled={busy}
+              >
                 <span>
                   <i className="fa-solid fa-camera" aria-hidden="true" />
                 </span>
-                <strong>Point. Scan. You’re in.</strong>
-                <p>Keep the full QR code inside the camera view.</p>
-              </div>
+                <strong>Tap to scan</strong>
+                <p>Point at the QR beside Cabinet 01. Keep the whole code in view.</p>
+              </button>
             )}
             {mode === 'requesting' && (
               <div className="scan-overlay">
@@ -369,6 +365,22 @@ export default function Scanner({ message }) {
             </Link>
           )}
         </Card>
+        <div className="scanner-assistant">
+          <PlayerAssistant
+            intro="How to play, the line and today’s top score. No sign-up needed."
+            greeting="Hi! Not ready to scan yet? Ask me how the game works, how long the line is, or the top score today."
+            suggestions={
+              ticket
+                ? ['When is my turn?', 'Tips for my first game', 'What if I miss my turn?']
+                : [
+                    'How do I play?',
+                    'How long is the wait?',
+                    'Top score today?',
+                    'Is my student ID safe?',
+                  ]
+            }
+          />
+        </div>
       </main>
       <footer className="public-footer">Stack Moko Baby · Scan. Register. Stack.</footer>
     </div>

@@ -69,13 +69,15 @@ All cabinet traffic is outgoing HTTPS, so neither the phone hotspot nor the rout
 - Camera or photo QR scanning; registration needs a code the server has just checked, so a copied link alone is not enough.
 - A private ticket that survives refreshes, live position updates, a "your turn" alert and the result with leaderboard access.
 - If the ticket is lost (new phone, cleared browser, or a restart that changed the address), the operator can give a one-time **re-entry QR**.
+- **Stack Intelligence for players:** ask how to play, how long the line is, today's top score, "When is my turn?" or "How did I do?" in English or Taglish, before joining and while waiting. Answers come from checked templates and live data (no AI model), show their source, and never expose other players or student IDs.
+- A live line strip on the scan page: people in line, cabinet status and the estimated wait.
 
 **For operators and administrators**
 - Light and dark dashboard: Overview, Analytics, Queue, Sessions, Machine and Settings.
 - Queue controls: call next, skip with a reason, pause or open admissions, **Player didn't come** (frees the cabinet only after it confirms the round never started) and **re-entry QR**.
 - Machine page: last heartbeat, signal strength, command delivery and guarded recovery after a power loss (release, void or recover a result, each audited).
 - **Staff accounts:** separate operator logins for booth helpers; only an administrator can change scores, accounts or assistant training.
-- **Stack Intelligence:** a local, read-only English/Taglish assistant that answers questions about the event from saved data (optional; needs Ollama).
+- **Stack Intelligence (staff):** a local, read-only English/Taglish assistant that answers questions about the event from saved data (optional; needs Ollama).
 - A development simulator for testing the full flow without a cabinet; simulator scores are labelled and ranked separately.
 
 **Reliability**

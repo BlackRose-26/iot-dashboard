@@ -18,9 +18,9 @@
     "semantic_hash": ""
   },
   "docs/README.md": {
-    "mtime": 1795462319.4541051,
-    "seen": 1795462333.7804077,
-    "ast_hash": "8a337e65732af0aed88350791e6b0d6d",
+    "mtime": 1795504532.8842332,
+    "seen": 1795504550.989465,
+    "ast_hash": "c0e997767cddc7f300def7370e217677",
     "semantic_hash": ""
   },
   "docs/ai-system-rules.md": {
@@ -264,10 +264,10 @@
     "semantic_hash": "f59747eff7648670de2d6b67bad25741"
   },
   "frontend/README.md": {
-    "mtime": 1795413525.5233626,
-    "seen": 1795435062.873305,
-    "ast_hash": "78ebdec8534add2f12a177f0bc4eb26f",
-    "semantic_hash": "78ebdec8534add2f12a177f0bc4eb26f"
+    "mtime": 1795504482.7597294,
+    "seen": 1795504550.989585,
+    "ast_hash": "1d76416f9873f45472f384592ddd0c39",
+    "semantic_hash": ""
   },
   "backend/app/__init__.py": {
     "mtime": 1794743669.4214318,
@@ -372,10 +372,10 @@
     "semantic_hash": "18f6c4cda1ea1a7d01d8ce357e1b6a06"
   },
   "backend/README.md": {
-    "mtime": 1795413525.091318,
-    "seen": 1795435062.8731914,
-    "ast_hash": "4f08c0e7d1903791abcf003f325929b7",
-    "semantic_hash": "4f08c0e7d1903791abcf003f325929b7"
+    "mtime": 1795504462.078147,
+    "seen": 1795504550.9894564,
+    "ast_hash": "74ab23fe7950f75b76585e5ca1b2ed10",
+    "semantic_hash": ""
   },
   "docs/player-flow-and-access.md": {
     "mtime": 1795501302.0677004,
@@ -462,9 +462,9 @@
     "semantic_hash": "65c8a95e797d64169f462261ffd613ea"
   },
   "README.md": {
-    "mtime": 1795503272.5302434,
-    "seen": 1795503308.1323905,
-    "ast_hash": "89600e47ade19a072f4d0a5943517422",
+    "mtime": 1795504419.8417954,
+    "seen": 1795504550.9894526,
+    "ast_hash": "04e49c558f37d813f0d17d0c32168b85",
     "semantic_hash": ""
   },
   "backend/app/analytics.py": {
@@ -1344,9 +1344,9 @@
     "semantic_hash": ""
   },
   "docs/Stack-Moko-Baby-Wiring-and-Operation-Guide.pdf": {
-    "mtime": 1795502817.4782958,
-    "seen": 1795503308.1325798,
-    "ast_hash": "0934cb535b38baa403401ea35c5605b2",
+    "mtime": 1795503967.3644648,
+    "seen": 1795504550.98959,
+    "ast_hash": "964f8b4c0506f65df2f01da599e88612",
     "semantic_hash": ""
   },
   "firmware/stack_moko_baby/sounds.h": {
@@ -1497,6 +1497,12 @@
     "mtime": 1795502003.783404,
     "seen": 1795503308.1323707,
     "ast_hash": "f79bdeca779692c2c6d8da3582215134",
+    "semantic_hash": ""
+  },
+  "firmware/README.md": {
+    "mtime": 1795504505.3988435,
+    "seen": 1795504550.989579,
+    "ast_hash": "47e3ddd9406aea3d64110aad9273eced",
     "semantic_hash": ""
   },
   "frontend/package-lock.json": {
