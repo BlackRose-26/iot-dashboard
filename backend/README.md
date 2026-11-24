@@ -1,75 +1,121 @@
-# Stack Moko Baby backend
+# Stack Moko Baby — backend
 
-FastAPI, SQLAlchemy Core and the local XAMPP MariaDB service. This implementation supports one event (`acs-day`), one cabinet (`cabinet-01`), selected Matrix v1 rules (16 columns, 15 levels, one point per retained placement) and preserved Classic v1 histories. Same-origin HTTPS operation is running through the free PC tunnel; actual Wokwi protocol exchange and physical verification have separate gates. Render/MariaDB deployment files remain inactive. See [free online startup](../docs/free-online.md), [ESP32 integration](../docs/esp32-online.md) and [AI setup and manual review](../docs/admin-assistant.md).
+FastAPI service that owns the player queue, staff sessions, validated scores, the cabinet protocol, live updates and the optional Stack Intelligence assistant. It runs on Python 3.13 with SQLAlchemy Core against the local XAMPP MariaDB 10.11 database.
 
-## Local startup
+Scope: one event (`acs-day`) and one cabinet (`cabinet-01`). Current rules are **Matrix v1** (16 columns, 15 levels, one point per kept row, 60-second limit; see [`contracts/matrix-v1.rules.json`](../contracts/matrix-v1.rules.json)). Earlier Classic v1 results are kept and ranked separately.
 
-Daily shortcut: start XAMPP MySQL and run `npm run dev` from the project root or frontend folder. The shared launcher waits for API/database readiness before starting Vite. `npm run dev:backend` from the project root starts only the API. No database setup is repeated on normal startup. See [reboot troubleshooting](../docs/local-setup.md).
+## Setup
 
-The project now uses a normal Python 3.13 environment at `D:\iot-dashboard\backend\.venv`. See [local setup and daily commands](../docs/local-setup.md). The earlier `.tools/backend-venv` remains a compatibility fallback.
-
-1. Start MySQL in XAMPP (the installed server is MariaDB 10.11.16).
-2. Run `backend\.venv\Scripts\python.exe backend\setup_local.py` from the project root. This creates only the named project database, applies versioned migrations, grants a restricted application account and generates local secrets. Reruns preserve data and passwords. If your local root account has a password, supply `STACK_DB_ROOT_PASSWORD` privately through the environment.
-3. Start the complete app with `scripts\start-dashboard.cmd`, or start the API with `backend\.venv\Scripts\python.exe -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --no-access-log` and the Vite frontend separately.
-4. Open `/admin/login`. The generated administrator username and password are in `backend/.admin-credentials.txt`. That file and `backend/.env` are excluded from Git and Graphify. Do not share them.
-
-For a new environment, create a Python 3.13 virtual environment and install `backend/requirements.txt`. The setup command uses a local root account only for provisioning. The running API uses the restricted account, never root. Browser tests use root solely to create and remove a uniquely named disposable test database.
-
-## Player journey and verification
-
-Admin → Registration QR → scan on a separate browser/phone → register → private ticket → called → playing → win/loss notification → unlocked leaderboard. Refreshing the page preserves the ticket through an HttpOnly cookie. Players now use the camera/image scanner API at /scan; opening a copied QR URL alone does not grant entry. See docs/qr-scanner.md for the entry contract and its attestation limits. Registration is unavailable without a valid, unexpired entry grant. Players have no dashboard links or administrative API access.
-
-The admin Machine page contains a **development simulator**: set it ready, call the next player on Queue, start the test round, then choose win or loss. Simulator results are stored with their source and use a separate player leaderboard from device results. Set `STACK_SIMULATOR_ENABLED=false` for real events. An ESP32 must implement the documented authenticated heartbeat/start/result contract before physical rounds work.
-
-On-page status and result alerts work while the ticket is open. Browser notifications are optional, requested by a button, require browser support/permission and usually HTTPS. Closed-tab push, SMS and email notifications are not implemented. Background tabs may be throttled; returning refreshes state. Authenticated staff/player WebSockets now emit revision-only invalidations from a durable outbox. Snapshots use repeatable-read consistency; fallback polling is two seconds (15 seconds while live). Run one API worker; no public stream exists. See [protocol, validation and pending release gates](../docs/live-updates.md).
-
-For phones, set `STACK_PUBLIC_URL` and optional frontend `VITE_PUBLIC_BASE_URL` to a reachable event address and restart services. The QR dialog also lets an operator select that public base address. Both phone and computer must reach the same service; `127.0.0.1` points to each device itself. Use a trusted HTTPS reverse proxy and `STACK_COOKIE_SECURE=true` before collecting real IDs over the network. Local HTTP is for development with dummy identities. Firewall and router configuration are not automatically changed.
-
-## Security and operations
-
-- Argon2id administrator password hashes; separate admin/player opaque cookies, server expiry, logout revocation, HttpOnly, SameSite Strict, CSRF header and same-origin write checks. Login throttles eight failures per username/client address per 15 minutes. There is no public admin signup.
-- Student IDs are trimmed without dropping leading zeros, looked up using a keyed HMAC, and encrypted with AES-256-GCM and a per-record nonce. Neither the original ID nor the hash/ciphertext is returned through player/admin dashboard APIs. Validation errors do not echo request values. SQL parameters are hidden in diagnostic exceptions. Do not enable request-body logging.
-- FIFO order is `(joined_at, id)`. Mutations acquire the event then cabinet lock. READ COMMITTED prevents an earlier authorization read from hiding another transaction’s committed reservation. The database also enforces one live ticket per player/event and one active session per cabinet. Call-next has an idempotency receipt; registration retries cannot add a second ticket. Skip requires a reason and records an audit entry.
-- Scores are recomputed from placement evidence and proposed movement rules. A terminal result, placements, queue completion, notification and outbox entry commit together. Identical terminal retries return the original acknowledgement; conflicting terminal results fail. Physical game timing remains on the device.
-- Keep encryption/HMAC keys backed up privately. `purge_after` is recorded; an automated retention job is not implemented yet. A lost browser session requires an operator recovery process; entering an existing student ID in another browser does not grant access to that player’s ticket.
-- This is a local development implementation. Production HTTPS, credential rotation, event scheduling, identity retention/recovery operations, real device reconciliation/no-show handling and deployment hardening still need operational validation.
-
-## Checks
-
-From the project root:
+Requirements: Python 3.13 and XAMPP with **MySQL** started.
 
 ```powershell
-backend\.venv\Scripts\python.exe -m pytest backend\tests -q
-backend\.venv\Scripts\python.exe backend\run_browser_tests.py
+cd D:\iot-dashboard
+python -m venv backend\.venv
+.\backend\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
+.\backend\.venv\Scripts\python.exe backend\setup_local.py
 ```
 
-For pytest, run from `backend` instead if the project root does not provide the package import path. Browser checks create dedicated API/Vite servers on 8001/5174 and a disposable MariaDB database; application data is not used. The test account and IDs are synthetic. Screenshots are written to `docs/ui-review` and excluded from Git and Graphify.
+`setup_local.py`:
+- creates only the named project database and applies every migration in `migrations/` that has not run yet;
+- creates a restricted application account (the running API never uses `root`);
+- generates `backend/.env` (database URL, identity, lookup, CSRF and device keys) and `backend/.admin-credentials.txt`;
+- keeps existing data, keys and passwords when re-run. Re-run it after pulling new migrations.
 
+If your XAMPP `root` account has a password, provide it only for this command through the environment variable `STACK_DB_ROOT_PASSWORD`. Do not change your root password to suit the project.
 
-Private assistant memory uses migration `003_assistant_memory.sql`. Existing installations can apply pending migrations with `.\.venv\Scripts\python.exe .\setup_local.py` from `backend` while XAMPP MySQL is running; existing records/credentials are preserved. The current development database has this migration applied. Memory contains only typed topics/preferences, never raw messages or game metrics. GET/DELETE `/api/admin/assistant/memory` are scoped to the signed-in admin; DELETE requires CSRF. See the assistant guide for persistence, forgetting and validation limits.
+## Running
 
+| Command (project root) | What it does |
+|---|---|
+| `npm run dev` | API on port 8000 (with reload) and the Vite frontend on 5173 |
+| `npm run dev:backend` | API only |
+| `npm run online` | Event mode: builds the frontend, serves it from the API on the real database, opens a Cloudflare tunnel, takes backups, starts MySQL if needed |
 
-Reviewed routing examples use additive migration `004_assistant_training.sql` (applied on this PC). The private training API supports explicit pending proposals, current-context review/approval, rejection/removal and approved-only JSONL export. It never stores raw chat/answers or game metric values and does not train/activate a model. See [review/export guide](../docs/assistant-training.md).
+Manual start: `backend\.venv\Scripts\python.exe -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --no-access-log`. Run **one** worker; live updates are in-process.
 
+## Code layout
 
-## Device command contract — 19 November 2026
+| Path | Responsibility |
+|---|---|
+| `app/main.py` | App factory, routes, sessions, queue, roles, re-entry, staff accounts |
+| `app/config.py` | Settings from `backend/.env` and `STACK_*` environment variables |
+| `app/security.py` | Argon2id passwords, cookies, CSRF, student-ID HMAC lookup and AES-GCM encryption |
+| `app/database.py` | Engine and small query helpers (`one`, `all_rows`, `execute`) |
+| `app/game.py` | Ruleset storage and server-side score replay |
+| `app/device_protocol.py`, `device_commands.py`, `device_recovery.py` | Cabinet requests, command delivery and boot-bound recovery |
+| `app/machine_status.py` | Cabinet state shown to staff and players |
+| `app/live.py` | Durable outbox and WebSocket revision hints |
+| `app/analytics.py` | Read-only event analytics shared by the dashboard and the assistant |
+| `app/assistant*.py` | Stack Intelligence: language handling, routing, memory, learning, training review |
+| `app/evaluation_review.py` | Private human review of practice questions |
+| `app/identity_retention.py` | Student-ID purge (used by `npm run db:purge-ids`) |
+| `app/origins.py`, `request_limits.py`, `web_frontend.py` | Origin checks, 64 KiB body limit, serving the built frontend |
+| `migrations/` | Versioned SQL (`001`–`007`) applied by `setup_local.py` |
+| `tests/` | pytest suites, each on a generated throwaway database |
 
-`GET /api/device/commands` and the original ACK endpoint provide authenticated, repeatable delivery for unregistered legacy cabinets. Migration 005 adds [boot-bound recovery](../docs/device-recovery.md): enrolled cabinets must use the sequenced journal endpoint, immutable start/terminal markers and current-boot stop receipts. The Cabinet page supports guarded release, interrupted void and validated terminal recovery with CSRF, revision/evidence checks, audit and durable retry receipts. `recovery_emulator.py` is separate from the v1 `device_emulator.py`; preserve their journals. Actual firmware/NVS behavior remains unverified. See [the original command contract](../docs/device-command-delivery.md) and [remaining gates](../docs/remaining-work.md).
+## API overview
 
+All routes are under `/api`. Staff and player sessions are separate cookies; every state-changing staff or player request needs the `X-CSRF-Token` header.
 
-## Quality checks — disposable data only
+| Area | Routes |
+|---|---|
+| Health | `GET /health` (schema, migrations and configuration readiness) |
+| Player | `POST /player/entry` (checked QR → entry grant), `POST /player/register`, `GET /player/context`, `POST /player/cancel`, `GET /player/leaderboard`, `POST /player/reenter` |
+| Staff session | `POST /admin/login`, `GET /admin/session` (includes role), `POST /admin/logout` |
+| Dashboard | `GET /admin/snapshot`, `GET /admin/analytics` |
+| Queue | `POST /admin/queue/call-next` (idempotent), `POST /admin/queue/{ticket}/skip`, `POST /admin/admissions` |
+| Players | `GET /admin/players?search=` (nickname or code), `POST /admin/players/{id}/reentry` (one-time code, 10 minutes) |
+| Rounds | `POST /admin/sessions/{id}/review`, `…/fence`, `…/resolve` (release, void or recover; void and recover are admin-only) |
+| Staff accounts (admin) | `GET`/`POST /admin/staff`, `POST /admin/staff/{id}/password`, `POST /admin/staff/{id}/enabled` |
+| Simulator (admin) | `POST /admin/simulator/{ready,start,win,loss,release}` |
+| Assistant | `/admin/assistant/{status,prepare,query,memory}`, training review (admin) under `/admin/assistant/training`, `/admin/evaluation-review` (admin) |
+| Cabinet (device token) | `GET /device/enrollment`, `POST /device/boot`, `POST /device/heartbeat`, `GET /device/commands`, `POST /device/commands/{id}/ack`, `POST /device/journal`, `POST /device/sessions/{id}/start`, `POST /device/sessions/{id}/result` |
+| Live | WebSocket `/live/admin` and `/live/player` (cookie-authenticated, revision hints only) |
 
-From the project root, after installing dependencies and starting XAMPP MySQL:
+Request and response examples: [`contracts/`](../contracts). Device protocol: [esp32-online.md](../docs/esp32-online.md), [device-command-delivery.md](../docs/device-command-delivery.md) and [device-recovery.md](../docs/device-recovery.md).
+
+## Roles
+
+`staff_users.role` is enforced on the server. **Operators** run the line (queue, admissions, skip, no-show release, re-entry QR, device stop, review hold, analytics, assistant chat). **Administrators** also void or recover scores, use the simulator, review practice questions and training examples, and manage operator accounts. Admin-only routes return `403 "Only an administrator can do this."` Administrator accounts are not editable through the API.
+
+## Security model
+
+- Argon2id staff passwords; opaque session tokens stored hashed; HttpOnly, SameSite=Strict cookies; server-side expiry and logout revocation; CSRF tokens; exact-origin checks on writes and WebSockets.
+- Login limit: 8 failures per visitor address and username per 15 minutes. Behind the Cloudflare tunnel the visitor address comes from `CF-Connecting-IP`, trusted only from a loopback peer.
+- Student IDs: keyed HMAC lookup (prevents duplicate registration) plus AES-256-GCM ciphertext with a per-record nonce. Neither the ID nor its lookup or ciphertext is ever returned. `purge_after` is the event end plus 30 days; `npm run db:purge-ids` deletes them.
+- Queue integrity: FIFO by `(joined_at, id)`; event then cabinet row locks; one live ticket per player and one active round per cabinet enforced by the database; idempotency receipts on call-next and recovery actions.
+- Scores: the cabinet's placement trace is replayed against the stored ruleset; the result, queue completion, notification and outbox entry commit together. Conflicting terminal results are refused.
+- Re-entry codes: random, stored only as a hash, single use, 10-minute expiry, newest code only, audited; they travel in the URL fragment so they never reach server or tunnel logs.
+- JSON bodies are limited to 64 KiB; unknown fields are rejected; validation errors never echo submitted values.
+
+## Tools
+
+| Script | Purpose |
+|---|---|
+| `setup_local.py` | Provision or migrate the local database (keeps data) |
+| `run_browser_tests.py` | Playwright journeys on ports 8001/5174 with a throwaway database |
+| `rehearse_event.py` | Event load rehearsal: N phones and back-to-back rounds; `--tunnel` for the real internet path |
+| `check_quality.py` | Loopback load, process restart and synthetic dump/restore checks |
+| `check_assistant_quality.py` | Stack Intelligence regression cases against the local Ollama model |
+| `device_emulator.py`, `recovery_emulator.py` | Software cabinets for the v1 protocol and the boot-bound journal |
+| `evaluate_*.py`, `replay_consumed_holdout.py`, `holdout_*.py`, `measure_admission.py` | NLP evaluation and regression measurement |
+| `build_*.py`, `fetch_nlp_datasets.py`, `prepare_candidate_holdout.py`, `experiment_history.py` | NLP data preparation and offline experiments |
+
+`backend/evaluation/` holds frozen evaluation material: it stays outside the knowledge graph and is never copied into runtime data.
+
+## Tests
+
+From `backend\` with MySQL running:
 
 ```powershell
-cd backend
 .\.venv\Scripts\python.exe -m pytest tests -q
 .\.venv\Scripts\python.exe run_browser_tests.py
-.\.venv\Scripts\python.exe check_assistant_quality.py
-npm --prefix ../frontend run build
-.\.venv\Scripts\python.exe check_quality.py
 ```
 
-The browser and runtime exercises need free dedicated ports 8001/5174, an installed Edge/Brave browser and Node (optional overrides: `STACK_TEST_NODE`, `STACK_TEST_BROWSER_PATH`). They create/drop only generated `stack_moko_test_<10 hex>` databases and do not touch the configured event database. `check_quality.py` uses the XAMPP dump/restore binaries at their standard `C:/xampp/mysql/bin` location and removes its uniquely named synthetic dump. `check_assistant_quality.py` uses the configured local Ollama model and exits unsuccessfully if a regression case fails; it does not train a model. Do not run both server-owning exercises concurrently. See [audit results and limits](../docs/quality-audit.md).
+Every suite creates and drops its own `stack_moko_test_<10 hex>` database; the event database is never touched. Browser runs need free ports 8001 and 5174, Node and an installed Edge or Brave (`STACK_TEST_NODE`, `STACK_TEST_BROWSER_PATH` override them). `test_nlp_lab.py` and `test_history_experiment.py` belong to the separate NLP-lab environment: they fail to import in the app environment because numpy is not installed there (use `--continue-on-collection-errors` to run everything else). Do not run two server-owning tools at the same time.
 
-Health now verifies schema/migration/configuration readiness. Pending migrations use the normal setup command without resetting existing records. New public hostnames must be explicitly configured in `STACK_PUBLIC_URL`/`STACK_ALLOWED_ORIGINS`; a reflected Host header is not trusted. JSON bodies are limited to 64 KiB and malformed Unicode/unknown fields are rejected safely.
+Latest run (24 November 2026): 488 passed.
+
+## Related documents
+
+[Local setup](../docs/local-setup.md) · [Free online operation](../docs/free-online.md) · [Backups](../docs/backups.md) · [Schema](../docs/schema.md) · [Live updates](../docs/live-updates.md) · [Player flow and access](../docs/player-flow-and-access.md) · [Stack Intelligence](../docs/admin-assistant.md) · [Quality audit](../docs/quality-audit.md)

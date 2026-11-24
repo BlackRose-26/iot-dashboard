@@ -1,54 +1,100 @@
-# Stack Moko Baby frontend
+# Stack Moko Baby — frontend
 
-Daily startup: start XAMPP MySQL, then `npm run dev` here or at the project root. This command now launches **both** FastAPI and Vite, waiting for backend/database readiness first. Use `npm run dev:frontend` only when intentionally running the API separately. See [current startup instructions](../docs/local-setup.md). This update supersedes older frontend-only `dev` descriptions below.
+React 19 single-page app for both audiences: the **player portal** (scan, register, ticket, result, leaderboard) and the **staff dashboard** (queue, cabinet, analytics, settings). Built with Vite 8 and Tailwind CSS 4, written in JavaScript/JSX.
 
-React.js JavaScript/JSX, Vite and Tailwind CSS 4.3.5, connected to FastAPI and XAMPP MariaDB. Start with [backend setup](../backend/README.md), then run `D:\iot-dashboard\scripts\start-dashboard.cmd` and open [admin login](http://127.0.0.1:5173/admin/login). The generated credentials are in the private local file `backend/.admin-credentials.txt`.
+## Running
 
-Use [Tailwind UI conventions](../docs/tailwind-ui.md) for new and updated components: literal v4 `tw:` classes, shared semantic tokens and existing Radix primitives. `src/styles/tailwind.css` imports the established specialized CSS in the components layer and compiles utilities through the official Vite plugin. The app reset, Open Sans Variable, Font Awesome webfonts, player palette and neutral admin themes are retained. Daily startup commands are unchanged.
-
-Node.js 24 and npm are installed for the local user account. Restart your terminal app once after setup so it picks up the installed commands. Normal development commands:
+Most of the time, start everything from the project root:
 
 ```powershell
-cd D:\iot-dashboard\frontend
-npm ci
+cd D:\iot-dashboard
 npm run dev
 ```
 
-The frontend proxies `/api` to the local backend at port 8000. XAMPP MySQL and the API must be running. Do not put database credentials, identity keys or an administrator password in frontend environment variables. `VITE_PUBLIC_BASE_URL` is an optional public event address for QR links, never a secret.
+That starts the FastAPI backend first, waits for it and the database, then starts Vite on <http://localhost:5173>. Vite proxies `/api` (including WebSockets) to port 8000. Use one hostname consistently: `localhost` and `127.0.0.1` keep separate cookies.
 
-## Pages and access
+| Script (in `frontend\`) | Purpose |
+|---|---|
+| `npm ci` | Install exact dependencies from the lockfile |
+| `npm run dev` | Same combined launcher as the project root |
+| `npm run dev:frontend` | Vite only (needs an API already on port 8000) |
+| `npm run build` | Production build to `dist/` (served by the API in `npm run online`) |
+| `npm run preview` | Preview the build on port 4173 |
+| `npm test` | Vitest unit and component tests |
+| `npm run test:browser` | Playwright directly (normally run through `backend\run_browser_tests.py`) |
+| `npm run format` | Prettier |
 
-The six administrator pages under `/admin` require a valid server session: overview, analytics, queue, sessions, machine and settings. `/admin/login` is the only sign-in page. Neutral light/dark themes apply to all admin pages and portals. The toggle stores only the theme preference.
+Environment: `VITE_PUBLIC_BASE_URL` (optional) is the public address used in QR codes; by default the page's own origin is used. Never put credentials or keys in `VITE_*` variables; they are compiled into the public bundle.
 
-Players choose camera or QR-image upload at `/scan`, using the existing html5-qrcode API. Opening `/join/:token` alone shows the scanner; only a detected code checked by the server issues an entry grant for `/register`; successful registration opens `/ticket`, showing only that player's position and state. A completed win or loss displays a result notification and unlocks `/leaderboard/acs-day`. There are no dashboard links in player views. Direct registration, ticket guessing and direct pre-game leaderboard access do not bypass server checks.
+## Routes
 
-The player keeps their place across refreshes through a private HttpOnly cookie. Student ID is required, sent only in the registration POST and cleared from the form after the attempt. It is never placed in URLs, browser storage, public ticket data or analytics. The server encrypts it at rest. Keep HTTP development testing to dummy IDs; configure a trusted HTTPS event address before real phone registration.
+| Path | Who | Page |
+|---|---|---|
+| `/`, `/scan` | Anyone | QR scanner (camera or photo upload) |
+| `/join/:token` | Anyone | Entry from the printed or on-screen QR; still requires a scan check |
+| `/register` | Player with an entry grant | Nickname, student ID, privacy notice |
+| `/ticket` | Registered player | Place in line, turn alert, result |
+| `/leaderboard/acs-day` | Player after a finished round | Leaderboard |
+| `/reenter#code` | Player with a re-entry QR | Restores their ticket once, then opens it |
+| `/admin/login` | Staff | Sign in |
+| `/admin/overview` | Staff | Live summary, Registration QR |
+| `/admin/analytics` | Staff | Charts by period and result source |
+| `/admin/queue` | Staff | Call next, skip, admissions, Player didn't come, Player lost their ticket? |
+| `/admin/sessions` | Staff | Round history |
+| `/admin/machines` | Staff | Cabinet status, command delivery, device recovery |
+| `/admin/settings` | Staff | Theme, Stack Intelligence, memory; Staff accounts and training (administrators) |
+| `/admin/question-review` | Administrators | Practice-question review |
 
-## Shared design system
+Pages check access on the server, not only in the browser: hidden buttons are also refused by the API. Operators see no simulator, staff accounts, training or question review, and only the no-show release among the recovery actions.
 
-`styles/foundation.css` defines shared tokens; `components/ui.jsx` supplies cards, fields, badges and accessible Radix dialogs/menus. `styles/access-and-themes.css` scopes neutral administrator themes; player pages retain the Sourcio-derived gray canvas, rounded white cards, lime and blue accents. Open Sans Variable (normal and italic) and Font Awesome fonts are bundled locally. All symbols use **Font Awesome Free webfonts**, with no SVG icon library. Recharts and the gauge use data graphics; QR rendering uses canvas.
+## Structure
 
-The user selected Open Sans Variable on 19 November 2026. The production build and a synthetic Brave check verified loaded normal/italic variable faces, inherited body/input/button typography, preserved Font Awesome symbols and no horizontal overflow on 390 px login/registration pages. The user explicitly resumed roadmap work on 20 November. The Cabinet page now provides [evidence-guarded device recovery](../docs/device-recovery.md) in both neutral themes. [Fontsource family](https://fontsource.org/fonts/open-sans/use).
+```text
+src/
+  App.jsx              routes and access guards (AdminOnly, PlayerOnly, AdministratorsOnly)
+  pages/               one component per route
+  components/          Shell (navigation, Registration QR), ui.jsx (Card, Button, Modal, …),
+                       NoShowRelease, PlayerReentry, StaffAccounts, DeviceRecovery,
+                       AdminAssistant, charts, icons (Font Awesome)
+  state/               AppContext (session, snapshot, actions), api.js (fetch + CSRF),
+                       useLiveUpdates (WebSocket hints with polling fallback),
+                       AssistantContext, qr-entry, game
+  styles/              tailwind.css entry, foundation tokens, admin themes, page styles
+e2e/                   Playwright journeys (flows, scanner, matrix, question review)
+```
 
-Dashboard numbers come from saved database results. The Analytics page and Stack Intelligence now share backend calculations with matching period/source controls. Ollama understands English/Taglish questions; factual answers are generated by backend templates and include evidence. Local loading, English/Taglish chat and empty/refusal states have been checked in a disposable browser environment; remaining acceptance cases are listed separately: see [setup and manual review](../docs/admin-assistant.md). Unknown hardware readings stay unknown; simulator results remain labelled and separate. Device firmware/live progress telemetry remain deferred. No cloud API or model-written numerical prose is used.
+## Design system
 
-Authenticated WebSocket hints refresh authorized queue/ticket snapshots, analytics and completed-player leaderboards. Polling falls back to two seconds, or 15 seconds while live; focus also refreshes. See [protocol and validation](../docs/live-updates.md). In-page result alerts work while open. Optional browser notifications require support and user permission; closed-tab push is not implemented. Phone/LAN access, HTTPS and operational limits are described in [player flow and access](../docs/player-flow-and-access.md).
+- Tailwind CSS 4 with the `tw:` prefix and shared semantic tokens; see [Tailwind UI conventions](../docs/tailwind-ui.md).
+- Shared primitives in `components/ui.jsx`, with Radix dialogs, menus and tooltips for accessibility.
+- Neutral light and dark staff themes; the player portal keeps its own colourful palette.
+- Open Sans Variable and Font Awesome Free are bundled locally (no SVG icon library, no external font requests).
+- Charts use Recharts; QR codes render to canvas with `qrcode.react`; scanning uses `html5-qrcode`.
 
-## Checks
+## Privacy rules in the browser
+
+- The student ID is sent only in the registration request and cleared from the form afterwards. It never goes into URLs, storage, analytics or logs.
+- Sessions use HttpOnly cookies; the CSRF token lives only in memory.
+- Re-entry codes arrive in the URL fragment, are removed from the address bar immediately and are sent once.
+- Browser storage holds only the theme preference.
+
+## Tests
 
 ```powershell
-npm test
+npm test         # 59 tests in 15 files (24 November 2026)
 npm run build
 npx prettier --check src scripts e2e *.js *.json index.html
 ```
 
-For the real multi-browser flow and accessibility checks, run `.tools\backend-venv\Scripts\python.exe backend\run_browser_tests.py` from the project root. It uses isolated test servers and a disposable XAMPP database, not the application database. Direct `pnpm test:browser` expects those dedicated servers and test credentials to be supplied. Review screenshots are excluded from Git and Graphify.
+Real-browser journeys, including accessibility checks with axe, run from the backend with a throwaway database:
 
+```powershell
+cd ..\backend
+.\.venv\Scripts\python.exe run_browser_tests.py
+```
 
-Stack Intelligence also handles reviewed system-guide questions in natural English/Taglish and has private per-admin memory controls. **Use private memory** enables validated topic/preferences continuity; **Forget saved memory** clears saved state and visible chat. Refresh clears raw transcript text while approved context can be restored. This does not train model weights or expose one admin’s memory to another. Numerical answers still use fresh backend analytics.
+The Matrix journey runs only with `STACK_TEST_RULESET=matrix-v1`. Screenshots go to `docs/ui-review/`, which is ignored by Git.
 
+## Related documents
 
-Eligible replies have **Review for training**. The existing Radix modal shows sanitized input/context, editable controlled labels and pending/review decisions. Approval needs an explicit confirmation; unsaved label edits block export. **Training examples** opens the private owner queue, with pagination and approved-current-version JSONL download. Nothing is collected automatically and the active model is unchanged. See the [workflow](../docs/assistant-training.md).
-
-
-The Machine page now shows durable command state and a reason/revision-protected review form. Review is a hold, not a physical abort or release; the assigned player's ticket updates privately. Low-contrast ticket labels were corrected during the new targeted browser/axe checks. See [device delivery and recovery boundaries](../docs/device-command-delivery.md).
+[Player flow and access](../docs/player-flow-and-access.md) · [QR scanner](../docs/qr-scanner.md) · [Live updates](../docs/live-updates.md) · [Dashboard design](../docs/dashboard-design.md) · [Stack Intelligence](../docs/admin-assistant.md)

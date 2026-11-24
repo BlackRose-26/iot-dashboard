@@ -312,9 +312,9 @@
     "semantic_hash": "2f22a56617643e2e9b518f41022bacab"
   },
   "backend/app/main.py": {
-    "mtime": 1795501093.0353844,
-    "seen": 1795501682.4839356,
-    "ast_hash": "3a527a7f2edcc0c2683cf29b8059af5c",
+    "mtime": 1795502103.9458246,
+    "seen": 1795503308.131861,
+    "ast_hash": "cc086496405a45238b3c769cfbfa91c4",
     "semantic_hash": ""
   },
   "backend/setup_local.py": {
@@ -450,9 +450,9 @@
     "semantic_hash": "fcf253b695b5aaec065c10dd55ad8d04"
   },
   "package.json": {
-    "mtime": 1795458018.771521,
-    "seen": 1795458195.915359,
-    "ast_hash": "cd8fb6edb4322562a2886bb12ece8a55",
+    "mtime": 1795502360.3881733,
+    "seen": 1795503308.1323287,
+    "ast_hash": "03544ac7cce01fee8dc04a54fb04790b",
     "semantic_hash": ""
   },
   "scripts/dev.mjs": {
@@ -462,9 +462,9 @@
     "semantic_hash": "65c8a95e797d64169f462261ffd613ea"
   },
   "README.md": {
-    "mtime": 1795501302.0867016,
-    "seen": 1795501682.48449,
-    "ast_hash": "505a84c04dd3f07bac63e7906b27d4ec",
+    "mtime": 1795503272.5302434,
+    "seen": 1795503308.1323905,
+    "ast_hash": "89600e47ade19a072f4d0a5943517422",
     "semantic_hash": ""
   },
   "backend/app/analytics.py": {
@@ -732,9 +732,9 @@
     "semantic_hash": ""
   },
   "docs/remaining-work.md": {
-    "mtime": 1795501302.0677004,
-    "seen": 1795501682.4846022,
-    "ast_hash": "8d338f8572c17a4e8a3ccc3fec98ca99",
+    "mtime": 1795503272.5292416,
+    "seen": 1795503308.1325343,
+    "ast_hash": "abf2d64b1868471b2fc47b2421629a42",
     "semantic_hash": ""
   },
   "backend/app/device_protocol.py": {
@@ -1260,9 +1260,9 @@
     "semantic_hash": "5c21748d992b79efd6efa949b1b6ee3c"
   },
   "scripts/online.mjs": {
-    "mtime": 1795458017.6910338,
-    "seen": 1795458195.9153976,
-    "ast_hash": "96c83c35d5f1c5e3ef687e7f226044ae",
+    "mtime": 1795502320.352078,
+    "seen": 1795503308.1323595,
+    "ast_hash": "fb70f4e765b7bbcfca1b897874639fc9",
     "semantic_hash": ""
   },
   "scripts/package-wokwi.py": {
@@ -1290,9 +1290,9 @@
     "semantic_hash": "92827ed99c3023c35d79174a99ce749e"
   },
   "docs/free-online.md": {
-    "mtime": 1795499891.7173016,
-    "seen": 1795500054.6078432,
-    "ast_hash": "ae61ec19040ba91229549120e71ea56d",
+    "mtime": 1795502852.1492274,
+    "seen": 1795503308.1324327,
+    "ast_hash": "ef85e79a92cd49d39cc91b81a37e9cca",
     "semantic_hash": ""
   },
   "firmware/stack_moko_baby/libraries.txt": {
@@ -1302,9 +1302,9 @@
     "semantic_hash": "f6c719ccd0007fc62780083257911c2e"
   },
   "scripts/device.mjs": {
-    "mtime": 1795458047.5718267,
-    "seen": 1795458195.915378,
-    "ast_hash": "4d7df496e441d79a61586471a0898921",
+    "mtime": 1795502360.390172,
+    "seen": 1795503308.132343,
+    "ast_hash": "c4f1d8e749cba226628fa0855496b2b2",
     "semantic_hash": ""
   },
   "scripts/flash-device.py": {
@@ -1344,9 +1344,9 @@
     "semantic_hash": ""
   },
   "docs/Stack-Moko-Baby-Wiring-and-Operation-Guide.pdf": {
-    "mtime": 1795501353.1123002,
-    "seen": 1795501682.4846325,
-    "ast_hash": "752e48213042214380313475c2768efe",
+    "mtime": 1795502817.4782958,
+    "seen": 1795503308.1325798,
+    "ast_hash": "0934cb535b38baa403401ea35c5605b2",
     "semantic_hash": ""
   },
   "firmware/stack_moko_baby/sounds.h": {
@@ -1392,9 +1392,9 @@
     "semantic_hash": ""
   },
   "docs/backups.md": {
-    "mtime": 1795458074.3952978,
-    "seen": 1795458195.9154744,
-    "ast_hash": "98943cc4dad6e32d0ba05c3326273965",
+    "mtime": 1795502846.4907393,
+    "seen": 1795503308.1324189,
+    "ast_hash": "73c582cfa4485cffbef7de986048f00b",
     "semantic_hash": ""
   },
   "backend/tests/test_assistant_topics_v2.py": {
@@ -1458,15 +1458,45 @@
     "semantic_hash": ""
   },
   "backend/tests/test_staff_roles.py": {
-    "mtime": 1795501138.7733543,
-    "seen": 1795501682.4841526,
-    "ast_hash": "f9be467c0313fd52b39ab1d551c46ddb",
+    "mtime": 1795502113.8556795,
+    "seen": 1795503308.1320686,
+    "ast_hash": "470a2811deb12efab109a6fa253b75aa",
     "semantic_hash": ""
   },
   "frontend/src/components/StaffAccounts.jsx": {
     "mtime": 1795501219.4683387,
     "seen": 1795501682.4843025,
     "ast_hash": "b9b03cbd2c51597a84451a0fbeb91ef8",
+    "semantic_hash": ""
+  },
+  "backend/app/identity_retention.py": {
+    "mtime": 1795502003.6188104,
+    "seen": 1795503308.1318514,
+    "ast_hash": "1d689d8f6eba4a8f7e1f9fcc80909ea4",
+    "semantic_hash": ""
+  },
+  "backend/rehearse_event.py": {
+    "mtime": 1795503240.6403606,
+    "seen": 1795503308.131965,
+    "ast_hash": "6d7698e3f3d89e46bdd105823f55949b",
+    "semantic_hash": ""
+  },
+  "backend/tests/test_identity_retention.py": {
+    "mtime": 1795502027.9657502,
+    "seen": 1795503308.1320384,
+    "ast_hash": "31b5d125c211ad618dbc6d7d2a47ffea",
+    "semantic_hash": ""
+  },
+  "scripts/event-check.py": {
+    "mtime": 1795502399.4799063,
+    "seen": 1795503308.1323454,
+    "ast_hash": "b62fc2775808619687a50574e47d2d07",
+    "semantic_hash": ""
+  },
+  "scripts/purge-student-ids.py": {
+    "mtime": 1795502003.783404,
+    "seen": 1795503308.1323707,
+    "ast_hash": "f79bdeca779692c2c6d8da3582215134",
     "semantic_hash": ""
   },
   "frontend/package-lock.json": {

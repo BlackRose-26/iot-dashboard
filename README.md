@@ -1,59 +1,127 @@
 # Stack Moko Baby
 
-For free Wokwi-stage online operation, start XAMPP MySQL and run `npm run online:firmware`. It prints a public HTTPS login/scanner address and builds a private firmware image for that session. The PC must stay running; the address changes on restart. See [free online setup](docs/free-online.md). Render deployment files remain an inactive alternative.
+**An IoT LED-matrix stacking game for the ACS Carnival, with a private phone queue and an operator dashboard.**
 
-For the physical cabinet on a phone hotspot, `npm run device:selftest` checks the wiring and `npm run online:device` uploads hotspot-configured firmware over USB without erasing the device journal. See [physical bring-up](docs/hardware-bringup.md).
-
-Event day: run `npm run event:check` on the event laptop the day before (`-- --fix-power` fixes sleep, lid and USB power-saving); `npm run online` starts XAMPP MySQL itself if needed. After the event, `npm run db:purge-ids` (dry run first, then `-- --all --apply`) deletes stored student IDs. Risks ranked for the event: [remaining work](docs/remaining-work.md).
-
-![Status: local development](https://img.shields.io/badge/status-local_development-64748b)
+![Status: event preparation](https://img.shields.io/badge/status-event_preparation-f59e0b)
 ![React 19](https://img.shields.io/badge/React-19-149eca?logo=react&logoColor=white)
+![Vite 8](https://img.shields.io/badge/Vite-8-646cff?logo=vite&logoColor=white)
 ![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-4-38bdf8?logo=tailwindcss&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-JSX-f7df1e?logo=javascript&logoColor=black)
-![FastAPI](https://img.shields.io/badge/backend-FastAPI-009688?logo=fastapi&logoColor=white)
-![XAMPP MariaDB](https://img.shields.io/badge/database-XAMPP_MariaDB-fb7a24?logo=xampp&logoColor=white)
-![ESP32 firmware prepared](https://img.shields.io/badge/ESP32-firmware_prepared-64748b)
+![FastAPI](https://img.shields.io/badge/FastAPI-Python_3.13-009688?logo=fastapi&logoColor=white)
+![MariaDB](https://img.shields.io/badge/XAMPP-MariaDB_10.11-fb7a24?logo=mariadb&logoColor=white)
+![ESP32](https://img.shields.io/badge/ESP32-Arduino-e7352c?logo=espressif&logoColor=white)
 
-An IoT carnival LED-matrix stacking game with a private player queue and an administrator dashboard. Players scan the event QR, register, wait for their turn, play at the physical cabinet and receive a win/loss result with leaderboard access. The ESP32 and physical button own gameplay timing; the backend owns queue assignment and validated scores.
+Players scan a QR code with their own phone, register with a nickname and student ID, and wait in a first-come, first-served line. When the cabinet is free, an operator calls the next player. That player presses the big arcade button to drop each moving row onto the stack on the LED panels: 15 levels, 60 seconds, one point per level. The result appears on their phone and unlocks the leaderboard.
 
-Connected Matrix v1 firmware is prepared: 16 columns, 15 levels and one point per successful placement. Earlier Classic results keep separate scoring/rankings. See [ESP32/Wokwi and online setup](docs/esp32-online.md) for configuration and remaining device gates. The selected free HTTPS launcher retains XAMPP and local Ollama on this PC; Render deployment files remain an inactive alternative.
+The **ESP32 runs the game itself**, so button timing never waits for the network. The **server owns the queue** and saves a score only after replaying the cabinet's placement record.
 
-## Current implementation
+> **Status, 24 November 2026.** The software passes its automated backend, frontend and browser tests. A 5-minute rehearsal with 60 simulated phones and back-to-back rounds passed on the PC and through a real Cloudflare tunnel (0 errors, 95% of requests under 0.65 s). **The physical cabinet, real phones and the phone hotspot have not been tested yet.** See [what is left before the event](docs/remaining-work.md).
 
-Stack Intelligence has limited coverage of unfamiliar wording: the first-use [325-case synthetic holdout](docs/nlp-evaluation/holdout-v1.md) measured 59/325 accepted intent/context matches, with frequent clarification of valid requests. Earlier small-set scores are development regressions. This needs further work before a broad natural-language reliability claim.
+---
 
-A subsequent [language pipeline repair](docs/nlp-routing-repair.md) adds common English/Taglish normalization and direct routing for explicit supported requests. Its consumed-set regression is reported separately; the original first-use result remains preserved and new unseen accuracy is not established.
+## Contents
 
-The current repair includes filtered public vocabulary and separate topical checking. The reused 325-case regression reached **135/325 (41.54%)**, with 135 valid clarifications and one unsupported false acceptance. Broader NLP remains experimental despite passing backend and visible development checks.
+- [How it works](#how-it-works)
+- [Features](#features)
+- [Technology](#technology)
+- [The cabinet hardware](#the-cabinet-hardware)
+- [Getting started](#getting-started)
+- [Running the event](#running-the-event)
+- [Command reference](#command-reference)
+- [Staff accounts and roles](#staff-accounts-and-roles)
+- [Configuration](#configuration)
+- [Testing](#testing)
+- [Repository layout](#repository-layout)
+- [Documentation](#documentation)
+- [Security and privacy](#security-and-privacy)
+- [Known limitations](#known-limitations)
+- [Contributing](#contributing)
 
-- **Player flow:** camera or image QR scanning through html5-qrcode, required private student ID, registration, persistent personal ticket, FIFO position, turn/result updates and post-game leaderboard.
-- **Administration:** session-based login, neutral light/dark dashboard, cards and charts, queue/admissions controls, saved sessions/results, cabinet status and registration QR download.
-- **Backend:** FastAPI, transactional MariaDB persistence, migrations, CSRF protection, encrypted student IDs and server-side score replay.
-- **Live updates:** authenticated staff/player notifications, durable post-commit outbox, revisioned snapshots, reconnect recovery and polling fallback; no public stream. See [behavior and limits](docs/live-updates.md).
-- **Device recovery:** authenticated polling, boot-bound persistent journals, immutable start/terminal evidence, stop receipts and guarded admin release/void/result recovery. A dedicated emulator exercises retries and reboot lineage. Physical firmware/NVS still requires hardware verification. See [the recovery workflow](docs/device-recovery.md).
-- **Development simulator:** explicit admin controls for readiness, start and win/loss results; simulator scores are labelled and separated from device rankings.
-- **Stack Intelligence:** local Ollama system conversation, private per-admin topic/preferences memory, read-only analytics and factual English/Taglish answers with scope/evidence. Memory improves continuity; selected sanitized routing examples can be reviewed and exported for later fine-tuning. Model weights are not automatically retrained. Local loading, English/Taglish routing and synthetic browser flows have been checked; broader release acceptance remains pending. See [AI setup and review checklist](docs/admin-assistant.md).
+## How it works
 
-Connected ESP32 firmware compiles locally; actual Wokwi-to-cloud and physical hardware acceptance remain pending. Closed-tab push, automated retention/recovery and production deployment hardening are also pending. This repository is a development implementation; numeric game settings still need physical play-testing.
+```mermaid
+flowchart LR
+    subgraph Cabinet
+        ESP[ESP32<br/>game engine] --- LED[8×32 HUD +<br/>two 16×16 panels]
+        ESP --- BTN[60 mm arcade button]
+        ESP --- SPK[Speaker beeps]
+    end
+    subgraph PC[Dashboard PC]
+        API[FastAPI + React app<br/>port 8000] --- DB[(XAMPP MariaDB)]
+        API --- AI[Ollama<br/>optional]
+    end
+    ESP -- Wi-Fi --> HOT[Phone hotspot] -- mobile data --> CF[Cloudflare HTTPS tunnel]
+    PHONES[Players' phones<br/>own mobile data] --> CF
+    CF --> API
+    OPS[Operator browser] --> CF
+```
 
-The [19 November quality audit](docs/quality-audit.md) records security/correctness fixes, automated/browser checks, local restart/load/restore evidence and remaining release limits. The user resumed roadmap development on 20 November; the next progress report will be prepared only when requested.
+1. **Scan.** The operator shows the Registration QR from the dashboard on a screen. A player scans it with the phone camera (or uploads a photo of it).
+2. **Register.** Nickname and student ID. The student ID is encrypted and never shown again. The player gets a private ticket with their place in line.
+3. **Call.** When the cabinet reports "ready", the operator presses **Call next player**. The ticket says it is their turn and the HUD shows `NEXT PLAYER`.
+4. **Play.** The button starts a 3-2-1 countdown. Each press drops the moving row; any part hanging over the stack is cut off, so the row gets narrower. A complete miss or the 60-second timer ends the round.
+5. **Result.** The cabinet uploads its placement record; the server replays it, saves the score, and the player's phone shows the result and the leaderboard.
+
+All cabinet traffic is outgoing HTTPS, so neither the phone hotspot nor the router needs port forwarding.
+
+## Features
+
+**For players**
+- Camera or photo QR scanning; registration needs a code the server has just checked, so a copied link alone is not enough.
+- A private ticket that survives refreshes, live position updates, a "your turn" alert and the result with leaderboard access.
+- If the ticket is lost (new phone, cleared browser, or a restart that changed the address), the operator can give a one-time **re-entry QR**.
+
+**For operators and administrators**
+- Light and dark dashboard: Overview, Analytics, Queue, Sessions, Machine and Settings.
+- Queue controls: call next, skip with a reason, pause or open admissions, **Player didn't come** (frees the cabinet only after it confirms the round never started) and **re-entry QR**.
+- Machine page: last heartbeat, signal strength, command delivery and guarded recovery after a power loss (release, void or recover a result, each audited).
+- **Staff accounts:** separate operator logins for booth helpers; only an administrator can change scores, accounts or assistant training.
+- **Stack Intelligence:** a local, read-only English/Taglish assistant that answers questions about the event from saved data (optional; needs Ollama).
+- A development simulator for testing the full flow without a cabinet; simulator scores are labelled and ranked separately.
+
+**Reliability**
+- Live updates over authenticated WebSockets with a polling fallback.
+- Boot-bound device journal: a round interrupted by a power cut is never resumed or scored automatically.
+- Encrypted automatic backups (at start, every 15 minutes, on Ctrl+C) with a verified restore.
+- The launcher starts XAMPP MySQL if needed and restarts it if it stops.
+- The cabinet follows a new tunnel address over USB without reflashing.
 
 ## Technology
 
 | Layer | Stack |
 |---|---|
-| Frontend | React.js 19, JavaScript/JSX, Vite, Tailwind CSS 4, React Router |
-| UI / visualization | Tailwind utilities and shared theme tokens, Radix primitives, Recharts, Font Awesome webfonts |
-| Backend | Python 3.13, FastAPI, SQLAlchemy Core |
-| Database | XAMPP MySQL service — local installation uses MariaDB 10.11.16 |
-| Planned cabinet | ESP32, LED matrix, physical button |
-| Project map | Graphify |
+| Frontend | React 19 (JavaScript/JSX), Vite 8, Tailwind CSS 4, React Router 7, Radix UI, Recharts, html5-qrcode, qrcode.react, Font Awesome, Open Sans Variable |
+| Backend | Python 3.13, FastAPI, SQLAlchemy Core, PyMySQL, Argon2id (pwdlib), cryptography (AES-GCM, Fernet) |
+| Database | XAMPP MySQL service (MariaDB 10.11), versioned SQL migrations |
+| Cabinet | ESP32 (Arduino core), Adafruit NeoPixel, ArduinoJson, NVS journal, HTTPS client |
+| Hosting | This PC plus a free Cloudflare Quick Tunnel (`npm run online`) |
+| Assistant | Local Ollama (`qwen3:4b-instruct` by default), optional |
+| Tests | pytest, Vitest + Testing Library, Playwright with axe accessibility checks |
+| Project map | [Graphify](docs/graphify-setup.md) knowledge graph in `graphify-out/` |
 
-## Install once
+## The cabinet hardware
 
-Windows prerequisites: [Node.js](https://nodejs.org/en/download) **22.12 or newer** (the local environment uses Node 24), [Python 3.13](https://www.python.org/downloads/windows/) and [XAMPP](https://www.apachefriends.org/). Open a new terminal after installation. Start **MySQL** in the XAMPP Control Panel.
+| Part | Connection |
+|---|---|
+| ESP32 DevKit | Powered and programmed from laptop USB port 1 |
+| 8×32 WS2812 matrix (HUD, top) | First on the data line: GPIO18 → 330 Ω → DIN |
+| Two 16×16 WS2812 panels (blocks, below) | Chained after the HUD; 5 V fed to each panel from laptop USB port 2 |
+| 60 mm LED arcade button | Switch COM → GND, NO → GPIO27; its light on the 5 V lead |
+| Speaker | GPIO26 → 220 Ω → speaker → GND (beeps generated by the firmware) |
 
-From your checkout (shown here as `D:\iot-dashboard`):
+The laptop is the only power source, so the firmware caps LED current (`STACK_LED_BUDGET_MA`, 400 mA by default). The full illustrated wiring, self-test and operating guide is the **[Wiring and Operation Guide (PDF)](docs/Stack-Moko-Baby-Wiring-and-Operation-Guide.pdf)**. Firmware details: [firmware/README.md](firmware/README.md).
+
+## Getting started
+
+### Prerequisites (Windows)
+
+- [Node.js](https://nodejs.org/) 22.12 or newer
+- [Python 3.13](https://www.python.org/downloads/windows/)
+- [XAMPP](https://www.apachefriends.org/) (for MySQL/MariaDB)
+- Optional: [Ollama](https://ollama.com/) for Stack Intelligence; [arduino-cli](https://arduino.github.io/arduino-cli/) is used by the flashing scripts
+
+### Install once
+
+Start **MySQL** in the XAMPP Control Panel, then:
 
 ```powershell
 cd D:\iot-dashboard
@@ -63,60 +131,145 @@ python -m venv backend\.venv
 .\backend\.venv\Scripts\python.exe backend\setup_local.py
 ```
 
-The setup script provisions the project database, applies migrations and creates local configuration and administrator credentials. It preserves existing data and passwords on reruns. For an existing password-protected XAMPP root account, follow [backend setup](backend/README.md); do not change your database root password to match this project.
+`setup_local.py` creates the project database, applies the migrations, creates a restricted application account and generates local secrets in `backend/.env`. Re-running it applies new migrations and keeps existing data and passwords. The administrator login is written to `backend/.admin-credentials.txt`. Keep both files private. If your XAMPP `root` account has a password, see [backend setup](backend/README.md).
 
-Local administrator credentials are written to `backend/.admin-credentials.txt`. Keep that file and `backend/.env` private. Neither belongs in Git, screenshots or chat. Booth helpers get their own **operator** accounts from Settings → Staff accounts; operators run the line but cannot change scores, accounts or assistant training.
-
-## Run after each restart
-
-1. Start **MySQL** in XAMPP.
-2. Run:
+### Run locally
 
 ```powershell
 cd D:\iot-dashboard
 npm run dev
 ```
 
-The same `npm run dev` command also works from `frontend`. It starts FastAPI, waits for API/database readiness, then starts Vite. Keep this terminal open. **Ctrl+C** stops the servers started by this launcher; XAMPP and any reused backend remain running.
+This starts FastAPI on port 8000, waits until the API and database are ready, then starts Vite on port 5173. Open <http://localhost:5173/admin/login>. Ctrl+C stops what it started.
 
-Open [administrator login](http://localhost:5173/admin/login). Players enter through the administrator's registration QR and have no dashboard access. Keep using one hostname consistently in your browser because `localhost` and `127.0.0.1` have separate session cookies.
+**No cabinet yet?** In **Queue**, use the development simulator: **Set simulator ready → Call next player → Start test round → Finish: win / loss**. More detail and troubleshooting: [local setup](docs/local-setup.md).
 
-For separate terminals, run `npm run dev:backend` and `npm run dev:frontend` from the project root. The frontend-only command requires a running API on port 8000. Existing `.cmd` launchers are available under `scripts`.
+## Running the event
 
-No ESP32 connected yet? In **Admin → Queue**, use **Set simulator ready → Call next player → Start test round → Finish: win / loss**. These are development simulations, not physical rounds.
-
-## Troubleshooting
-
-| Message | What to do |
+| When | What to do |
 |---|---|
-| `ECONNREFUSED 127.0.0.1:8000` | The API is not listening. Stop an old frontend-only terminal and use the combined `npm run dev`. Keep its terminal open. |
-| API/database not ready | Start MySQL in XAMPP. If it is already running, inspect the backend error and [local setup](docs/local-setup.md). Do not reset or delete the database. |
-| Port 5173 already in use | Stop the old Vite terminal with Ctrl+C before starting another copy. |
-| Port 8000 occupied by an old/unready API | Stop its original terminal and retry. The launcher reuses a healthy current API and never kills an unrelated server. |
-| `/api/admin/session` returns `401` | Sign in. This is the expected response without a valid admin session; it is not a database connection error. |
-| Player remains waiting | The operator must call the next player when the cabinet is ready. Registration alone does not start a game. |
+| **Day before** | On the event laptop: `npm run event:check` (add `-- --fix-power` to stop sleep, lid and USB power-saving). `npm run db:verify`. Copy `backend/.env` to a USB drive kept apart from the laptop. Install Windows updates, then pause them. |
+| **First start / after a firmware or Wi-Fi change** | Set the hotspot name and password for this PowerShell window, then `npm run online:device` (builds, opens the tunnel and flashes the cabinet over USB without erasing its journal). |
+| **Every later start** | `npm run online`. It prints the **Admin** and **Player scanner** links and sends the new address to the cabinet over USB. Keep the window open. |
+| **During the event** | Show the Registration QR from **Overview** on a screen. Run the line from **Queue**. Helpers use their own operator accounts. |
+| **After the event** | Ctrl+C (final backup). `npm run db:purge-ids` to see the count, then `npm run db:purge-ids -- --all --apply` to delete stored student IDs; scores stay. |
 
-Phones need a reachable event address and trusted HTTPS for camera access and real identity collection. A QR containing `localhost` only works on the computer hosting the app. See [QR scanner setup](docs/qr-scanner.md).
+```powershell
+# first time on a new hotspot (values stay in this window only)
+$env:STACK_FIRMWARE_WIFI_SSID = "YOUR-HOTSPOT-NAME"
+$env:STACK_FIRMWARE_WIFI_PASSWORD = "YOUR-HOTSPOT-PASSWORD"
+npm run online:device
+```
+
+The free Quick Tunnel gives a new address on every start and, per Cloudflare, has no uptime guarantee and handles up to 200 requests at once (plan for fewer than about 150 phones with the ticket open at the same time). See [free online operation](docs/free-online.md) and [physical bring-up](docs/hardware-bringup.md).
+
+## Command reference
+
+Run from the project root.
+
+| Command | Purpose |
+|---|---|
+| `npm run dev` | Local development: API and Vite together |
+| `npm run dev:backend` / `npm run dev:frontend` | Start one side only |
+| `npm run online` | Event mode: build, Cloudflare tunnel, API on the real database, backups, cabinet address over USB |
+| `npm run online:device` | As above, and flash the hotspot-configured firmware to the cabinet |
+| `npm run online:firmware` | As above, but build a private firmware image (Wokwi) instead of flashing |
+| `npm run device:selftest` | Flash the wiring self-test (displays, button, speaker) |
+| `npm run device:flash` | Flash firmware only |
+| `npm run device:url` | Send the current tunnel address to the cabinet over USB |
+| `npm run db:backup` | Manual encrypted backup (kept outside the project) |
+| `npm run db:verify` | Restore the newest backup into a throwaway database and compare row counts |
+| `npm run db:purge-ids` | Student-ID retention: dry run by default; `-- --all --apply` after the event |
+| `npm run event:check` | Event-laptop readiness report; `-- --fix-power` fixes power settings |
+
+## Staff accounts and roles
+
+| Role | Can do |
+|---|---|
+| **Operator** | Overview, Sessions, Analytics; call next, skip, pause or open admissions, Player didn't come, re-entry QR; request a device stop, hold a round for review, release a no-show; Stack Intelligence chat |
+| **Administrator** | Everything an operator can, plus void or recover an interrupted round's score, the simulator, practice-question review and assistant training, and **Settings → Staff accounts** |
+
+An administrator creates operator accounts in Settings; each gets a server-generated password shown once. Resetting a password or switching an account off signs that operator out immediately.
+
+## Configuration
+
+`setup_local.py` writes `backend/.env`; you rarely need to edit it. Useful settings (names only; never commit values):
+
+| Variable | Meaning |
+|---|---|
+| `STACK_PUBLIC_URL`, `STACK_ALLOWED_ORIGINS` | The public address(es) the app accepts; set automatically by `npm run online` |
+| `STACK_SIMULATOR_ENABLED` | `false` hides the development simulator |
+| `STACK_AI_ENABLED`, `STACK_OLLAMA_URL`, `STACK_OLLAMA_MODEL` | Stack Intelligence |
+| `STACK_BACKUP_MINUTES`, `STACK_BACKUP_DIR`, `STACK_BACKUP_KEEP` | Automatic backups (default every 15 min, outside the project) |
+| `STACK_XAMPP_DIR` | XAMPP location if not `C:\xampp` |
+| `STACK_LED_BUDGET_MA` (firmware, `display_layout.h`) | LED current cap for laptop USB power |
+
+## Testing
+
+All tests use generated throwaway databases and never touch event data.
+
+```powershell
+# backend (from backend\)
+.\.venv\Scripts\python.exe -m pytest tests -q
+# frontend unit tests and build (from frontend\)
+npm test
+npm run build
+# real-browser journeys on dedicated ports 8001/5174 (from backend\)
+.\.venv\Scripts\python.exe run_browser_tests.py
+# event load rehearsal: 60 phones for 5 minutes (add --tunnel for the real internet path)
+.\.venv\Scripts\python.exe rehearse_event.py
+```
+
+Latest results (24 November 2026): **488** backend tests passed; **59** frontend unit tests passed; **13** browser journeys passed with the Matrix journey skipped by design (it needs `STACK_TEST_RULESET=matrix-v1`); the camera-scanner journey has timed out intermittently in long full runs and passes on its own. Two offline NLP-lab test files need the separate NLP-lab environment. Rehearsal: 60 phones, 0 errors on loopback and through a real tunnel.
 
 ## Repository layout
 
 ```text
-backend/       FastAPI application, migrations and local setup
-frontend/      React application
-contracts/     Game-result contract examples
-docs/          Internal project guide, specifications and setup
-scripts/       Development launcher and Graphify tools
-graphify-out/  Generated project knowledge graph
+backend/     FastAPI app (app/), SQL migrations, tests, setup, emulators, rehearsal and quality tools
+frontend/    React app (src/pages, src/components, src/state), Vitest tests, Playwright e2e/
+firmware/    ESP32 sketch stack_moko_baby/ (game engine, display layout, sounds, Wokwi diagram)
+scripts/     Launchers (dev, online), device flashing, backups, ID purge, event check, Graphify
+contracts/   Example JSON for the device, game-result and assistant contracts; Matrix v1 rules
+docs/        Specifications, setup and operation guides, the PDF guide, evaluation records
+deploy/      Inactive Render/MariaDB alternative (used with the root Dockerfile and render.yaml)
+graphify-out/ Generated project knowledge graph
 ```
 
-## Documentation and contributing
+## Documentation
 
-**Always read [docs/README.md](docs/README.md) before project work.** It remains the internal guide and specification index. This root README is the public introduction and installation guide.
+Start with **[docs/README.md](docs/README.md)**, the full documentation index. Most useful:
 
-- [Daily setup and connection troubleshooting](docs/local-setup.md)
-- [Player flow and access](docs/player-flow-and-access.md)
-- [Architecture](docs/tech-stack.md) and [database schema](docs/schema.md)
-- [Dashboard design](docs/dashboard-design.md) and [Stack Intelligence](docs/admin-assistant.md)
-- [AI system rules](docs/ai-system-rules.md) and [implementation plan](docs/implementation-plan.md)
+| Topic | Document |
+|---|---|
+| Wiring, self-test and event operation (printable) | [Wiring and Operation Guide (PDF)](docs/Stack-Moko-Baby-Wiring-and-Operation-Guide.pdf) |
+| Physical cabinet bring-up | [hardware-bringup.md](docs/hardware-bringup.md) |
+| Event hosting with the tunnel | [free-online.md](docs/free-online.md) |
+| Player flow, access and roles | [player-flow-and-access.md](docs/player-flow-and-access.md) |
+| What is left, ranked by event risk | [remaining-work.md](docs/remaining-work.md) |
+| Backups, restore and student-ID purge | [backups.md](docs/backups.md) |
+| Daily development and troubleshooting | [local-setup.md](docs/local-setup.md) |
+| Architecture and database | [tech-stack.md](docs/tech-stack.md), [schema.md](docs/schema.md) |
+| Device protocol and recovery | [esp32-online.md](docs/esp32-online.md), [device-recovery.md](docs/device-recovery.md) |
+| Stack Intelligence | [admin-assistant.md](docs/admin-assistant.md) |
 
-Follow `AGENTS.md`, keep private identities/configuration out of commits and refresh Graphify after changes. Test commands and their isolated data requirements are documented in the frontend/backend READMEs. No CI, deployment or hardware verification is implied by the badges above.
+## Security and privacy
+
+- **Student IDs** are required but private: looked up by a keyed HMAC, stored encrypted with AES-256-GCM, never returned by any API, never put in URLs, browser storage, logs, the knowledge graph or the assistant. `npm run db:purge-ids` deletes them after the event.
+- **Sessions:** separate HttpOnly, SameSite=Strict cookies for players and staff, CSRF tokens on every change, same-origin checks, Argon2id staff passwords, and a login limit of 8 failures per visitor and username in 15 minutes (the visitor's real address is used behind the tunnel).
+- **Scores** are never accepted from a browser. The cabinet authenticates with a device token, and the server recomputes each score from its placement record.
+- **Audit log:** skips, no-shows, recoveries, re-entry codes, staff account changes and ID purges are recorded without personal data.
+- **Never commit** `backend/.env`, `backend/.admin-credentials.txt`, `firmware/stack_moko_baby/config.h`, backups or exports. All are git-ignored.
+
+## Known limitations
+
+- The cabinet, power on laptop USB, the phone hotspot and real phones are **not yet tested**; game timing values are proposals until play-tested.
+- The free Quick Tunnel has no uptime guarantee and changes address on restart; a fixed address needs a domain and a firmware change.
+- No push notifications to closed tabs: players keep the ticket page open (the HUD and the operator also call the next player).
+- Stack Intelligence is experimental: on its reused 325-question evaluation sets it routes about 61–64% of questions correctly (regression evidence, not fresh accuracy). It is read-only and never changes data.
+- One event, one cabinet, one API worker.
+
+## Contributing
+
+Read [AGENTS.md](AGENTS.md) and [docs/README.md](docs/README.md) first. Keep student IDs, credentials, backups and the configured `config.h` out of commits and out of the knowledge graph. After code changes, refresh the graph with `scripts\graphify.cmd update .`. There is no CI; run the tests above before pushing.
+
+This repository does not include a licence file. All rights are reserved by the project authors unless a licence is added.
